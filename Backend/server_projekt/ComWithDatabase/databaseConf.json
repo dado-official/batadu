@@ -1,7 +1,7 @@
 {
   "user": "root",
   "host": "127.0.0.1",
-  "database": "fuwoche10@localhost.batadu_test",
-  "password": "NEW_USER_PASSWORD",
+  "database": "batadu_test",
+  "password": "postgres",
   "port": 3306
 }

@@ -1,0 +1,41 @@
+header {
+    background-color: white;
+    padding: 0.75rem 0;
+}
+
+header > div {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 1500px;
+}
+
+.links,
+.links div,
+.profile {
+    display: flex;
+}
+
+.links {
+    gap: 3rem;
+}
+
+.links div {
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.links img {
+    height: 1.25rem;
+}
+
+.profile {
+    align-items: center;
+    gap: 2rem;
+}
+
+header button {
+    background-color: #b2163a;
+    color: white;
+}

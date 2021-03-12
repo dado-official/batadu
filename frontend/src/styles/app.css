@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+.btn {
+    @apply py-1.5 px-4 rounded-st focus:outline-none;
+}
+
+.primarySVG {
+    filter: invert(17%) sepia(34%) saturate(4753%) hue-rotate(326deg)
+        brightness(108%) contrast(107%);
+}
+
+* {
+    font-family: "Roboto", sans-serif;
+}
+body {
+    background-color: #eeeff2;
+}
+
+/*
+h6,
+button {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.625rem;
+    cursor: pointer;
+}
+
+.logo {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.logo h4 {
+    font-family: "Abril Fatface", cursive;
+    font-weight: 400;
+    color: #545454;
+    font-size: 1.75rem;
+}
+*/

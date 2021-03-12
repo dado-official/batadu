@@ -1,6 +1,6 @@
-header {
+/*header {
     background-color: white;
-    padding: 0.75rem 0;
+    padding: 1rem 0;
 }
 
 header > div {
@@ -39,3 +39,13 @@ header button {
     background-color: #b2163a;
     color: white;
 }
+
+header .selected h6 {
+    color: #b2163a;
+    font-weight: 700;
+}
+
+header .selected img {
+    fill: #b2163a;
+}
+*/

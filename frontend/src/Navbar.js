@@ -8,29 +8,44 @@ import profileIcon from "./assets/account_circle-24px.svg";
 
 const Navbar = () => {
     return (
-        <header>
-            <div>
-                <div className="logo">
+        <header className="bg-white ">
+            <div className="flex justify-between items-center w-1450 mx-auto max-w-1/9">
+                <div className="flex gap-2">
                     <img src={logo} alt="4 Wattkarten" />
-                    <h4>Batadú</h4>
+                    <h4 className=" text-logoGray text-7.5 font-abril font-normal">
+                        Batadú
+                    </h4>
                 </div>
-                <div className="links">
-                    <div>
-                        <img src={casinoIcon} alt="Würfel" />
-                        <h6>Spielen</h6>
+                <div className="flex gap-12">
+                    <div className="flex gap-3 items-center relative py-6">
+                        <img
+                            src={casinoIcon}
+                            alt="Würfel"
+                            className=" h-1.25 primarySVG"
+                        />
+                        <h6 className="text-base text-primary font-bold">
+                            Spielen
+                        </h6>
+                        <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
                     </div>
-                    <div>
-                        <img src={rankIcon} alt="Würfel" />
-                        <h6>Rangliste</h6>
+                    <div className="flex gap-3 items-center relative py-6">
+                        <img src={rankIcon} alt="Würfel" className=" h-1.25" />
+                        <h6 className="text-base">Rangliste</h6>
                     </div>
-                    <div>
-                        <img src={profileIcon} alt="Würfel" />
-                        <h6>Profile</h6>
+                    <div className="flex gap-3 items-center relative py-6">
+                        <img
+                            src={profileIcon}
+                            alt="Würfel"
+                            className=" h-1.25"
+                        />
+                        <h6 className="text-base">Profile</h6>
                     </div>
                 </div>
-                <div className="profile">
-                    <h6>Login</h6>
-                    <button>Registrieren</button>
+                <div className="flex gap-8 items-center">
+                    <h6 className="text-base">Login</h6>
+                    <button className="btn htext-base text-white bg-primary">
+                        Registrieren
+                    </button>
                 </div>
             </div>
         </header>

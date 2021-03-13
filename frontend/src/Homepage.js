@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
+import Herz from "./assets/herz.svg";
+import Laub from "./assets/laub.svg";
 
 const Homepage = () => {
-    const [xAxis, setXAxis] = useState(0);
     const [yAxis, setYAxis] = useState(0);
+    const [xAxis, setXAxis] = useState(0);
 
     useEffect(() => {
         document.addEventListener("mousemove", function (e) {
-            let xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+            let xAxis = (window.innerWidth / 2 - e.pageX) / -40;
+            console.log(xAxis);
+            let yAxis = (window.innerHeight / 2 - e.pageY) / -20;
             setXAxis(xAxis);
-            let yAxis = (window.innerHeight / 2 - e.pageY) / 20;
             setYAxis(yAxis);
         });
     }, []);
 
     return (
-        <div className="flex w-1450 max-w-1/9 mx-auto pt-20">
+        <div className="flex w-1450 max-w-1/9 mx-auto pt-28">
             <div className="flex-1">
                 <h6 className="pb-2 font-bold text-xl text-gray-600">
                     Sammle Punkte und erhöhe dein Level
@@ -35,20 +38,28 @@ const Homepage = () => {
                     </button>
                 </div>
             </div>
-            <div
-                className="flex-1 flex items-center justify-center"
-                style={{
-                    transformStyle: "preserve-3d",
-                }}
-            >
-                <div className="bg-white card rounded-3xl border-8 border-gray-500 w-72  h-110rem">
-                    <div
-                        className="text-center"
-                        style={{
-                            transformStyle: "preserve-3d",
-                        }}
-                    >
-                        Hallo
+            <div className="flex-1 flex items-center justify-center card-container">
+                <div
+                    className="bg-white card rounded-3xl border-8 border-gray-500 w-80  h-110rem relative card"
+                    style={{
+                        transform: `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`,
+                    }}
+                >
+                    <div className="card-content">
+                        <div className="flex justify-start">
+                            <img src={Herz} alt="herz" className="h-16" />
+                        </div>
+                        <h4
+                            className=" text-logoGray text-6xl tran text-center font-abril font-normal"
+                            style={{
+                                transform: "translateZ(100px)",
+                            }}
+                        >
+                            Batadú
+                        </h4>
+                        <div className="flex justify-end">
+                            <img src={Laub} alt="laub" className="h-20" />
+                        </div>
                     </div>
                 </div>
             </div>

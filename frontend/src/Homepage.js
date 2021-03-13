@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import Herz from "./assets/herz.svg";
 import Laub from "./assets/laub.svg";
 
-const Homepage = () => {
+const Homepage = ({ setUrl }) => {
     const [yAxis, setYAxis] = useState(0);
     const [xAxis, setXAxis] = useState(0);
 
     useEffect(() => {
+        setUrl("/");
+        //Effekt für die Karte
         document.addEventListener("mousemove", function (e) {
             let xAxis = (window.innerWidth / 2 - e.pageX) / -80;
-            console.log(xAxis);
             let yAxis = (window.innerHeight / 2 - e.pageY) / -40;
             setXAxis(xAxis);
             setYAxis(yAxis);

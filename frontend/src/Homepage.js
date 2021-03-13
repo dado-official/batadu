@@ -8,9 +8,9 @@ const Homepage = () => {
 
     useEffect(() => {
         document.addEventListener("mousemove", function (e) {
-            let xAxis = (window.innerWidth / 2 - e.pageX) / -40;
+            let xAxis = (window.innerWidth / 2 - e.pageX) / -80;
             console.log(xAxis);
-            let yAxis = (window.innerHeight / 2 - e.pageY) / -20;
+            let yAxis = (window.innerHeight / 2 - e.pageY) / -40;
             setXAxis(xAxis);
             setYAxis(yAxis);
         });

@@ -44,7 +44,7 @@ body {
     border-radius: 50%;
     left: 0;
     bottom: 0;
-    box-shadow: 0 30px 20px rgba(0, 0, 0, 0.473);
+    box-shadow: 0 3rem 20px rgba(0, 0, 0, 0.473);
 }
 
 .card-content {

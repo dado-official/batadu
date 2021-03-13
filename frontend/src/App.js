@@ -3,6 +3,7 @@ import Footer from "./Footer";
 import React, { useState } from "react";
 import Homepage from "./Homepage";
 import Rooms from "./Rooms";
+import Spiel from "./Spiel";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
@@ -20,7 +21,9 @@ function App() {
                         <Homepage setUrl={setUrl} />
                     )}
                 </Route>
-                <Route path="spielen/:room"></Route>
+                <Route path="/spielen/:room">
+                    <Spiel />
+                </Route>
                 <Route path="/rangliste"></Route>
                 <Route path="/profile/:user"></Route>
                 <Route path="/anmelden"></Route>

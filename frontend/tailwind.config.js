@@ -12,6 +12,8 @@ module.exports = {
                 secondary: "#03A57A",
                 logoGray: "#545454",
                 roomGray: "#d9d9d9",
+                tableGray: "#CECECE",
+                borderGray: "#858585",
             },
             spacing: {
                 1450: "1400px",
@@ -20,6 +22,9 @@ module.exports = {
                 "15/100": "15%",
                 "12ch": "15ch",
                 "110rem": "30rem",
+                "29rem": "29.5rem",
+                "8.8rem": "8.8rem",
+                "4.75rem": "4.75rem",
             },
             maxWidth: {
                 "1/9": "90%",
@@ -36,6 +41,9 @@ module.exports = {
             },
             borderRadius: {
                 st: "0.6rem",
+            },
+            borderWidth: {
+                12: "12px",
             },
         },
     },

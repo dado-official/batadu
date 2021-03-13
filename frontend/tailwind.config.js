@@ -11,6 +11,7 @@ module.exports = {
                 primary: "#B2163A",
                 secondary: "#03A57A",
                 logoGray: "#545454",
+                roomGray: "#d9d9d9",
             },
             spacing: {
                 1450: "1400px",
@@ -25,6 +26,7 @@ module.exports = {
             },
             fontSize: {
                 7.5: "1.6875rem",
+                14: "0.85rem",
                 "7.5xl": [
                     "5rem",
                     {

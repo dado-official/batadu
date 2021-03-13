@@ -13,6 +13,10 @@
     filter: invert(17%) sepia(34%) saturate(4753%) hue-rotate(326deg)
         brightness(108%) contrast(107%);
 }
+.whiteSVG {
+    filter: invert(100%) sepia(27%) saturate(2643%) hue-rotate(159deg)
+        brightness(127%) contrast(107%);
+}
 
 * {
     font-family: "Roboto", sans-serif;

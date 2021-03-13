@@ -25,6 +25,12 @@ body {
     background-color: #eeeff2;
 }
 
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .card-container {
     transform-style: preserve-3d;
     perspective: 1000px;

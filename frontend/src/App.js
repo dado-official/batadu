@@ -1,4 +1,5 @@
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import React, { useState } from "react";
 import Homepage from "./Homepage";
 import Rooms from "./Rooms";
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/anmelden"></Route>
                 <Route path="/registrieren"></Route>
             </Switch>
+            <Footer />
         </Router>
     );
 }

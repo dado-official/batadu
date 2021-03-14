@@ -12,7 +12,7 @@ const SpielInformations = () => {
 
     return (
         <div>
-            <div className="flex bg-roomGray rounded-t-st">
+            <div className="flex bg-spielGray rounded-t-st">
                 <SelectInformations
                     selectHandler={selectHandler}
                     selected={selected}

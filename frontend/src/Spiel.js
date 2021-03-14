@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Tisch from "./Tisch";
 import SpielInformations from "./SpielInformations";
+import Chat from "./Chat";
 
 const Spiel = ({ setUrl }) => {
     const [geboten, setGeboten] = useState(2);
@@ -46,8 +47,9 @@ const Spiel = ({ setUrl }) => {
                 </div>
             </div>
             {/*Rechte Seite */}
-            <div className="col-span-1">
+            <div className="col-span-1 mb-16 flex flex-col">
                 <SpielInformations />
+                <Chat />
             </div>
         </div>
     );

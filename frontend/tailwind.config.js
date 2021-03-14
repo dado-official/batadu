@@ -15,6 +15,7 @@ module.exports = {
                 tableGray: "#CECECE",
                 borderGray: "#858585",
                 primaryLight: "#E3A2B1",
+                spielGray: "#E6E6E6",
             },
             spacing: {
                 1450: "1400px",
@@ -31,6 +32,9 @@ module.exports = {
             },
             maxWidth: {
                 "1/9": "90%",
+            },
+            maxHeight: {
+                chat: "calc(100% - 5rem)",
             },
             fontSize: {
                 7.5: "1.6875rem",

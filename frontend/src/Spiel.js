@@ -14,7 +14,7 @@ const Spiel = ({ setUrl }) => {
 
     return (
         <div className="grid grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-16">
-            <div className="col-span-2 ">
+            <div className="col-span-2">
                 <div className="flex justify-center mt-8">
                     <Tisch geboten={geboten} />
                 </div>

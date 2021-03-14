@@ -29,6 +29,7 @@ module.exports = {
                 "4.75rem": "4.75rem",
                 "2.875rem": "2.875rem",
                 "5.3125rem": "5.3125rem",
+                chat: "calc(100% - 5rem)",
             },
             maxWidth: {
                 "1/9": "90%",

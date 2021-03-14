@@ -22,7 +22,7 @@ function App() {
                     )}
                 </Route>
                 <Route path="/spielen/:room">
-                    <Spiel />
+                    <Spiel setUrl={setUrl} />
                 </Route>
                 <Route path="/rangliste"></Route>
                 <Route path="/profile/:user"></Route>

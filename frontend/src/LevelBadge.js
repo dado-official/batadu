@@ -9,12 +9,12 @@ const LevelBadge = ({ level, size }) => {
         >
             <img src={Badge} alt="Badge" className="h-full" />
             <p
-                className={`text-white font-bold absolute top-1/2 left-1/2 `}
+                className={`text-white absolute top-1/2 left-1/2 `}
                 d
                 style={{
                     transform: "translate(-50%, -50%)",
                     fontSize: `${
-                        level > 90 ? "0.3em" : level > 9 ? "0.4em" : "0.5em"
+                        level > 90 ? "0.3em" : level > 9 ? "0.35em" : "0.4em"
                     }`,
                 }}
             >

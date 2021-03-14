@@ -1,6 +1,7 @@
 import React from "react";
 import LevelBadge from "./LevelBadge";
 import NameContainer from "./NameContainer";
+import UserGameInfo from "./UserGameInfo";
 
 const Tisch = ({ geboten }) => {
     return (
@@ -52,30 +53,34 @@ const Tisch = ({ geboten }) => {
             </div>
             {/*AccountsInformations */}
             <div
-                className="absolute -top-10 left-1/2"
+                className="absolute -top-10 left-1/2 flex flex-col items-center"
                 style={{ transform: "translateX(calc(-100% - 2.5rem))" }}
             >
                 <NameContainer name="Holunderyogele" />
+                <UserGameInfo stiche="0" team="1" />
             </div>
             <div
-                className="absolute top-1/2 -left-4"
+                className="absolute top-1/2 -left-4 flex flex-col items-center"
                 style={{ transform: "translate(calc(-100% - 2rem), -1.5rem)" }}
             >
                 <NameContainer name="Holunderyogele" />
+                <UserGameInfo stiche="0" team="1" />
             </div>
             <div
-                className="absolute top-1/2 -right-4"
+                className="absolute top-1/2 -right-4 flex flex-col items-center"
                 style={{
                     transform: "translate(calc(100% + 2rem), -1.5rem)",
                 }}
             >
                 <NameContainer name="Holunde" />
+                <UserGameInfo stiche="0" team="1" />
             </div>
             <div
-                className="absolute -bottom-4 left-1/2"
-                style={{ transform: "translateX(2.5rem)" }}
+                className="absolute -bottom-4 left-1/2 flex flex-col items-center"
+                style={{ transform: "translate(2.5rem, 2rem)" }}
             >
                 <NameContainer name="Holunder" />
+                <UserGameInfo stiche="0" team="1" />
             </div>
         </div>
     );

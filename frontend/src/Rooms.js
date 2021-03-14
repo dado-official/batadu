@@ -7,7 +7,7 @@ const Rooms = ({ setUrl }) => {
     }, []);
     return (
         <div className="w-1450 max-w-1/9 mx-auto mt-8">
-            <h3 className=" font-semibold text-3xl mt-8 mb-4">Offene Spiele</h3>
+            <h3 className=" font-semibold text-3xl mt-8 mb-6">Offene Spiele</h3>
             <div className="grid gap-8 grid-flow-row grid-cols-4">
                 <Room
                     roomName="Hirte"

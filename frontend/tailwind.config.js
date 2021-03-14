@@ -14,6 +14,7 @@ module.exports = {
                 roomGray: "#d9d9d9",
                 tableGray: "#CECECE",
                 borderGray: "#858585",
+                primaryLight: "#E3A2B1",
             },
             spacing: {
                 1450: "1400px",
@@ -25,6 +26,8 @@ module.exports = {
                 "29rem": "29.5rem",
                 "8.8rem": "8.8rem",
                 "4.75rem": "4.75rem",
+                "2.875rem": "2.875rem",
+                "5.3125rem": "5.3125rem",
             },
             maxWidth: {
                 "1/9": "90%",

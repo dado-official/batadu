@@ -35,11 +35,11 @@ const Chat = () => {
                 </p>{" "}
                 <div className="bg-primary z-10 h-1.5 w-full absolute rounded-b-st -bottom-1.5" />{" "}
             </div>{" "}
-            <div className="flex p-4 bg-white rounded-b-st">
+            <div className="flex flex-col p-4 bg-white rounded-b-st">
                 {/*chat messages */}
                 <div
-                    className="flex-1 flex flex-col gap-2  pr-2 overflow-y-auto max-h-chat"
-                    style={{ height: "21.4rem" }}
+                    className="flex-1 flex flex-col gap-2 pr-2 overflow-y-auto mb-2"
+                    style={{ maxHeight: "17.5rem" }}
                 >
                     <ChatMessage message="Isi win es hirten" sender="Frangio" />
                     <ChatMessage message="Isi win es hirten" sender="Ich" />
@@ -50,10 +50,7 @@ const Chat = () => {
                     <ChatMessage message="Isi win es hirten" sender="Frangio" />
                 </div>
                 {/*chat input */}
-                <div
-                    className="absolute bottom-4 bg-spielGray p-2 x-4 rounded-st flex items-center justify-between gap-2"
-                    style={{ width: "calc(100% - 2rem)" }}
-                >
+                <div className=" bg-spielGray w-full p-2 x-4 rounded-st flex items-center justify-between gap-2">
                     <input
                         type="text"
                         name=""

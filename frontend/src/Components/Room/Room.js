@@ -11,12 +11,12 @@ const Room = ({
     team2_1,
 }) => {
     return (
-        <div className="w-min">
+        <div className="w-full">
             <p className="bg-roomGray text-center py-2 rounded-t-st font-bold border-gray-400 border-b-2">
                 {roomName}
             </p>
-            <div className="flex bg-white ">
-                <div className="flex flex-col py-3 px-2 border-gray-400 border-r-2">
+            <div className="flex bg-white justify-center">
+                <div className="flex flex-1 flex-col py-3 px-2 border-gray-400 border-r-2">
                     <p
                         className={`w-12ch text-14 text-center ${
                             team1_0 === "" ? "text-secondary underline" : null
@@ -35,9 +35,9 @@ const Room = ({
                         {team1_1 === "" ? "offen" : team1_1}
                     </p>
                 </div>
-                <div className="flex flex-col py-3 px-2">
+                <div className="flex flex-1 flex-col py-3 px-2">
                     <p
-                        className={`w-12ch text-14 text-center ${
+                        className={`w-12ch text-14 text-center ml-auto ${
                             team2_0 === "" ? "text-secondary underline" : null
                         }`}
                     >
@@ -47,7 +47,7 @@ const Room = ({
                         {score2}
                     </p>
                     <p
-                        className={`w-12ch text-14 text-center ${
+                        className={`w-12ch text-14 text-center ml-auto ${
                             team2_1 === "" ? "text-secondary underline" : null
                         }`}
                     >
@@ -55,10 +55,10 @@ const Room = ({
                     </p>
                 </div>
             </div>
-            <div className="bg-primary text-white w-full py-2 rounded-b-st flex justify-center gap-2 cursor-pointer">
+            <button className="bg-primary text-white w-full py-2 rounded-b-st flex justify-center gap-2 cursor-pointer">
                 <img src={Arrow} alt="Spielen" className="whiteSVG" />
                 <p>Teilnehmen</p>
-            </div>
+            </button>
         </div>
     );
 };

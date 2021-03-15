@@ -24,7 +24,7 @@ const Rooms = ({ setUrl }) => {
                     </button>
                 </Link>
             </div>
-            <div className="grid gap-16 grid-flow-row grid-cols-4">
+            <div className="grid gap-x-16 gap-y-8 grid-flow-row grid-cols-4">
                 <Room
                     roomName="Hirte"
                     score1="2"

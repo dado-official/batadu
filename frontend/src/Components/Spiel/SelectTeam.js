@@ -13,10 +13,10 @@ const SelectTeam = ({ setUrl }) => {
 
     return (
         <div
-            className="flex justify-center items-center flex-col m-auto pb-8"
+            className="flex justify-center items-center flex-col m-auto"
             style={{ width: "23rem" }}
         >
-            <img src={TeamIcon} alt="Team" className="h-24" />
+            <img src={TeamIcon} alt="Team" className="h-24 mt-16" />
             <h3 className="font-bold text-4xl pt-4">Team aussuchen</h3>
             <p className="text-sm text-gray-600 pt-3 text-center mb-10">
                 Clicken Sie auf das Team, den Sie betreten möchten und dann auf
@@ -42,7 +42,7 @@ const SelectTeam = ({ setUrl }) => {
                 <img src={Arrow} alt="Spielen" className="whiteSVG" />
                 <p>Teilnehmen</p>
             </div>
-            <p className="text-sm pt-8 text-gray-600">
+            <p className="text-sm pt-8 text-gray-600 mb-16">
                 Möchten Sie ein anderes Spiel beitreten?{" "}
                 <Link to="/spielen">
                     <span className="font-bold underline text-black">

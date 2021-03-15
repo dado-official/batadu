@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Homepage from "./Homepage";
 import Rooms from "./Rooms";
 import Spiel from "./Spiel";
+import SelectTeam from "./SelectTeam";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
                     <Spiel setUrl={setUrl} />
                 </Route>
                 <Route path="/rangliste"></Route>
+                <Route path="/team">
+                    <SelectTeam />
+                </Route>
                 <Route path="/profile/:user"></Route>
                 <Route path="/anmelden"></Route>
                 <Route path="/registrieren"></Route>

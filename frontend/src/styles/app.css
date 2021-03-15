@@ -39,6 +39,11 @@ th {
     padding-bottom: 0.4rem;
 }
 
+td {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+}
+
 th {
     border-bottom: #70707080 1px solid;
     padding-top: 0;

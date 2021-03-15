@@ -80,9 +80,9 @@ const SpielErstellen = ({ setUrl }) => {
                     <div className="relative flex items-center w-full gap-8">
                         <Switch isPasswordHandler={isPasswordHandler} />
                         <div
-                            className={`bg-white rounded-st py-2 flex items-center w-full ${
+                            className={`bg-white rounded-st py-2 flex items-center w-full transition-all ${
                                 !isPassword
-                                    ? "cursor-not-allowed opacity-60"
+                                    ? "cursor-not-allowed opacity-0"
                                     : null
                             }`}
                         >
@@ -95,9 +95,7 @@ const SpielErstellen = ({ setUrl }) => {
                                     onChange={passwordHandler}
                                     placeholder="Password"
                                 ></input>
-                            ) : (
-                                <p>Password</p>
-                            )}
+                            ) : null}
                         </div>
                     </div>
                 </div>

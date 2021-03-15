@@ -1,10 +1,11 @@
-import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 import React, { useState } from "react";
-import Homepage from "./Homepage";
-import Rooms from "./Rooms";
-import Spiel from "./Spiel";
-import SelectTeam from "./SelectTeam";
+import Homepage from "./Components/Homepage";
+import Rooms from "./Components/Rooms";
+import Spiel from "./Components/Spiel";
+import SelectTeam from "./Components/Spiel/SelectTeam";
+import SpielErstellen from "./Components/SpielErstellen";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
@@ -22,12 +23,15 @@ function App() {
                         <Homepage setUrl={setUrl} />
                     )}
                 </Route>
+                <Route path="/spielen/erstellen">
+                    <SpielErstellen setUrl={setUrl} />
+                </Route>
                 <Route path="/spielen/:room">
                     <Spiel setUrl={setUrl} />
                 </Route>
                 <Route path="/rangliste"></Route>
                 <Route path="/team">
-                    <SelectTeam />
+                    <SelectTeam setUrl={setUrl} />
                 </Route>
                 <Route path="/profile/:user"></Route>
                 <Route path="/anmelden"></Route>

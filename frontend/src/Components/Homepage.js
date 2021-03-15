@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Herz from "./assets/herz.svg";
-import Laub from "./assets/laub.svg";
+import Herz from "../assets/herz.svg";
+import Laub from "../assets/laub.svg";
 
 const Homepage = ({ setUrl }) => {
     const [yAxis, setYAxis] = useState(0);

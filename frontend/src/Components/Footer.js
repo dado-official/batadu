@@ -1,8 +1,8 @@
 import React from "react";
-import Copyright from "./assets/copyright-24px.svg";
-import Info from "./assets/info-24px.svg";
-import Mail from "./assets/contact_mail-24px.svg";
-import Bugs from "./assets/bug_report-24px.svg";
+import Copyright from "../assets/copyright-24px.svg";
+import Info from "../assets/info-24px.svg";
+import Mail from "../assets/contact_mail-24px.svg";
+import Bugs from "../assets/bug_report-24px.svg";
 
 const Footer = () => {
     return (

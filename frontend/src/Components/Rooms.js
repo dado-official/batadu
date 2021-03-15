@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Room from "./Room";
+import Room from "./Room/Room";
 
 const Rooms = ({ setUrl }) => {
     useEffect(() => {

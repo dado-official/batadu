@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import TeamIcon from "./assets/group-24px.svg";
+import TeamIcon from "../../assets/group-24px.svg";
 import Team from "./Team";
-import Arrow from "./assets/play_arrow-24px.svg";
+import Arrow from "../../assets/play_arrow-24px.svg";
+import { Link } from "react-router-dom";
 
-const SelectTeam = () => {
+const SelectTeam = ({ setUrl }) => {
     const [selected, setSelected] = useState(1);
+
+    useEffect(() => {
+        setUrl("/");
+    }, []);
+
     return (
         <div
             className="flex justify-center items-center flex-col m-auto pb-8"
@@ -36,6 +42,14 @@ const SelectTeam = () => {
                 <img src={Arrow} alt="Spielen" className="whiteSVG" />
                 <p>Teilnehmen</p>
             </div>
+            <p className="text-sm pt-8 text-gray-600">
+                Möchten Sie ein anderes Spiel beitreten?{" "}
+                <Link to="/spielen">
+                    <span className="font-bold underline text-black">
+                        Zurück
+                    </span>
+                </Link>
+            </p>
         </div>
     );
 };

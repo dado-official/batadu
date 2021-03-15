@@ -1,5 +1,5 @@
 import React from "react";
-import Arrow from "./assets/play_arrow-24px.svg";
+import Arrow from "../../assets/play_arrow-24px.svg";
 
 const Room = ({
     roomName,

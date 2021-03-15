@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from ".//assets/logo.svg";
-import casinoIcon from "./assets/casino-24px.svg";
-import rankIcon from "./assets/leaderboard-24px.svg";
-import profileIcon from "./assets/account_circle-24px.svg";
+import logo from "../assets/logo.svg";
+import casinoIcon from "../assets/casino-24px.svg";
+import rankIcon from "../assets/leaderboard-24px.svg";
+import profileIcon from "../assets/account_circle-24px.svg";
 
 const Navbar = ({ url }) => {
     return (

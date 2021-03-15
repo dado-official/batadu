@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Emoji from "./assets/insert_emoticon-24px.svg";
-import Gif from "./assets/gif-24px.svg";
-import Send from "./assets/send-24px.svg";
+import Emoji from "../../assets/insert_emoticon-24px.svg";
+import Gif from "../../assets/gif-24px.svg";
+import Send from "../../assets/send-24px.svg";
 import ChatMessage from "./ChatMessage";
 
 const Chat = () => {

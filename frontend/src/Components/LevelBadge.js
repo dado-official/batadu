@@ -1,5 +1,5 @@
 import React from "react";
-import Badge from "./assets/verified-24px.svg";
+import Badge from "../assets/verified-24px.svg";
 
 const LevelBadge = ({ level, size }) => {
     return (

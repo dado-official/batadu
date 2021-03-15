@@ -12,6 +12,7 @@ const SpielErstellen = ({ setUrl }) => {
     const [punkte, setPunkte] = useState("18");
     const [password, setPassword] = useState("");
     const [isPassword, setIsPassword] = useState(false);
+    const [spieler, setSpieler] = useState("4");
 
     useEffect(() => {
         setUrl("/");
@@ -31,10 +32,10 @@ const SpielErstellen = ({ setUrl }) => {
 
     return (
         <div
-            className="flex justify-center items-center flex-col m-auto pb-8"
+            className="flex justify-center items-center flex-col m-auto"
             style={{ width: "23rem" }}
         >
-            <img src={Create} alt="Team" className="h-24" />
+            <img src={Create} alt="Team" className="h-24 mt-16" />
             <h3 className="font-bold text-4xl pt-4 mb-16">Spiel erstellen</h3>
             {/*Input fields */}
             <div
@@ -56,21 +57,36 @@ const SpielErstellen = ({ setUrl }) => {
                 </div>
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Spielen bis</p>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between gap-8">
                         <PunkteSelector
-                            punkte="11"
-                            setSelectPunkte={setPunkte}
-                            selectPunkte={punkte}
+                            value="11"
+                            setSelectValue={setPunkte}
+                            selectValue={punkte}
                         />
                         <PunkteSelector
-                            punkte="15"
-                            setSelectPunkte={setPunkte}
-                            selectPunkte={punkte}
+                            value="15"
+                            setSelectValue={setPunkte}
+                            selectValue={punkte}
                         />
                         <PunkteSelector
-                            punkte="18"
-                            setSelectPunkte={setPunkte}
-                            selectPunkte={punkte}
+                            value="18"
+                            setSelectValue={setPunkte}
+                            selectValue={punkte}
+                        />
+                    </div>
+                </div>
+                <div className="w-full">
+                    <p className="font-bold text-left mb-2">Spieler</p>
+                    <div className="flex justify-between gap-8">
+                        <PunkteSelector
+                            value="2"
+                            setSelectValue={setSpieler}
+                            selectValue={spieler}
+                        />
+                        <PunkteSelector
+                            value="4"
+                            setSelectValue={setSpieler}
+                            selectValue={spieler}
                         />
                     </div>
                 </div>
@@ -105,7 +121,7 @@ const SpielErstellen = ({ setUrl }) => {
                 <img src={Create2} alt="Spielen" className="whiteSVG" />
                 <p>Erstellen</p>
             </div>
-            <p className="text-sm pt-8 text-gray-600">
+            <p className="text-sm pt-8 text-gray-600 mb-16">
                 Möchten Sie ein Spiel beitreten?{" "}
                 <Link to="/spielen">
                     <span className="font-bold underline text-black">

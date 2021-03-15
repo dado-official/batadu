@@ -1,17 +1,17 @@
 import React from "react";
 
-const PunkteSelector = ({ punkte, setSelectPunkte, selectPunkte }) => {
-    function selectPunkteHandler() {
-        setSelectPunkte(punkte);
+const PunkteSelector = ({ value, setSelectValue, selectValue }) => {
+    function selectValueHandler() {
+        setSelectValue(value);
     }
     return (
         <p
-            className={`px-10 py-2 bg-white rounded-st w-min cursor-pointer ${
-                selectPunkte === punkte ? "font-bold ring-4 ring-primary" : null
+            className={`text-center py-2 bg-white rounded-st flex-1 cursor-pointer ${
+                selectValue === value ? "font-bold ring-4 ring-primary" : null
             }`}
-            onClick={selectPunkteHandler}
+            onClick={selectValueHandler}
         >
-            {punkte}
+            {value}
         </p>
     );
 };

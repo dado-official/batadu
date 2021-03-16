@@ -15,7 +15,7 @@ const Statistik = ({ typ, data, percentage, extra }) => {
                     <div className="h-full w-full rounded-st bg-secondary opacity-20"></div>
                     <div
                         className="w-full rounded-st bg-secondary absolute bottom-0 left-0"
-                        style={{ height: `${percentage}` }}
+                        style={{ height: `${percentage}%` }}
                     ></div>
                 </div>
             ) : null}

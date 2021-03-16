@@ -4,11 +4,15 @@ import Statistik from "./Statistik";
 import SpielVerlauf from "./SpielVerlauf";
 const breakPoint = 5;
 
-const Profil = () => {
+const Profil = ({ setUrl }) => {
     const [username, setUsername] = useState("Holunderyogele");
     const [punkte, setPunkte] = useState(39);
     const [nextPunkte, setNextPunkte] = useState(60);
     const [level, setLevel] = useState(2);
+
+    useEffect(() => {
+        setUrl("/profile");
+    }, []);
 
     return (
         <div>

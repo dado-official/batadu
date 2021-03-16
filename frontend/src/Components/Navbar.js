@@ -23,7 +23,9 @@ const Navbar = ({ url }) => {
                             <img
                                 src={casinoIcon}
                                 alt="Würfel"
-                                className=" h-1.25 primarySVG"
+                                className={`h-1.25 ${
+                                    url === "/" ? "primarySVG" : null
+                                }`}
                             />
                             <h6
                                 className={`text-base ${
@@ -34,7 +36,9 @@ const Navbar = ({ url }) => {
                             >
                                 Spielen
                             </h6>
-                            <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
+                            {url === "/" ? (
+                                <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
+                            ) : null}
                         </div>
                     </Link>
                     <Link to="rangliste">
@@ -42,9 +46,22 @@ const Navbar = ({ url }) => {
                             <img
                                 src={rankIcon}
                                 alt="Ranglist"
-                                className=" h-1.25"
+                                className={`h-1.25 ${
+                                    url === "/rangliste" ? "primarySVG" : null
+                                }`}
                             />
-                            <h6 className="text-base">Rangliste</h6>
+                            <h6
+                                className={`text-base ${
+                                    url === "/rangliste"
+                                        ? "text-primary font-bold"
+                                        : null
+                                }`}
+                            >
+                                Rangliste
+                            </h6>
+                            {url === "/rangliste" ? (
+                                <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
+                            ) : null}
                         </div>
                     </Link>
                     <Link to="/profile">
@@ -52,9 +69,22 @@ const Navbar = ({ url }) => {
                             <img
                                 src={profileIcon}
                                 alt="Profil"
-                                className=" h-1.25"
+                                className={`h-1.25 ${
+                                    url === "/profile" ? "primarySVG" : null
+                                }`}
                             />
-                            <h6 className="text-base">Profile</h6>
+                            <h6
+                                className={`text-base ${
+                                    url === "/profile"
+                                        ? "text-primary font-bold"
+                                        : null
+                                }`}
+                            >
+                                Profile
+                            </h6>
+                            {url === "/profile" ? (
+                                <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
+                            ) : null}
                         </div>
                     </Link>
                 </div>

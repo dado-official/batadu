@@ -3,9 +3,12 @@ import Trophy from "../assets/emoji_events-24px.svg";
 import SelectElement from "./Spiel erstellen/SelectElement";
 import RanglisteTabelle from "./Rangliste/RanglisteTabelle";
 
-const Rangliste = () => {
+const Rangliste = ({ setUrl }) => {
     const [filter, setFilter] = useState("Gewonnene Spiele");
 
+    useEffect(() => {
+        setUrl("/rangliste");
+    }, []);
     return (
         <div className="flex w-1450 max-w-1/9 mx-auto pt-12 flex-col justify-center items-center">
             <img src={Trophy} alt="Trophäe" className="w-16 mb-2" />

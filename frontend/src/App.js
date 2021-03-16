@@ -34,13 +34,13 @@ function App() {
                     <Spiel setUrl={setUrl} />
                 </Route>
                 <Route path="/rangliste">
-                    <Rangliste />
+                    <Rangliste setUrl={setUrl} />
                 </Route>
                 <Route path="/team">
                     <SelectTeam setUrl={setUrl} />
                 </Route>
                 <Route path="/profile/:user">
-                    <Profil />
+                    <Profil setUrl={setUrl} />
                 </Route>
                 <Route path="/anmelden">
                     <Anmelden />

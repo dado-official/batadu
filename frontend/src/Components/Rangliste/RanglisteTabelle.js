@@ -3,7 +3,7 @@ import RanglisteTabelleData from "./RanglisteTabelleData";
 
 const RanglisteTabelle = () => {
     return (
-        <table className="rangliste mt-8 border-separate mb-16">
+        <table className="rangliste mt-2 border-separate mb-16">
             <thead>
                 <tr>
                     <th>Platz</th>

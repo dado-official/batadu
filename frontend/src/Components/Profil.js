@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import LevelBadge from "./LevelBadge";
 import Statistik from "./Statistik";
 import SpielVerlauf from "./SpielVerlauf";
+import Search from "./Search";
 const breakPoint = 5;
 
 const Profil = ({ setUrl }) => {
@@ -19,8 +20,11 @@ const Profil = ({ setUrl }) => {
             <div className="w-1450 max-w-1/9 mx-auto mt-16">
                 <div className="flex mt-4 items-center gap-8 mb-6">
                     <LevelBadge level={level} size="6.6875rem" />
-                    <div>
-                        <h3 className="font-bold text-4xl mt-4">{username}</h3>
+                    <div className="w-full">
+                        <div className="flex  mt-4 justify-between w-full items-center">
+                            <h3 className="font-bold text-4xl">{username}</h3>
+                            <Search />
+                        </div>
                         <h6 className="text-2xl text-gray-600 mt-2">
                             {punkte} Punkte
                         </h6>

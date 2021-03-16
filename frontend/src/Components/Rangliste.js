@@ -4,7 +4,7 @@ import SelectElement from "./Spiel erstellen/SelectElement";
 import RanglisteTabelle from "./Rangliste/RanglisteTabelle";
 
 const Rangliste = () => {
-    const [filter, setFilter] = useState("Punkte");
+    const [filter, setFilter] = useState("Gewonnene Spiele");
 
     return (
         <div className="flex w-1450 max-w-1/9 mx-auto pt-12 flex-col justify-center items-center">
@@ -16,17 +16,17 @@ const Rangliste = () => {
             >
                 <div className="mt-6 flex justify-between gap-8">
                     <SelectElement
+                        value="Gewonnene Spiele"
+                        selectValue={filter}
+                        setSelectValue={setFilter}
+                    />
+                    <SelectElement
                         value="Winrate"
                         selectValue={filter}
                         setSelectValue={setFilter}
                     />
                     <SelectElement
                         value="Punkte"
-                        selectValue={filter}
-                        setSelectValue={setFilter}
-                    />
-                    <SelectElement
-                        value="Erfahrung"
                         selectValue={filter}
                         setSelectValue={setFilter}
                     />

@@ -70,11 +70,17 @@ body {
 
 .rangliste td,
 .rangliste th {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.rangliste tr,
+.rangliste th {
     margin-bottom: 2rem;
+    text-align: center;
+}
+
+.rangliste {
+    border-spacing: 0 1rem;
 }
 
 .rangliste td {

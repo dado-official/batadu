@@ -31,33 +31,54 @@ body {
     min-height: 100vh;
 }
 
-td,
-th {
+.stiche td,
+.stiche th {
     padding-left: 1rem;
     padding-right: 1rem;
     padding-top: 0.4rem;
     padding-bottom: 0.4rem;
 }
 
-td {
+.stiche td {
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;
 }
 
-th {
+.stiche th {
     border-bottom: #70707080 1px solid;
     padding-top: 0;
 }
 
-tr td:first-child,
-th:first-child {
+.stiche tr td:first-child,
+.stiche th:first-child {
     border-right: #70707080 1px solid;
 }
 
-tr:last-child td {
+.stiche tr:last-child td {
     border-top: #70707080 1px solid;
     font-weight: bold;
     padding-bottom: 0;
+}
+
+.rangliste {
+    width: 100%;
+}
+
+.rangliste th {
+    text-align: left;
+}
+
+.rangliste td,
+.rangliste th {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.rangliste td {
+    background-color: white;
 }
 
 .card-container {

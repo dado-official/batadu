@@ -9,6 +9,7 @@ import SpielErstellen from "./Components/SpielErstellen";
 import Anmelden from "./Components/Anmelden";
 import Registrieren from "./Components/Registrieren";
 import Profil from "./Components/Profil";
+import Rangliste from "./Components/Rangliste";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
@@ -32,7 +33,9 @@ function App() {
                 <Route path="/spielen/:room">
                     <Spiel setUrl={setUrl} />
                 </Route>
-                <Route path="/rangliste"></Route>
+                <Route path="/rangliste">
+                    <Rangliste />
+                </Route>
                 <Route path="/team">
                     <SelectTeam setUrl={setUrl} />
                 </Route>

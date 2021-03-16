@@ -2,7 +2,7 @@ import React from "react";
 
 const PunkteTabelle = () => {
     return (
-        <div className="bg-white flex flex-center text-xs text-center rounded-b-st h-64 overflow-auto">
+        <div className="bg-white flex flex-center text-xs text-center rounded-b-st h-64 overflow-auto stiche">
             <table className="mx-auto my-4">
                 <tr>
                     <th>Team 1</th>

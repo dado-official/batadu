@@ -3,7 +3,7 @@ import Create from "../assets/create-24px.svg";
 import Create2 from "../assets/add_circle-24px.svg";
 import { Link } from "react-router-dom";
 import Name from "../assets/drive_file_rename_outline-24px.svg";
-import PunkteSelector from "./Spiel erstellen/PunkteSelector";
+import PunkteSelector from "./Spiel erstellen/SelectElement";
 import Switch from "./Spiel erstellen/Switch";
 import Lock from "../assets/lock-24px.svg";
 

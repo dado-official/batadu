@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Account from "../assets/account_circle-24px.svg";
 import Password from "../assets/lock-24px.svg";
 import { Link } from "react-router-dom";
 
-const Anmelden = () => {
+const Anmelden = ({ setUrl }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
@@ -13,6 +13,9 @@ const Anmelden = () => {
     function passwordHandler(e) {
         setPassword(e.target.value);
     }
+    useEffect(() => {
+        setUrl("Anmelden");
+    });
     return (
         <div
             className="flex justify-center items-center flex-col m-auto"

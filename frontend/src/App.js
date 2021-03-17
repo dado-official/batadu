@@ -43,10 +43,10 @@ function App() {
                     <Profil setUrl={setUrl} />
                 </Route>
                 <Route path="/anmelden">
-                    <Anmelden />
+                    <Anmelden setUrl={setUrl} />
                 </Route>
                 <Route path="/registrieren">
-                    <Registrieren />
+                    <Registrieren setUrl={setUrl} />
                 </Route>
             </Switch>
             <Footer />

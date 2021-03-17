@@ -13,6 +13,7 @@ const SpielErstellen = ({ setUrl }) => {
     const [password, setPassword] = useState("");
     const [isPassword, setIsPassword] = useState(false);
     const [spieler, setSpieler] = useState("4");
+    const [modus, setModus] = useState("Offen");
 
     useEffect(() => {
         setUrl("/");
@@ -35,8 +36,8 @@ const SpielErstellen = ({ setUrl }) => {
             className="flex justify-center items-center flex-col m-auto"
             style={{ width: "23rem" }}
         >
-            <img src={Create} alt="Team" className="h-24 mt-16" />
-            <h3 className="font-bold text-4xl pt-4 mb-16">Spiel erstellen</h3>
+            <img src={Create} alt="Team" className="h-20 mt-16" />
+            <h3 className="font-bold text-4xl pt-4 mb-8">Spiel erstellen</h3>
             {/*Input fields */}
             <div
                 className="w-full flex flex-col gap-6
@@ -53,6 +54,21 @@ const SpielErstellen = ({ setUrl }) => {
                             onChange={spielNameHandler}
                             placeholder="Spielname"
                         ></input>
+                    </div>
+                </div>
+                <div className="w-full">
+                    <p className="font-bold text-left mb-2">Modus</p>
+                    <div className="flex justify-between gap-8">
+                        <PunkteSelector
+                            value="Offen"
+                            setSelectValue={setModus}
+                            selectValue={modus}
+                        />
+                        <PunkteSelector
+                            value="Geschlossen"
+                            setSelectValue={setModus}
+                            selectValue={modus}
+                        />
                     </div>
                 </div>
                 <div className="w-full">

@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.svg";
-import casinoIcon from "../assets/casino-24px.svg";
-import rankIcon from "../assets/leaderboard-24px.svg";
-import profileIcon from "../assets/account_circle-24px.svg";
+import logo from "../../assets/logo.svg";
+import casinoIcon from "../../assets/casino-24px.svg";
+import rankIcon from "../../assets/leaderboard-24px.svg";
+import profileIcon from "../../assets/account_circle-24px.svg";
+import Menu from "../../assets/Menu.svg";
+import Cancel from "../../assets/Cancel.svg";
 
-const Navbar = ({ url }) => {
+const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
+    function clickSidebarHandler() {
+        setIsSidebarOpen((prev) => !prev);
+    }
+
     return (
-        <header className="bg-white ">
-            <div className="flex justify-between items-center w-1450 mx-auto max-w-1/9">
+        <header className="bg-white z-20">
+            <div className="bg-white flex justify-between items-center w-80% lg:w-1450 mx-auto lg:max-w-1/9 h-auto">
                 <Link to="/">
                     <div className="flex gap-2">
                         <img src={logo} alt="4 Wattkarten" />
@@ -18,7 +24,7 @@ const Navbar = ({ url }) => {
                     </div>
                 </Link>
                 {url === "Anmelden" || url === "Registrieren" ? null : (
-                    <div className="flex gap-12">
+                    <div className="hidden lg:flex lg:gap-12">
                         <Link to="/">
                             <div className="flex gap-3 items-center relative py-6">
                                 <img
@@ -92,7 +98,7 @@ const Navbar = ({ url }) => {
                         </Link>
                     </div>
                 )}
-                <div className="flex gap-8 items-center">
+                <div className="hidden lg:flex lg:gap-8 lg:items-center">
                     {url !== "Anmelden" ? (
                         <Link
                             to="/anmelden"
@@ -118,6 +124,14 @@ const Navbar = ({ url }) => {
                             </button>
                         </Link>
                     ) : null}
+                </div>
+                <div className="py-6 lg:hidden">
+                    <img
+                        src={isSidebarOpen ? Cancel : Menu}
+                        onClick={clickSidebarHandler}
+                        alt="Menue"
+                        className="block h-5 lg:hidden cursor-pointer"
+                    />
                 </div>
             </div>
         </header>

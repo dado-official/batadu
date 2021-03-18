@@ -1,5 +1,5 @@
 import React from "react";
-import LevelBadge from "../LevelBadge";
+import LevelBadge from "../Shared/LevelBadge";
 import NameContainer from "./NameContainer";
 import UserGameInfo from "./UserGameInfo";
 

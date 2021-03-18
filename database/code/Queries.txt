@@ -1,0 +1,44 @@
+/* Create Tables*/
+CREATE DATABASE batadu;
+
+CREATE TABLE IF NOT EXISTS karten(
+    id INT PRIMARY KEY NOT NULL,
+    bezeichnung VARCHAR(15) NOT NULL,
+    pfad VARCHAR(1024) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS spiel(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(32) NOT NULL,
+    password VARCHAR(32),
+    datum DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS team(
+    id BIGSERIAL PRIMARY KEY,
+    punkte INT NOT NULL,
+    stichesp1 INT NOT NULL,
+    stichesp2 INT NOT NULL,
+    spielid INT NOT NULL,
+    FOREIGN KEY (spielid) REFERENCES spiel(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS users(
+    username VARCHAR(15) PRIMARY KEY NOT NULL UNIQUE,
+    password VARCHAR(256) NOT NULL,
+    email VARCHAR(128) NOT NULL,
+    anzstiche INT NOT NULL,
+    punkte INT NOT NULL,
+    gewonnenespiele INT NOT NULL,
+    verlorenespiele INT NOT NULL,
+    aktuellerteamid INT,
+    FOREIGN KEY (aktuellerteamid) REFERENCES team(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS gewinner(
+    teamid BIGINT NOT NULL,
+    spielid BIGINT NOT NULL,
+    PRIMARY KEY (teamid, spielid),
+    FOREIGN KEY (teamid) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (spielid) REFERENCES spiel(id) ON DELETE CASCADE
+)

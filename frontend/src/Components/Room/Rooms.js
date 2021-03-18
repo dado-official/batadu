@@ -1,20 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Room from "./Room/Room";
-import Create from "../assets/create-24px.svg";
+import Room from "./Room";
+import Create from "../../assets/create-24px.svg";
+import SearchInput from "../Shared/SearchInput";
 
 const Rooms = ({ setUrl }) => {
+    const [search, setSearch] = useState("");
+
     useEffect(() => {
         setUrl("/");
     }, []);
     return (
         <div className="w-1450 max-w-1/9 mx-auto mt-8">
-            <div className="flex justify-between">
-                <h3 className=" font-semibold text-3xl mt-8 mb-6">
-                    Offene Spiele
-                </h3>
+            <div className="flex justify-between mt-8">
+                <h3 className=" font-semibold text-3xl mb-6">Offene Spiele</h3>
+                <div>
+                    <SearchInput search={search} setSearch={setSearch} />
+                </div>
                 <Link to="/spielen/erstellen">
-                    <button className="py-1.5 rounded-st bg-primary text-white mt-8 mb-6 flex justify-center px-8">
+                    <button className="py-1.5 rounded-st bg-primary text-white mb-6 flex justify-center px-8">
                         <img
                             src={Create}
                             alt="Erstellen"

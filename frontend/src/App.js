@@ -1,24 +1,34 @@
-import Navbar from "./Components/Navbar";
-import Footer from "./Components/Footer";
+import Navbar from "./Components/Navbar/Navbar";
+import Footer from "./Components/Footer/Footer";
 import React, { useState } from "react";
-import Homepage from "./Components/Homepage";
-import Rooms from "./Components/Rooms";
-import Spiel from "./Components/Spiel";
+import Homepage from "./Components/Homepage/Homepage";
+import Rooms from "./Components/Room/Rooms";
+import Spiel from "./Components/Spiel/Spiel";
+import Sidebar from "./Components/Sidebar/Sidebar";
 import SelectTeam from "./Components/Spiel/SelectTeam";
-import SpielErstellen from "./Components/SpielErstellen";
-import Anmelden from "./Components/Anmelden";
-import Registrieren from "./Components/Registrieren";
-import Profil from "./Components/Profil";
-import Rangliste from "./Components/Rangliste";
+import SpielErstellen from "./Components/Spiel erstellen/SpielErstellen";
+import Anmelden from "./Components/Anmelden/Anmelden";
+import Registrieren from "./Components/Registrieren/Registrieren";
+import Profil from "./Components/Profil/Profil";
+import Rangliste from "./Components/Rangliste/Rangliste";
+import ServerDown from "./Components/ServerDown/ServerDown";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
     const [url, setUrl] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isServer, setIsServer] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
         <Router>
-            <Navbar url={url} />
+            {!isServer ? <ServerDown /> : null}
+            <Navbar
+                url={url}
+                isSidebarOpen={isSidebarOpen}
+                setIsSidebarOpen={setIsSidebarOpen}
+            />
+            <Sidebar url={url} isSidebarOpen={isSidebarOpen} />
             <Switch>
                 <Route path={["/", "/spielen"]} exact>
                     {isLoggedIn ? (
@@ -49,7 +59,6 @@ function App() {
                     <Registrieren setUrl={setUrl} />
                 </Route>
             </Switch>
-            <Footer />
         </Router>
     );
 }

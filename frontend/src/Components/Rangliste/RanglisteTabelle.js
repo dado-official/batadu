@@ -1,0 +1,120 @@
+import React from "react";
+import RanglisteTabelleData from "./RanglisteTabelleData";
+
+const RanglisteTabelle = () => {
+    return (
+        <table className="rangliste mt-2 border-separate mb-16">
+            <thead>
+                <tr>
+                    <th>Platz</th>
+                    <th>Benutzer</th>
+                    <th>Winrate %</th>
+                    <th>Gewonnene Spiele</th>
+                    <th>Punkte</th>
+                </tr>
+            </thead>
+            <tbody>
+                <RanglisteTabelleData
+                    pos={1}
+                    username="Holunderyogele"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={2}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={3}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+                <RanglisteTabelleData
+                    pos={4}
+                    username="Hirte99"
+                    points="299"
+                    winrate="47.9"
+                    games="19"
+                />
+            </tbody>
+        </table>
+    );
+};
+
+export default RanglisteTabelle;

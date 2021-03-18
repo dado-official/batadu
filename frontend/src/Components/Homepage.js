@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Herz from "../assets/herz.svg";
 import Laub from "../assets/laub.svg";
+import { Link } from "react-router-dom";
 
 const Homepage = ({ setUrl }) => {
     const [yAxis, setYAxis] = useState(0);
@@ -32,10 +33,10 @@ const Homepage = ({ setUrl }) => {
                 </h5>
                 <div className="flex gap-4 mt-16">
                     <button className="py-2 bg-primary w-12ch text-white text-2xl rounded-st focus:outline-none">
-                        Registrieren
+                        <Link to="/registrieren">Registrieren</Link>
                     </button>
                     <button className="py-2 border-4 w-12ch border-black text-2xl rounded-st focus:outline-none">
-                        Anmelden
+                        <Link to="/anmelden">Anmelden</Link>
                     </button>
                 </div>
             </div>

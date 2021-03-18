@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "./index.js",
+  "author": "Daniel Nagler",
+  "private": true,
+
+  "dependencies": {
+   
+    "express": "^4.17.1",
+
+  },
+  "scripts": {
+
+    "start": "node ./server.js",
+
+
+    "check-codestyle": "prettier --check .",
+    "fix-codestyle": "prettier --write .",
+    "lines": "git ls-files | xargs -n1 git blame --line-porcelain | sed -n 's/^author //p' | sort -f | uniq -ic | sort -nr"
+  },
+  "devDependencies": {
+   
+  }
+}

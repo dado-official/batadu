@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import SearchIcon from "../assets/search-24px.svg";
 import SearchResults from "./SearchResults";
+import SearchInput from "./SearchInput";
 
 const Search = () => {
     const [search, setSearch] = useState("");
     const [isOpenSearch, setIsOpenSearch] = useState(false);
 
-    function searchHandler(e) {
-        setSearch(e.target.value);
-    }
+    useEffect(() => {
+        if (!isOpenSearch) setIsOpenSearch(true);
+    }, [search]);
 
     function openSearchHandler() {
         setIsOpenSearch(true);
@@ -27,6 +27,7 @@ const Search = () => {
         };
 
         document.addEventListener("mousedown", handler);
+
         return () => {
             document.removeEventListener("mousedown", handler);
         };
@@ -34,18 +35,12 @@ const Search = () => {
 
     return (
         <div
-            className="bg-white rounded-st relative py-2 flex items-center"
+            ref={searchResultRef}
+            className="relative"
             onClick={openSearchHandler}
         >
-            <img src={SearchIcon} alt="Lupe" className="px-4" />
-            <input
-                type="text"
-                className="focus:outline-none flex-1 mr-4"
-                value={search}
-                onChange={searchHandler}
-                placeholder="Suchen"
-            ></input>
-            <div ref={searchResultRef}>
+            <SearchInput search={search} setSearch={setSearch} />
+            <div>
                 {isOpenSearch && search !== "" ? <SearchResults /> : null}
             </div>
         </div>

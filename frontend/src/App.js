@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Homepage from "./Components/Homepage/Homepage";
 import Rooms from "./Components/Room/Rooms";
 import Spiel from "./Components/Spiel/Spiel";
+import Sidebar from "./Components/Sidebar/Sidebar";
 import SelectTeam from "./Components/Spiel/SelectTeam";
 import SpielErstellen from "./Components/Spiel erstellen/SpielErstellen";
 import Anmelden from "./Components/Anmelden/Anmelden";
@@ -17,11 +18,17 @@ function App() {
     const [url, setUrl] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isServer, setIsServer] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
         <Router>
             {!isServer ? <ServerDown /> : null}
-            <Navbar url={url} />
+            <Navbar
+                url={url}
+                isSidebarOpen={isSidebarOpen}
+                setIsSidebarOpen={setIsSidebarOpen}
+            />
+            <Sidebar url={url} isSidebarOpen={isSidebarOpen} />
             <Switch>
                 <Route path={["/", "/spielen"]} exact>
                     {isLoggedIn ? (

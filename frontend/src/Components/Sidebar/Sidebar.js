@@ -1,32 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/logo.svg";
 import casinoIcon from "../../assets/casino-24px.svg";
 import rankIcon from "../../assets/leaderboard-24px.svg";
 import profileIcon from "../../assets/account_circle-24px.svg";
-import Menu from "../../assets/Menu.svg";
-import Cancel from "../../assets/Cancel.svg";
 
-const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
-    function clickSidebarHandler() {
-        setIsSidebarOpen((prev) => !prev);
-    }
-
+const Sidebar = ({ url, isSidebarOpen }) => {
     return (
-        <header className="bg-white z-20">
-            <div className="bg-white flex justify-between items-center w-80% lg:w-1450 mx-auto lg:max-w-1/9 h-auto">
-                <Link to="/">
-                    <div className="flex gap-2">
-                        <img src={logo} alt="4 Wattkarten" />
-                        <h4 className=" text-logoGray text-7.5 font-abril font-normal">
-                            Batadú
-                        </h4>
-                    </div>
-                </Link>
+        <div
+            className={`fixed w-screen h-screen bg-white lg:hidden ${
+                isSidebarOpen ? "block" : "hidden"
+            }`}
+        >
+            <div className="flex flex-col justify-between h-full py-8">
                 {url === "Anmelden" || url === "Registrieren" ? null : (
-                    <div className="hidden lg:flex lg:gap-12">
+                    <div className="flex items-center flex-col gap-12 mt-20">
                         <Link to="/">
-                            <div className="flex gap-3 items-center relative py-6">
+                            <div className="flex gap-3 items-center relative py-2">
                                 <img
                                     src={casinoIcon}
                                     alt="Würfel"
@@ -43,13 +32,10 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                                 >
                                     Spielen
                                 </h6>
-                                {url === "/" ? (
-                                    <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
-                                ) : null}
                             </div>
                         </Link>
                         <Link to="/rangliste">
-                            <div className="flex gap-3 items-center relative py-6">
+                            <div className="flex gap-3 items-center relative py-2">
                                 <img
                                     src={rankIcon}
                                     alt="Ranglist"
@@ -68,13 +54,10 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                                 >
                                     Rangliste
                                 </h6>
-                                {url === "/rangliste" ? (
-                                    <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
-                                ) : null}
                             </div>
                         </Link>
                         <Link to="/profile">
-                            <div className="flex gap-3 items-center relative py-6">
+                            <div className="flex gap-3 items-center relative py-2">
                                 <img
                                     src={profileIcon}
                                     alt="Profil"
@@ -91,14 +74,13 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                                 >
                                     Profile
                                 </h6>
-                                {url === "/profile" ? (
-                                    <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
-                                ) : null}
                             </div>
                         </Link>
                     </div>
                 )}
-                <div className="hidden lg:flex lg:gap-8 lg:items-center">
+                {/*linie*/}
+                <div className="flex gap-8 flex-col items-center">
+                    <div className="border-gray-600 border-t-2 w-80% mx-auto"></div>
                     {url !== "Anmelden" ? (
                         <Link
                             to="/anmelden"
@@ -125,17 +107,9 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                         </Link>
                     ) : null}
                 </div>
-                <div className="py-6 lg:hidden">
-                    <img
-                        src={isSidebarOpen ? Cancel : Menu}
-                        onClick={clickSidebarHandler}
-                        alt="Menue"
-                        className="block h-5 lg:hidden cursor-pointer"
-                    />
-                </div>
             </div>
-        </header>
+        </div>
     );
 };
 
-export default Navbar;
+export default Sidebar;

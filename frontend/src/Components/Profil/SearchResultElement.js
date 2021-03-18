@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LevelBadge from "./LevelBadge";
+import LevelBadge from "../Shared/LevelBadge";
 
 const SearchResultElement = ({ level, username }) => {
     return (

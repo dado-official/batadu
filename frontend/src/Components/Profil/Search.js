@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import SearchResults from "./SearchResults";
-import SearchInput from "./SearchInput";
+import SearchInput from "../Shared/SearchInput";
 
 const Search = () => {
     const [search, setSearch] = useState("");

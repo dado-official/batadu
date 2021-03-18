@@ -1,5 +1,5 @@
 import React from "react";
-import SearchIcon from "../assets/search-24px.svg";
+import SearchIcon from "../../assets/search-24px.svg";
 
 const SearchInput = ({ search, setSearch }) => {
     function searchHandler(e) {

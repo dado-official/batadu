@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Tisch from "./Spiel/Tisch";
-import SpielInformations from "./Spiel/SpielInformations";
-import Chat from "./Spiel/Chat";
+import Tisch from "./Tisch";
+import SpielInformations from "./SpielInformations";
+import Chat from "./Chat";
 
 const Spiel = ({ setUrl }) => {
     const [geboten, setGeboten] = useState(2);

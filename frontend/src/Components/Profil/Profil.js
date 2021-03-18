@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import LevelBadge from "./LevelBadge";
+import LevelBadge from "../Shared/LevelBadge";
 import Statistik from "./Statistik";
 import SpielVerlauf from "./SpielVerlauf";
 import Search from "./Search";

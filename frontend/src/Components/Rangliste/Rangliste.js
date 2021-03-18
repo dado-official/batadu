@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Trophy from "../assets/emoji_events-24px.svg";
-import SelectElement from "./Spiel erstellen/SelectElement";
-import RanglisteTabelle from "./Rangliste/RanglisteTabelle";
+import Trophy from "../../assets/emoji_events-24px.svg";
+import SelectElement from "../Shared/SelectElement";
+import RanglisteTabelle from "./RanglisteTabelle";
 
 const Rangliste = ({ setUrl }) => {
     const [filter, setFilter] = useState("Gewonnene Spiele");

@@ -1,5 +1,5 @@
 import React from "react";
-import Fix from "../assets/construction-24px.svg";
+import Fix from "../../assets/construction-24px.svg";
 
 const ServerDown = () => {
     return (

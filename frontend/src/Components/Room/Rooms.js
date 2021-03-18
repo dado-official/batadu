@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Room from "./Room/Room";
-import Create from "../assets/create-24px.svg";
-import SearchInput from "./SearchInput";
+import Room from "./Room";
+import Create from "../../assets/create-24px.svg";
+import SearchInput from "../Shared/SearchInput";
 
 const Rooms = ({ setUrl }) => {
     const [search, setSearch] = useState("");

@@ -7,8 +7,8 @@
 
 Warning: In this Model primary Keys are Bold and not underlined, since markdown doesn't support it
 - karten {**ID:Integer**; Bezeichnung:String; pfad:String[1024]}
-- team {**ID:Integer**; punkte:Integer; stichesp1:Integer; stichesp2:Integer; *Spiel.ID:Integer*}
 - spiel {**ID:Integer**; name:String[32]; password:String[32]; datum:Date}
+- team {**ID:Integer**; punkte:Integer; stichesp1:Integer; stichesp2:Integer; *Spiel.ID:Integer*}
 - user {**username:String[15]**; anzStiche:Integer; password:String[256]; Punkte:Integer; Email:String[128]; gewonneneSpiele:Integer; verloreneSpiele:Integer; *Team.ID:Integer*}
 - gewinner {**_team.ID:Integer; spiel.ID:Integer_**}
 

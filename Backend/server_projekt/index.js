@@ -1,58 +1,56 @@
-console.log("start server")
-const express = require('express')
+console.log("start server");
+const express = require("express");
 const app = express();
 const http = require("http").createServer();
-const io = require('socket.io')(http, {
-    cors: { origin: "*" },
+const io = require("socket.io")(http, {
+  cors: { origin: "*" },
 });
-const Spiel = require('./GameElements/Spiel');
+const Spiel = require("./GameElements/Spiel");
 const spiel = new Spiel();
 const bodyParser = require("body-parser");
-let Room = require('./GameElements/Room');
-let cors = require('cors');
+let Room = require("./GameElements/Room");
+let cors = require("cors");
 const ArrayList = require("arraylist");
-let rooms_list = new ArrayList; //array for all rooms
-
+let rooms_list = new ArrayList(); //array for all rooms
 
 app.use(cors());
-app.use(bodyParser.json())
-app.get('/', function (req, res) {
-    res.send('Hello Worldlul!');
+app.use(bodyParser.json());
+app.get("/", function (req, res) {
+  res.send("Hello Worldlul!");
 });
 //create Room
 app.listen(3000, () => console.log("listening on http://localhost:3000"));
 
 //create a new room
-app.post('/room', (req, res) => {
-    console.log("/room")
-    let position = rooms_list.set(req.body.roomname, new Room(req.body));
-    res.status(201).send(position)
-})
+app.post("/room", (req, res) => {
+  console.log("/room");
+  let position = rooms_list.set(req.body.roomname, new Room(req.body));
+  res.status(201).send(position);
+});
 
 //join a room
-app.post('/room/join', (req, res) => {
-    console.log("/room/join")
-    console.log(req.body.roomname)
-    let position = rooms_list.get(req.body.roomname).addPerson(req.body.personalInfo);
-    res.status(200).send(position)
-})
+app.post("/room/join", (req, res) => {
+  console.log("/room/join");
+  console.log(req.body.roomname);
+  let position = rooms_list
+    .get(req.body.roomname)
+    .addPerson(req.body.personalInfo);
+  res.status(200).send(position);
+});
 
 //leave room
-app.post('/room/leave', (req, res) => {
-    console.log("/room/leave")
-    rooms_list.get(req.body.roomname).leaveRoom(req.body.personalInfo)
-    res.status(200).send("room left successfully");
-})
+app.post("/room/leave", (req, res) => {
+  console.log("/room/leave");
+  rooms_list.get(req.body.roomname).leaveRoom(req.body.personalInfo);
+  res.status(200).send("room left successfully");
+});
 
 //testprint
-app.post('/room/print', (req, res) => {
-    console.log("/room/print")
-    console.log(rooms_list)
-    res.status(200).send("print")
-})
-
-
-
+app.post("/room/print", (req, res) => {
+  console.log("/room/print");
+  console.log(rooms_list);
+  res.status(200).send("print");
+});
 
 //io.on('connection', (socket) => {
 //    console.log("Socket: Client connected");
@@ -139,5 +137,3 @@ app.post('/room/print', (req, res) => {
 //        });
 //    }
 //});
-
-

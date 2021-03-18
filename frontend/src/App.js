@@ -10,14 +10,17 @@ import Anmelden from "./Components/Anmelden";
 import Registrieren from "./Components/Registrieren";
 import Profil from "./Components/Profil";
 import Rangliste from "./Components/Rangliste";
+import ServerDown from "./Components/ServerDown";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
     const [url, setUrl] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isServer, setIsServer] = useState(true);
 
     return (
         <Router>
+            {!isServer ? <ServerDown /> : null}
             <Navbar url={url} />
             <Switch>
                 <Route path={["/", "/spielen"]} exact>

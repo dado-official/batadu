@@ -28,7 +28,11 @@ function App() {
                 isSidebarOpen={isSidebarOpen}
                 setIsSidebarOpen={setIsSidebarOpen}
             />
-            <Sidebar url={url} isSidebarOpen={isSidebarOpen} />
+            <Sidebar
+                url={url}
+                isSidebarOpen={isSidebarOpen}
+                setIsSidebarOpen={setIsSidebarOpen}
+            />
             <Switch>
                 <Route path={["/", "/spielen"]} exact>
                     {isLoggedIn ? (

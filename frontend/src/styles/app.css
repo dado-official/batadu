@@ -31,6 +31,48 @@ body {
     min-height: 100vh;
 }
 
+.sidebar {
+    clip-path: circle(100px at 90% -10%);
+    -webkit-clip-path: circle(100px at 90% -10%);
+    transition: all 0.8s ease-out;
+}
+
+.sidebar div div {
+    opacity: 0;
+    transition: all 0.5s ease 0.3s;
+}
+
+.sidebaropen {
+    clip-path: circle(1390px at 90% -10%);
+    -webkit-clip-path: circle(1390px at 90% -10%);
+    transition: all 0.8s ease-out;
+}
+
+@media only screen and (max-width: 800px) {
+    .sidebaropen {
+        clip-path: circle(1300px at 90% -10%);
+        -webkit-clip-path: circle(1300px at 90% -10%);
+        transition: all 0.8s ease-out;
+    }
+}
+
+.sidebaropen div div:nth-child(1) a:nth-child(1) {
+    transition: all 0.5s ease 0.2s;
+}
+.sidebaropen div div:nth-child(1) a:nth-child(2) {
+    transition: all 0.5s ease 0.3s;
+}
+.sidebaropen div div:nth-child(1) a:nth-child(3) {
+    transition: all 0.5s ease 0.4s;
+}
+.sidebaropen div:nth-child(2) {
+    transition: all 0.5s ease 0.5s;
+}
+
+.fade {
+    opacity: 1;
+}
+
 .stiche td,
 .stiche th {
     padding-left: 1rem;

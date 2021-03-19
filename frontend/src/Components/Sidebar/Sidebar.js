@@ -4,18 +4,29 @@ import casinoIcon from "../../assets/casino-24px.svg";
 import rankIcon from "../../assets/leaderboard-24px.svg";
 import profileIcon from "../../assets/account_circle-24px.svg";
 
-const Sidebar = ({ url, isSidebarOpen }) => {
+const Sidebar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
+    function closeSidebarHandler() {
+        setIsSidebarOpen(false);
+    }
+
     return (
         <div
             className={`fixed w-screen h-screen bg-white lg:hidden ${
-                isSidebarOpen ? "block" : "hidden"
+                isSidebarOpen ? "sidebaropen" : "sidebar"
             }`}
         >
-            <div className="flex flex-col justify-between h-full py-8">
+            <div
+                className={`flex flex-col justify-between h-full py-8 ${
+                    isSidebarOpen ? "fade" : null
+                }`}
+            >
                 {url === "Anmelden" || url === "Registrieren" ? null : (
                     <div className="flex items-center flex-col gap-12 mt-20">
                         <Link to="/">
-                            <div className="flex gap-3 items-center relative py-2">
+                            <div
+                                className="flex gap-3 items-center relative py-2"
+                                onClick={closeSidebarHandler}
+                            >
                                 <img
                                     src={casinoIcon}
                                     alt="Würfel"
@@ -35,7 +46,10 @@ const Sidebar = ({ url, isSidebarOpen }) => {
                             </div>
                         </Link>
                         <Link to="/rangliste">
-                            <div className="flex gap-3 items-center relative py-2">
+                            <div
+                                className="flex gap-3 items-center relative py-2"
+                                onClick={closeSidebarHandler}
+                            >
                                 <img
                                     src={rankIcon}
                                     alt="Ranglist"
@@ -57,7 +71,10 @@ const Sidebar = ({ url, isSidebarOpen }) => {
                             </div>
                         </Link>
                         <Link to="/profile">
-                            <div className="flex gap-3 items-center relative py-2">
+                            <div
+                                className="flex gap-3 items-center relative py-2"
+                                onClick={closeSidebarHandler}
+                            >
                                 <img
                                     src={profileIcon}
                                     alt="Profil"
@@ -84,6 +101,7 @@ const Sidebar = ({ url, isSidebarOpen }) => {
                     {url !== "Anmelden" ? (
                         <Link
                             to="/anmelden"
+                            onClick={closeSidebarHandler}
                             className={`${
                                 url === "Registrieren" ? "py-4.5" : "px-6"
                             }`}
@@ -100,7 +118,11 @@ const Sidebar = ({ url, isSidebarOpen }) => {
                         </Link>
                     ) : null}
                     {url !== "Registrieren" ? (
-                        <Link to="/registrieren" className="py-4.5">
+                        <Link
+                            to="/registrieren"
+                            onClick={closeSidebarHandler}
+                            className="py-4.5"
+                        >
                             <button className="btn text-base text-white bg-primary">
                                 Registrieren
                             </button>

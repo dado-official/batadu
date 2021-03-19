@@ -18,8 +18,7 @@ const Anmelden = ({ setUrl }) => {
     });
     return (
         <div
-            className="flex justify-center items-center flex-col m-auto"
-            style={{ width: "23rem" }}
+            className="flex justify-center items-center flex-col m-auto w-96 max-w-1/9"
         >
             <h1 className="font-bold text-7.5xl mb-4 mt-16">Hallo</h1>
             {/*Input fields */}

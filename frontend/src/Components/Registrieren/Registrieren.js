@@ -22,10 +22,9 @@ const Registrieren = ({ setUrl }) => {
     });
     return (
         <div
-            className="flex justify-center items-center flex-col m-auto"
-            style={{ width: "23rem" }}
+            className="flex justify-center items-center flex-col m-auto w-96 max-w-1/9"
         >
-            <h1 className="font-bold text-7.5xl mb-4 mt-16">Wilkommen</h1>
+            <h1 className="font-bold text-6xl sm:text-7.5xl mb-4 mt-16">Wilkommen</h1>
             {/*Input fields */}
             <h6 className="text-center text-2xl text-gray-500 w-10/12 mb-3.625rem">
                 Erstellen Sie einen Konto

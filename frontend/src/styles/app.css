@@ -134,6 +134,37 @@ body {
     background-color: white;
 }
 
+@media (max-width: 768px) {
+    .rangliste thead {
+        display: none
+    }
+
+    .rangliste, .rangliste tbody, .rangliste  tr, .rangliste td {
+        display: block;
+        width: 100%
+    }
+
+    .rangliste tbody tr td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative
+    }
+
+    .rangliste td::before{
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 1rem;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .rangliste tr:first-child {
+        margin-top: 2rem;
+    }
+};
+
 .card-container {
     transform-style: preserve-3d;
     perspective: 1000px;

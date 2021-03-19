@@ -14,8 +14,7 @@ const Rangliste = ({ setUrl }) => {
             <img src={Trophy} alt="Trophäe" className="w-16 mb-2" />
             <h3 className="font-bold text-4xl">Die besten Spieler</h3>
             <div
-                className="mt-4 border-t-2 border-gray-300"
-                style={{ width: "40rem" }}
+                className="mt-4 border-t-2 border-gray-300 w-full md:w-40rem"
             >
                 <div className="mt-6 flex justify-between gap-8">
                     <SelectElement

@@ -33,6 +33,7 @@ module.exports = {
                 chat: "calc(100% - 5rem)",
                 "3.625rem": "3.625rem",
                 "80%": "80%",
+                "40rem": "40rem"
             },
             maxWidth: {
                 "1/9": "90%",

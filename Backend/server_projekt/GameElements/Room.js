@@ -31,8 +31,8 @@ class Room {
       personalInfo.position = this.calcPosition(personalInfo).toString();
       this.configRoom.spielerIDs.push(personalInfo);
     }
-    //console.log(this.configRoom.spielerIDs)
-    //console.log(this.configRoom.zuschauerIDs)
+    console.log(this.configRoom.spielerIDs)
+    console.log(this.configRoom.zuschauerIDs)
     return personalInfo.position;
   }
 

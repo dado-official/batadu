@@ -11,8 +11,29 @@ class KartenMaster{
         console.log(this.kartendeck)
     }
 
-    kartenAusteilen(){
+    kartenAusteilen(room){
+        let foo = {
+            "spieler":
+                []
+        }
+        room.configRoom.spielerIDs.map(value => foo.spieler.push(value))
+        let j = 0
+        for(let i = 0; i < room.configRoom.spielerAnzahl; i++){
+            let bar = {
+                "karten": []
+            }
+            bar.karten.push(
+                this.kartendeck[i],
+                this.kartendeck[j+1],
+                this.kartendeck[j+2],
+                this.kartendeck[j+3],
+                this.kartendeck[j+4]
+            )
+            foo.spieler[i] += bar;
+            j+=5;
+        }
 
+        console.log(JSON.stringify(foo))
     }
 }
 

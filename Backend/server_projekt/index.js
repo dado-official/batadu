@@ -63,6 +63,15 @@ app.post("/room/karten", (req, res) => {
   res.status(200).send("print");
 });
 
+//testKartenausteilen
+app.post("/room/karten/austeilen", (req, res) => {
+  console.log("/room/karten/austeilen");
+  let km = new KartenMaster();
+  km.kartenMischen();
+  km.kartenAusteilen(rooms_list.get("testroom"));
+  res.status(200).send("print");
+});
+
 //io.on('connection', (socket) => {
 //    console.log("Socket: Client connected");
 //    socket.emit("message", "Welcome!");

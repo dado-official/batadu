@@ -2,16 +2,19 @@ console.log("start server");
 const express = require("express");
 const app = express();
 const http = require("http").createServer();
+//const Spiel = require("./GameElements/Spiel");
+//const spiel = new Spiel();
+const bodyParser = require("body-parser");
+const ArrayList = require("arraylist");
+const KartenMaster = require("./GameElements/KartenMaster")
 const io = require("socket.io")(http, {
   cors: { origin: "*" },
 });
-const Spiel = require("./GameElements/Spiel");
-const spiel = new Spiel();
-const bodyParser = require("body-parser");
 let Room = require("./GameElements/Room");
 let cors = require("cors");
-const ArrayList = require("arraylist");
 let rooms_list = new ArrayList(); //array for all rooms
+
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -49,6 +52,14 @@ app.post("/room/leave", (req, res) => {
 app.post("/room/print", (req, res) => {
   console.log("/room/print");
   console.log(rooms_list);
+  res.status(200).send("print");
+});
+
+//testKarten
+app.post("/room/karten", (req, res) => {
+  console.log("/room/karten");
+  let km = new KartenMaster();
+  km.kartenMischen()
   res.status(200).send("print");
 });
 

@@ -33,10 +33,9 @@ const SpielErstellen = ({ setUrl }) => {
 
     return (
         <div
-            className="flex justify-center items-center flex-col m-auto"
-            style={{ width: "23rem" }}
+            className="flex justify-center items-center flex-col m-auto  w-96 max-w-1/9"
         >
-            <img src={Create} alt="Team" className="h-20 mt-16" />
+            <img src={Create} alt="Team" className="h-16 sm:h-20 mt-8 md:mt-12 lg:mt-16" />
             <h3 className="font-bold text-4xl pt-4 mb-8">Spiel erstellen</h3>
             {/*Input fields */}
             <div
@@ -58,7 +57,7 @@ const SpielErstellen = ({ setUrl }) => {
                 </div>
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Modus</p>
-                    <div className="flex justify-between gap-8">
+                    <div className="flex justify-between gap-4 sm:gap-8">
                         <PunkteSelector
                             value="Offen"
                             setSelectValue={setModus}
@@ -73,7 +72,7 @@ const SpielErstellen = ({ setUrl }) => {
                 </div>
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Spielen bis</p>
-                    <div className="flex justify-between gap-8">
+                    <div className="flex justify-between gap-4 sm:gap-8">
                         <PunkteSelector
                             value="11"
                             setSelectValue={setPunkte}
@@ -93,7 +92,7 @@ const SpielErstellen = ({ setUrl }) => {
                 </div>
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Spieler</p>
-                    <div className="flex justify-between gap-8">
+                    <div className="flex justify-between gap-4 sm:gap-8">
                         <PunkteSelector
                             value="2"
                             setSelectValue={setSpieler}
@@ -137,7 +136,7 @@ const SpielErstellen = ({ setUrl }) => {
                 <img src={Create2} alt="Spielen" className="whiteSVG" />
                 <p>Erstellen</p>
             </div>
-            <p className="text-sm pt-8 text-gray-600 mb-16">
+            <p className="text-sm pt-8 text-gray-600 mb-8 md:mb-12 lg:mb-16">
                 Möchten Sie ein Spiel beitreten?{" "}
                 <Link to="/spielen">
                     <span className="font-bold underline text-black">

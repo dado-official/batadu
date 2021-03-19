@@ -32,12 +32,12 @@ body {
 }
 
 .sidebar {
-    clip-path: circle(100px at 90% -10%);
-    -webkit-clip-path: circle(100px at 90% -10%);
+    clip-path: circle(100px at 90% -30%);
+    -webkit-clip-path: circle(100px at 90% -30%);
     transition: all 0.8s ease-out;
 }
 
-.sidebar div div {
+.sidebar div div, .sidebar a {
     opacity: 0;
     transition: all 0.5s ease 0.3s;
 }
@@ -66,7 +66,7 @@ body {
     transition: all 0.5s ease 0.4s;
 }
 .sidebaropen div:nth-child(2) {
-    transition: all 0.5s ease 0.5s;
+    transition: all 0.5s ease 0.7s;
 }
 
 .fade {

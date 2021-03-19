@@ -19,16 +19,16 @@ const Homepage = ({ setUrl }) => {
     }, []);
 
     return (
-        <div className="flex w-1450 max-w-1/9 mx-auto pt-28">
-            <div className="flex-1">
-                <h6 className="pb-2 font-bold text-xl text-gray-600">
+        <div className="flex w-1450 max-w-1/9 mx-auto py-12 md:my-auto">
+            <div className="w-full lg:flex-1">
+                <h6 className="pb-2 font-bold text-xl text-gray-600 break-words">
                     Sammle Punkte und erhöhe dein Level
                 </h6>
-                <h1 className="text-7.5xl font-bold  pr-40 pb-8">
+                <h1 className="text-7xl lg:text-7.5xl font-bold lg:pr-40 pb-8 break-words">
                     Kostenlos Online{" "}
                     <span className="text-primary">Watten</span> wie nie zuvor.
                 </h1>
-                <h5 className="text-7.5 text-gray-600 pr-40">
+                <h5 className="text-7.5 text-gray-600 lg:pr-40">
                     Watten mit einer modernen Grafischen Oberfläche
                 </h5>
                 <div className="flex gap-4 mt-16">
@@ -40,7 +40,7 @@ const Homepage = ({ setUrl }) => {
                     </button>
                 </div>
             </div>
-            <div className="flex-1 flex items-center justify-center card-container">
+            <div className="hidden lg:flex-1 lg:flex items-center justify-center card-container">
                 <div
                     className="bg-white card rounded-3xl border-8 border-gray-500 w-80  h-110rem relative card"
                     style={{

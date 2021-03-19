@@ -14,7 +14,7 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
 
     return (
         <header className="bg-white z-20">
-            <div className="bg-white flex justify-between items-center w-80% lg:w-1450 mx-auto lg:max-w-1/9 h-auto">
+            <div className="bg-white flex justify-between items-center lg:w-1450 mx-auto max-w-1/9 h-auto">
                 <Link to="/">
                     <div className="flex gap-2">
                         <img src={logo} alt="4 Wattkarten" />

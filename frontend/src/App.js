@@ -16,7 +16,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
     const [url, setUrl] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [isServer, setIsServer] = useState(true);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

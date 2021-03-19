@@ -62,13 +62,13 @@ body {
 }
 
 .sidebaropen div div:nth-child(1) a:nth-child(1) {
-    transition: all 0.5s ease 0.2s;
-}
-.sidebaropen div div:nth-child(1) a:nth-child(2) {
     transition: all 0.5s ease 0.3s;
 }
-.sidebaropen div div:nth-child(1) a:nth-child(3) {
+.sidebaropen div div:nth-child(1) a:nth-child(2) {
     transition: all 0.5s ease 0.4s;
+}
+.sidebaropen div div:nth-child(1) a:nth-child(3) {
+    transition: all 0.5s ease 0.5s;
 }
 .sidebaropen div:nth-child(2) {
     transition: all 0.5s ease 0.7s;

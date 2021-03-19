@@ -11,7 +11,7 @@ const Sidebar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
 
     return (
         <div
-            className={`fixed top-0 w-screen h-screen bg-white lg:hidden ${
+            className={`fixed top-0 w-screen h-screen bg-white lg:hidden z-10 ${
                 isSidebarOpen ? "sidebaropen" : "sidebar"
             }`}
         >

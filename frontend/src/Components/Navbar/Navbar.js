@@ -13,7 +13,7 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
     }
 
     return (
-        <header className="bg-white z-20">
+        <header className="bg-white z-20 fixed top-0 left-0 w-full">
             <div className="bg-white flex justify-between items-center lg:w-1450 mx-auto max-w-1/9 h-auto">
                 <Link to="/">
                     <div className="flex gap-2">

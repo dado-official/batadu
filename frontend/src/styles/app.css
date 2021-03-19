@@ -29,11 +29,12 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    padding-top: 4.5rem;
 }
 
 .sidebar {
-    clip-path: circle(100px at 90% -30%);
-    -webkit-clip-path: circle(100px at 90% -30%);
+    clip-path: circle(100px at 90% -10%);
+    -webkit-clip-path: circle(100px at 90% -10%);
     transition: all 0.8s ease-out;
 }
 
@@ -46,6 +47,10 @@ body {
     clip-path: circle(1390px at 90% -10%);
     -webkit-clip-path: circle(1390px at 90% -10%);
     transition: all 0.8s ease-out;
+}
+
+.navbarFixed {
+    
 }
 
 @media only screen and (max-width: 800px) {

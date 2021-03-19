@@ -1,0 +1,170 @@
+{
+  "Karten":
+          [
+            {
+              "name": "Siebner Laub",
+              "farbe": "Laub",
+              "schlag": 7
+            },
+            {
+              "name": "Siebner Schell",
+              "farbe": "Schell",
+              "schlag": 7
+            },
+            {
+              "name": "Siebner Eichel",
+              "farbe": "Eichel",
+              "schlag": 7
+            },
+            {
+              "name": "Siebner Herz",
+              "farbe": "Herz",
+              "schlag": 7
+            },
+            {
+              "name": "Achter Laub",
+              "farbe": "Laub",
+              "schlag": 8
+            },
+            {
+              "name": "Achter Schell",
+              "farbe": "Schell",
+              "schlag": 8
+            },
+            {
+              "name": "Achter Eichel",
+              "farbe": "Eichel",
+              "schlag": 8
+            },
+            {
+              "name": "Achter Herz",
+              "farbe": "Herz",
+              "schlag": 8
+            },
+            {
+              "name": "Neuner Laub",
+              "farbe": "Laub",
+              "schlag": 9
+            },
+            {
+              "name": "Neuner Schell",
+              "farbe": "Schell",
+              "schlag": 9
+            },
+            {
+              "name": "Neuner Eichel",
+              "farbe": "Eichel",
+              "schlag": 9
+            },
+            {
+              "name": "Neuner Herz",
+              "farbe": "Herz",
+              "schlag": 9
+            },
+            {
+              "name": "Zehner Laub",
+              "farbe": "Laub",
+              "schlag": 10
+            },
+            {
+              "name": "Zehner Schell",
+              "farbe": "Schell",
+              "schlag": 10
+            },
+            {
+              "name": "Zehner Eichel",
+              "farbe": "Eichel",
+              "schlag": 10
+            },
+            {
+              "name": "Zehner Herz",
+              "farbe": "Herz",
+              "schlag": 10
+            },
+            {
+              "name": "Unter Laub",
+              "farbe": "Laub",
+              "schlag": 11
+            },
+            {
+              "name": "Unter Schell",
+              "farbe": "Schell",
+              "schlag": 11
+            },
+            {
+              "name": "Unter Eichel",
+              "farbe": "Eichel",
+              "schlag": 11
+            },
+            {
+              "name": "Unter Herz",
+              "farbe": "Herz",
+              "schlag": 11
+            },
+            {
+              "name": "Ober Laub",
+              "farbe": "Laub",
+              "schlag": 12
+            },
+            {
+              "name": "Ober Schell",
+              "farbe": "Schell",
+              "schlag": 12
+            },
+            {
+              "name": "Ober Eichel",
+              "farbe": "Eichel",
+              "schlag": 12
+            },
+            {
+              "name": "Ober Herz",
+              "farbe": "Herz",
+              "schlag": 12
+            },
+            {
+              "name": "König Laub",
+              "farbe": "Laub",
+              "schlag": 13
+            },
+            {
+              "name": "König Schell",
+              "farbe": "Schell",
+              "schlag": 13
+            },
+            {
+              "name": "König Eichel",
+              "farbe": "Eichel",
+              "schlag": 13
+            },
+            {
+              "name": "König Herz",
+              "farbe": "Herz",
+              "schlag": 13
+            },
+            {
+              "name": "Ass Laub",
+              "farbe": "Laub",
+              "schlag": 14
+            },
+            {
+              "name": "Ass Schell",
+              "farbe": "Schell",
+              "schlag": 14
+            },
+            {
+              "name": "Ass Eichel",
+              "farbe": "Eichel",
+              "schlag": 14
+            },
+            {
+              "name": "Ass Herz",
+              "farbe": "Herz",
+              "schlag": 14
+            },
+            {
+              "name": "Welli",
+              "farbe": "Schell",
+              "schlag": 6
+            }
+          ]
+}

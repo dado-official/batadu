@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Tisch from "./Tisch";
 import SpielInformations from "./SpielInformations";
 import Chat from "./Chat";
@@ -8,12 +8,26 @@ const Spiel = ({ setUrl }) => {
     const [schlag, setSchlag] = useState("Laub 7");
     const [trumpf, setTrumpf] = useState("Schell X");
 
+    const chatRef = useRef();
+    const infosRef = useRef();
+    const spielRef = useRef();
+
     useEffect(() => {
         setUrl("/");
     }, []);
 
+    function scrollToChatHandler() {
+        chatRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    function scrollToInfosHandler() {
+        infosRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+    function scrollToSpielHandler() {
+        spielRef.current.scrollIntoView({ behavior: "smooth" });
+    }
     return (
-        <div className="grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-16">
+        <div className="relative grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-16">
             <div className="xl:col-span-2 relative">
                 <div className="flex justify-center mt-8">
                     <Tisch geboten={geboten} />
@@ -52,8 +66,31 @@ const Spiel = ({ setUrl }) => {
             </div>
             {/*Rechte Seite */}
             <div className="xl:col-span-1 mb-16 flex flex-col">
-                <SpielInformations />
-                <Chat />
+                <SpielInformations ref={infosRef} />
+                <button
+                    className="btn bg-secondary w-full font-bold text-white mt-8 xl:hidden"
+                    onClick={scrollToSpielHandler}
+                >
+                    Zurück zum Spiel
+                </button>
+                <Chat ref={chatRef} />
+            </div>
+            <div
+                ref={spielRef}
+                className="flex justify-between gap-16 absolute top-0 w-full xl:hidden -mt-96 pt-96"
+            >
+                <button
+                    className="btn bg-white border-4 border-secondary w-28 font-bold"
+                    onClick={scrollToChatHandler}
+                >
+                    Chat
+                </button>
+                <button
+                    className="btn bg-white border-4 border-secondary w-28 font-bold text-black xl:hidden"
+                    onClick={scrollToInfosHandler}
+                >
+                    Infos
+                </button>
             </div>
         </div>
     );

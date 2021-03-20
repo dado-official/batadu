@@ -39,13 +39,16 @@ module.exports = {
                 "90%": "90%",
                 "7.92rem": "7.04rem",
                 "4.275rem": "3.8rem",
+                "28.25rem": "28.25rem",
+                "40rem": "33rem",
             },
             maxWidth: {
                 "1/9": "90%",
                 "80%": "80%",
             },
             maxHeight: {
-                chat: "calc(100% - 5rem)",
+                chat: "25rem",
+                "17.5rem": "17.5rem",
             },
             fontSize: {
                 7.5: "1.6875rem",

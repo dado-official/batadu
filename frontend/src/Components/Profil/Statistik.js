@@ -2,7 +2,7 @@ import React from "react";
 
 const Statistik = ({ typ, data, percentage, extra }) => {
     return (
-        <div className="rounded-st bg-gray-200 w-1/5 py-4 px-8 flex  justify-between">
+        <div className="rounded-st bg-gray-200 w-full py-4 px-8 flex  justify-between">
             <div>
                 <p className="text-sm">{typ}</p>
                 <div className="flex items-end">

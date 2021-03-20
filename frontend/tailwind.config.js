@@ -33,7 +33,12 @@ module.exports = {
                 chat: "calc(100% - 5rem)",
                 "3.625rem": "3.625rem",
                 "80%": "80%",
-                "40rem": "40rem"
+                "40rem": "40rem",
+                "4.4rem": "4.4rem",
+                "2.375rem": "2.375",
+                "90%": "90%",
+                "7.92rem": "7.04rem",
+                "4.275rem": "3.8rem",
             },
             maxWidth: {
                 "1/9": "90%",
@@ -51,6 +56,7 @@ module.exports = {
                         lineHeight: "1.1",
                     },
                 ],
+                xxs: "0.5rem",
             },
             borderRadius: {
                 st: "0.6rem",

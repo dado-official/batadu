@@ -1,11 +1,14 @@
 import React from "react";
 import Badge from "../../assets/verified-24px.svg";
 
-const LevelBadge = ({ level, size }) => {
+const LevelBadge = ({ level, size, className }) => {
     return (
         <div
-            className="relative"
-            style={{ height: `${size}`, fontSize: `${size}` }}
+            className={`relative ${className !== undefined ? className : null}`}
+            style={{
+                height: `${size}`,
+                fontSize: `${size}`,
+            }}
         >
             <img src={Badge} alt="Badge" className="h-full" />
             <p

@@ -1,7 +1,7 @@
 module.exports = {
     purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
 
-    darkMode: false, // or 'media' or 'class'
+    darkMode: "class", // or 'media' or 'class'
     theme: {
         fontFamily: {
             abril: ["Abril Fatface", "cursive"],
@@ -9,13 +9,24 @@ module.exports = {
         extend: {
             colors: {
                 primary: "#B2163A",
+                primaryDark: "#F56B8B",
+                bgWhite: "#eeeff2",
+                bgDark: "#121212",
                 secondary: "#03A57A",
+                secondaryDark: "#06D6A0",
                 logoGray: "#545454",
                 roomGray: "#d9d9d9",
                 tableGray: "#CECECE",
                 borderGray: "#858585",
                 primaryLight: "#E3A2B1",
+                primaryLightDark: "#7E3A4A",
                 spielGray: "#E6E6E6",
+                whiteDark: "#2E2E2E",
+                grayBlack: "#121212",
+                statistikGray: "#383838",
+                roomBlack: "#1E1E1E",
+                borderBlack: "#535353",
+                chatBlack: "#4B4B4B",
             },
             spacing: {
                 1450: "1400px",
@@ -41,6 +52,7 @@ module.exports = {
                 "4.275rem": "3.8rem",
                 "28.25rem": "28.25rem",
                 "40rem": "33rem",
+                "4.5rem": "4.5rem",
             },
             maxWidth: {
                 "1/9": "90%",

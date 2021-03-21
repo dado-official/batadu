@@ -2,8 +2,8 @@ import React from "react";
 
 const PunkteTabelle = () => {
     return (
-        <div className="bg-white flex flex-center text-xs text-center rounded-b-st h-96 xl:h-64 overflow-auto stiche">
-            <table className="mx-auto my-4">
+        <div className="bg-white dark:bg-whiteDark flex flex-center text-xs text-center rounded-b-st h-96 xl:h-64 overflow-auto stiche">
+            <table className="mx-auto my-4 dark:text-white">
                 <tr>
                     <th>Team 1</th>
                     <th>Team 2</th>
@@ -72,8 +72,8 @@ const PunkteTabelle = () => {
                     <td></td>
                     <td>2</td>
                 </tr>
-                <tr className="text-primary">
-                    <td></td>
+                <tr className="text-primary dark:text-primaryDark">
+                    <td>2</td>
                     <td>2</td>
                 </tr>
             </table>

@@ -9,6 +9,11 @@
     @apply py-1.5 px-4 rounded-st focus:outline-none;
 }
 
+.primaryDarkSVG {
+    filter: invert(56%) sepia(99%) saturate(1400%) hue-rotate(306deg)
+        brightness(98%) contrast(96%);
+}
+
 .primarySVG {
     filter: invert(17%) sepia(34%) saturate(4753%) hue-rotate(326deg)
         brightness(108%) contrast(107%);
@@ -17,12 +22,24 @@
     filter: invert(100%) sepia(27%) saturate(2643%) hue-rotate(159deg)
         brightness(127%) contrast(107%);
 }
+.graySVG {
+    filter: invert(39%) sepia(98%) saturate(17%) hue-rotate(22deg)
+        brightness(99%) contrast(88%);
+}
+.secondarySVG {
+    filter: invert(39%) sepia(95%) saturate(980%) hue-rotate(133deg)
+        brightness(92%) contrast(98%);
+}
+.secondaryDarkSVG {
+    filter: invert(61%) sepia(92%) saturate(1384%) hue-rotate(116deg)
+        brightness(96%) contrast(95%);
+}
 
 * {
     font-family: "Roboto", sans-serif;
 }
 body {
-    background-color: #eeeff2;
+    @apply bg-bgWhite dark:bg-bgDark;
 }
 
 #root {
@@ -131,7 +148,7 @@ body {
 }
 
 .rangliste td {
-    background-color: white;
+    @apply bg-white dark:bg-whiteDark dark:text-white;
 }
 
 @media (max-width: 768px) {
@@ -191,10 +208,16 @@ body {
     border-radius: 50%;
     left: 0;
     bottom: 0;
+}
+
+.cardWhite::after {
     box-shadow: 0 3rem 20px rgba(0, 0, 0, 0.473);
 }
 
-.card-content {
+.cardDark::after {
+    box-shadow: 0 3rem 20px rgba(255, 255, 255, 0.473);
+}
+.card .card-content {
     transform-style: preserve-3d;
     text-align: center;
     display: flex;

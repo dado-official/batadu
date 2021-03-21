@@ -66,7 +66,7 @@ const Spiel = ({ setUrl, isDarkmode }) => {
             </div>
             {/*Rechte Seite */}
             <div className="xl:col-span-1 mb-16 flex flex-col">
-                <SpielInformations ref={infosRef} />
+                <SpielInformations ref={infosRef} isDarkmode={isDarkmode} />
                 <button
                     className="btn bg-secondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"
                     onClick={scrollToSpielHandler}

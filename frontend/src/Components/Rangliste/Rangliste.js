@@ -19,7 +19,7 @@ const Rangliste = ({ setUrl, isDarkmode }) => {
             <h3 className="font-bold text-4xl dark:text-white">
                 Die besten Spieler
             </h3>
-            <div className="mt-4 border-t-2 border-gray-300 dark:border-gray-600 w-full md:w-40rem">
+            <div className="mt-4 border-t-2 border-gray-300 dark:border-gray-600 w-full md:w-40">
                 <div className="mt-6 flex justify-between gap-4 md:gap-8">
                     <SelectElement
                         value="Gewonnene Spiele"

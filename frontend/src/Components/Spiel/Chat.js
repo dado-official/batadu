@@ -37,7 +37,11 @@ const Chat = forwardRef(({ isDarkmode }, ref) => {
             </div>{" "}
             <div className="flex flex-col p-4 bg-white dark:bg-whiteDark rounded-b-st justify-between xl:justify-start">
                 {/*chat messages */}
-                <div className="flex-1 flex flex-col gap-2 pr-2 overflow-y-auto mb-2 max-h-chat xl:max-h-17.5rem">
+                <div
+                    className={`flex-1 flex flex-col gap-2 pr-2 overflow-y-auto mb-2 max-h-chat xl:max-h-17.5rem ${
+                        isDarkmode ? "scrollDark" : "scrollWhite"
+                    }`}
+                >
                     <ChatMessage message="Isi win es hirten" sender="Frangio" />
                     <ChatMessage message="Isi win es hirten" sender="Ich" />
                     <ChatMessage message="Du bist am Zug" sender="System" />

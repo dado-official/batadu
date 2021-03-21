@@ -1,8 +1,12 @@
 import React from "react";
 
-const PunkteTabelle = () => {
+const PunkteTabelle = ({ isDarkmode }) => {
     return (
-        <div className="bg-white dark:bg-whiteDark flex flex-center text-xs text-center rounded-b-st h-96 xl:h-64 overflow-auto stiche">
+        <div
+            className={`bg-white dark:bg-whiteDark flex flex-center text-xs text-center rounded-b-st h-96 xl:h-64 overflow-auto stiche ${
+                isDarkmode ? "scrollDark" : "scrollWhite"
+            }`}
+        >
             <table className="mx-auto my-4 dark:text-white">
                 <tr>
                     <th>Team 1</th>

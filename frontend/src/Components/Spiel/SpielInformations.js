@@ -3,7 +3,7 @@ import PunkteTabelle from "./PunkteTabelle";
 import Stich from "./Stich";
 import SelectInformations from "./SelectInformations";
 
-const SpielInformations = forwardRef(({}, ref) => {
+const SpielInformations = forwardRef(({ isDarkmode }, ref) => {
     const [selected, setSelected] = useState("Stich 1");
 
     function selectHandler(e) {
@@ -31,7 +31,7 @@ const SpielInformations = forwardRef(({}, ref) => {
             </div>
             <div>
                 {selected === "Punkte" ? (
-                    <PunkteTabelle />
+                    <PunkteTabelle isDarkmode={isDarkmode} />
                 ) : selected === "Stich 1" ? (
                     <Stich />
                 ) : null}

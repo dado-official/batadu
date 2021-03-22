@@ -37,6 +37,7 @@ class KartenMaster{
     }
 
     getBestKarte(par){
+        let winKarte = null
         par.karte.map(element => {
             if(element.schlag === par.schlag){
                 //first schlag
@@ -56,13 +57,20 @@ class KartenMaster{
                             }
                             if(element.schlag === guter && element.farbe === par.farbe){
                                 //guter
-                                return element;
+                                console.log("guter: "+ element)
+                                winKarte = element;
                             }
                         })
-                        return element;
+                        console.log("rechter: "+ element)
+                        if(winKarte === null){
+                            winKarte = element;
+                        }
                     }
                 })
-                return element;
+                console.log("schlag: " + element)
+                if(winKarte === null){
+                    winKarte = element;
+                }
             }
         })
 
@@ -75,7 +83,10 @@ class KartenMaster{
                         biggestCard = element
                     }
                 })
-                return biggestCard;
+                console.log("farbe: " + biggestCard)
+                if(winKarte === null){
+                    winKarte = biggestCard;
+                }
             }
         })
 
@@ -86,7 +97,11 @@ class KartenMaster{
                 tmpbestCard = element;
             }
         })
-        return tmpbestCard;
+        console.log("random win: "+ tmpbestCard)
+        if(winKarte === null){
+            winKarte = tmpbestCard;
+        }
+        return winKarte;
     }
 }
 

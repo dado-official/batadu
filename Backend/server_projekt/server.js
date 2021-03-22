@@ -19,15 +19,18 @@ io.on("connection", (socket) => {
             //sending to the chat who joined
             message: `${counter} ist dem Spiel beigetreten`,
             sender: "System",
+            type: "text",
         });
         socket.on("chat", (message) => {
             //broadcast to roommembers when new message
             socket.to(room).emit("chat", message);
         });
         socket.on("disconnect", () => {
-            socket
-                .to(room)
-                .emit("chat", { message: "Disconnect", sender: "System" });
+            socket.to(room).emit("chat", {
+                message: "Disconnect",
+                sender: "System",
+                type: "text",
+            });
         });
     });
 });

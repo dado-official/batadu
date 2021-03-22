@@ -80,6 +80,7 @@ module.exports = {
             },
             borderWidth: {
                 12: "12px",
+                1: "1px",
             },
         },
     },

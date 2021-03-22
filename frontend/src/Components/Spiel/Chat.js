@@ -3,18 +3,24 @@ import Emoji from "../../assets/insert_emoticon-24px.svg";
 import Gif from "../../assets/gif-24px.svg";
 import Send from "../../assets/send-24px.svg";
 import ChatMessage from "./ChatMessage";
+import ChatGif from "./ChatGif";
 import ScrollableFeed from "react-scrollable-feed";
 import "emoji-mart/css/emoji-mart.css";
+import GifPicker from "./GifPicker";
 import { Picker } from "emoji-mart";
 
 const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
     const [chatInput, setChatInput] = useState("");
     const [chatMessages, setChatMessages] = useState([
-        { message: "Wilkommen im Chat", sender: "System" },
+        { message: "Wilkommen im Chat", sender: "System", type: "text" },
     ]);
     const [isEmojisOpen, setIsEmojisOpen] = useState(false);
     const emojiPickerRef = useRef();
     const emojiIconRef = useRef();
+
+    const [isGifOpen, setIsGifOpen] = useState(false);
+    const gifPickerRef = useRef();
+    const gifIconRef = useRef();
 
     useEffect(() => {
         if (isDarkmode) {
@@ -53,11 +59,26 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
     }, []);
 
     useEffect(() => {
+        let handler = (e) => {
+            if (
+                gifPickerRef.current &&
+                !gifPickerRef.current.contains(e.target) &&
+                !gifIconRef.current.contains(e.target)
+            ) {
+                setIsGifOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handler);
+
+        return () => {
+            document.removeEventListener("mousedown", handler);
+        };
+    }, []);
+
+    useEffect(() => {
         socket.on("chat", (chat) => {
-            setChatMessages((prev) => [
-                ...prev,
-                { message: chat.message, sender: chat.sender },
-            ]);
+            setChatMessages((prev) => [...prev, chat]);
         });
     }, []);
 
@@ -66,15 +87,26 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
     }
 
     function sendMessage() {
-        let chat = { message: chatInput, sender: "Talin" };
+        let chat = { message: chatInput, type: "text", sender: "Talian" };
         socket.emit("chat", chat);
         setChatMessages((prev) => [
             ...prev,
-            { message: chatInput, sender: "Ich" },
+            { message: chatInput, sender: "Ich", type: "text" },
         ]);
         setChatInput("");
     }
 
+    function sendGif(e) {
+        let url = e.target.src;
+        let chat = { url: url, type: "gif", sender: "Talian" };
+        socket.emit("chat", chat);
+        setChatMessages((prev) => [
+            ...prev,
+            { url: url, sender: "Ich", type: "gif" },
+        ]);
+        setChatInput("");
+        setIsGifOpen(false);
+    }
     function onKeyDownHandler(e) {
         if (e.key === "Enter") {
             console.log("enter");
@@ -86,6 +118,9 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
         setIsEmojisOpen((prev) => !prev);
     }
 
+    function isGifOpenHandler() {
+        setIsGifOpen((prev) => !prev);
+    }
     return (
         <div ref={ref} className="relative flex flex-col h-40rem xl:h-28.25rem">
             {" "}
@@ -112,12 +147,21 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
                         }`}
                     >
                         {chatMessages.map((element) => {
-                            return (
-                                <ChatMessage
-                                    message={element.message}
-                                    sender={element.sender}
-                                />
-                            );
+                            if (element.type === "text") {
+                                return (
+                                    <ChatMessage
+                                        message={element.message}
+                                        sender={element.sender}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <ChatGif
+                                        url={element.url}
+                                        sender={element.sender}
+                                    />
+                                );
+                            }
                         })}
                     </ScrollableFeed>
                 </div>
@@ -140,6 +184,15 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
                             borderRadius: "10px",
                         }}
                     />
+                </div>
+                {/*Gif Picker */}
+                <div
+                    className={`z-10 w-full absolute pr-8 bottom-20 ${
+                        isGifOpen ? "block" : "hidden"
+                    }`}
+                    ref={gifPickerRef}
+                >
+                    <GifPicker sendHandler={sendGif} isDarkmode={isDarkmode} />
                 </div>
                 {/*chat input */}
                 <div className=" bg-spielGray dark:bg-chatBlack w-full p-2 x-4 rounded-st flex items-center justify-between">
@@ -167,9 +220,11 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
                             <img
                                 src={Gif}
                                 alt="Gif"
+                                ref={gifIconRef}
                                 className={`cursor-pointer w-full ${
                                     !isDarkmode ? "whiteSVG" : null
                                 }`}
+                                onClick={isGifOpenHandler}
                             />
                         </div>
                         <div className="bg-primary dark:bg-primaryDark rounded-st h-9 w-9 flex justify-center items-center">

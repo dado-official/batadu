@@ -1,6 +1,6 @@
 import React from "react";
 
-const ChatMessage = ({ message, sender }) => {
+export default function ChatGif({ sender, url }) {
     return (
         <div className="flex flex-col w-full pr-2">
             <div
@@ -8,15 +8,7 @@ const ChatMessage = ({ message, sender }) => {
                     sender === "Ich" ? "justify-end" : null
                 }`}
             >
-                <p
-                    className={`text-sm w-max-content w-max-full py-2 px-4 rounded-st break-words  ${
-                        sender === "System"
-                            ? "text-white dark:text-black bg-primary dark:bg-primaryDark"
-                            : "bg-spielGray dark:bg-chatBlack dark:text-white"
-                    }`}
-                >
-                    {message}
-                </p>
+                <img src={url} alt="gif" className="w-1/2 rounded-st" />
             </div>
             <p
                 className={`font-bold text-xs py-1 dark:text-white ${
@@ -31,6 +23,4 @@ const ChatMessage = ({ message, sender }) => {
             </p>
         </div>
     );
-};
-
-export default ChatMessage;
+}

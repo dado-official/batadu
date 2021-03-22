@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import PunkteTabelle from "./PunkteTabelle";
 import Stich from "./Stich";
 import SelectInformations from "./SelectInformations";
 
-const SpielInformations = () => {
+const SpielInformations = forwardRef(({ isDarkmode }, ref) => {
     const [selected, setSelected] = useState("Stich 1");
 
     function selectHandler(e) {
@@ -11,8 +11,8 @@ const SpielInformations = () => {
     }
 
     return (
-        <div>
-            <div className="flex bg-spielGray rounded-t-st">
+        <div ref={ref} className="pt-20 -mt-28 xl:pt-0 xl:mt-0">
+            <div className="flex bg-spielGray dark:bg-roomBlack dark:text-white rounded-t-st">
                 <SelectInformations
                     selectHandler={selectHandler}
                     selected={selected}
@@ -31,13 +31,13 @@ const SpielInformations = () => {
             </div>
             <div>
                 {selected === "Punkte" ? (
-                    <PunkteTabelle />
+                    <PunkteTabelle isDarkmode={isDarkmode} />
                 ) : selected === "Stich 1" ? (
                     <Stich />
                 ) : null}
             </div>
         </div>
     );
-};
+});
 
 export default SpielInformations;

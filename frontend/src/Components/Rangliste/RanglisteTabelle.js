@@ -5,7 +5,7 @@ const RanglisteTabelle = () => {
     return (
         <table className="rangliste mt-2 border-separate mb-16">
             <thead>
-                <tr>
+                <tr className="dark:text-white">
                     <th>Platz</th>
                     <th>Benutzer</th>
                     <th>Winrate %</th>

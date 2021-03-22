@@ -7,7 +7,7 @@ import PunkteSelector from "../Shared/SelectElement";
 import Switch from "./Switch";
 import Lock from "../../assets/lock-24px.svg";
 
-const SpielErstellen = ({ setUrl }) => {
+const SpielErstellen = ({ setUrl, isDarkmode }) => {
     const [spielName, setSpielName] = useState("");
     const [punkte, setPunkte] = useState("18");
     const [password, setPassword] = useState("");
@@ -32,24 +32,33 @@ const SpielErstellen = ({ setUrl }) => {
     }
 
     return (
-        <div
-            className="flex justify-center items-center flex-col m-auto"
-            style={{ width: "23rem" }}
-        >
-            <img src={Create} alt="Team" className="h-20 mt-16" />
-            <h3 className="font-bold text-4xl pt-4 mb-8">Spiel erstellen</h3>
+        <div className="flex justify-center items-center flex-col m-auto w-96 max-w-1/9">
+            <img
+                src={Create}
+                alt="Team"
+                className={`h-16 sm:h-20 mt-8 md:mt-12 lg:mt-16 ${
+                    isDarkmode ? "whiteSVG" : null
+                }`}
+            />
+            <h3 className="font-bold text-4xl pt-4 mb-8 dark:text-white">
+                Spiel erstellen
+            </h3>
             {/*Input fields */}
             <div
-                className="w-full flex flex-col gap-6
+                className="w-full flex flex-col gap-6 dark:text-white
             "
             >
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Spielname</p>
-                    <div className="bg-white rounded-st py-2 flex items-center">
-                        <img src={Name} alt="Name" className="px-4" />
+                    <div className="bg-white rounded-st py-2 flex items-center dark:bg-whiteDark">
+                        <img
+                            src={Name}
+                            alt="Name"
+                            className={`px-4 ${isDarkmode ? "whiteSVG" : null}`}
+                        />
                         <input
                             type="text"
-                            className="focus:outline-none flex-1 mr-4"
+                            className="focus:outline-none flex-1 mr-4 dark:bg-whiteDark dark:text-white"
                             value={spielName}
                             onChange={spielNameHandler}
                             placeholder="Spielname"
@@ -58,7 +67,7 @@ const SpielErstellen = ({ setUrl }) => {
                 </div>
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Modus</p>
-                    <div className="flex justify-between gap-8">
+                    <div className="flex justify-between gap-4 sm:gap-8">
                         <PunkteSelector
                             value="Offen"
                             setSelectValue={setModus}
@@ -73,7 +82,7 @@ const SpielErstellen = ({ setUrl }) => {
                 </div>
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Spielen bis</p>
-                    <div className="flex justify-between gap-8">
+                    <div className="flex justify-between gap-4 sm:gap-8">
                         <PunkteSelector
                             value="11"
                             setSelectValue={setPunkte}
@@ -93,7 +102,7 @@ const SpielErstellen = ({ setUrl }) => {
                 </div>
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Spieler</p>
-                    <div className="flex justify-between gap-8">
+                    <div className="flex justify-between gap-4 sm:gap-8">
                         <PunkteSelector
                             value="2"
                             setSelectValue={setSpieler}
@@ -112,17 +121,23 @@ const SpielErstellen = ({ setUrl }) => {
                     <div className="relative flex items-center w-full gap-8">
                         <Switch isPasswordHandler={isPasswordHandler} />
                         <div
-                            className={`bg-white rounded-st py-2 flex items-center w-full transition-all ${
+                            className={`bg-white dark:bg-whiteDark rounded-st py-2 flex items-center w-full transition-all ${
                                 !isPassword
                                     ? "cursor-not-allowed opacity-0"
                                     : null
                             }`}
                         >
-                            <img src={Lock} alt="Name" className="px-4 w-12" />
+                            <img
+                                src={Lock}
+                                alt="Name"
+                                className={`px-4 w-12 ${
+                                    isDarkmode ? "whiteSVG" : null
+                                }`}
+                            />
                             {isPassword ? (
                                 <input
                                     type="Password"
-                                    className={`focus:outline-none flex-1 mr-4}`}
+                                    className={`focus:outline-none flex-1 mr-4 dark:bg-whiteDark dark:text-white`}
                                     value={password}
                                     onChange={passwordHandler}
                                     placeholder="Password"
@@ -133,14 +148,18 @@ const SpielErstellen = ({ setUrl }) => {
                 </div>
             </div>
             {/*Button + Zurück Link*/}
-            <div className="bg-primary text-white w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4">
-                <img src={Create2} alt="Spielen" className="whiteSVG" />
+            <div className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4">
+                <img
+                    src={Create2}
+                    alt="Spielen"
+                    className={`${!isDarkmode ? "whiteSVG" : null}`}
+                />
                 <p>Erstellen</p>
             </div>
-            <p className="text-sm pt-8 text-gray-600 mb-16">
+            <p className="text-sm pt-8 text-gray-600 dark:text-gray-400 mb-8 md:mb-12 lg:mb-16">
                 Möchten Sie ein Spiel beitreten?{" "}
                 <Link to="/spielen">
-                    <span className="font-bold underline text-black">
+                    <span className="font-bold underline text-black dark:text-white">
                         Zurück
                     </span>
                 </Link>

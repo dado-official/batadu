@@ -3,15 +3,29 @@ import { Link } from "react-router-dom";
 import casinoIcon from "../../assets/casino-24px.svg";
 import rankIcon from "../../assets/leaderboard-24px.svg";
 import profileIcon from "../../assets/account_circle-24px.svg";
+import DarkMode from "../../assets/dark_mode-24px.svg";
+import LightMode from "../../assets/light_mode-24px.svg";
 
-const Sidebar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
+const Sidebar = ({
+    url,
+    isSidebarOpen,
+    setIsSidebarOpen,
+    isDarkmode,
+    setIsDarkmode,
+}) => {
     function closeSidebarHandler() {
         setIsSidebarOpen(false);
+    }
+    function clickDarkmodeHandler() {
+        setIsDarkmode((prev) => {
+            localStorage.setItem("darkmode", !prev);
+            return !prev;
+        });
     }
 
     return (
         <div
-            className={`fixed top-0 w-screen h-screen bg-white lg:hidden z-10 ${
+            className={`fixed top-0 w-screen h-screen bg-white dark:bg-whiteDark lg:hidden z-40 ${
                 isSidebarOpen ? "sidebaropen" : "sidebar"
             }`}
         >
@@ -31,13 +45,21 @@ const Sidebar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                                     src={casinoIcon}
                                     alt="Würfel"
                                     className={`h-1.25 ${
-                                        url === "/" ? "primarySVG" : null
+                                        url === "/"
+                                            ? `${
+                                                  !isDarkmode
+                                                      ? "primarySVG"
+                                                      : "primaryDarkSVG"
+                                              }`
+                                            : `${
+                                                  isDarkmode ? "whiteSVG" : null
+                                              }`
                                     }`}
                                 />
                                 <h6
-                                    className={`text-base ${
+                                    className={`text-base dark:text-white ${
                                         url === "/"
-                                            ? "text-primary font-bold"
+                                            ? "text-primary dark:text-primaryDark font-bold"
                                             : null
                                     }`}
                                 >
@@ -55,15 +77,21 @@ const Sidebar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                                     alt="Ranglist"
                                     className={`h-1.25 ${
                                         url === "/rangliste"
-                                            ? "primarySVG"
-                                            : null
+                                            ? `${
+                                                  !isDarkmode
+                                                      ? "primarySVG"
+                                                      : "primaryDarkSVG"
+                                              }`
+                                            : `${
+                                                  isDarkmode ? "whiteSVG" : null
+                                              }`
                                     }`}
                                 />
                                 <h6
-                                    className={`text-base ${
+                                    className={`text-base dark:text-white ${
                                         url === "/rangliste"
-                                            ? "text-primary font-bold"
-                                            : null
+                                            ? "text-primary dark:text-primaryDark font-bold"
+                                            : "dark:text-white"
                                     }`}
                                 >
                                     Rangliste
@@ -79,13 +107,21 @@ const Sidebar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                                     src={profileIcon}
                                     alt="Profil"
                                     className={`h-1.25 ${
-                                        url === "/profile" ? "primarySVG" : null
+                                        url === "/profile"
+                                            ? `${
+                                                  !isDarkmode
+                                                      ? "primarySVG"
+                                                      : "primaryDarkSVG"
+                                              }`
+                                            : `${
+                                                  isDarkmode ? "whiteSVG" : null
+                                              }`
                                     }`}
                                 />
                                 <h6
-                                    className={`text-base ${
+                                    className={`text-base dark:text-white ${
                                         url === "/profile"
-                                            ? "text-primary font-bold"
+                                            ? "text-primary dark:text-primaryDark font-bold"
                                             : null
                                     }`}
                                 >
@@ -97,7 +133,15 @@ const Sidebar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                 )}
                 {/*linie*/}
                 <div className="flex gap-8 flex-col items-center">
-                    <div className="border-gray-600 border-t-2 w-80% mx-auto"></div>
+                    <div className="border-gray-600 dark:border-gray-100 border-t-2 w-80% mx-auto"></div>
+                    <img
+                        src={isDarkmode ? LightMode : DarkMode}
+                        alt="Nachtmodus"
+                        className={`cursor-pointer ${
+                            isDarkmode ? "whiteSVG" : null
+                        }`}
+                        onClick={clickDarkmodeHandler}
+                    />
                     {url !== "Anmelden" ? (
                         <Link
                             to="/anmelden"
@@ -109,8 +153,8 @@ const Sidebar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                             <h6
                                 className={`text-base ${
                                     url === "Registrieren"
-                                        ? "btn text-white bg-primary"
-                                        : null
+                                        ? "btn text-white dark:text-black bg-primary dark:bg-primaryDark"
+                                        : "dark:text-white"
                                 }`}
                             >
                                 Anmelden
@@ -123,7 +167,7 @@ const Sidebar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                             onClick={closeSidebarHandler}
                             className="py-4.5"
                         >
-                            <button className="btn text-base text-white bg-primary">
+                            <button className="btn text-base text-white dark:text-black bg-primary dark:bg-primaryDark">
                                 Registrieren
                             </button>
                         </Link>

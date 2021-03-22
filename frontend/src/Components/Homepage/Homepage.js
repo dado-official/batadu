@@ -3,7 +3,7 @@ import Herz from "../../assets/herz.svg";
 import Laub from "../../assets/laub.svg";
 import { Link } from "react-router-dom";
 
-const Homepage = ({ setUrl }) => {
+const Homepage = ({ setUrl, isDarkmode }) => {
     const [yAxis, setYAxis] = useState(0);
     const [xAxis, setXAxis] = useState(0);
 
@@ -21,28 +21,33 @@ const Homepage = ({ setUrl }) => {
     return (
         <div className="flex w-1450 max-w-1/9 mx-auto py-12 md:my-auto">
             <div className="w-full lg:flex-1">
-                <h6 className="pb-2 font-bold text-xl text-gray-600 break-words">
+                <h6 className="pb-2 font-bold text-xl text-gray-600 dark:text-gray-200 break-words">
                     Sammle Punkte und erhöhe dein Level
                 </h6>
-                <h1 className="text-7xl lg:text-7.5xl font-bold lg:pr-40 pb-8 break-words">
+                <h1 className="text-7xl lg:text-7.5xl font-bold lg:pr-40 pb-8 break-words dark:text-white">
                     Kostenlos Online{" "}
-                    <span className="text-primary">Watten</span> wie nie zuvor.
+                    <span className="text-primary dark:text-primaryDark">
+                        Watten
+                    </span>{" "}
+                    wie nie zuvor.
                 </h1>
-                <h5 className="text-7.5 text-gray-600 lg:pr-40">
+                <h5 className="text-7.5 text-gray-600 dark:text-gray-100 lg:pr-40">
                     Watten mit einer modernen Grafischen Oberfläche
                 </h5>
                 <div className="flex gap-4 mt-16">
-                    <button className="py-2 bg-primary w-12ch text-white text-2xl rounded-st focus:outline-none">
+                    <button className="py-2 bg-primary dark:bg-primaryDark w-12ch text-white dark:text-black text-2xl rounded-st focus:outline-none">
                         <Link to="/registrieren">Registrieren</Link>
                     </button>
-                    <button className="py-2 border-4 w-12ch border-black text-2xl rounded-st focus:outline-none">
+                    <button className="py-2 border-4 w-12ch border-black dark:border-white dark:text-white text-2xl rounded-st focus:outline-none">
                         <Link to="/anmelden">Anmelden</Link>
                     </button>
                 </div>
             </div>
             <div className="hidden lg:flex-1 lg:flex items-center justify-center card-container">
                 <div
-                    className="bg-white card rounded-3xl border-8 border-gray-500 w-80  h-110rem relative card"
+                    className={`bg-white rounded-3xl border-8 border-gray-500 w-80  h-110rem relative card ${
+                        isDarkmode ? "cardDark" : "cardWhite"
+                    }`}
                     style={{
                         transform: `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`,
                     }}

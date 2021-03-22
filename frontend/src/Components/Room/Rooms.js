@@ -4,25 +4,33 @@ import Room from "./Room";
 import Create from "../../assets/create-24px.svg";
 import SearchInput from "../Shared/SearchInput";
 
-const Rooms = ({ setUrl }) => {
+const Rooms = ({ setUrl, isDarkmode }) => {
     const [search, setSearch] = useState("");
 
     useEffect(() => {
         setUrl("/");
     }, []);
     return (
-        <div className="w-1450 max-w-1/9 mx-auto mt-8">
+        <div className="w-1450 max-w-1/9 mx-auto mt-8 mb-16">
             <div className="flex justify-between md:mt-8 flex-col-reverse md:flex-row">
-                <h3 className="font-semibold text-3xl mb-6">Offene Spiele</h3>
+                <h3 className="font-semibold text-3xl mb-6 dark:text-white">
+                    Offene Spiele
+                </h3>
                 <div className="mb-6 w-full md:w-max ">
-                    <SearchInput search={search} setSearch={setSearch} />
+                    <SearchInput
+                        search={search}
+                        setSearch={setSearch}
+                        isDarkmode={isDarkmode}
+                    />
                 </div>
                 <Link to="/spielen/erstellen" className="w-full md:w-max">
-                    <button className="w-full md:w-max  py-1.5 rounded-st bg-primary text-white mb-6 flex justify-center px-8">
+                    <button className="w-full md:w-max  py-1.5 rounded-st bg-primary dark:bg-primaryDark text-white dark:text-black mb-6 flex justify-center px-8">
                         <img
                             src={Create}
                             alt="Erstellen"
-                            className="whiteSVG mr-2"
+                            className={`mr-2 ${
+                                !isDarkmode ? "whiteSVG" : null
+                            }`}
                         />
                         Spiel erstellen
                     </button>
@@ -37,6 +45,7 @@ const Rooms = ({ setUrl }) => {
                     team1_1="Holunderyogele"
                     team2_0="Frangio"
                     team2_1="Mangio"
+                    isDarkmode={isDarkmode}
                 />
                 <Room
                     roomName="Hirte"
@@ -46,6 +55,7 @@ const Rooms = ({ setUrl }) => {
                     team1_1=""
                     team2_0="Frangio"
                     team2_1="Mangio"
+                    isDarkmode={isDarkmode}
                 />
                 <Room
                     roomName="Hirte"
@@ -55,6 +65,7 @@ const Rooms = ({ setUrl }) => {
                     team1_1="Frangio"
                     team2_0="Frangio"
                     team2_1="Mangio"
+                    isDarkmode={isDarkmode}
                 />
                 <Room
                     roomName="Hirte"
@@ -64,6 +75,7 @@ const Rooms = ({ setUrl }) => {
                     team1_1="Frangio"
                     team2_0="Frangio"
                     team2_1="Mangio"
+                    isDarkmode={isDarkmode}
                 />
                 <Room
                     roomName="Hirte"
@@ -73,6 +85,7 @@ const Rooms = ({ setUrl }) => {
                     team1_1="Frangio"
                     team2_0="Frangio"
                     team2_1="Mangio"
+                    isDarkmode={isDarkmode}
                 />
                 <Room
                     roomName="Hirte"
@@ -82,6 +95,7 @@ const Rooms = ({ setUrl }) => {
                     team1_1="Frangio"
                     team2_0="Frangio"
                     team2_1="Mangio"
+                    isDarkmode={isDarkmode}
                 />
             </div>
         </div>

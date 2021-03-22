@@ -5,7 +5,7 @@ import SpielVerlauf from "./SpielVerlauf";
 import Search from "./Search";
 const breakPoint = 5;
 
-const Profil = ({ setUrl }) => {
+const Profil = ({ setUrl, isDarkmode }) => {
     const [username, setUsername] = useState("Holunderyogele");
     const [punkte, setPunkte] = useState(39);
     const [nextPunkte, setNextPunkte] = useState(60);
@@ -17,40 +17,51 @@ const Profil = ({ setUrl }) => {
 
     return (
         <div>
-            <div className="w-1450 max-w-1/9 mx-auto mt-16">
+            <div className="w-1450 max-w-1/9 mx-auto mt-8 md:mt-16">
+                <div className="md:hidden">
+                    <Search isDarkmode={isDarkmode} />
+                </div>
                 <div className="flex mt-4 items-center gap-8 mb-6">
-                    <LevelBadge level={level} size="6.6875rem" />
-                    <div className="w-full">
-                        <div className="flex  mt-4 justify-between w-full items-center">
-                            <h3 className="font-bold text-4xl">{username}</h3>
-                            <Search />
+                    <LevelBadge
+                        level={level}
+                        size="6.6875rem"
+                        isDarkmode={isDarkmode}
+                    />
+                    <div className="flex-1">
+                        <div className="flex flex-row mt-4 justify-between w-full items-center">
+                            <h3 className="font-bold dark:text-white text-3xl md:text-4xl text-left">
+                                {username}
+                            </h3>
+                            <div className=" hidden md:block">
+                                <Search isDarkmode={isDarkmode} />
+                            </div>
                         </div>
-                        <h6 className="text-2xl text-gray-600 mt-2">
+                        <h6 className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mt-2">
                             {punkte} Punkte
                         </h6>
                     </div>
                 </div>
 
-                <div className="mb-20">
-                    <h6 className="text-2xl text-gray-600 text-right font-light mb-4">
+                <div className="mb-16">
+                    <h6 className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 text-right font-light mb-4">
                         Level {level + 1}
                     </h6>
                     <div className="relative w-full rounded-st h-9">
                         {(100 / nextPunkte) * punkte <= breakPoint ? (
                             <p
-                                className="absolute text-black font-regular left-1/2 top-1/2"
+                                className="absolute text-black dark:text-white font-regular left-1/2 top-1/2"
                                 style={{ transform: "translate(-0%, -50%" }}
                             >
                                 {punkte}/{nextPunkte}
                             </p>
                         ) : null}
-                        <div className="w-full bg-secondary rounded-st h-full opacity-20 flex justify-center items-center"></div>
+                        <div className="w-full bg-secondary dark:bg-secondaryDark rounded-st h-full opacity-20 flex justify-center items-center"></div>
                         <div
-                            className="bg-secondary rounded-st flex items-center justify-center h-full absolute left-0 top-0"
+                            className="bg-secondary dark:bg-secondaryDark rounded-st flex items-center justify-center h-full absolute left-0 top-0"
                             style={{ width: `${(100 / nextPunkte) * punkte}%` }}
                         >
                             {(100 / nextPunkte) * punkte > breakPoint ? (
-                                <p className="text-white font-regular">
+                                <p className="text-white dark:text-black font-regular">
                                     {punkte}/{nextPunkte}
                                 </p>
                             ) : null}
@@ -58,12 +69,16 @@ const Profil = ({ setUrl }) => {
                     </div>
                 </div>
             </div>
-            <div className="bg-white" style={{ width: "100%" }}>
+            {/*Statistiken*/}
+            <div
+                className="bg-white dark:bg-whiteDark"
+                style={{ width: "100%" }}
+            >
                 <div className="w-1450 max-w-1/9 mx-auto py-8">
-                    <h5 className="font-bold text-7.5 mb-6 mt-2">
+                    <h5 className="font-bold text-7.5 mb-6 mt-2 dark:text-white">
                         Statistiken
                     </h5>
-                    <div className="flex justify-between mb-8">
+                    <div className="grid gap-x-8 lg:gap-x-20 gap-y-8 grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         <Statistik typ="Rang" data="#1" extra="von 76" />
                         <Statistik
                             typ="Winnrate %"
@@ -80,8 +95,10 @@ const Profil = ({ setUrl }) => {
                 </div>
             </div>
 
-            <div className="w-1450 max-w-1/9 mx-auto mt-16 flex flex-col gap-6 mb-20">
-                <h5 className="font-bold text-7.5 mt-2">Verlauf</h5>
+            <div className="w-1450 max-w-1/9 mx-auto mt-8 flex flex-col gap-6 mb-12">
+                <h5 className="font-bold text-7.5 mt-2 dark:text-white">
+                    Verlauf
+                </h5>
                 <SpielVerlauf
                     date="16.03.2021"
                     team1={13}

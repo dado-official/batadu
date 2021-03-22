@@ -1,15 +1,24 @@
 import React from "react";
 import Badge from "../../assets/verified-24px.svg";
 
-const LevelBadge = ({ level, size }) => {
+const LevelBadge = ({ level, size, className, isDarkmode }) => {
     return (
         <div
-            className="relative"
-            style={{ height: `${size}`, fontSize: `${size}` }}
+            className={`relative ${className !== undefined ? className : null}`}
+            style={{
+                height: `${size}`,
+                fontSize: `${size}`,
+            }}
         >
-            <img src={Badge} alt="Badge" className="h-full" />
+            <img
+                src={Badge}
+                alt="Badge"
+                className={`h-full ${
+                    isDarkmode ? "secondaryDarkSVG" : "secondarySVG"
+                }`}
+            />
             <p
-                className={`text-white absolute top-1/2 left-1/2 `}
+                className={`text-white dark:text-black absolute top-1/2 left-1/2 `}
                 d
                 style={{
                     transform: "translate(-50%, -50%)",

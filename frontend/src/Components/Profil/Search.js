@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import SearchResults from "./SearchResults";
 import SearchInput from "../Shared/SearchInput";
 
-const Search = () => {
+const Search = ({ isDarkmode }) => {
     const [search, setSearch] = useState("");
     const [isOpenSearch, setIsOpenSearch] = useState(false);
 
@@ -39,9 +39,15 @@ const Search = () => {
             className="relative"
             onClick={openSearchHandler}
         >
-            <SearchInput search={search} setSearch={setSearch} />
+            <SearchInput
+                search={search}
+                setSearch={setSearch}
+                isDarkmode={isDarkmode}
+            />
             <div>
-                {isOpenSearch && search !== "" ? <SearchResults /> : null}
+                {isOpenSearch && search !== "" ? (
+                    <SearchResults isDarkmode={isDarkmode} />
+                ) : null}
             </div>
         </div>
     );

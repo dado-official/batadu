@@ -6,19 +6,33 @@ import rankIcon from "../../assets/leaderboard-24px.svg";
 import profileIcon from "../../assets/account_circle-24px.svg";
 import Menu from "../../assets/Menu.svg";
 import Cancel from "../../assets/Cancel.svg";
+import DarkMode from "../../assets/dark_mode-24px.svg";
+import LightMode from "../../assets/light_mode-24px.svg";
 
-const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
+const Navbar = ({
+    url,
+    isSidebarOpen,
+    setIsSidebarOpen,
+    isDarkmode,
+    setIsDarkmode,
+}) => {
     function clickSidebarHandler() {
         setIsSidebarOpen((prev) => !prev);
     }
+    function clickDarkmodeHandler() {
+        setIsDarkmode((prev) => {
+            localStorage.setItem("darkmode", !prev);
+            return !prev;
+        });
+    }
 
     return (
-        <header className="bg-white z-20 fixed top-0 left-0 w-full">
-            <div className="bg-white flex justify-between items-center lg:w-1450 mx-auto max-w-1/9 h-auto">
+        <header className="bg-white dark:bg-whiteDark z-50 fixed top-0 left-0 w-full">
+            <div className="bg-white dark:bg-whiteDark flex justify-between items-center lg:w-1450 mx-auto max-w-1/9 h-auto">
                 <Link to="/">
                     <div className="flex gap-2">
                         <img src={logo} alt="4 Wattkarten" />
-                        <h4 className=" text-logoGray text-7.5 font-abril font-normal">
+                        <h4 className=" text-logoGray dark:text-gray-100 text-7.5 font-abril font-normal">
                             Batadú
                         </h4>
                     </div>
@@ -31,20 +45,28 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                                     src={casinoIcon}
                                     alt="Würfel"
                                     className={`h-1.25 ${
-                                        url === "/" ? "primarySVG" : null
+                                        url === "/"
+                                            ? `${
+                                                  !isDarkmode
+                                                      ? "primarySVG"
+                                                      : "primaryDarkSVG"
+                                              }`
+                                            : `${
+                                                  isDarkmode ? "whiteSVG" : null
+                                              }`
                                     }`}
                                 />
                                 <h6
-                                    className={`text-base ${
+                                    className={`text-base dark:text-white ${
                                         url === "/"
-                                            ? "text-primary font-bold"
+                                            ? "text-primary dark:text-primaryDark font-bold"
                                             : null
                                     }`}
                                 >
                                     Spielen
                                 </h6>
                                 {url === "/" ? (
-                                    <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
+                                    <div className="bg-primary dark:bg-primaryDark h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
                                 ) : null}
                             </div>
                         </Link>
@@ -55,21 +77,27 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                                     alt="Ranglist"
                                     className={`h-1.25 ${
                                         url === "/rangliste"
-                                            ? "primarySVG"
-                                            : null
+                                            ? `${
+                                                  !isDarkmode
+                                                      ? "primarySVG"
+                                                      : "primaryDarkSVG"
+                                              }`
+                                            : `${
+                                                  isDarkmode ? "whiteSVG" : null
+                                              }`
                                     }`}
                                 />
                                 <h6
-                                    className={`text-base ${
+                                    className={`text-base dark:text-white ${
                                         url === "/rangliste"
-                                            ? "text-primary font-bold"
-                                            : null
+                                            ? "text-primary dark:text-primaryDark font-bold"
+                                            : "dark:text-white"
                                     }`}
                                 >
                                     Rangliste
                                 </h6>
                                 {url === "/rangliste" ? (
-                                    <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
+                                    <div className="bg-primary dark:bg-primaryDark h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
                                 ) : null}
                             </div>
                         </Link>
@@ -79,26 +107,42 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                                     src={profileIcon}
                                     alt="Profil"
                                     className={`h-1.25 ${
-                                        url === "/profile" ? "primarySVG" : null
+                                        url === "/profile"
+                                            ? `${
+                                                  !isDarkmode
+                                                      ? "primarySVG"
+                                                      : "primaryDarkSVG"
+                                              }`
+                                            : `${
+                                                  isDarkmode ? "whiteSVG" : null
+                                              }`
                                     }`}
                                 />
                                 <h6
-                                    className={`text-base ${
+                                    className={`text-base dark:text-white ${
                                         url === "/profile"
-                                            ? "text-primary font-bold"
+                                            ? "text-primary dark:text-primaryDark font-bold"
                                             : null
                                     }`}
                                 >
                                     Profile
                                 </h6>
                                 {url === "/profile" ? (
-                                    <div className="bg-primary h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
+                                    <div className="bg-primary dark:bg-primaryDark h-1.5 w-130 absolute -bottom-1.5 -left-15/100  rounded-b-st"></div>
                                 ) : null}
                             </div>
                         </Link>
                     </div>
                 )}
                 <div className="hidden lg:flex lg:gap-8 lg:items-center">
+                    <img
+                        src={isDarkmode ? LightMode : DarkMode}
+                        alt="Nachtmodus"
+                        className={`cursor-pointer ${
+                            isDarkmode ? "whiteSVG" : null
+                        }`}
+                        onClick={clickDarkmodeHandler}
+                    />
                     {url !== "Anmelden" ? (
                         <Link
                             to="/anmelden"
@@ -109,8 +153,8 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                             <h6
                                 className={`text-base ${
                                     url === "Registrieren"
-                                        ? "btn text-white bg-primary"
-                                        : null
+                                        ? "btn text-white dark:text-black bg-primary dark:bg-primaryDark"
+                                        : "dark:text-white"
                                 }`}
                             >
                                 Anmelden
@@ -119,7 +163,7 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                     ) : null}
                     {url !== "Registrieren" ? (
                         <Link to="/registrieren" className="py-4.5">
-                            <button className="btn text-base text-white bg-primary">
+                            <button className="btn text-base text-white dark:text-black bg-primary dark:bg-primaryDark">
                                 Registrieren
                             </button>
                         </Link>
@@ -130,7 +174,9 @@ const Navbar = ({ url, isSidebarOpen, setIsSidebarOpen }) => {
                         src={isSidebarOpen ? Cancel : Menu}
                         onClick={clickSidebarHandler}
                         alt="Menue"
-                        className="block h-5 lg:hidden cursor-pointer"
+                        className={`block h-5 lg:hidden cursor-pointer ${
+                            isDarkmode ? "whiteSVG" : null
+                        }`}
                     />
                 </div>
             </div>

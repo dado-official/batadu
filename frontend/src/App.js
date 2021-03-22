@@ -1,6 +1,6 @@
+import React, { useState, useEffect } from "react";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
-import React, { useState } from "react";
 import Homepage from "./Components/Homepage/Homepage";
 import Rooms from "./Components/Room/Rooms";
 import Spiel from "./Components/Spiel/Spiel";
@@ -19,50 +19,84 @@ function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [isServer, setIsServer] = useState(true);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isDarkmode, setIsDarkmode] = useState(false);
+
+    useEffect(() => {
+        loadDarkmode();
+    }, []);
+
+    useEffect(() => {
+        if (isDarkmode) {
+            document.getElementsByTagName("html")[0].classList.add("dark");
+            document.body.classList.remove("scrollWhite");
+            document.body.classList.add("scrollDark");
+        } else {
+            document.getElementsByTagName("html")[0].classList.remove("dark");
+            document.body.classList.add("scrollWhite");
+            document.body.classList.remove("scrollDark");
+        }
+        localStorage.setItem("darkmode", isDarkmode);
+    }, [isDarkmode]);
+
+    function loadDarkmode() {
+        let value = localStorage.getItem("darkmode");
+        console.log(value);
+        if (value === undefined) return;
+        if (value == "true") {
+            setIsDarkmode(true);
+        } else {
+            setIsDarkmode(false);
+        }
+    }
 
     return (
         <Router>
-            {!isServer ? <ServerDown /> : null}
+            {!isServer ? <ServerDown isDarkmode={isDarkmode} /> : null}
             <Navbar
                 url={url}
                 isSidebarOpen={isSidebarOpen}
                 setIsSidebarOpen={setIsSidebarOpen}
+                isDarkmode={isDarkmode}
+                setIsDarkmode={setIsDarkmode}
             />
             <Sidebar
                 url={url}
                 isSidebarOpen={isSidebarOpen}
                 setIsSidebarOpen={setIsSidebarOpen}
+                isDarkmode={isDarkmode}
+                setIsDarkmode={setIsDarkmode}
             />
             <Switch>
                 <Route path={["/", "/spielen"]} exact>
                     {isLoggedIn ? (
-                        <Rooms setUrl={setUrl} />
+                        <Rooms setUrl={setUrl} isDarkmode={isDarkmode} />
                     ) : (
-                        <Homepage setUrl={setUrl} />
+                        <Homepage setUrl={setUrl} isDarkmode={isDarkmode} />
                     )}
                 </Route>
                 <Route path="/spielen/erstellen">
-                    <SpielErstellen setUrl={setUrl} />
+                    <SpielErstellen setUrl={setUrl} isDarkmode={isDarkmode} />
                 </Route>
                 <Route path="/spielen/:room">
-                    <Spiel setUrl={setUrl} />
+                    <Spiel setUrl={setUrl} isDarkmode={isDarkmode} />
                 </Route>
                 <Route path="/rangliste">
-                    <Rangliste setUrl={setUrl} />
+                    <Rangliste setUrl={setUrl} isDarkmode={isDarkmode} />
                 </Route>
                 <Route path="/team">
-                    <SelectTeam setUrl={setUrl} />
+                    <SelectTeam setUrl={setUrl} isDarkmode={isDarkmode} />
                 </Route>
                 <Route path="/profile/:user">
-                    <Profil setUrl={setUrl} />
+                    <Profil setUrl={setUrl} isDarkmode={isDarkmode} />
                 </Route>
                 <Route path="/anmelden">
-                    <Anmelden setUrl={setUrl} />
+                    <Anmelden setUrl={setUrl} isDarkmode={isDarkmode} />
                 </Route>
                 <Route path="/registrieren">
-                    <Registrieren setUrl={setUrl} />
+                    <Registrieren setUrl={setUrl} isDarkmode={isDarkmode} />
                 </Route>
             </Switch>
+            <Footer isDarkmode={isDarkmode} />
         </Router>
     );
 }

@@ -9,6 +9,11 @@
     @apply py-1.5 px-4 rounded-st focus:outline-none;
 }
 
+.primaryDarkSVG {
+    filter: invert(56%) sepia(99%) saturate(1400%) hue-rotate(306deg)
+        brightness(98%) contrast(96%);
+}
+
 .primarySVG {
     filter: invert(17%) sepia(34%) saturate(4753%) hue-rotate(326deg)
         brightness(108%) contrast(107%);
@@ -17,12 +22,24 @@
     filter: invert(100%) sepia(27%) saturate(2643%) hue-rotate(159deg)
         brightness(127%) contrast(107%);
 }
+.graySVG {
+    filter: invert(39%) sepia(98%) saturate(17%) hue-rotate(22deg)
+        brightness(99%) contrast(88%);
+}
+.secondarySVG {
+    filter: invert(39%) sepia(95%) saturate(980%) hue-rotate(133deg)
+        brightness(92%) contrast(98%);
+}
+.secondaryDarkSVG {
+    filter: invert(61%) sepia(92%) saturate(1384%) hue-rotate(116deg)
+        brightness(96%) contrast(95%);
+}
 
 * {
     font-family: "Roboto", sans-serif;
 }
 body {
-    background-color: #eeeff2;
+    @apply bg-bgWhite dark:bg-bgDark;
 }
 
 #root {
@@ -38,7 +55,8 @@ body {
     transition: all 0.8s ease-out;
 }
 
-.sidebar div div, .sidebar a {
+.sidebar div div,
+.sidebar a {
     opacity: 0;
     transition: all 0.5s ease 0.3s;
 }
@@ -50,7 +68,6 @@ body {
 }
 
 .navbarFixed {
-    
 }
 
 @media only screen and (max-width: 800px) {
@@ -131,7 +148,41 @@ body {
 }
 
 .rangliste td {
-    background-color: white;
+    @apply bg-white dark:bg-whiteDark dark:text-white;
+}
+
+@media (max-width: 768px) {
+    .rangliste thead {
+        display: none;
+    }
+
+    .rangliste,
+    .rangliste tbody,
+    .rangliste tr,
+    .rangliste td {
+        display: block;
+        width: 100%;
+    }
+
+    .rangliste tbody tr td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+
+    .rangliste td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 1rem;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    .rangliste tr:first-child {
+        margin-top: 2rem;
+    }
 }
 
 .card-container {
@@ -157,10 +208,16 @@ body {
     border-radius: 50%;
     left: 0;
     bottom: 0;
+}
+
+.cardWhite::after {
     box-shadow: 0 3rem 20px rgba(0, 0, 0, 0.473);
 }
 
-.card-content {
+.cardDark::after {
+    box-shadow: 0 3rem 20px rgba(255, 255, 255, 0.473);
+}
+.card .card-content {
     transform-style: preserve-3d;
     text-align: center;
     display: flex;
@@ -214,4 +271,95 @@ body {
     -webkit-transform: translate3d(100%, 0, 0);
     -moz-transform: translate3d(100%, 0, 0);
     transform: translate3d(100%, 0, 0);
+}
+
+.top {
+    transform: translateY(-100%);
+}
+
+.bottom {
+    transform: translate(-50%, calc(60% + 2rem));
+}
+
+.right {
+    transform: translate(0, 4.2rem);
+}
+.left {
+    transform: translate(0, 4.2rem);
+}
+
+.bottomBadge {
+    transform: translate(-50%, -20%);
+}
+.rightBadge {
+    transform: translate(-20%, -50%);
+}
+.leftBadge {
+    transform: translate(20%, -50%);
+}
+.topBadge {
+    transform: translate(-50%, 20%);
+}
+
+@media (min-width: 640px) {
+    .bottomBadge {
+        transform: translateX(-50%);
+    }
+    .rightBadge {
+        transform: translateY(-50%);
+    }
+    .leftBadge {
+        transform: translateY(-50%);
+    }
+    .topBadge {
+        transform: translateX(-50%);
+    }
+}
+@media (min-width: 768px) {
+    .top {
+        transform: translateX(calc(-100% - 2.5rem));
+    }
+    .bottom {
+        transform: translate(2.5rem, 2rem);
+    }
+    .right {
+        transform: translate(calc(100% + 2rem), -1.5rem);
+    }
+    .left {
+        transform: translate(calc(-100% - 2rem), -1.5rem);
+    }
+}
+
+.tisch {
+    font-size: 3rem;
+    height: 3rem;
+}
+
+@media (min-width: 640px) {
+    .tisch {
+        font-size: 4rem;
+        height: 4rem;
+    }
+}
+
+.scrollWhite::-webkit-scrollbar {
+    width: 12px;
+    background-color: #f5f5f5;
+}
+
+.scrollWhite::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.075);
+    background-color: rgb(134, 134, 134);
+}
+
+.scrollDark::-webkit-scrollbar {
+    width: 12px;
+    background-color: #000000;
+}
+
+.scrollDark::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.075);
+    background-color: rgb(78, 78, 78);
 }

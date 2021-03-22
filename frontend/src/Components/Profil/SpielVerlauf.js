@@ -10,41 +10,50 @@ const SpielVerlauf = ({
     win,
 }) => {
     return (
-        <div className="bg-white relative py-4 flex justify-between rounded-st px-8">
+        <div className="bg-white dark:bg-whiteDark relative py-4 rounded-st px-8 grid grid-flow-row gap-y-8 grid-cols-1 sm:grid-cols-5">
             <div
                 className={`absolute h-full w-2 rounded-l-st left-0 top-0 ${
-                    win ? "bg-secondary" : "bg-primary"
+                    win
+                        ? "bg-secondary dark:bg-secondaryDark"
+                        : "bg-primary dark:bg-primaryDark"
                 }`}
             ></div>
             <div
                 className={`absolute h-full left-2 top-0 rounded-r-st ${
-                    win ? "bg-secondary" : "bg-primary"
+                    win
+                        ? "bg-secondary dark:bg-secondaryDark"
+                        : "bg-primary dark:bg-primaryDark"
                 }`}
                 style={{ width: `${percentage}%`, opacity: "5%" }}
             ></div>
-            <div className="flex items-end gap-3 pl-2">
-                <p className="text-gray-500">Datum</p>
-                <h6 className="font-bold text-xl">{date}</h6>
+            <div className="flex items-end gap-3 pl-2 m-auto">
+                <p className="text-gray-500 dark:text-gray-300">Datum</p>
+                <h6 className="font-bold text-xl dark:text-white">{date}</h6>
             </div>
-            <div className="flex justify-between w-1/2">
-                <div className="flex items-end gap-3">
-                    {" "}
-                    <h6
-                        className="font-bold text-xl"
-                        style={{ transform: "translateX(-50%)" }}
-                    >
-                        <span className="text-secondary">{team1}</span>:
-                        <span className="text-primary">{team2}</span>
-                    </h6>
-                </div>
-                <div className="flex items-end gap-3">
-                    <p className="text-gray-500">Stiche</p>
-                    <h6 className="font-bold text-xl">{stiche}</h6>
-                </div>
-                <div className="flex items-end gap-3">
-                    <p className="text-gray-500">Punkte gewonnen</p>
-                    <h6 className="font-bold text-xl">{punkte}</h6>
-                </div>
+            <div className="hidden sm:block"></div>
+            <div className="flex items-end gap-3 m-auto">
+                {" "}
+                <h6 className="font-bold text-xl">
+                    <span className="text-secondary dark:text-secondaryDark">
+                        {team1}
+                    </span>
+                    :
+                    <span className="text-primary dark:text-primaryDark">
+                        {team2}
+                    </span>
+                </h6>
+            </div>
+            <div className="flex items-end gap-3 m-auto">
+                <p className="text-gray-500 dark:text-gray-300">Stiche</p>
+                <h6 className="font-bold text-xl dark:text-white">{stiche}</h6>
+            </div>
+            <div className="flex items-end gap-3 mx-auto">
+                <p className="text-gray-500 text-right dark:text-gray-300">
+                    Punkte gewonnen
+                </p>
+                <h6 className="font-bold text-xl m-auto dark:text-white">
+                    {punkte}
+                </h6>
             </div>
         </div>
     );

@@ -29,11 +29,23 @@ function App() {
         if (isDarkmode) {
             document.getElementsByTagName("html")[0].classList.add("dark");
             document.body.classList.remove("scrollWhite");
+            document
+                .getElementsByClassName("emoji-mart-scroll")[0]
+                .classList.remove("scrollWhite");
             document.body.classList.add("scrollDark");
+            document
+                .getElementsByClassName("emoji-mart-scroll")[0]
+                .classList.add("scrollDark");
         } else {
             document.getElementsByTagName("html")[0].classList.remove("dark");
             document.body.classList.add("scrollWhite");
+            document
+                .getElementsByClassName("emoji-mart-scroll")[0]
+                .classList.add("scrollWhite");
             document.body.classList.remove("scrollDark");
+            document
+                .getElementsByClassName("emoji-mart-scroll")[0]
+                .classList.remove("scrollDark");
         }
         localStorage.setItem("darkmode", isDarkmode);
     }, [isDarkmode]);

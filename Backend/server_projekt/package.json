@@ -5,6 +5,8 @@
   "author": "Daniel Nagler",
   "private": true,
   "dependencies": {
+    "arraylist": "^0.1.0",
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "prettier": "^2.2.1"
   },
@@ -15,6 +17,7 @@
     "lines": "git ls-files | xargs -n1 git blame --line-porcelain | sed -n 's/^author //p' | sort -f | uniq -ic | sort -nr"
   },
   "devDependencies": {
+    "cors": "^2.8.5",
     "socket.io": "^4.0.0"
   }
 }

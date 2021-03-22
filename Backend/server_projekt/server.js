@@ -3,8 +3,8 @@ const http = require("http").createServer();
 const io = require("socket.io")(http, {
   cors: { origin: "*" },
 });
-const Spiel = require("./Spiel");
-const Karten = require("./Karten");
+const Spiel = require("./GameElements/Spiel");
+const Karten = require("./GameElements/Karte");
 
 const karten = Karten();
 const spiel = new Spiel();

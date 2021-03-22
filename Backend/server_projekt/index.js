@@ -72,6 +72,14 @@ app.post("/room/karten/austeilen", (req, res) => {
   res.status(200).send("print");
 });
 
+//testBesteKarte
+app.post("/room/karten/best", (req, res) => {
+  console.log("/room/karten/austeilen");
+  let km = new KartenMaster(rooms_list.get("testroom"));
+
+  res.status(200).send(km.getBestKarte(req.body));
+});
+
 //io.on('connection', (socket) => {
 //    console.log("Socket: Client connected");
 //    socket.emit("message", "Welcome!");

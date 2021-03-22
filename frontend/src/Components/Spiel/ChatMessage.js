@@ -2,10 +2,14 @@ import React from "react";
 
 const ChatMessage = ({ message, sender }) => {
     return (
-        <div className="flex flex-col ">
-            <div className={`flex ${sender === "Ich" ? "justify-end" : null}`}>
+        <div className="flex flex-col w-full ">
+            <div
+                className={`flex w-full ${
+                    sender === "Ich" ? "justify-end" : null
+                }`}
+            >
                 <p
-                    className={`text-sm w-auto py-2 px-4 rounded-st  ${
+                    className={`text-sm w-auto w-full py-2 px-4 rounded-st break-words  ${
                         sender === "System"
                             ? "text-white dark:text-black bg-primary dark:bg-primaryDark"
                             : "bg-spielGray dark:bg-chatBlack dark:text-white"

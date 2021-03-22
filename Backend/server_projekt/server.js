@@ -24,6 +24,11 @@ io.on("connection", (socket) => {
             //broadcast to roommembers when new message
             socket.to(room).emit("chat", message);
         });
+        socket.on("disconnect", () => {
+            socket
+                .to(room)
+                .emit("chat", { message: "Disconnect", sender: "System" });
+        });
     });
 });
 

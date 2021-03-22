@@ -17,6 +17,24 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
     const emojiIconRef = useRef();
 
     useEffect(() => {
+        if (isDarkmode) {
+            document
+                .getElementsByClassName("emoji-mart-scroll")[0]
+                .classList.remove("scrollWhite");
+            document
+                .getElementsByClassName("emoji-mart-scroll")[0]
+                .classList.add("scrollDark");
+        } else {
+            document
+                .getElementsByClassName("emoji-mart-scroll")[0]
+                .classList.remove("scrollDark");
+            document
+                .getElementsByClassName("emoji-mart-scroll")[0]
+                .classList.add("scrollWhite");
+        }
+    }, [isDarkmode]);
+
+    useEffect(() => {
         let handler = (e) => {
             if (
                 emojiPickerRef.current &&

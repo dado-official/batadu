@@ -15,8 +15,11 @@ io.on("connection", (socket) => {
         socket.join(room);
         io.to(room).emit("joinRoom", counter);
         counter++;
+        socket.to(room).emit("chat", {
+            message: `${counter} ist dem Spiel beigetreten`,
+            sender: "System",
+        });
         socket.on("chat", (message) => {
-            console.log(message);
             socket.to(room).emit("chat", message);
         });
     });

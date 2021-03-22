@@ -3,7 +3,7 @@ import Emoji from "../../assets/insert_emoticon-24px.svg";
 import Gif from "../../assets/gif-24px.svg";
 import Send from "../../assets/send-24px.svg";
 import ChatMessage from "./ChatMessage";
-import ScrollToBottom from "./ScrollToBottom";
+import ScrollableFeed from "react-scrollable-feed";
 
 const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
     const [chatInput, setChatInput] = useState(null);
@@ -61,15 +61,20 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
                         isDarkmode ? "scrollDark" : "scrollWhite"
                     }`}
                 >
-                    {chatMessages.map((element) => {
-                        return (
-                            <ChatMessage
-                                message={element.message}
-                                sender={element.sender}
-                            />
-                        );
-                    })}
-                    <ScrollToBottom />
+                    <ScrollableFeed
+                        className={`${
+                            isDarkmode ? "scrollDark" : "scrollWhite"
+                        }`}
+                    >
+                        {chatMessages.map((element) => {
+                            return (
+                                <ChatMessage
+                                    message={element.message}
+                                    sender={element.sender}
+                                />
+                            );
+                        })}
+                    </ScrollableFeed>
                 </div>
                 {/*chat input */}
                 <div className=" bg-spielGray dark:bg-chatBlack w-full p-2 x-4 rounded-st flex items-center justify-between">

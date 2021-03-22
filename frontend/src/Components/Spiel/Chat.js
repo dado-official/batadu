@@ -3,16 +3,35 @@ import Emoji from "../../assets/insert_emoticon-24px.svg";
 import Gif from "../../assets/gif-24px.svg";
 import Send from "../../assets/send-24px.svg";
 import ChatMessage from "./ChatMessage";
+import ScrollToBottom from "./ScrollToBottom";
 
-const Chat = forwardRef(({ isDarkmode }, ref) => {
+const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
     const [chatInput, setChatInput] = useState(null);
+    const [chatMessages, setChatMessages] = useState([
+        { message: "Wilkommen im Chat", sender: "System" },
+    ]);
+
+    useEffect(() => {
+        socket.on("chat", (chat) => {
+            setChatMessages((prev) => [
+                ...prev,
+                { message: chat.message, sender: chat.sender },
+            ]);
+        });
+    }, []);
 
     function inputHandler(e) {
         setChatInput(e.target.value);
     }
 
     function sendMessage() {
-        //send Message
+        let chat = { message: chatInput, sender: "Talin" };
+        socket.emit("chat", chat);
+        setChatMessages((prev) => [
+            ...prev,
+            { message: chatInput, sender: "Ich" },
+        ]);
+        setChatInput("");
     }
 
     function onKeyDownHandler(e) {
@@ -38,29 +57,25 @@ const Chat = forwardRef(({ isDarkmode }, ref) => {
             <div className="flex flex-col p-4 bg-white dark:bg-whiteDark rounded-b-st justify-between xl:justify-start">
                 {/*chat messages */}
                 <div
-                    className={`flex-1 flex flex-col gap-2 pr-2 overflow-y-auto mb-2 max-h-chat xl:max-h-17.5rem ${
+                    className={`flex flex-col gap-2 pr-2 overflow-y-auto mb-2 max-h-chat xl:max-h-17.5rem xl:h-17.5rem ${
                         isDarkmode ? "scrollDark" : "scrollWhite"
                     }`}
                 >
-                    <ChatMessage message="Isi win es hirten" sender="Frangio" />
-                    <ChatMessage message="Isi win es hirten" sender="Ich" />
-                    <ChatMessage message="Du bist am Zug" sender="System" />
-                    <ChatMessage message="Isi win es hirten" sender="Frangio" />
-                    <ChatMessage message="Isi win es hirten" sender="Frangio" />
-                    <ChatMessage message="Isi win es hirten" sender="Frangio" />
-                    <ChatMessage message="Isi win es hirten" sender="Frangio" />
-                    <ChatMessage message="Isi win es hirten" sender="Frangio" />
-                    <ChatMessage message="Isi win es hirten" sender="Frangio" />
-                    <ChatMessage message="Isi win es hirten" sender="Frangio" />
-                    <ChatMessage message="Isi win es hirten" sender="Frangio" />
-                    <ChatMessage message="Isi win es hirten" sender="Frangio" />
+                    {chatMessages.map((element) => {
+                        return (
+                            <ChatMessage
+                                message={element.message}
+                                sender={element.sender}
+                            />
+                        );
+                    })}
+                    <ScrollToBottom />
                 </div>
                 {/*chat input */}
                 <div className=" bg-spielGray dark:bg-chatBlack w-full p-2 x-4 rounded-st flex items-center justify-between">
                     <input
                         type="text"
-                        name=""
-                        id=""
+                        value={chatInput}
                         placeholder="Schreiben Sie etwas..."
                         onChange={inputHandler}
                         className="bg-spielGray focus:outline-none p-2 w-full text-sm dark:bg-chatBlack dark:text-white"

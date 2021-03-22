@@ -2,6 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import Tisch from "./Tisch";
 import SpielInformations from "./SpielInformations";
 import Chat from "./Chat";
+import { useParams } from "react-router-dom";
+import io from "socket.io-client";
+const socket = io("http://localhost:8080");
 
 const Spiel = ({ setUrl, isDarkmode }) => {
     const [geboten, setGeboten] = useState(2);
@@ -11,6 +14,13 @@ const Spiel = ({ setUrl, isDarkmode }) => {
     const chatRef = useRef();
     const infosRef = useRef();
     const spielRef = useRef();
+
+    const { room } = useParams();
+
+    useEffect(() => {
+        socket.emit("joinRoom", room);
+        socket.on("joinRoom", (counter) => console.log(counter));
+    }, []);
 
     useEffect(() => {
         setUrl("/");
@@ -73,7 +83,7 @@ const Spiel = ({ setUrl, isDarkmode }) => {
                 >
                     Zurück zum Spiel
                 </button>
-                <Chat ref={chatRef} isDarkmode={isDarkmode} />
+                <Chat socket={socket} ref={chatRef} isDarkmode={isDarkmode} />
             </div>
             <div
                 ref={spielRef}

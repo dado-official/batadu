@@ -26,6 +26,7 @@ function App() {
     }, []);
 
     useEffect(() => {
+        //enable or disable darkmode
         if (isDarkmode) {
             document.getElementsByTagName("html")[0].classList.add("dark");
             document.body.classList.remove("scrollWhite");

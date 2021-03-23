@@ -1,5 +1,7 @@
-/* Create Tables*/
 CREATE DATABASE batadu;
+
+CREATE SCHEMA IF NOT EXISTS public;
+SET search_path TO public;
 
 CREATE TABLE IF NOT EXISTS karten(
     id INT PRIMARY KEY NOT NULL,
@@ -30,9 +32,7 @@ CREATE TABLE IF NOT EXISTS users(
     anzstiche INT NOT NULL,
     punkte INT NOT NULL,
     gewonnenespiele INT NOT NULL,
-    verlorenespiele INT NOT NULL,
-    aktuellerteamid INT,
-    FOREIGN KEY (aktuellerteamid) REFERENCES team(id) ON DELETE CASCADE
+    verlorenespiele INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS gewinner(
@@ -41,4 +41,12 @@ CREATE TABLE IF NOT EXISTS gewinner(
     PRIMARY KEY (teamid, spielid),
     FOREIGN KEY (teamid) REFERENCES team(id) ON DELETE CASCADE,
     FOREIGN KEY (spielid) REFERENCES spiel(id) ON DELETE CASCADE
-)
+);
+
+CREATE TABLE IF NOT EXISTS spielen_in(
+    teamid BIGINT NOT NULL,
+    usersusername VARCHAR(15) NOT NULL,
+    PRIMARY KEY (teamid, usersusername),
+    FOREIGN KEY (teamid) REFERENCES team(id) ON DELETE CASCADE,
+    FOREIGN KEY (usersusername) REFERENCES users(username) ON DELETE CASCADE
+);

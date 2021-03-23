@@ -36,7 +36,7 @@ class KartenMaster{
         //console.log("spieler:" + foo.spieler[1].karten[1])
     }
 
-    getBestKarte(par){
+    getBestKarte(par, points){
         let winKarte = null
         par.karte.map(element => {
             if(element.schlag === par.schlag){
@@ -48,29 +48,27 @@ class KartenMaster{
                     if(element.schlag === par.schlag && element.farbe === par.farbe){
 
                         //rechter
-                        par.karte.map(element => {
-                            let guter;
-                            if(par.schlag !== 14){
-                                guter = par.schlag +1;
-                            } else {
-                                guter = 7;
-                            }
-                            if(element.schlag === guter && element.farbe === par.farbe){
-                                //guter
-                                console.log("guter: "+ element)
-                                winKarte = element;
-                            }
-                        })
-                        console.log("rechter: "+ element)
                         if(winKarte === null){
                             winKarte = element;
                         }
                     }
                 })
-                console.log("schlag: " + element)
                 if(winKarte === null){
                     winKarte = element;
                 }
+            }
+        })
+
+        par.karte.map(element => {
+            let guter;
+            if(par.schlag !== 14){
+                guter = par.schlag +1;
+            } else {
+                guter = 7;
+            }
+            if(element.schlag === guter && element.farbe === par.farbe){
+                //guter
+                winKarte = element;
             }
         })
 
@@ -83,7 +81,6 @@ class KartenMaster{
                         biggestCard = element
                     }
                 })
-                console.log("farbe: " + biggestCard)
                 if(winKarte === null){
                     winKarte = biggestCard;
                 }
@@ -97,10 +94,10 @@ class KartenMaster{
                 tmpbestCard = element;
             }
         })
-        console.log("random win: "+ tmpbestCard)
         if(winKarte === null){
             winKarte = tmpbestCard;
         }
+        this.room.addScore(winKarte.position, points)
         return winKarte;
     }
 }

@@ -24,6 +24,16 @@ class Room {
     return person;
   }
 
+  addScore(position, points){
+    //team 1 --> pos 0 and 2
+    //team 2 --> pos 1 and 3
+    if(position === 0 || position === 2){
+      this.configRoom.team1score += points;
+    } else {
+      this.configRoom.team2score += points;
+    }
+  }
+
   addPerson(personalInfo) {
     if (this.configRoom.spielerIDs.length >= this.configRoom.spielerAnzahl) {
       this.configRoom.zuschauerIDs.push(personalInfo);

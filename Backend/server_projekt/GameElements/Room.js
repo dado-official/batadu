@@ -80,4 +80,5 @@ class Room {
     return this.configRoom;
   }
 }
+
 module.exports = Room;

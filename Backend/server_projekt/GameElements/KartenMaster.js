@@ -109,4 +109,5 @@ function shuffle(a) {
     }
     return a;
 }
+
 module.exports = KartenMaster;

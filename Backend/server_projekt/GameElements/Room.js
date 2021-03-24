@@ -16,7 +16,6 @@ class Room {
         return pos;
     }
 
-<<<<<<< HEAD
     removeUser(user) {
         let index = this.userPos.indexOf(user);
         if (index > -1) {
@@ -25,7 +24,16 @@ class Room {
         }
     }
 
-    /*
+    addScore(position, points) {
+        //team 1 --> pos 0 and 2
+        //team 2 --> pos 1 and 3
+        if (position === 0 || position === 2) {
+            this.configRoom.team1score += points;
+        } else {
+            this.configRoom.team2score += points;
+        }
+    }
+
     calcPosition(person) {
         //spielerposition vergeben
         for (let i = 0; i < this.configRoom.spielerAnzahl; i++) {
@@ -50,6 +58,8 @@ class Room {
         console.log(this.configRoom.zuschauerIDs);
         return personalInfo.position;
     }
+
+    /*
 
     leaveRoom(personalInfo) {
         //console.log(this.configRoom.spielerIDs)

@@ -26,23 +26,11 @@ class KartenMaster {
             this.room.userCards[i] = kartenSpieler;
             j += 5;
         }
-<<<<<<< HEAD
     }
 
     getBestKarte(par) {
         par.karte.map((element) => {
             if (element.schlag === par.schlag) {
-=======
-        console.log("spieler:" + JSON.stringify(foo.spieler))
-        console.log("spieler:" + foo.spieler[1].karten[1])
-        return foo;
-    }
-
-    getBestKarte(par, points){
-        let winKarte = null
-        par.karte.map(element => {
-            if(element.schlag === par.schlag){
->>>>>>> 5e0f2413e40b9a044c724ff71a4da1dcd7b13128
                 //first schlag
 
                 par.karte.map((element) => {
@@ -52,7 +40,6 @@ class KartenMaster {
                         element.farbe === par.farbe
                     ) {
                         //rechter
-<<<<<<< HEAD
                         par.karte.map((element) => {
                             let guter;
                             if (par.schlag !== 14) {
@@ -72,29 +59,6 @@ class KartenMaster {
                     }
                 });
                 return element;
-=======
-                        if(winKarte === null){
-                            winKarte = element;
-                        }
-                    }
-                })
-                if(winKarte === null){
-                    winKarte = element;
-                }
-            }
-        })
-
-        par.karte.map(element => {
-            let guter;
-            if(par.schlag !== 14){
-                guter = par.schlag +1;
-            } else {
-                guter = 7;
-            }
-            if(element.schlag === guter && element.farbe === par.farbe){
-                //guter
-                winKarte = element;
->>>>>>> 5e0f2413e40b9a044c724ff71a4da1dcd7b13128
             }
         });
 
@@ -109,15 +73,8 @@ class KartenMaster {
                     ) {
                         biggestCard = element;
                     }
-<<<<<<< HEAD
                 });
                 return biggestCard;
-=======
-                })
-                if(winKarte === null){
-                    winKarte = biggestCard;
-                }
->>>>>>> 5e0f2413e40b9a044c724ff71a4da1dcd7b13128
             }
         });
 
@@ -130,17 +87,8 @@ class KartenMaster {
             ) {
                 tmpbestCard = element;
             }
-<<<<<<< HEAD
         });
         return tmpbestCard;
-=======
-        })
-        if(winKarte === null){
-            winKarte = tmpbestCard;
-        }
-        this.room.addScore(winKarte.position, points)
-        return winKarte;
->>>>>>> 5e0f2413e40b9a044c724ff71a4da1dcd7b13128
     }
 }
 

@@ -7,13 +7,20 @@ import { Link } from "react-router-dom";
 
 const Spiel = ({ setUrl, isDarkmode, socket }) => {
     const [geboten, setGeboten] = useState(2);
-    const [schlag, setSchlag] = useState("Laub 7");
-    const [trumpf, setTrumpf] = useState("Schell X");
+    const [schlag, setSchlag] = useState("?");
+    const [trumpf, setTrumpf] = useState("?");
     const [exist, setExist] = useState("");
     const [users, setUsers] = useState("");
     const [pos, setPos] = useState(undefined);
     const [karten, setKarten] = useState([]);
     const [alleKarten, setAlleKarten] = useState([]);
+    const [hover, setHover] = useState(false);
+    const [teams, setTeams] = useState([]);
+    const [stiche, setStiche] = useState([]);
+    const [status, setStatus] = useState([]);
+    const [selectCard, setSelectCard] = useState("");
+    const [myStatus, setMyStatus] = useState("");
+    const [seeCards, setSeeCards] = useState(false);
 
     const chatRef = useRef();
     const infosRef = useRef();
@@ -28,19 +35,53 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
         socket.on("joinRoom", (counter) => console.log(counter));
         socket.on("players", (users) => {
             console.log("data " + users);
-            setUsers(users);
+            setUsers(users.userPos);
+            setTeams(users.userTeam);
+            setStiche(users.userStiche);
+            setStatus(users.userStatus);
+
             if (pos === undefined) {
-                setPos(users.indexOf(username));
+                setPos(users.userPos.indexOf(username));
                 console.log("pos SET!");
             }
+        });
+        socket.on("status", (status) => {
+            setStatus(status);
         });
         socket.on("karten", (data) => {
             setAlleKarten(data);
         });
+        socket.on("karten sehen", () => {
+            setSeeCards(true);
+        });
     }, []);
 
     useEffect(() => {
-        console.log("pos? " + pos);
+        if (pos !== undefined) {
+            let statusMe = status[calcPos(pos)];
+            if (statusMe != null) {
+                setHover(true);
+                setMyStatus(statusMe);
+                setSeeCards(true);
+                if (statusMe === "Schlag" || statusMe === "Trumpf")
+                    socket.on("schlag trumpf", (data) => {
+                        console.log("Schlag Trumpf: " + data);
+                        setSchlag(data.schlag);
+                        setTrumpf(data.trumpf);
+                    });
+            } else setHover(false);
+        }
+    }, [status]);
+
+    useEffect(() => {
+        if (pos !== undefined) {
+            socket.on("waehlen", (data) =>
+                console.log("waehlen " + data + " " + pos)
+            );
+        }
+    }, [pos]);
+
+    useEffect(() => {
         if (pos !== undefined) {
             setKarten(alleKarten[pos]);
         }
@@ -49,6 +90,18 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
     useEffect(() => {
         setUrl("/");
     }, []);
+
+    function selectCardHandler(e) {
+        if (myStatus !== "") {
+            console.log(e.target.innerHTML);
+            let card = e.target.innerHTML;
+            console.log("Emit: " + myStatus + " Karte: " + card);
+            socket.emit(myStatus, card);
+            setSelectCard(e.target.innerHTML);
+            setMyStatus(null);
+            setHover(false);
+        }
+    }
 
     function scrollToChatHandler() {
         chatRef.current.scrollIntoView({ behavior: "smooth" });
@@ -59,6 +112,10 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
     }
     function scrollToSpielHandler() {
         spielRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+    function calcPos(pos) {
+        if (pos > 3) return pos - 4;
+        return pos;
     }
     return (
         <div className="w-full">
@@ -71,6 +128,9 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
                                 isDarkmode={isDarkmode}
                                 users={users}
                                 pos={pos}
+                                teams={teams}
+                                stiche={stiche}
+                                status={status}
                             />
                         </div>
                         <div className="flex justify-between mt-28 md:mt-28 mb-16 flex-wrap">
@@ -86,17 +146,45 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
                                 </button>
                             </div>
                             {/*my cards*/}
-                            {karten.map((element) => {
-                                console.log(element);
-                                return (
-                                    <div
-                                        key={Math.random() * 1000}
-                                        className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white"
-                                    >
-                                        {element.name}
-                                    </div>
-                                );
-                            })}
+                            {seeCards
+                                ? karten.map((element) => {
+                                      return (
+                                          <div
+                                              key={Math.random() * 1000}
+                                              onClick={selectCardHandler}
+                                              className={`h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white ${
+                                                  hover
+                                                      ? "hover:border-secondary dark:hover:border-secondaryDark border-4 border-transparent cursor-pointer"
+                                                      : null
+                                              } ${
+                                                  element.name.includes(
+                                                      "Schell"
+                                                  )
+                                                      ? "bg-yellow-200"
+                                                      : element.name.includes(
+                                                            "Laub"
+                                                        )
+                                                      ? "bg-green-300"
+                                                      : element.name.includes(
+                                                            "Eichel"
+                                                        )
+                                                      ? "bg-yellow-800"
+                                                      : element.name.includes(
+                                                            "Herz"
+                                                        )
+                                                      ? "bg-red-500"
+                                                      : element.name.includes(
+                                                            "Welli"
+                                                        )
+                                                      ? "bg-yellow-200"
+                                                      : null
+                                              }`}
+                                          >
+                                              {element.name}
+                                          </div>
+                                      );
+                                  })
+                                : null}
                             <div className="flex flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static sm:flex-col justify-between md:justify-start w-full sm:w-max mt-4 md:mt-0">
                                 <p className="dark:text-white">
                                     Schlag:{" "}

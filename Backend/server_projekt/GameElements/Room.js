@@ -3,8 +3,17 @@ class Room {
         this.configRoom = config;
         this.freePos = [0, 1, 2, 3];
         this.userPos = [];
+        this.userTeam = [1, 2, 1, 2];
+        this.userStiche = [0, 0, 0, 0];
+        this.userStatus = [];
         this.userCards = [];
+        this.schlagPos = 0;
+        this.trumpfPos = 1;
         this.userAnzahl = config.userAnzahl;
+        this.schlagGewaelt = false;
+        this.trumpfGewaelt = false;
+        this.schlag;
+        this.trumpf;
 
         return 0;
     }

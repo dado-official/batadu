@@ -111,7 +111,7 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
 
     function sendGif(e) {
         let url = e.target.src;
-        let chat = { url: url, type: "gif", sender: { username } };
+        let chat = { url: url, type: "gif", sender: username };
         socket.emit("chat", chat);
         setChatMessages((prev) => [
             ...prev,
@@ -173,7 +173,7 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
                                     <ChatGif
                                         url={element.url}
                                         sender={element.sender}
-                                        key={element.id}
+                                        key={Math.random() * 1000}
                                     />
                                 );
                             }

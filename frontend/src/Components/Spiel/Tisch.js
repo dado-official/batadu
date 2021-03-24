@@ -1,9 +1,10 @@
 import React from "react";
 import LevelBadge from "../Shared/LevelBadge";
 import NameContainer from "./NameContainer";
+import StatusContainer from "./StatusContainer";
 import UserGameInfo from "./UserGameInfo";
 
-const Tisch = ({ geboten, isDarkmode, users, pos }) => {
+const Tisch = ({ geboten, isDarkmode, users, pos, stiche, status, teams }) => {
     function calcPos(pos) {
         if (pos > 3) {
             return pos - 4;
@@ -63,22 +64,57 @@ const Tisch = ({ geboten, isDarkmode, users, pos }) => {
                 />
             </div>
             {/*AccountsInformations */}
-            <div className="absolute -top-10 top md:left-1/2 flex flex-col items-center">
-                <NameContainer name={users[calcPos(2 + pos)]} />
-                <UserGameInfo stiche="0" team="1" />
-            </div>
-            <div className="absolute top-1/2 left -left-4 flex flex-col items-center">
-                <NameContainer name={users[calcPos(3 + pos)]} />
-                <UserGameInfo stiche="0" team="1" />
-            </div>
-            <div className="absolute top-1/2 -right-4 right flex flex-col items-center">
-                <NameContainer name={users[calcPos(1 + pos)]} />
-                <UserGameInfo stiche="0" team="1" />
-            </div>
-            <div className="absolute -bottom-4 bottom left-1/2 flex flex-col items-center">
-                <NameContainer name={users[calcPos(0 + pos)]} />
-                <UserGameInfo stiche="0" team="1" />
-            </div>
+            {users[calcPos(2 + pos)] !== undefined ? (
+                <div className="absolute -top-10 top md:left-1/2 flex flex-col items-center">
+                    <NameContainer name={users[calcPos(2 + pos)]} />
+                    <UserGameInfo
+                        stiche={stiche[calcPos(2 + pos)]}
+                        team={teams[calcPos(2 + pos)]}
+                    />
+                    {status[calcPos(2 + pos)] != null ? (
+                        <StatusContainer status={status[calcPos(2 + pos)]} />
+                    ) : null}
+                </div>
+            ) : null}
+
+            {users[calcPos(3 + pos)] !== undefined ? (
+                <div className="absolute top-1/2 left -left-4 flex flex-col items-center">
+                    <NameContainer name={users[calcPos(3 + pos)]} />
+                    <UserGameInfo
+                        stiche={stiche[calcPos(3 + pos)]}
+                        team={teams[calcPos(3 + pos)]}
+                    />
+                    {status[calcPos(3 + pos)] != null ? (
+                        <StatusContainer status={status[calcPos(3 + pos)]} />
+                    ) : null}
+                </div>
+            ) : null}
+
+            {users[calcPos(1 + pos)] !== undefined ? (
+                <div className="absolute top-1/2 -right-4 right flex flex-col items-center">
+                    <NameContainer name={users[calcPos(1 + pos)]} />
+                    <UserGameInfo
+                        stiche={stiche[calcPos(1 + pos)]}
+                        team={teams[calcPos(1 + pos)]}
+                    />
+                    {status[calcPos(1 + pos)] != null ? (
+                        <StatusContainer status={status[calcPos(1 + pos)]} />
+                    ) : null}
+                </div>
+            ) : null}
+
+            {users[calcPos(0 + pos)] !== undefined ? (
+                <div className="absolute -bottom-4 bottom left-1/2 flex flex-col items-center">
+                    <NameContainer name={users[calcPos(0 + pos)]} />
+                    <UserGameInfo
+                        stiche={stiche[calcPos(0 + pos)]}
+                        team={teams[calcPos(0 + pos)]}
+                    />
+                    {status[calcPos(0 + pos)] != null ? (
+                        <StatusContainer status={status[calcPos(0 + pos)]} />
+                    ) : null}
+                </div>
+            ) : null}
         </div>
     );
 };

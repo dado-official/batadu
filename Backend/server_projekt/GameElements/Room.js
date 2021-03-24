@@ -23,24 +23,6 @@ class Room {
             this.userPos.splice(index, 1);
             this.freePos.push(index);
         }
-=======
-  addScore(position, points){
-    //team 1 --> pos 0 and 2
-    //team 2 --> pos 1 and 3
-    if(position === 0 || position === 2){
-      this.configRoom.team1score += points;
-    } else {
-      this.configRoom.team2score += points;
-    }
-  }
-
-  addPerson(personalInfo) {
-    if (this.configRoom.spielerIDs.length >= this.configRoom.spielerAnzahl) {
-      this.configRoom.zuschauerIDs.push(personalInfo);
-    } else {
-      personalInfo.position = this.calcPosition(personalInfo).toString();
-      this.configRoom.spielerIDs.push(personalInfo);
->>>>>>> 5e0f2413e40b9a044c724ff71a4da1dcd7b13128
     }
 
     /*

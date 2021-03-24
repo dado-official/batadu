@@ -4,8 +4,12 @@ import Room from "./Room";
 import Create from "../../assets/create-24px.svg";
 import SearchInput from "../Shared/SearchInput";
 
-const Rooms = ({ setUrl, isDarkmode }) => {
+const Rooms = ({ setUrl, isDarkmode, socket }) => {
     const [search, setSearch] = useState("");
+
+    useEffect(() => {
+        //socket.on("rooms", (rooms) => console.log(rooms));
+    }, []);
 
     useEffect(() => {
         setUrl("/");

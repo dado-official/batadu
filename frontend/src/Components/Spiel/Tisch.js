@@ -3,7 +3,14 @@ import LevelBadge from "../Shared/LevelBadge";
 import NameContainer from "./NameContainer";
 import UserGameInfo from "./UserGameInfo";
 
-const Tisch = ({ geboten, isDarkmode }) => {
+const Tisch = ({ geboten, isDarkmode, users, pos }) => {
+    function calcPos(pos) {
+        if (pos > 3) {
+            return pos - 4;
+        }
+        return pos;
+    }
+
     return (
         <div className="w-90% pt-90% sm:pt-0 sm:w-29rem sm:h-29rem flex items-center justify-center bg-tableGray dark:bg-whiteDark relative rounded-full border-8 sm:border-12 border-borderGray dark:border-borderBlack">
             {/*cards*/}
@@ -57,19 +64,19 @@ const Tisch = ({ geboten, isDarkmode }) => {
             </div>
             {/*AccountsInformations */}
             <div className="absolute -top-10 top md:left-1/2 flex flex-col items-center">
-                <NameContainer name="Holunderyogele" />
+                <NameContainer name={users[calcPos(2 + pos)]} />
                 <UserGameInfo stiche="0" team="1" />
             </div>
             <div className="absolute top-1/2 left -left-4 flex flex-col items-center">
-                <NameContainer name="Holunderyogele" />
+                <NameContainer name={users[calcPos(3 + pos)]} />
                 <UserGameInfo stiche="0" team="1" />
             </div>
             <div className="absolute top-1/2 -right-4 right flex flex-col items-center">
-                <NameContainer name="Holunde" />
+                <NameContainer name={users[calcPos(1 + pos)]} />
                 <UserGameInfo stiche="0" team="1" />
             </div>
             <div className="absolute -bottom-4 bottom left-1/2 flex flex-col items-center">
-                <NameContainer name="Holunder" />
+                <NameContainer name={users[calcPos(0 + pos)]} />
                 <UserGameInfo stiche="0" team="1" />
             </div>
         </div>

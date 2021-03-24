@@ -13,6 +13,8 @@ import Profil from "./Components/Profil/Profil";
 import Rangliste from "./Components/Rangliste/Rangliste";
 import ServerDown from "./Components/ServerDown/ServerDown";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import io from "socket.io-client";
+const socket = io("http://localhost:8080");
 
 function App() {
     const [url, setUrl] = useState("");
@@ -70,16 +72,28 @@ function App() {
             <Switch>
                 <Route path={["/", "/spielen"]} exact>
                     {isLoggedIn ? (
-                        <Rooms setUrl={setUrl} isDarkmode={isDarkmode} />
+                        <Rooms
+                            setUrl={setUrl}
+                            socket={socket}
+                            isDarkmode={isDarkmode}
+                        />
                     ) : (
                         <Homepage setUrl={setUrl} isDarkmode={isDarkmode} />
                     )}
                 </Route>
                 <Route path="/spielen/erstellen">
-                    <SpielErstellen setUrl={setUrl} isDarkmode={isDarkmode} />
+                    <SpielErstellen
+                        setUrl={setUrl}
+                        socket={socket}
+                        isDarkmode={isDarkmode}
+                    />
                 </Route>
-                <Route path="/spielen/:room">
-                    <Spiel setUrl={setUrl} isDarkmode={isDarkmode} />
+                <Route path="/spielen/:room/:username">
+                    <Spiel
+                        setUrl={setUrl}
+                        socket={socket}
+                        isDarkmode={isDarkmode}
+                    />
                 </Route>
                 <Route path="/rangliste">
                     <Rangliste setUrl={setUrl} isDarkmode={isDarkmode} />

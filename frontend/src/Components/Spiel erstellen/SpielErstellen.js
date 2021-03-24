@@ -7,7 +7,7 @@ import PunkteSelector from "../Shared/SelectElement";
 import Switch from "./Switch";
 import Lock from "../../assets/lock-24px.svg";
 
-const SpielErstellen = ({ setUrl, isDarkmode }) => {
+const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
     const [spielName, setSpielName] = useState("");
     const [punkte, setPunkte] = useState("18");
     const [password, setPassword] = useState("");
@@ -29,6 +29,15 @@ const SpielErstellen = ({ setUrl, isDarkmode }) => {
 
     function isPasswordHandler(e) {
         setIsPassword((prev) => !prev);
+    }
+
+    function createGame() {
+        socket.emit("createRoom", {
+            spielerAnzahl: spieler,
+            punkte: punkte,
+            name: spielName,
+            modus: modus,
+        });
     }
 
     return (
@@ -148,14 +157,18 @@ const SpielErstellen = ({ setUrl, isDarkmode }) => {
                 </div>
             </div>
             {/*Button + Zurück Link*/}
-            <div className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4">
+            <Link
+                to={`/spielen/${spielName}`}
+                onClick={createGame}
+                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
+            >
                 <img
                     src={Create2}
                     alt="Spielen"
                     className={`${!isDarkmode ? "whiteSVG" : null}`}
                 />
                 <p>Erstellen</p>
-            </div>
+            </Link>
             <p className="text-sm pt-8 text-gray-600 dark:text-gray-400 mb-8 md:mb-12 lg:mb-16">
                 Möchten Sie ein Spiel beitreten?{" "}
                 <Link to="/spielen">

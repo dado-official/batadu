@@ -9,10 +9,15 @@ import "emoji-mart/css/emoji-mart.css";
 import GifPicker from "./GifPicker";
 import { Picker } from "emoji-mart";
 
-const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
+const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
     const [chatInput, setChatInput] = useState("");
     const [chatMessages, setChatMessages] = useState([
-        { message: "Wilkommen im Chat", sender: "System", type: "text" },
+        {
+            message: "Wilkommen im Chat",
+            sender: "System",
+            type: "text",
+            key: Math.random() * 10000,
+        },
     ]);
     const [isEmojisOpen, setIsEmojisOpen] = useState(false);
     const emojiPickerRef = useRef();
@@ -87,18 +92,26 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
     }
 
     function sendMessage() {
-        let chat = { message: chatInput, type: "text", sender: "Talian" };
+        let chat = {
+            message: chatInput,
+            type: "text",
+            sender: username,
+        };
         socket.emit("chat", chat);
         setChatMessages((prev) => [
             ...prev,
-            { message: chatInput, sender: "Ich", type: "text" },
+            {
+                message: chatInput,
+                sender: "Ich",
+                type: "text",
+            },
         ]);
         setChatInput("");
     }
 
     function sendGif(e) {
         let url = e.target.src;
-        let chat = { url: url, type: "gif", sender: "Talian" };
+        let chat = { url: url, type: "gif", sender: { username } };
         socket.emit("chat", chat);
         setChatMessages((prev) => [
             ...prev,
@@ -152,6 +165,7 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
                                     <ChatMessage
                                         message={element.message}
                                         sender={element.sender}
+                                        key={Math.random() * 1000}
                                     />
                                 );
                             } else {
@@ -159,6 +173,7 @@ const Chat = forwardRef(({ isDarkmode, socket }, ref) => {
                                     <ChatGif
                                         url={element.url}
                                         sender={element.sender}
+                                        key={element.id}
                                     />
                                 );
                             }

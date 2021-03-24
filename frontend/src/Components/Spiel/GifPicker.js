@@ -11,6 +11,7 @@ export default function GifPicker({ isDarkmode, sendHandler }) {
     }
 
     useEffect(() => {
+        //search
         if (gifInput !== "") {
             let cancel;
             axios({
@@ -21,7 +22,10 @@ export default function GifPicker({ isDarkmode, sendHandler }) {
                 console.log(res.data);
                 setGifs(
                     res.data.results.map((element) => {
-                        return element.media[0].tinygif.url;
+                        return {
+                            url: element.media[0].tinygif.url,
+                            key: element.id,
+                        };
                     })
                 );
             });
@@ -46,7 +50,10 @@ export default function GifPicker({ isDarkmode, sendHandler }) {
         }).then((res) => {
             setGifs(
                 res.data.results.map((element) => {
-                    return element.media[0].tinygif.url;
+                    return {
+                        url: element.media[0].tinygif.url,
+                        key: element.id,
+                    };
                 })
             );
         });
@@ -72,10 +79,11 @@ export default function GifPicker({ isDarkmode, sendHandler }) {
                             if (index % 2 === 0) {
                                 return (
                                     <img
-                                        src={element}
+                                        src={element.url}
                                         alt=""
                                         className="p-1 w-full h-auto self-center cursor-pointer"
                                         onClick={sendGif}
+                                        key={element.key}
                                     />
                                 );
                             }
@@ -88,10 +96,11 @@ export default function GifPicker({ isDarkmode, sendHandler }) {
                             if (index % 2 !== 0) {
                                 return (
                                     <img
-                                        src={element}
+                                        src={element.url}
                                         alt=""
                                         className="p-1 w-full h-auto self-center cursor-pointer"
                                         onClick={sendGif}
+                                        key={element.key}
                                     />
                                 );
                             }

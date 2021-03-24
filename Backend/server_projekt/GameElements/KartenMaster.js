@@ -32,8 +32,9 @@ class KartenMaster{
             foo.spieler[i].karten = bar;
             j+=5;
         }
-        //console.log("spieler:" + JSON.stringify(foo.spieler))
-        //console.log("spieler:" + foo.spieler[1].karten[1])
+        console.log("spieler:" + JSON.stringify(foo.spieler))
+        console.log("spieler:" + foo.spieler[1].karten[1])
+        return foo;
     }
 
     getBestKarte(par, points){

@@ -64,10 +64,10 @@ app.post("/room/karten", (req, res) => {
 //testKartenausteilen
 app.post("/room/karten/austeilen", (req, res) => {
     console.log("/room/karten/austeilen");
-    let km = new KartenMaster();
+    let km = new KartenMaster(rooms_list.get("testroom"));
     km.kartenMischen();
-    km.kartenAusteilen(rooms_list.get("testroom"));
-    res.status(200).send("print");
+
+    res.status(200).send(km.kartenAusteilen());
 });
 
 //testBesteKarte

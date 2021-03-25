@@ -4,33 +4,64 @@ import NameContainer from "./NameContainer";
 import StatusContainer from "./StatusContainer";
 import UserGameInfo from "./UserGameInfo";
 
-const Tisch = ({ geboten, isDarkmode, users, pos, stiche, status, teams }) => {
-    function calcPos(pos) {
-        if (pos > 3) {
-            return pos - 4;
-        }
-        return pos;
-    }
-
+const Tisch = ({
+    geboten,
+    isDarkmode,
+    users,
+    pos,
+    stiche,
+    status,
+    teams,
+    calcPos,
+    karten,
+}) => {
     return (
         <div className="w-90% pt-90% sm:pt-0 sm:w-29rem sm:h-29rem flex items-center justify-center bg-tableGray dark:bg-whiteDark relative rounded-full border-8 sm:border-12 border-borderGray dark:border-borderBlack">
             {/*cards*/}
-            <div
-                className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute top-6 md:top-12 left-1/2"
-                style={{ transform: "translateX(-50%)" }}
-            ></div>
-            <div
-                className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute top-1/2 left-7 md:left-14"
-                style={{ transform: "translateY(-50%)" }}
-            ></div>
-            <div
-                className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute top-1/2 right-7 md:right-14"
-                style={{ transform: "translateY(-50%)" }}
-            ></div>
-            <div
-                className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute bottom-6 md:bottom-12 left-1/2"
-                style={{ transform: "translateX(-50%)" }}
-            ></div>
+            {/*Kate oben */}
+            {karten[calcPos(2 + pos)] !== undefined &&
+            karten[calcPos(2 + pos)] !== null ? (
+                <div
+                    className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute top-6 md:top-12 left-1/2"
+                    style={{ transform: "translateX(-50%)" }}
+                >
+                    {karten[calcPos(2 + pos)]}
+                </div>
+            ) : null}
+
+            {/*Karten left */}
+            {karten[calcPos(3 + pos)] !== undefined &&
+            karten[calcPos(3 + pos)] !== null ? (
+                <div
+                    className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute top-1/2 left-7 md:left-14"
+                    style={{ transform: "translateY(-50%)" }}
+                >
+                    {karten[calcPos(3 + pos)]}
+                </div>
+            ) : null}
+
+            {/*Karten right */}
+            {karten[calcPos(1 + pos)] !== undefined &&
+            karten[calcPos(1 + pos)] !== null ? (
+                <div
+                    className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute top-1/2 right-7 md:right-14"
+                    style={{ transform: "translateY(-50%)" }}
+                >
+                    {karten[calcPos(1 + pos)]}
+                </div>
+            ) : null}
+
+            {/*Karten unten */}
+            {karten[calcPos(0 + pos)] !== undefined &&
+            karten[calcPos(0 + pos)] !== null ? (
+                <div
+                    className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute bottom-6 md:bottom-12 left-1/2"
+                    style={{ transform: "translateX(-50%)" }}
+                >
+                    {karten[calcPos(0 + pos)]}
+                </div>
+            ) : null}
+
             <p className="hidden sm:block dark:text-white">
                 Geboten: <span className="font-bold">{geboten}</span>
             </p>

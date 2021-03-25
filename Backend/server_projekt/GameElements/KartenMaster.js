@@ -29,6 +29,8 @@ class KartenMaster {
     }
 
     getBestKarte(par) {
+        console.log("Par: ");
+        console.log(par);
         par.karte.map((element) => {
             if (element.schlag === par.schlag) {
                 //first schlag

@@ -5,8 +5,12 @@ class Room {
         this.userPos = [];
         this.userTeam = [1, 2, 1, 2];
         this.userStiche = [0, 0, 0, 0];
+        this.team1Stiche = 0;
+        this.team2Stiche = 0;
         this.userStatus = [];
         this.userCards = [];
+        this.tischCards = [];
+        this.tischCardsObject = [];
         this.schlagPos = 0;
         this.trumpfPos = 1;
         this.userAnzahl = config.userAnzahl;
@@ -14,8 +18,83 @@ class Room {
         this.trumpfGewaelt = false;
         this.schlag;
         this.trumpf;
+        this.amZug = 0;
+        this.zugStart = 0;
+        this.gelegt = 0;
+        this.stich = 0;
 
         return 0;
+    }
+
+    neueRunde() {
+        this.schlagPos = this.calcPos(this.schlagPos - 1);
+        this.trumpfPos = this.calcPos(this.trumpfPos - 1);
+        this.schlagGewaelt = false;
+        this.trumpfGewaelt = false;
+        this.userStiche = [0, 0, 0, 0];
+        this.team1Stiche = 0;
+        this.team2Stiche = 0;
+        this.amZug = this.schlagPos;
+        this.zugStart = this.schlagPos;
+        this.tischCards = [];
+        this.tischCardsObject = [];
+        this.userStatus = [];
+        this.gelegt = 0;
+        this.stich = 0;
+        this.schlag;
+        this.trumpf;
+    }
+
+    calcPos(pos) {
+        if (pos < 0) return pos + 4;
+        return pos;
+    }
+
+    resetAfterStich(gewinnerPos) {
+        this.amZug = gewinnerPos;
+        this.zugStart = gewinnerPos;
+        this.userStiche[gewinnerPos] += 1;
+        this.tischCards = [];
+        this.tischCardsObject = [];
+        this.userStatus = [];
+        this.gelegt = 0;
+    }
+
+    won() {
+        if (this.team1Stiche === 3 || this.team2Stiche === 3) return true;
+        else return false;
+    }
+
+    addStichToTeam(pos) {
+        if (pos % 2 === 0) {
+            this.team1Stiche += 1;
+        } else {
+            this.team2Stiche += 1;
+        }
+    }
+
+    gewinnerPos(pos) {
+        let gewinnerPos = pos + this.zugStart;
+        if (gewinnerPos > 3) return gewinnerPos - 4;
+        return gewinnerPos;
+    }
+    createCheckObject() {
+        let check = {
+            schlag: this.schlag.schlag,
+            farbe: this.trumpf.farbe,
+            karte: this.tischCardsObject,
+        };
+
+        console.log(check);
+        return check;
+    }
+
+    minusPosition() {
+        this.amZug -= 1;
+        if (this.amZug === -1) {
+            this.amZug = 3;
+        }
+        console.log(this.amZug);
     }
 
     addUser(user) {

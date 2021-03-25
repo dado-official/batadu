@@ -18,9 +18,13 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
     const [teams, setTeams] = useState([]);
     const [stiche, setStiche] = useState([]);
     const [status, setStatus] = useState([]);
-    const [selectCard, setSelectCard] = useState("");
     const [myStatus, setMyStatus] = useState("");
     const [seeCards, setSeeCards] = useState(false);
+    const [kartenTisch, setKartenTisch] = useState([]);
+    const [kartenStich, setKartenStich] = useState([]);
+    const [stich, setStich] = useState();
+    const [selectedInfo, setSelectedInfo] = useState("Punkte");
+    const [seeStiche, setSeeStiche] = useState(false);
 
     const chatRef = useRef();
     const infosRef = useRef();
@@ -54,13 +58,38 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
         socket.on("karten sehen", () => {
             setSeeCards(true);
         });
+        socket.on("tischkarten", (data) => {
+            console.log("Tischkarten: " + data);
+            setKartenTisch(data);
+            console.log("See Stiche? " + seeStiche);
+        });
+        socket.on("stich", (gewinner) => {
+            setSeeStiche(true);
+            setSelectedInfo("Stich 1");
+            setStich(gewinner);
+        });
+        socket.on("hide Stich", () => {
+            setSeeStiche(false);
+            setSelectedInfo("Punkte");
+        });
+        socket.on("reset nach stich", (data) => {
+            setStatus(data.status);
+            setKartenTisch(data.karten);
+            setStiche(data.stiche);
+        });
     }, []);
+
+    useEffect(() => {
+        if (!seeStiche) {
+            setKartenStich(kartenTisch.slice());
+        }
+    }, [kartenTisch]);
 
     useEffect(() => {
         if (pos !== undefined) {
             let statusMe = status[calcPos(pos)];
             if (statusMe != null) {
-                setHover(true);
+                if (!statusMe.includes("Gestochen")) setHover(true);
                 setMyStatus(statusMe);
                 setSeeCards(true);
                 if (statusMe === "Schlag" || statusMe === "Trumpf")
@@ -75,14 +104,6 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
 
     useEffect(() => {
         if (pos !== undefined) {
-            socket.on("waehlen", (data) =>
-                console.log("waehlen " + data + " " + pos)
-            );
-        }
-    }, [pos]);
-
-    useEffect(() => {
-        if (pos !== undefined) {
             setKarten(alleKarten[pos]);
         }
     }, [alleKarten]);
@@ -92,14 +113,35 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
     }, []);
 
     function selectCardHandler(e) {
-        if (myStatus !== "") {
+        if (myStatus !== "" || !myStatus.includes("Gestochen")) {
+            console.log("myStatus: " + myStatus);
             console.log(e.target.innerHTML);
             let card = e.target.innerHTML;
             console.log("Emit: " + myStatus + " Karte: " + card);
-            socket.emit(myStatus, card);
-            setSelectCard(e.target.innerHTML);
+
+            let index = karten.findIndex((i) => i.name === e.target.innerHTML);
+            console.log("Cherta: " + karten[index].name);
+            let cardObject = karten[index];
+
+            if (myStatus === "Am Zug") {
+                console.log("Delete");
+                //delete
+                removeCard(e);
+            }
+
+            socket.emit(myStatus, cardObject);
             setMyStatus(null);
             setHover(false);
+        }
+    }
+
+    function removeCard(e) {
+        let array = karten;
+        console.log(array);
+        let index = array.findIndex((i) => i.name === e.target.innerHTML);
+        if (index !== -1) {
+            array.splice(index, 1);
+            setKarten(array);
         }
     }
 
@@ -131,6 +173,8 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
                                 teams={teams}
                                 stiche={stiche}
                                 status={status}
+                                calcPos={calcPos}
+                                karten={kartenTisch}
                             />
                         </div>
                         <div className="flex justify-between mt-28 md:mt-28 mb-16 flex-wrap">
@@ -206,6 +250,13 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
                         <SpielInformations
                             ref={infosRef}
                             isDarkmode={isDarkmode}
+                            selected={selectedInfo}
+                            setSelected={setSelectedInfo}
+                            karten={kartenStich}
+                            seeStiche={seeStiche}
+                            calcPos={calcPos}
+                            gewinner={stich}
+                            pos={pos}
                         />
                         <button
                             className="btn bg-secondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"

@@ -66,10 +66,11 @@ io.on("connection", (socket) => {
                 type: "text",
             });
 
+            kartenMaster.kartenMischen();
             kartenMaster.kartenAusteilen();
             io.to(room).emit("karten", rooms[room].userCards);
-            rooms[room].userStatus[0] = "Schlag";
-            rooms[room].userStatus[1] = "Trumpf";
+            rooms[room].userStatus[rooms[room].schlagPos] = "Schlag";
+            rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
             io.to(room).emit("status", rooms[room].userStatus);
         }
 
@@ -89,12 +90,12 @@ io.on("connection", (socket) => {
             if (rooms[room].trumpfGewaelt) {
                 io.to(room).emit("karten sehen");
                 io.to(room).emit("schlag trumpf", {
-                    schlag: rooms[room].schlag,
-                    trumpf: rooms[room].trumpf,
+                    schlag: rooms[room].schlag.name,
+                    trumpf: rooms[room].trumpf.name,
                 });
                 rooms[room].userStatus = [];
-                rooms[room].userStatus[0] = "Am Zug";
-                io.to(room).emit("status");
+                rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
+                io.to(room).emit("status", rooms[room].userStatus);
             }
             rooms[room].schlagGewaelt = true;
         });
@@ -106,21 +107,88 @@ io.on("connection", (socket) => {
                 type: "text",
             });
             rooms[room].trumpf = card;
+
             console.log("Schlag Gewählt: " + rooms[room].schlagGewaelt);
             if (rooms[room].schlagGewaelt) {
                 io.to(room).emit("karten sehen");
                 io.to(room).emit("schlag trumpf", {
-                    schlag: rooms[room].schlag,
-                    trumpf: rooms[room].trumpf,
+                    schlag: rooms[room].schlag.name,
+                    trumpf: rooms[room].trumpf.name,
                 });
                 rooms[room].userStatus = [];
-                rooms[room].userStatus[0] = "Am Zug";
+                rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
                 io.to(room).emit("status", rooms[room].userStatus);
             }
             rooms[room].trumpfGewaelt = true;
         });
         socket.on("Am Zug", (card) => {
+            rooms[room].createCheckObject();
             console.log("Am Zug: " + card);
+            console.log("Counter: " + rooms[room].gelegt);
+            rooms[room].tischCardsObject.push({
+                ...card,
+                position: rooms[room].gelegt,
+            });
+            rooms[room].gelegt += 1;
+            rooms[room].tischCards[rooms[room].amZug] = card.name;
+            io.to(room).emit("tischkarten", rooms[room].tischCards);
+
+            //Wenn jeder am zug war
+            if (rooms[room].gelegt < 4) {
+                rooms[room].minusPosition();
+                rooms[room].userStatus = [];
+                rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
+                io.to(room).emit("status", rooms[room].userStatus);
+            } else {
+                //gewinner berechnen
+                console.log("Gewonnen: ");
+                let gewonnen = kartenMaster.getBestKarte(
+                    rooms[room].createCheckObject()
+                );
+                console.log(gewonnen);
+                let gewonnenPos = rooms[room].gewinnerPos(gewonnen.position);
+                console.log("GewonnePos " + gewonnenPos);
+                io.to(room).emit("stich", gewonnenPos);
+
+                rooms[room].userStatus = [];
+                rooms[room].userStatus[gewonnenPos] = "🏆Gestochen🏆";
+                io.to(room).emit("status", rooms[room].userStatus);
+                rooms[room].stich += 1;
+                rooms[room].addStichToTeam(gewonnenPos);
+                if (rooms[room].stich === 2) {
+                    console.log("hide JUNGE");
+                    io.to(room).emit("hide Stich");
+                }
+                setTimeout(() => {
+                    if (rooms[room].won()) {
+                        //wenn ein Team 3 Punkte hat
+                        rooms[room].neueRunde();
+
+                        kartenMaster.kartenMischen();
+                        kartenMaster.kartenAusteilen();
+                        io.to(room).emit("karten", rooms[room].userCards);
+                        rooms[room].userStatus[rooms[room].schlagPos] =
+                            "Schlag";
+                        rooms[room].userStatus[rooms[room].trumpfPos] =
+                            "Trumpf";
+                        io.to(room).emit("status", rooms[room].userStatus);
+
+                        console.log("gewonnen");
+                    } else {
+                        rooms[room].resetAfterStich(gewonnenPos);
+                        rooms[room].userStatus = [];
+                        rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
+                        io.to(room).emit("reset nach stich", {
+                            status: rooms[room].userStatus,
+                            karten: rooms[room].tischCards,
+                            stiche: rooms[room].userStiche,
+                        });
+                    }
+
+                    //neu ziehen
+                }, 7000);
+                //gewinner ziehen und neu legen
+            }
         });
 
         socket.on("disconnect", () => {

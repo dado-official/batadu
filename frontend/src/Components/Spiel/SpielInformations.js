@@ -3,41 +3,56 @@ import PunkteTabelle from "./PunkteTabelle";
 import Stich from "./Stich";
 import SelectInformations from "./SelectInformations";
 
-const SpielInformations = forwardRef(({ isDarkmode }, ref) => {
-    const [selected, setSelected] = useState("Stich 1");
+const SpielInformations = forwardRef(
+    (
+        {
+            isDarkmode,
+            selected,
+            setSelected,
+            karten,
+            gewinner,
+            seeStiche,
+            calcPos,
+            pos,
+        },
+        ref
+    ) => {
+        function selectHandler(e) {
+            setSelected(e.target.innerHTML);
+        }
 
-    function selectHandler(e) {
-        setSelected(e.target.innerHTML);
+        return (
+            <div ref={ref} className="pt-20 -mt-28 xl:pt-0 xl:mt-0">
+                <div className="flex bg-spielGray dark:bg-roomBlack dark:text-white rounded-t-st">
+                    <SelectInformations
+                        selectHandler={selectHandler}
+                        selected={selected}
+                        name="Punkte"
+                    />
+                    {seeStiche ? (
+                        <SelectInformations
+                            selectHandler={selectHandler}
+                            selected={selected}
+                            name="Stich 1"
+                        />
+                    ) : null}
+                </div>
+                <div>
+                    {selected === "Punkte" ? (
+                        <PunkteTabelle isDarkmode={isDarkmode} />
+                    ) : selected === "Stich 1" ? (
+                        <Stich
+                            karten={karten}
+                            gewinner={gewinner}
+                            seeStiche={seeStiche}
+                            calcPos={calcPos}
+                            pos={pos}
+                        />
+                    ) : null}
+                </div>
+            </div>
+        );
     }
-
-    return (
-        <div ref={ref} className="pt-20 -mt-28 xl:pt-0 xl:mt-0">
-            <div className="flex bg-spielGray dark:bg-roomBlack dark:text-white rounded-t-st">
-                <SelectInformations
-                    selectHandler={selectHandler}
-                    selected={selected}
-                    name="Punkte"
-                />
-                <SelectInformations
-                    selectHandler={selectHandler}
-                    selected={selected}
-                    name="Stich 1"
-                />
-                <SelectInformations
-                    selectHandler={selectHandler}
-                    selected={selected}
-                    name="Stich 2"
-                />
-            </div>
-            <div>
-                {selected === "Punkte" ? (
-                    <PunkteTabelle isDarkmode={isDarkmode} />
-                ) : selected === "Stich 1" ? (
-                    <Stich />
-                ) : null}
-            </div>
-        </div>
-    );
-});
+);
 
 export default SpielInformations;

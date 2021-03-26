@@ -12,6 +12,7 @@ Warning: In this Model primary Keys are Bold and not underlined, since markdown 
 - user {**username:String[15]**; anzStiche:Integer; password:String[256]; Punkte:Integer; Email:String[128]; gewonneneSpiele:Integer; verloreneSpiele:Integer}
 - gewinner {**_team.ID:Integer; spiel.ID:Integer_**}
 - spielen_in {**_user.username:String[15]; team.ID:Integer_**}
+- level {**nr:Integer**; erforderlichepunkte:Integer}
 
 ## Notes
 - The user's password is stored encrypted

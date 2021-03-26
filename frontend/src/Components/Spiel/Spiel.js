@@ -25,6 +25,7 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
     const [stich, setStich] = useState();
     const [selectedInfo, setSelectedInfo] = useState("Punkte");
     const [seeStiche, setSeeStiche] = useState(false);
+    const [punkte, setPunkte] = useState([]);
 
     const chatRef = useRef();
     const infosRef = useRef();
@@ -76,6 +77,9 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
             setStatus(data.status);
             setKartenTisch(data.karten);
             setStiche(data.stiche);
+        });
+        socket.on("punkte", (data) => {
+            setPunkte((prev) => [...prev, data]);
         });
     }, []);
 
@@ -257,6 +261,7 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
                             calcPos={calcPos}
                             gewinner={stich}
                             pos={pos}
+                            punkte={punkte}
                         />
                         <button
                             className="btn bg-secondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"

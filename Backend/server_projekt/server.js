@@ -143,12 +143,15 @@ io.on("connection", (socket) => {
                 //gewinner berechnen
                 console.log("Gewonnen: ");
                 let gewonnen = kartenMaster.getBestKarte(
-                    rooms[room].createCheckObject()
+                    rooms[room].createCheckObject(),
+                    2
                 );
                 console.log(gewonnen);
                 let gewonnenPos = rooms[room].gewinnerPos(gewonnen.position);
                 console.log("GewonnePos " + gewonnenPos);
-                io.to(room).emit("stich", gewonnenPos);
+                if (rooms[room].stich === 0) {
+                    io.to(room).emit("stich", gewonnenPos);
+                }
 
                 rooms[room].userStatus = [];
                 rooms[room].userStatus[gewonnenPos] = "🏆Gestochen🏆";
@@ -162,6 +165,8 @@ io.on("connection", (socket) => {
                 setTimeout(() => {
                     if (rooms[room].won()) {
                         //wenn ein Team 3 Punkte hat
+                        let punkte = rooms[room].getTeamPunkte();
+                        io.to(room).emit("punkte", punkte);
                         rooms[room].neueRunde();
 
                         kartenMaster.kartenMischen();
@@ -172,6 +177,7 @@ io.on("connection", (socket) => {
                         rooms[room].userStatus[rooms[room].trumpfPos] =
                             "Trumpf";
                         io.to(room).emit("status", rooms[room].userStatus);
+                        io.to(room).emit("tischkarten", rooms[room].tischCards);
 
                         console.log("gewonnen");
                     } else {

@@ -65,6 +65,11 @@ class Room {
         else return false;
     }
 
+    getTeamPunkte() {
+        if (this.team1Stiche === 3) return { team1: 2 };
+        else return { team2: 2 };
+    }
+
     addStichToTeam(pos) {
         if (pos % 2 === 0) {
             this.team1Stiche += 1;
@@ -74,8 +79,11 @@ class Room {
     }
 
     gewinnerPos(pos) {
-        let gewinnerPos = pos + this.zugStart;
-        if (gewinnerPos > 3) return gewinnerPos - 4;
+        let gewinnerPos = pos - this.zugStart;
+        console.log("ZugStart: " + this.zugStart);
+        if (gewinnerPos < 0) gewinnerPos = 4 + gewinnerPos;
+        if (gewinnerPos === 3) return 1;
+        if (gewinnerPos === 1) return 3;
         return gewinnerPos;
     }
     createCheckObject() {

@@ -50,3 +50,8 @@ CREATE TABLE IF NOT EXISTS spielen_in(
     FOREIGN KEY (teamid) REFERENCES team(id) ON DELETE CASCADE,
     FOREIGN KEY (usersusername) REFERENCES users(username) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS level(
+    nr INT PRIMARY KEY,
+    erforderlichepunkte INT NOT NULL
+);

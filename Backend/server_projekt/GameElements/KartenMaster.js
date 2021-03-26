@@ -1,96 +1,105 @@
-const kartenJSON = require("./Karten.json");
+const kartenJSON = require('./Karten.json')
 const ArrayList = require("arraylist");
 
-class KartenMaster {
-    constructor(room) {
-        this.kartendeck = new ArrayList();
+class KartenMaster{
+    constructor(room){
+        this.kartendeck = new ArrayList;
         this.room = room;
     }
 
-    kartenMischen() {
+    kartenMischen(){
         this.kartendeck = shuffle(kartenJSON.Karten);
-        console.log(this.kartendeck);
+        console.log(this.kartendeck)
     }
 
-    kartenAusteilen() {
-        let j = 0;
-        for (let i = 0; i < 4; i++) {
-            let kartenSpieler = [];
-            kartenSpieler.push(
-                this.kartendeck[i],
-                this.kartendeck[j + 1],
-                this.kartendeck[j + 2],
-                this.kartendeck[j + 3],
-                this.kartendeck[j + 4]
-            );
-            this.room.userCards[i] = kartenSpieler;
-            j += 5;
+    kartenAusteilen(){
+        let foo = {
+            "spieler":
+                []
         }
+        this.room.configRoom.spielerIDs.map(value => foo.spieler.push(value))
+        let j = 0
+        for(let i = 0; i < this.room.configRoom.spielerAnzahl; i++){
+            let bar = []
+            bar.push(
+                this.kartendeck[j],
+                this.kartendeck[j+1],
+                this.kartendeck[j+2],
+                this.kartendeck[j+3],
+                this.kartendeck[j+4]
+            )
+            //console.log(bar)
+            foo.spieler[i].karten = bar;
+            j+=5;
+        }
+        console.log("spieler:" + JSON.stringify(foo.spieler))
+        console.log("spieler:" + foo.spieler[1].karten[1])
+        return foo;
     }
 
-    getBestKarte(par) {
-        console.log("Par: ");
-        console.log(par);
-        par.karte.map((element) => {
-            if (element.schlag === par.schlag) {
+    getBestKarte(par, points){
+        let winKarte = null
+        par.karte.map(element => {
+            if(element.schlag === par.schlag){
                 //first schlag
 
-                par.karte.map((element) => {
-                    //if win by schlag
-                    if (
-                        element.schlag === par.schlag &&
-                        element.farbe === par.farbe
-                    ) {
-                        //rechter
-                        par.karte.map((element) => {
-                            let guter;
-                            if (par.schlag !== 14) {
-                                guter = par.schlag + 1;
-                            } else {
-                                guter = 7;
-                            }
-                            if (
-                                element.schlag === guter &&
-                                element.farbe === par.farbe
-                            ) {
-                                //guter
-                                return element;
-                            }
-                        });
-                        return element;
-                    }
-                });
-                return element;
-            }
-        });
+                par.karte.map(element => {
 
-        par.karte.map((element) => {
-            //if win by farbe
-            if (element.farbe === par.farbe) {
-                let biggestCard = element;
-                par.karte.map((element) => {
-                    if (
-                        element.farbe === par.farbe &&
-                        element.schlag > biggestCard.schlag
-                    ) {
-                        biggestCard = element;
+                    //if win by schlag
+                    if(element.schlag === par.schlag && element.farbe === par.farbe){
+
+                        //rechter
+                        if(winKarte === null){
+                            winKarte = element;
+                        }
                     }
-                });
-                return biggestCard;
+                })
+                if(winKarte === null){
+                    winKarte = element;
+                }
             }
-        });
+        })
+
+        par.karte.map(element => {
+            let guter;
+            if(par.schlag !== 14){
+                guter = par.schlag +1;
+            } else {
+                guter = 7;
+            }
+            if(element.schlag === guter && element.farbe === par.farbe){
+                //guter
+                winKarte = element;
+            }
+        })
+
+        par.karte.map(element => {
+            //if win by farbe
+            if(element.farbe === par.farbe){
+                let biggestCard = element
+                par.karte.map(element => {
+                    if(element.farbe === par.farbe && element.schlag > biggestCard.schlag){
+                        biggestCard = element
+                    }
+                })
+                if(winKarte === null){
+                    winKarte = biggestCard;
+                }
+            }
+        })
 
         //cheap win
-        let tmpbestCard = par.karte[0];
-        par.karte.map((element) => {
-            if (
-                element.farbe === tmpbestCard.farbe &&
-                element.schlag > tmpbestCard.schlag
-            ) {
+        let tmpbestCard = par.karte[0]
+        par.karte.map(element => {
+            if(element.farbe === tmpbestCard.farbe && element.schlag > tmpbestCard.schlag){
                 tmpbestCard = element;
             }
-        });
-        return tmpbestCard;
+        })
+        if(winKarte === null){
+            winKarte = tmpbestCard;
+        }
+        this.room.addScore(winKarte.position, points)
+        return winKarte;
     }
 }
 

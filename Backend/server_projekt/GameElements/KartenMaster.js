@@ -13,19 +13,27 @@ class KartenMaster {
     }
 
     kartenAusteilen() {
+        let foo = {
+            spieler: [],
+        };
+        this.room.configRoom.spielerIDs.map((value) => foo.spieler.push(value));
         let j = 0;
-        for (let i = 0; i < 4; i++) {
-            let kartenSpieler = [];
-            kartenSpieler.push(
-                this.kartendeck[i],
+        for (let i = 0; i < this.room.configRoom.spielerAnzahl; i++) {
+            let bar = [];
+            bar.push(
+                this.kartendeck[j],
                 this.kartendeck[j + 1],
                 this.kartendeck[j + 2],
                 this.kartendeck[j + 3],
                 this.kartendeck[j + 4]
             );
-            this.room.userCards[i] = kartenSpieler;
+            //console.log(bar)
+            foo.spieler[i].karten = bar;
             j += 5;
         }
+        console.log("spieler:" + JSON.stringify(foo.spieler));
+        console.log("spieler:" + foo.spieler[1].karten[1]);
+        return foo;
     }
 
     getBestKarte(par, points) {
@@ -49,6 +57,19 @@ class KartenMaster {
                 if (winKarte === null) {
                     winKarte = element;
                 }
+            }
+        });
+
+        par.karte.map((element) => {
+            let guter;
+            if (par.schlag !== 14) {
+                guter = par.schlag + 1;
+            } else {
+                guter = 7;
+            }
+            if (element.schlag === guter && element.farbe === par.farbe) {
+                //guter
+                winKarte = element;
             }
         });
 

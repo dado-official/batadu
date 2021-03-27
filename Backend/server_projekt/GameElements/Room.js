@@ -22,8 +22,16 @@ class Room {
         this.zugStart = 0;
         this.gelegt = 0;
         this.stich = 0;
+        this.geboten = 2;
+        this.gebotenDavor = 0;
+        this.schlagtausch = false;
 
         return 0;
+    }
+
+    getTeam(pos) {
+        if (pos % 2 === 0) return 1;
+        else return 2;
     }
 
     neueRunde() {
@@ -43,6 +51,9 @@ class Room {
         this.stich = 0;
         this.schlag;
         this.trumpf;
+        this.geboten = 2;
+        this.gebotenDavor = 0;
+        this.schlagtausch = false;
     }
 
     calcPos(pos) {
@@ -50,7 +61,19 @@ class Room {
         return pos;
     }
 
+    setSchlagtausch() {
+        this.schlagtausch = true;
+        this.amZug = this.schlagPos;
+        this.zugStart = this.schlagPos;
+    }
+
     resetAfterStich(gewinnerPos) {
+        if (this.schlagtausch) {
+            let tmp = this.schlagPos;
+            this.schlagPos = this.trumpfPos;
+            this.trumpfPos = tmp;
+            this.schlagtausch = false;
+        }
         this.amZug = gewinnerPos;
         this.zugStart = gewinnerPos;
         this.userStiche[gewinnerPos] += 1;
@@ -65,6 +88,16 @@ class Room {
         else return false;
     }
 
+    getTeamPunkte() {
+        if (this.team1Stiche === 3) return { team1: this.geboten };
+        else return { team2: this.geboten };
+    }
+
+    getTeamPunkteAbgelehnt(pos) {
+        if (pos % 2 === 0) return { team2: this.geboten };
+        else return { team1: this.geboten };
+    }
+
     addStichToTeam(pos) {
         if (pos % 2 === 0) {
             this.team1Stiche += 1;
@@ -74,9 +107,19 @@ class Room {
     }
 
     gewinnerPos(pos) {
-        let gewinnerPos = pos + this.zugStart;
-        if (gewinnerPos > 3) return gewinnerPos - 4;
-        return gewinnerPos;
+        if (!this.schlagtausch) {
+            let gewinnerPos = pos - this.zugStart;
+            console.log("ZugStart: " + this.zugStart);
+            if (gewinnerPos < 0) gewinnerPos = 4 + gewinnerPos;
+            if (gewinnerPos === 3) return 1;
+            if (gewinnerPos === 1) return 3;
+            return gewinnerPos;
+        } else {
+            let gewinnerPos = pos + this.zugStart;
+            console.log("ZugStart: " + this.zugStart);
+            if (gewinnerPos > 3) gewinnerPos = gewinnerPos - 4;
+            return gewinnerPos;
+        }
     }
     createCheckObject() {
         let check = {
@@ -90,9 +133,16 @@ class Room {
     }
 
     minusPosition() {
-        this.amZug -= 1;
-        if (this.amZug === -1) {
-            this.amZug = 3;
+        if (!this.schlagtausch) {
+            this.amZug -= 1;
+            if (this.amZug === -1) {
+                this.amZug = 3;
+            }
+        } else {
+            this.amZug += 1;
+            if (this.amZug === 4) {
+                this.amZug = 0;
+            }
         }
         console.log(this.amZug);
     }

@@ -14,6 +14,7 @@ const SpielInformations = forwardRef(
             seeStiche,
             calcPos,
             pos,
+            punkte,
         },
         ref
     ) => {
@@ -39,7 +40,10 @@ const SpielInformations = forwardRef(
                 </div>
                 <div>
                     {selected === "Punkte" ? (
-                        <PunkteTabelle isDarkmode={isDarkmode} />
+                        <PunkteTabelle
+                            punkte={punkte}
+                            isDarkmode={isDarkmode}
+                        />
                     ) : selected === "Stich 1" ? (
                         <Stich
                             karten={karten}

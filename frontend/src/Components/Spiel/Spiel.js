@@ -26,6 +26,15 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
     const [selectedInfo, setSelectedInfo] = useState("Punkte");
     const [seeStiche, setSeeStiche] = useState(false);
     const [punkte, setPunkte] = useState([]);
+    const [isBieten, setIsBieten] = useState(false);
+    const [isHaltenWindow, setIsHaltenWindow] = useState(false);
+    const [gebotenDavor, setGebotenDavor] = useState(0);
+    const [isSchlagtauschWindow, setIsSchlagtauschWindow] = useState(false);
+    const [hasSchlagtausch, setHasSchlagtausch] = useState(false);
+    const [isSchlagtausch, setIsSchlagtausch] = useState(false);
+    const [isSchönereWindows, setIsSchönereWindow] = useState(false);
+    const [isSchönere, setIsSchönere] = useState(false);
+    const [hasSchönere, setHasSchönere] = useState(false);
 
     const chatRef = useRef();
     const infosRef = useRef();
@@ -81,6 +90,24 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
         socket.on("punkte", (data) => {
             setPunkte((prev) => [...prev, data]);
         });
+        socket.on("geboten", (data) => {
+            setGeboten(data);
+        });
+        socket.on("geboten davor", (team) => {
+            setGebotenDavor(team);
+        });
+        socket.on("neue Runde", () => {
+            setGebotenDavor(0);
+            setGeboten(2);
+            setSchlag("");
+            setTrumpf("");
+            setSeeCards(false);
+            setHasSchlagtausch(false);
+            setHasSchönere(false);
+        });
+        socket.on("kein schönere", () => {
+            setHasSchönere(true);
+        });
     }, []);
 
     useEffect(() => {
@@ -93,16 +120,45 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
         if (pos !== undefined) {
             let statusMe = status[calcPos(pos)];
             if (statusMe != null) {
-                if (!statusMe.includes("Gestochen")) setHover(true);
+                if (
+                    !statusMe.includes("Gestochen") &&
+                    statusMe !== "Geboten Antwort" &&
+                    statusMe !== "Schlagtausch Antwort"
+                ) {
+                    setHover(true);
+                    setIsBieten(true);
+                }
+                if (statusMe === "Geboten Antwort") {
+                    setHover(false);
+                    setIsHaltenWindow(true);
+                } else if (statusMe === "Schlagtausch Antwort") {
+                    setHover(false);
+                    setIsSchlagtauschWindow(true);
+                } else if (statusMe === "Schönere Antwort") {
+                    setHover(false);
+                    setIsSchönereWindow(true);
+                }
+
                 setMyStatus(statusMe);
                 setSeeCards(true);
-                if (statusMe === "Schlag" || statusMe === "Trumpf")
+                if (statusMe === "Schlag" || statusMe === "Trumpf") {
                     socket.on("schlag trumpf", (data) => {
                         console.log("Schlag Trumpf: " + data);
                         setSchlag(data.schlag);
                         setTrumpf(data.trumpf);
                     });
-            } else setHover(false);
+                    setIsSchlagtausch(true);
+                    setIsSchönere(true);
+                } else {
+                    setIsSchlagtausch(false);
+                    setIsSchönere(false);
+                }
+            } else {
+                setHover(false);
+                setIsSchlagtausch(false);
+                setIsSchönere(false);
+                setIsBieten(false);
+            }
         }
     }, [status]);
 
@@ -117,7 +173,11 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
     }, []);
 
     function selectCardHandler(e) {
-        if (myStatus !== "" || !myStatus.includes("Gestochen")) {
+        if (
+            myStatus !== "" ||
+            !myStatus.includes("Gestochen") ||
+            !myStatus === "Gebot Antwort"
+        ) {
             console.log("myStatus: " + myStatus);
             console.log(e.target.innerHTML);
             let card = e.target.innerHTML;
@@ -163,6 +223,72 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
         if (pos > 3) return pos - 4;
         return pos;
     }
+    function bietenHandler() {
+        if (
+            isBieten &&
+            gebotenDavor !== (pos % 2 === 0 ? 1 : 2) &&
+            !isHaltenWindow &&
+            !isSchlagtauschWindow &&
+            !isSchönereWindows
+        ) {
+            socket.emit("bieten", pos);
+        }
+    }
+    function schlagtauschHandler() {
+        if (
+            isSchlagtausch &&
+            !hasSchlagtausch &&
+            !isHaltenWindow &&
+            !isSchlagtauschWindow &&
+            !isSchönereWindows
+        ) {
+            setHasSchlagtausch(true);
+            socket.emit("schlagtausch", pos);
+        }
+    }
+
+    function schönereHandler() {
+        if (
+            isSchönere &&
+            !hasSchönere &&
+            !isHaltenWindow &&
+            !isSchlagtauschWindow &&
+            !isSchönereWindows
+        ) {
+            socket.emit("schönere", pos);
+        }
+    }
+
+    function haltenHandler() {
+        setIsHaltenWindow(false);
+        socket.emit("halten");
+    }
+
+    function ablehnenHandler() {
+        setIsHaltenWindow(false);
+        socket.emit("ablehnen", pos);
+    }
+    function schlagTauschJaHandler() {
+        //Ja Schlagtausch
+        setIsSchlagtauschWindow(false);
+        socket.emit("schlagtausch annehmen");
+    }
+    function schlagTauschNeinHandler() {
+        //Nein Schlagtausch
+        setIsSchlagtauschWindow(false);
+        socket.emit("schlagtausch ablehnen");
+    }
+    function schönereJaHandler() {
+        setIsSchönereWindow(false);
+        socket.emit("schönere annehmen");
+        //schönere Ja
+    }
+    function schönereNeinHandler() {
+        setIsSchönereWindow(false);
+        socket.emit("schönere ablehnen");
+        //schönere Nein
+    }
+
     return (
         <div className="w-full">
             {exist ? (
@@ -181,15 +307,124 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
                                 karten={kartenTisch}
                             />
                         </div>
+                        {/*fenster wenn geboten wird */}
+                        <div
+                            className={`fixed top-1/2 left-1/2 xl:ml-20 xl:mt-32 bg-white dark:bg-whiteDark p-6 rounded-st border-gray-400 border-4 z-10 ${
+                                isHaltenWindow ? "block" : "hidden"
+                            }`}
+                            style={{ transform: "translate(-50%, -50%)" }}
+                        >
+                            <p className="font-medium text-center text-2xl dark:text-white">
+                                {geboten + 1} halten?
+                            </p>
+                            <div className="flex mt-4 gap-4">
+                                <button
+                                    onClick={haltenHandler}
+                                    className="btn bg-primary dark:bg-primaryDark text-white dark:text-black text-center"
+                                >
+                                    Ja
+                                </button>
+                                <button
+                                    onClick={ablehnenHandler}
+                                    className="btn bg-bgWhite dark:bg-bgDark text-black dark:text-white text-center "
+                                >
+                                    Nein
+                                </button>
+                            </div>
+                        </div>
+                        {/*fenster für schlagtausch */}
+                        <div
+                            className={`fixed top-1/2 left-1/2 xl:ml-20 xl:mt-32 bg-white dark:bg-whiteDark p-6 rounded-st border-gray-400 border-4 z-10 ${
+                                isSchlagtauschWindow ? "block" : "hidden"
+                            }`}
+                            style={{ transform: "translate(-50%, -50%)" }}
+                        >
+                            <p className="font-medium text-center text-2xl dark:text-white">
+                                Schlagtausch?
+                            </p>
+                            <div className="flex justify-between mt-4 gap-4">
+                                <button
+                                    onClick={schlagTauschJaHandler}
+                                    className="btn bg-primary dark:bg-primaryDark text-white dark:text-black text-center"
+                                >
+                                    Ja
+                                </button>
+                                <button
+                                    onClick={schlagTauschNeinHandler}
+                                    className="btn bg-bgWhite dark:bg-bgDark text-black dark:text-white text-center "
+                                >
+                                    Nein
+                                </button>
+                            </div>
+                        </div>
+                        {/*fenster für  schänere*/}
+                        <div
+                            className={`fixed top-1/2 left-1/2 xl:ml-20 xl:mt-32 bg-white dark:bg-whiteDark p-6 rounded-st border-gray-400 border-4 z-10 ${
+                                isSchönereWindows ? "block" : "hidden"
+                            }`}
+                            style={{ transform: "translate(-50%, -50%)" }}
+                        >
+                            <p className="font-medium text-center text-2xl dark:text-white">
+                                Schönere?
+                            </p>
+                            <div className="flex justify-between mt-4 gap-4">
+                                <button
+                                    onClick={schönereJaHandler}
+                                    className="btn bg-primary dark:bg-primaryDark text-white dark:text-black text-center"
+                                >
+                                    Ja
+                                </button>
+                                <button
+                                    onClick={schönereNeinHandler}
+                                    className="btn bg-bgWhite dark:bg-bgDark text-black dark:text-white text-center "
+                                >
+                                    Nein
+                                </button>
+                            </div>
+                        </div>
                         <div className="flex justify-between mt-28 md:mt-28 mb-16 flex-wrap">
                             <div className="flex justify-between md:flex-col gap-1 sm:gap-8 md:gap-2 w-full md:w-max mb-4 md:mb-0">
-                                <button className="btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full">
+                                <button
+                                    onClick={bietenHandler}
+                                    className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
+                                        !isBieten ||
+                                        gebotenDavor ===
+                                            (pos % 2 === 0 ? 1 : 2) ||
+                                        isHaltenWindow ||
+                                        isSchlagtauschWindow ||
+                                        isSchönereWindows
+                                            ? "opacity-20 cursor-not-allowed"
+                                            : null
+                                    }`}
+                                >
                                     Bieten
                                 </button>
-                                <button className="btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white opacity-20 w-full">
+                                <button
+                                    onClick={schönereHandler}
+                                    className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
+                                        !isSchönere ||
+                                        hasSchönere ||
+                                        isSchlagtauschWindow ||
+                                        isHaltenWindow ||
+                                        isSchönereWindows
+                                            ? "opacity-20 cursor-not-allowed"
+                                            : null
+                                    }`}
+                                >
                                     Schönere
                                 </button>
-                                <button className="btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white opacity-20 w-full">
+                                <button
+                                    onClick={schlagtauschHandler}
+                                    className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
+                                        !isSchlagtausch ||
+                                        hasSchlagtausch ||
+                                        isSchlagtauschWindow ||
+                                        isHaltenWindow ||
+                                        isSchönereWindows
+                                            ? "opacity-20 cursor-not-allowed"
+                                            : null
+                                    }`}
+                                >
                                     Schlagtausch
                                 </button>
                             </div>

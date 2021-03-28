@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const databaseConfig = require("./databaseConf.json");
 const pool = new Pool(databaseConfig);
+const asyncHandler = require('express-async-handler');
 
 app.use(express.json());
 
@@ -166,4 +167,161 @@ app.get("/rankings", (((req, res) => {
     )
 })));
 
+app.post("/register", (((req, res) => {
+    pool.query(
+        "INSERT INTO public.users VALUES ($1, $2, $3, 0, 0, 0, 0)",
+        [req.body.username, req.body.password, req.body.email],
+        (error, results) => {
+            if(error){
+                res.status(400).json(results);
+            }
+            res.status(200).json(results);
+        }
+    )
+})));
+
+app.post("/game/results", asyncHandler((async (req, res) => {
+    let gameid = await insertgame(req, res);
+    let teamids = await insertteams(req, res, gameid);
+    if(req.body.gewinnerteam === 1){
+        insertwinner(res, teamids.team1id, gameid);
+        updateuser(true, req.body.team1stichespieler1, req.body.team1user1, res);
+        updateuser(true, req.body.team1stichespieler2, req.body.team1user2, res);
+        updateuser(false, req.body.team2stichespieler1, req.body.team2user1, res);
+        updateuser(false, req.body.team2stichespieler2, req.body.team2user2, res);
+    } else if (req.body.gewinnerteam === 2){
+        insertwinner(res, teamids.team2id, gameid);
+        updateuser(false, req.body.team1stichespieler1, req.body.team1user1, res);
+        updateuser(false, req.body.team1stichespieler2, req.body.team1user2, res);
+        updateuser(true, req.body.team2stichespieler1, req.body.team2user1, res);
+        updateuser(true, req.body.team2stichespieler2, req.body.team2user2, res);
+    }
+    await bindusers(req, res, teamids);
+    res.status(200).json({gameid: gameid, teamids: teamids});
+})));
+
+async function insertgame(req, res){
+    let queryres;
+    if(req.body.spielname === undefined){
+        res.status(400).json();
+    }
+    if (req.body.spielpwd === "" || req.body.spielpwd === undefined){
+        queryres = await pool.query(
+            "INSERT INTO public.spiel VALUES (DEFAULT, $1, NULL, DEFAULT)  RETURNING id",
+            [req.body.spielname]
+        )
+    } else {
+        queryres = await pool.query(
+            "INSERT INTO public.spiel VALUES (DEFAULT, $1, $2, DEFAULT) RETURNING id",
+            [req.body.spielname, req.body.spielpwd]
+        )
+    }
+    return queryres.rows[0].id;
+}
+
+async function insertteams(req, res, gameid){
+    //Team 1 einfuegen
+    let team1id = await pool.query(
+        "INSERT INTO public.team VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id",
+        [req.body.team1punkte, req.body.team1stichespieler1, req.body.team1stichespieler2, gameid]
+    );
+    //Team 2 einfuegen
+    let team2id = await pool.query(
+        "INSERT INTO public.team VALUES (DEFAULT, $1, $2, $3, $4) RETURNING id",
+        [req.body.team2punkte, req.body.team2stichespieler1, req.body.team2stichespieler2, gameid]
+    )
+    return {team1id: team1id.rows[0].id, team2id: team2id.rows[0].id};
+}
+
+function insertwinner(res, teamid, gameid){
+    pool.query(
+        "INSERT INTO public.gewinner VALUES ($1, $2)",
+        [teamid, gameid],
+        (error, results) => {
+            if(error){
+                res.status(400).send();
+            }
+        }
+    )
+}
+
+async function bindusers(req, res, teamids) {
+    //Bind Team 1 users
+    pool.query(
+        "INSERT INTO public.spielen_in VALUES ($1, $2, $3)",
+        [teamids.team1id, req.body.team1user1, req.body.team1stichespieler1],
+        (error, results) => {
+            if(error){
+                res.status(400).send();
+            }
+        }
+    );
+    pool.query(
+        "INSERT INTO public.spielen_in VALUES ($1, $2, $3)",
+        [teamids.team1id, req.body.team1user2, req.body.team1stichespieler2],
+        (error, results) => {
+            if(error){
+                res.status(400).send();
+            }
+        }
+    );
+
+    //Bind Team 2 users
+    pool.query(
+        "INSERT INTO public.spielen_in VALUES ($1, $2, $3)",
+        [teamids.team2id, req.body.team2user1, req.body.team2stichespieler1],
+        (error, results) => {
+            if(error){
+                res.status(400).send();
+            }
+        }
+    );
+    pool.query(
+        "INSERT INTO public.spielen_in VALUES ($1, $2, $3)",
+        [teamids.team2id, req.body.team2user2, req.body.team1stichespieler2],
+        (error, results) => {
+            if(error){
+                res.status(400).send();
+            }
+        }
+    );
+}
+
+function updateuser(won, addedstiche, username, res){
+    pool.query(
+        "SELECT anzstiche, punkte, gewonnenespiele, verlorenespiele FROM public.users WHERE username = $1",
+        [username],
+        (error, results) => {
+            if (error){
+                res.status(400).send();
+            }
+            let newstiche = results.rows[0].anzstiche + addedstiche;
+            if(won){
+                let newpoints = results.rows[0].punkte + 20;
+                let newwongames = results.rows[0].gewonnenespiele + 1;
+                pool.query(
+                  "UPDATE public.users SET anzstiche = $1, punkte = $2, gewonnenespiele = $3 WHERE username = $4",
+                    [newstiche, newpoints, newwongames, username],
+                    (error, results) => {
+                        if (error){
+                            res.status(400).send();
+                        }
+                    }
+                );
+            } else {
+                let newpoints = results.rows[0].punkte + 5;
+                let newlostgames = results.rows[0].verlorenespiele + 1;
+                pool.query(
+                    "UPDATE public.users SET anzstiche = $1, punkte = $2, gewonnenespiele = $3 WHERE username = $4",
+                    [newstiche, newpoints, newlostgames, username],
+                    (error, results) => {
+                        if (error){
+                            res.status(400).send();
+                        }
+                    }
+                );
+            }
+        }
+    )
+}
 app.listen(3000);

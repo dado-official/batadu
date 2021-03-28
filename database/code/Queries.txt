@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS spiel(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(32) NOT NULL,
     password VARCHAR(32),
-    datum DATE NOT NULL
+    datum DATE NOT NULL DEFAULT CURRENT_DATE
 );
 
 CREATE TABLE IF NOT EXISTS team(
@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS gewinner(
 CREATE TABLE IF NOT EXISTS spielen_in(
     teamid BIGINT NOT NULL,
     usersusername VARCHAR(15) NOT NULL,
+    stiche INT,
     PRIMARY KEY (teamid, usersusername),
     FOREIGN KEY (teamid) REFERENCES team(id) ON DELETE CASCADE,
     FOREIGN KEY (usersusername) REFERENCES users(username) ON DELETE CASCADE

@@ -1,5 +1,6 @@
 const express = require("express");
-const { emit } = require("process");
+const app = express();
+const cors = require("cors");
 const http = require("http").createServer();
 const io = require("socket.io")(http, {
     cors: { origin: "*" },
@@ -7,12 +8,26 @@ const io = require("socket.io")(http, {
 const KartenMaster = require("./GameElements/KartenMaster");
 const Room = require("./GameElements/Room");
 
-let counter = 0;
 let rooms = []; //array for all rooms
 
-rooms["Hirte"] = new Room({ userAnzahl: 4 });
+rooms["Hirte"] = new Room({ userAnzahl: 4, name: "Hirte" });
 kartenMaster = new KartenMaster(rooms["Hirte"]);
 kartenMaster.kartenMischen();
+
+app.use(cors());
+app.get("/room/select/:name", (req, res) => {
+    let name = req.params.name;
+    if (rooms[name].selectTeam()) {
+        res.send(true);
+    } else res.send(false);
+});
+
+app.get("/room/:name", (req, res) => {
+    let name = req.params.name;
+    res.send(rooms[name].getNecessary());
+});
+
+app.listen(3003, () => console.log("Listening on Port 3003"));
 
 io.on("connection", (socket) => {
     console.log("New Connection");
@@ -22,25 +37,50 @@ io.on("connection", (socket) => {
 
         kartenMaster = new KartenMaster(rooms[config.name]);
         kartenMaster.kartenMischen();
+
+        let i = 0;
+        let roomsSend = [];
+        for (var key in rooms) {
+            roomsSend[i] = rooms[key].getNecessary();
+            i++;
+        }
+        socket.broadcast.emit("rooms", roomsSend);
+    });
+
+    socket.on("getRooms", () => {
+        let i = 0;
+        let roomsSend = [];
+        for (var key in rooms) {
+            roomsSend[i] = rooms[key].getNecessary();
+            i++;
+        }
+        socket.emit("rooms", roomsSend);
     });
 
     socket.on("joinRoom", (data) => {
         //client joining a room
         let room = data.room;
         let user = data.user;
+        let team = data.team;
+        console.log("Team " + team);
 
-        if (rooms[room] === undefined) {
+        if (rooms[room] === undefined || rooms[room].freePos.length === 0) {
             socket.emit("roomNotExist");
             return;
         }
-        let pos = rooms[room].addUser(user);
+
+        if (team !== 0) {
+            let hasWorked = rooms[room].addTeam(team, user);
+            if (!hasWorked) socket.emit("roomNotExist");
+        } else {
+            let pos = rooms[room].addUser(user);
+        }
 
         socket.emit("roomExist"); //saying to the client that the room exists
 
         console.log("Room name: " + room);
 
         socket.join(room); //joinig a room
-        io.to(room).emit("joinRoom", counter);
         socket.emit("pos");
         io.to(room).emit("players", {
             userPos: rooms[room].userPos,
@@ -49,16 +89,9 @@ io.on("connection", (socket) => {
             userStatus: rooms[room].userStatus,
         });
 
-        /*socket.to(room).emit("chat", {
-            //sending to the chat who joined
-            message: `${user} ist dem Spiel beigetreten`,
-            sender: "System",
-            type: "text",
-        }); */
-
         console.log("Länge " + rooms[room].userPos.length);
         //Hier beginnt das Spiel :)
-        if (rooms[room].userPos.length === 4) {
+        if (rooms[room].freePos.length === 0) {
             console.log("ddat spiel beginnt");
             io.to(room).emit("chat", {
                 message: `Das Spiel beginnt`,
@@ -90,7 +123,14 @@ io.on("connection", (socket) => {
                 });
                 rooms[room].userStatus = [];
                 rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
-                io.to(room).emit("status", rooms[room].userStatus);
+                if (rooms[room].isInGestrichenTeam(rooms[room].amZug)) {
+                    io.to("4erle");
+                    let status = [];
+                    status[rooms[room].amZug] = "Geboten Antwort";
+                    io.to(room).emit("status", status);
+                } else {
+                    io.to(room).emit("status", rooms[room].userStatus);
+                }
             } else {
                 rooms[room].userStatus[rooms[room].schlagPos] = null;
                 io.to(room).emit("status", rooms[room].userStatus);
@@ -110,7 +150,21 @@ io.on("connection", (socket) => {
                 });
                 rooms[room].userStatus = [];
                 rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
-                io.to(room).emit("status", rooms[room].userStatus);
+                if (rooms[room].isInGestrichenTeam(rooms[room].amZug)) {
+                    io.to(room).emit("4erle");
+                    let status = [];
+                    status[rooms[room].amZug] = "Geboten Antwort";
+                    io.to(room).emit("status", status);
+                } else {
+                    io.to(room).emit("status", rooms[room].userStatus);
+                }
+                //if amzug == in gestrichen Team
+                /*
+                    Todo
+                    - function: im gestrichen Team  && only 1 team gestrichen
+                    - auch im schlag function
+                    - geboten 4 senden
+                */
             } else {
                 rooms[room].userStatus[rooms[room].trumpfPos] = null;
                 io.to(room).emit("status", rooms[room].userStatus);
@@ -133,6 +187,12 @@ io.on("connection", (socket) => {
             io.to(room).emit("status", status);
             rooms[room].gebotenDavor = rooms[room].getTeam(pos);
             io.to(room).emit("geboten davor", rooms[room].gebotenDavor);
+        });
+        socket.on("4erle halten", () => {
+            //geboten++
+            io.to(room).emit("status", rooms[room].userStatus);
+            rooms[room].geboten += 2;
+            io.to(room).emit("geboten", rooms[room].geboten);
         });
         socket.on("halten", () => {
             //geboten++
@@ -157,6 +217,12 @@ io.on("connection", (socket) => {
             let punkte = rooms[room].getTeamPunkteAbgelehnt(pos);
             io.to(room).emit("punkte", punkte);
 
+            if (rooms[room].isTeam1Gestrichen()) {
+                io.to(room).emit("team1 gestrichen");
+            }
+            if (rooms[room].isTeam2Gestrichen()) {
+                io.to(room).emit("team2 gestrichen");
+            }
             //neue Runde
             rooms[room].neueRunde();
             io.to(room).emit("neue Runde");
@@ -255,7 +321,19 @@ io.on("connection", (socket) => {
                 rooms[room].minusPosition();
                 rooms[room].userStatus = [];
                 rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
-                io.to(room).emit("status", rooms[room].userStatus);
+                if (
+                    rooms[room].isInGestrichenTeam(rooms[room].amZug) &&
+                    rooms[room].amZug === rooms[room].trumpfPos &&
+                    rooms[room].team1Stiche === 0 &&
+                    rooms[room].team2Stiche === 0
+                ) {
+                    io.to(room).emit("4erle");
+                    let status = [];
+                    status[rooms[room].amZug] = "Geboten Antwort";
+                    io.to(room).emit("status", status);
+                } else {
+                    io.to(room).emit("status", rooms[room].userStatus);
+                }
             } else {
                 //gewinner berechnen
                 console.log("Gewonnen: ");
@@ -284,6 +362,13 @@ io.on("connection", (socket) => {
                         //wenn ein Team 3 Punkte hat
                         let punkte = rooms[room].getTeamPunkte();
                         io.to(room).emit("punkte", punkte);
+
+                        if (rooms[room].isTeam1Gestrichen()) {
+                            io.to(room).emit("team1 gestrichen");
+                        }
+                        if (rooms[room].isTeam2Gestrichen()) {
+                            io.to(room).emit("team2 gestrichen");
+                        }
 
                         //neue Runde
                         rooms[room].neueRunde();
@@ -318,7 +403,28 @@ io.on("connection", (socket) => {
 
         socket.on("disconnect", () => {
             rooms[room].removeUser(user);
-            console.log(rooms);
+            socket.to(room).emit("players", {
+                userPos: rooms[room].userPos,
+                userTeam: rooms[room].userTeam,
+                userStiche: rooms[room].userStiche,
+                userStatus: rooms[room].userStatus,
+            });
+            let reset = rooms[room].tryNeueRunde();
+            if (reset) {
+                socket.to(room).emit("neue Runde");
+                socket.to(room).emit("reset status");
+            }
+            if (rooms[room].freePos.length === 4) {
+                delete rooms[room];
+                console.log("delete");
+                let i = 0;
+                let roomsSend = [];
+                for (var key in rooms) {
+                    roomsSend[i] = rooms[key].getNecessary();
+                    i++;
+                }
+                socket.broadcast.emit("rooms", roomsSend);
+            }
             socket.to(room).emit("chat", {
                 message: `${user} disconnect`,
                 sender: "System",

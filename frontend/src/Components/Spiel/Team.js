@@ -16,21 +16,25 @@ const Team = ({ spieler1, spieler2, punkte, team, selected, setSelected }) => {
         >
             <p
                 className={`font-bold px-2 w-12ch text-center ${
-                    spieler1 === ""
+                    spieler1 === undefined || spieler1 === null
                         ? "text-secondary dark:text-secondaryDark underline"
                         : "dark:text-white"
                 }`}
             >
-                {spieler1 === "" ? "offen" : spieler1}
+                {spieler1 === undefined || spieler1 === null
+                    ? "offen"
+                    : spieler1}
             </p>
             <p
                 className={`font-bold w-12ch px-2 text-center ${
-                    spieler2 === ""
+                    spieler2 === undefined || spieler2 === null
                         ? "text-secondary dark:text-secondaryDark underline"
                         : "dark:text-white"
                 }`}
             >
-                {spieler2 === "" ? "offen" : spieler2}
+                {spieler2 === undefined || spieler2 === null
+                    ? "offen"
+                    : spieler2}
             </p>
             <p className="text-2xl text-gray-500 dark:text-gray-300 text-center px-8 py-3 border-l-2 border-gray-400 dark:border-gray-600 font-bold">
                 {punkte}

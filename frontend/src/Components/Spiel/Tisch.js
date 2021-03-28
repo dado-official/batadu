@@ -95,7 +95,8 @@ const Tisch = ({
                 />
             </div>
             {/*AccountsInformations */}
-            {users[calcPos(2 + pos)] !== undefined ? (
+            {users[calcPos(2 + pos)] !== undefined &&
+            users[calcPos(2 + pos)] !== null ? (
                 <div className="absolute -top-10 top md:left-1/2 flex flex-col items-center">
                     <NameContainer name={users[calcPos(2 + pos)]} />
                     <UserGameInfo
@@ -108,7 +109,8 @@ const Tisch = ({
                 </div>
             ) : null}
 
-            {users[calcPos(3 + pos)] !== undefined ? (
+            {users[calcPos(3 + pos)] !== undefined &&
+            users[calcPos(3 + pos)] !== null ? (
                 <div className="absolute top-1/2 left -left-4 flex flex-col items-center">
                     <NameContainer name={users[calcPos(3 + pos)]} />
                     <UserGameInfo
@@ -121,7 +123,8 @@ const Tisch = ({
                 </div>
             ) : null}
 
-            {users[calcPos(1 + pos)] !== undefined ? (
+            {users[calcPos(1 + pos)] !== undefined &&
+            users[calcPos(1 + pos)] !== null ? (
                 <div className="absolute top-1/2 -right-4 right flex flex-col items-center">
                     <NameContainer name={users[calcPos(1 + pos)]} />
                     <UserGameInfo
@@ -134,7 +137,8 @@ const Tisch = ({
                 </div>
             ) : null}
 
-            {users[calcPos(0 + pos)] !== undefined ? (
+            {users[calcPos(0 + pos)] !== undefined &&
+            users[calcPos(0 + pos)] !== null ? (
                 <div className="absolute -bottom-4 bottom left-1/2 flex flex-col items-center">
                     <NameContainer name={users[calcPos(0 + pos)]} />
                     <UserGameInfo

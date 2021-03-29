@@ -30,18 +30,42 @@ app.get("/user", ((req, res) => {
 }));
 
 //Gets all the games in which a user participated
-app.get("/user/games", (((req, res) => {
-    pool.query(
-        "SELECT spiel.id, spiel.name, spiel.password, spiel.datum FROM public.spiel, public.team, public.spielen_in, public.users WHERE team.id = spielen_in.teamid AND users.username = spielen_in.usersusername AND team.spielid = spiel.id AND users.username = $1",
-        [req.body.username],
-        (error, results) => {
-            if(error){
-                throw error;
-            }
-            res.status(200).json(results.rows);
+app.get("/user/games", asyncHandler((async(req, res) => {
+    let gameinfos = await pool.query(
+        "SELECT spiel.id, spiel.datum, spielen_in.stiche, spielen_in.teamid FROM public.spiel, public.team, public.spielen_in, public.users WHERE team.id = spielen_in.teamid AND users.username = spielen_in.usersusername AND team.spielid = spiel.id AND users.username = $1",
+        [req.body.username]
+    );
+    let teams = await getteampoints(gameinfos.rows[0].id, gameinfos.rows[0].teamid);
+    let returns;
+    if(teams.myteampoints > teams.otherteampoints){
+        returns = [{gameid: gameinfos.rows[0].id, gamedate: gameinfos.rows[0].datum, mystiche: gameinfos.rows[0].stiche, amiawinner: true, wonpoints: 20, teams}];
+    } else {
+        returns = [{gameid: gameinfos.rows[0].id, gamedate: gameinfos.rows[0].datum, mystiche: gameinfos.rows[0].stiche, amiawinner: false, wonpoints: 5, teams}];
+    }
+    for (let i = 1; i < gameinfos.rowCount; i++) {
+        teams = await getteampoints(gameinfos.rows[i].id, gameinfos.rows[i].teamid);
+        if(teams.myteampoints > teams.otherteampoints){
+            returns.push({gameid: gameinfos.rows[i].id, gamedate: gameinfos.rows[i].datum, mystiche: gameinfos.rows[i].stiche, amiawinner: true, wonpoints: 20, teams});
+        } else {
+            returns.push({gameid: gameinfos.rows[i].id, gamedate: gameinfos.rows[i].datum, mystiche: gameinfos.rows[i].stiche, amiawinner: false, wonpoints: 5, teams})
         }
-    )
+    }
+    res.status(200).json(returns);
 })));
+
+async function getteampoints(gameid, myteamid){
+    let teams = await pool.query(
+        "SELECT team.id, team.punkte FROM public.team WHERE team.spielid = $1",
+        [gameid]
+    )
+    if(teams.rows[0].id === myteamid){
+        return {myteampoints: teams.rows[0].punkte, otherteampoints: teams.rows[1].punkte};
+    } else if (teams.rows[1].id === myteamid){
+        return {myteampoints: teams.rows[1].punkte, otherteampoints: teams.rows[0].punkte};
+    } else {
+        return {myteampoints: null, otherteampoints: null};
+    }
+};
 
 //Gets stats from a user, like won and lost games, winrate, "stiche" and "stiche"/game
 app.get("/user/stats", (((req, res) => {

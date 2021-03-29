@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Create from "../../assets/create-24px.svg";
 import Create2 from "../../assets/add_circle-24px.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Name from "../../assets/drive_file_rename_outline-24px.svg";
 import PunkteSelector from "../Shared/SelectElement";
 import Switch from "./Switch";
@@ -14,6 +14,8 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
     const [isPassword, setIsPassword] = useState(false);
     const [spieler, setSpieler] = useState("4");
     const [modus, setModus] = useState("Offen");
+    const [problem, setProblem] = useState("");
+    const history = useHistory();
 
     useEffect(() => {
         setUrl("/");
@@ -32,12 +34,17 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
     }
 
     function createGame() {
-        socket.emit("createRoom", {
-            spielerAnzahl: spieler,
-            punkte: punkte,
-            name: spielName,
-            modus: modus,
-        });
+        if (spielName === "" || spielName === " ") {
+            setProblem("Der Spielname fehlt!");
+        } else {
+            socket.emit("createRoom", {
+                spielerAnzahl: spieler,
+                punkte: punkte,
+                name: spielName,
+                modus: modus,
+            });
+            history.push(`/spielen/${spielName}`);
+        }
     }
 
     return (
@@ -156,9 +163,15 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                     </div>
                 </div>
             </div>
+            <p
+                className={`${
+                    problem === "" ? "hidden" : "block"
+                } text-xm text-primary dark:text-primaryDark`}
+            >
+                {problem}
+            </p>
             {/*Button + Zurück Link*/}
-            <Link
-                to={`/spielen/${spielName}`}
+            <button
                 onClick={createGame}
                 className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
             >
@@ -168,7 +181,7 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                     className={`${!isDarkmode ? "whiteSVG" : null}`}
                 />
                 <p>Erstellen</p>
-            </Link>
+            </button>
             <p className="text-sm pt-8 text-gray-600 dark:text-gray-400 mb-8 md:mb-12 lg:mb-16">
                 Möchten Sie ein Spiel beitreten?{" "}
                 <Link to="/spielen">

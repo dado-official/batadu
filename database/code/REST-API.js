@@ -30,18 +30,42 @@ app.get("/user", ((req, res) => {
 }));
 
 //Gets all the games in which a user participated
-app.get("/user/games", (((req, res) => {
-    pool.query(
-        "SELECT spiel.id, spiel.name, spiel.password, spiel.datum FROM public.spiel, public.team, public.spielen_in, public.users WHERE team.id = spielen_in.teamid AND users.username = spielen_in.usersusername AND team.spielid = spiel.id AND users.username = $1",
-        [req.body.username],
-        (error, results) => {
-            if(error){
-                throw error;
-            }
-            res.status(200).json(results.rows);
+app.get("/user/games", asyncHandler((async(req, res) => {
+    let gameinfos = await pool.query(
+        "SELECT spiel.id, spiel.datum, spielen_in.stiche, spielen_in.teamid FROM public.spiel, public.team, public.spielen_in, public.users WHERE team.id = spielen_in.teamid AND users.username = spielen_in.usersusername AND team.spielid = spiel.id AND users.username = $1",
+        [req.body.username]
+    );
+    let teams = await getteampoints(gameinfos.rows[0].id, gameinfos.rows[0].teamid);
+    let returns;
+    if(teams.myteampoints > teams.otherteampoints){
+        returns = [{gameid: gameinfos.rows[0].id, gamedate: gameinfos.rows[0].datum, mystiche: gameinfos.rows[0].stiche, amiawinner: true, wonpoints: 20, teams}];
+    } else {
+        returns = [{gameid: gameinfos.rows[0].id, gamedate: gameinfos.rows[0].datum, mystiche: gameinfos.rows[0].stiche, amiawinner: false, wonpoints: 5, teams}];
+    }
+    for (let i = 1; i < gameinfos.rowCount; i++) {
+        teams = await getteampoints(gameinfos.rows[i].id, gameinfos.rows[i].teamid);
+        if(teams.myteampoints > teams.otherteampoints){
+            returns.push({gameid: gameinfos.rows[i].id, gamedate: gameinfos.rows[i].datum, mystiche: gameinfos.rows[i].stiche, amiawinner: true, wonpoints: 20, teams});
+        } else {
+            returns.push({gameid: gameinfos.rows[i].id, gamedate: gameinfos.rows[i].datum, mystiche: gameinfos.rows[i].stiche, amiawinner: false, wonpoints: 5, teams})
         }
-    )
+    }
+    res.status(200).json(returns);
 })));
+
+async function getteampoints(gameid, myteamid){
+    let teams = await pool.query(
+        "SELECT team.id, team.punkte FROM public.team WHERE team.spielid = $1",
+        [gameid]
+    )
+    if(teams.rows[0].id === myteamid){
+        return {myteampoints: teams.rows[0].punkte, otherteampoints: teams.rows[1].punkte};
+    } else if (teams.rows[1].id === myteamid){
+        return {myteampoints: teams.rows[1].punkte, otherteampoints: teams.rows[0].punkte};
+    } else {
+        return {myteampoints: null, otherteampoints: null};
+    }
+};
 
 //Gets stats from a user, like won and lost games, winrate, "stiche" and "stiche"/game
 app.get("/user/stats", (((req, res) => {
@@ -62,7 +86,7 @@ app.get("/user/stats", (((req, res) => {
 
 //Gets a level based on the amount of points
 app.get("/level", (((req, res) => {
-    let punkte = req.body.punkte;
+    let punkte = req.body.points;
     pool.query(
         "SELECT * FROM public.level WHERE erforderlichepunkte < $1 ORDER BY erforderlichepunkte DESC",
         [punkte],
@@ -92,7 +116,7 @@ app.get("/user/level", (((req, res) => {
     let username = req.body.username;
     pool.query(
         "SELECT punkte FROM public.users WHERE username = $1",
-        username,
+        [username],
         (error, results) => {
             if(error){
                 throw error;
@@ -101,7 +125,7 @@ app.get("/user/level", (((req, res) => {
             if(punkte === 0){
                 let currentlevel = {nr: 0, erforderlichepunkte: 0};
                 let nextlevel = {nr: 1, erforderlichepunkte: 20};
-                let response = {username: username[0], punkte, currentlevel, nextlevel};
+                let response = {username: username, punkte, currentlevel, nextlevel};
                 res.status(200).json(response);
                 return;
             }
@@ -121,7 +145,7 @@ app.get("/user/level", (((req, res) => {
                                 throw err;
                             }
                             let nextlevel = result.rows[0];
-                            let response = {username: username[0], punkte, currentlevel, nextlevel};
+                            let response = {username: username, punkte, currentlevel, nextlevel};
                             res.status(200).json(response);
                         }
                     )
@@ -173,14 +197,23 @@ app.post("/register", (((req, res) => {
         [req.body.username, req.body.password, req.body.email],
         (error, results) => {
             if(error){
-                res.status(400).json(results);
+                res.status(400).send();
             }
-            res.status(200).json(results);
+            res.status(200).send();
         }
     )
 })));
 
 app.post("/game/results", asyncHandler((async (req, res) => {
+    //Check if a user exists
+    let results = await pool.query(
+        "SELECT username FROM public.users WHERE username = $1 OR username = $2 OR username = $3 OR username = $4",
+        [req.body.team1user1, req.body.team1user2, req.body.team2user1, req.body.team2user2]
+    );
+    if(results.rowCount === 0){
+        res.status(400).send();
+        return;
+    }
     let gameid = await insertgame(req, res);
     let teamids = await insertteams(req, res, gameid);
     if(req.body.gewinnerteam === 1){
@@ -203,7 +236,7 @@ app.post("/game/results", asyncHandler((async (req, res) => {
 async function insertgame(req, res){
     let queryres;
     if(req.body.spielname === undefined){
-        res.status(400).json();
+        res.status(400).send();
     }
     if (req.body.spielpwd === "" || req.body.spielpwd === undefined){
         queryres = await pool.query(
@@ -295,7 +328,12 @@ function updateuser(won, addedstiche, username, res){
             if (error){
                 res.status(400).send();
             }
-            let newstiche = results.rows[0].anzstiche + addedstiche;
+            let newstiche;
+            if(results.rows[0].anzstiche === undefined){
+                newstiche = addedstiche;
+            } else {
+                newstiche = results.rows[0].anzstiche + addedstiche;
+            }
             if(won){
                 let newpoints = results.rows[0].punkte + 20;
                 let newwongames = results.rows[0].gewonnenespiele + 1;
@@ -324,4 +362,17 @@ function updateuser(won, addedstiche, username, res){
         }
     )
 }
+
+app.get("/cards", (((req, res) => {
+    pool.query(
+        "SELECT bezeichnung, pfad FROM public.karten where bezeichnung = $1",
+        [req.body.name],
+        (error, results) => {
+            if(error) {
+                res.status(500).send();
+            }
+            res.status(200).json(results.rows);
+        }
+    )
+})))
 app.listen(3000);

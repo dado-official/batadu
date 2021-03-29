@@ -22,7 +22,6 @@ const Room = ({
                 if (res.data) {
                     history.push(`/team/${roomName}`);
                 } else {
-                    setTeam(0);
                     history.push(`/spielen/${roomName}`);
                 }
             });

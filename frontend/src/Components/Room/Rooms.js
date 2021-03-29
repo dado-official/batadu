@@ -15,6 +15,7 @@ const Rooms = ({ setUrl, isDarkmode, socket, setTeam }) => {
             console.log(data);
             setRooms(data);
         });
+        setTeam(0);
     }, []);
 
     useEffect(() => {

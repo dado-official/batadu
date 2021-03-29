@@ -223,18 +223,44 @@ io.on("connection", (socket) => {
             if (rooms[room].isTeam2Gestrichen()) {
                 io.to(room).emit("team2 gestrichen");
             }
-            //neue Runde
-            rooms[room].neueRunde();
-            io.to(room).emit("neue Runde");
-            kartenMaster.kartenMischen();
-            kartenMaster.kartenAusteilen();
-            io.to(room).emit("karten", rooms[room].userCards);
-            rooms[room].userStatus[rooms[room].schlagPos] = "Schlag";
-            rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
-            io.to(room).emit("status", rooms[room].userStatus);
-            io.to(room).emit("tischkarten", rooms[room].tischCards);
+            let winningTeam = rooms[room].checkWin();
+            if (winningTeam !== 0) {
+                console.log("Jemand hat gewonnen");
+                io.to(room).emit("win", winningTeam);
+                setTimeout(() => {
+                    if (rooms[room].freePos.length === 0) {
+                        console.log("ddat spiel beginnt");
+                        io.to(room).emit("chat", {
+                            message: `Das Spiel beginnt`,
+                            sender: "System",
+                            type: "text",
+                        });
+                        rooms[room].neuesSpiel();
+                        io.to(room).emit("reset");
+                        kartenMaster.kartenMischen();
+                        kartenMaster.kartenAusteilen();
+                        io.to(room).emit("karten", rooms[room].userCards);
+                        rooms[room].userStatus[rooms[room].schlagPos] =
+                            "Schlag";
+                        rooms[room].userStatus[rooms[room].trumpfPos] =
+                            "Trumpf";
+                        io.to(room).emit("status", rooms[room].userStatus);
+                    }
+                }, 10000);
+            } else {
+                //neue Runde
+                rooms[room].neueRunde();
+                io.to(room).emit("neue Runde");
+                kartenMaster.kartenMischen();
+                kartenMaster.kartenAusteilen();
+                io.to(room).emit("karten", rooms[room].userCards);
+                rooms[room].userStatus[rooms[room].schlagPos] = "Schlag";
+                rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
+                io.to(room).emit("status", rooms[room].userStatus);
+                io.to(room).emit("tischkarten", rooms[room].tischCards);
 
-            console.log("gewonnen");
+                console.log("gewonnen");
+            }
         });
         socket.on("schlagtausch", (pos) => {
             let antwortenPos;
@@ -370,20 +396,58 @@ io.on("connection", (socket) => {
                             io.to(room).emit("team2 gestrichen");
                         }
 
-                        //neue Runde
-                        rooms[room].neueRunde();
-                        io.to(room).emit("neue Runde");
-                        kartenMaster.kartenMischen();
-                        kartenMaster.kartenAusteilen();
-                        io.to(room).emit("karten", rooms[room].userCards);
-                        rooms[room].userStatus[rooms[room].schlagPos] =
-                            "Schlag";
-                        rooms[room].userStatus[rooms[room].trumpfPos] =
-                            "Trumpf";
-                        io.to(room).emit("status", rooms[room].userStatus);
-                        io.to(room).emit("tischkarten", rooms[room].tischCards);
+                        let winningTeam = rooms[room].checkWin();
+                        if (winningTeam !== 0) {
+                            console.log("Jemand hat gewonnen");
+                            io.to(room).emit("win", winningTeam);
+                            setTimeout(() => {
+                                if (rooms[room].freePos.length === 0) {
+                                    console.log("ddat spiel beginnt");
+                                    io.to(room).emit("chat", {
+                                        message: `Das Spiel beginnt`,
+                                        sender: "System",
+                                        type: "text",
+                                    });
+                                    rooms[room].neuesSpiel();
+                                    io.to(room).emit("reset");
 
-                        console.log("gewonnen");
+                                    kartenMaster.kartenMischen();
+                                    kartenMaster.kartenAusteilen();
+                                    io.to(room).emit(
+                                        "karten",
+                                        rooms[room].userCards
+                                    );
+                                    rooms[room].userStatus[
+                                        rooms[room].schlagPos
+                                    ] = "Schlag";
+                                    rooms[room].userStatus[
+                                        rooms[room].trumpfPos
+                                    ] = "Trumpf";
+                                    io.to(room).emit(
+                                        "status",
+                                        rooms[room].userStatus
+                                    );
+                                }
+                            }, 10000);
+                        } else {
+                            //neue Runde
+                            rooms[room].neueRunde();
+                            io.to(room).emit("neue Runde");
+                            kartenMaster.kartenMischen();
+                            kartenMaster.kartenAusteilen();
+                            io.to(room).emit("karten", rooms[room].userCards);
+                            rooms[room].userStatus[rooms[room].schlagPos] =
+                                "Schlag";
+                            rooms[room].userStatus[rooms[room].trumpfPos] =
+                                "Trumpf";
+                            io.to(room).emit("status", rooms[room].userStatus);
+                            io.to(room).emit(
+                                "tischkarten",
+                                rooms[room].tischCards
+                            );
+
+                            console.log("gewonnen");
+                        }
                     } else {
                         rooms[room].resetAfterStich(gewonnenPos);
                         rooms[room].userStatus = [];

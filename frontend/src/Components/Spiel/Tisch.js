@@ -66,34 +66,46 @@ const Tisch = ({
                 Geboten: <span className="font-bold">{geboten}</span>
             </p>
             {/*AccountLevels */}
-            <div className="absolute -top-10 left-1/2 topBadge">
-                <LevelBadge
-                    className="tisch"
-                    level={20}
-                    isDarkmode={isDarkmode}
-                />
-            </div>
-            <div className="absolute top-1/2 -left-10 leftBadge">
-                <LevelBadge
-                    className="tisch"
-                    level={190}
-                    isDarkmode={isDarkmode}
-                />
-            </div>
-            <div className="absolute top-1/2 -right-10 rightBadge">
-                <LevelBadge
-                    className="tisch"
-                    level={7}
-                    isDarkmode={isDarkmode}
-                />
-            </div>
-            <div className="absolute -bottom-10 left-1/2 bottomBadge">
-                <LevelBadge
-                    className="tisch"
-                    level={29}
-                    isDarkmode={isDarkmode}
-                />
-            </div>
+            {users[calcPos(2 + pos)] !== undefined &&
+            users[calcPos(2 + pos)] !== null ? (
+                <div className="absolute -top-10 left-1/2 topBadge">
+                    <LevelBadge
+                        className="tisch"
+                        level={1}
+                        isDarkmode={isDarkmode}
+                    />
+                </div>
+            ) : null}
+            {users[calcPos(3 + pos)] !== undefined &&
+            users[calcPos(3 + pos)] !== null ? (
+                <div className="absolute top-1/2 -left-10 leftBadge">
+                    <LevelBadge
+                        className="tisch"
+                        level={1}
+                        isDarkmode={isDarkmode}
+                    />
+                </div>
+            ) : null}
+            {users[calcPos(1 + pos)] !== undefined &&
+            users[calcPos(1 + pos)] !== null ? (
+                <div className="absolute top-1/2 -right-10 rightBadge">
+                    <LevelBadge
+                        className="tisch"
+                        level={1}
+                        isDarkmode={isDarkmode}
+                    />
+                </div>
+            ) : null}
+            {users[calcPos(0 + pos)] !== undefined &&
+            users[calcPos(0 + pos)] !== null ? (
+                <div className="absolute -bottom-10 left-1/2 bottomBadge">
+                    <LevelBadge
+                        className="tisch"
+                        level={1}
+                        isDarkmode={isDarkmode}
+                    />
+                </div>
+            ) : null}
             {/*AccountsInformations */}
             {users[calcPos(2 + pos)] !== undefined &&
             users[calcPos(2 + pos)] !== null ? (

@@ -2,7 +2,7 @@ class Room {
     constructor(config) {
         this.configRoom = config;
         this.name = config.name;
-        this.maxPoints = 18;
+        this.maxPoints = config.punkte;
         this.team1Punkte = 14; //sollte 0 sein
         this.team2Punkte = 16; //sollte 0 sein
         this.freePos = [0, 1, 2, 3];
@@ -29,8 +29,34 @@ class Room {
         this.geboten = 2;
         this.gebotenDavor = 0;
         this.schlagtausch = false;
+        console.log("max points: " + this.maxPoints);
 
         return 0;
+    }
+
+    neuesSpiel() {
+        this.team1Punkte = 0; //sollte 0 sein
+        this.team2Punkte = 0; //sollte 0 sein
+        this.userStiche = [0, 0, 0, 0];
+        this.team1Stiche = 0;
+        this.team2Stiche = 0;
+        this.userStatus = [];
+        this.userCards = [];
+        this.tischCards = [];
+        this.tischCardsObject = [];
+        this.schlagPos = 0;
+        this.trumpfPos = 1;
+        this.schlagGewaelt = false;
+        this.trumpfGewaelt = false;
+        this.schlag;
+        this.trumpf;
+        this.amZug = 0;
+        this.zugStart = 0;
+        this.gelegt = 0;
+        this.stich = 0;
+        this.geboten = 2;
+        this.gebotenDavor = 0;
+        this.schlagtausch = false;
     }
 
     getTeam(pos) {
@@ -291,28 +317,24 @@ class Room {
     selectTeam() {
         if (this.freePos.length >= 2) {
             if (this.freePos.length === 2) {
-                if (
-                    this.userPos[0] !== undefined ||
-                    (this.userPos[0] !== null &&
-                        this.userPos[2] !== undefined) ||
-                    this.userPos[2] !== null
-                ) {
+                if (this.freePos.includes(0) && this.freePos.includes(2))
                     return false;
-                }
-                if (
-                    this.userPos[1] !== undefined ||
-                    (this.userPos[1] !== null &&
-                        this.userPos[3] !== undefined) ||
-                    this.userPos[3] !== null
-                ) {
+                if (this.freePos.includes(1) && this.freePos.includes(3))
                     return false;
-                }
             }
             return true;
         }
         return false;
     }
 
+    checkWin() {
+        if (this.team1Punkte >= this.maxPoints) {
+            return 1;
+        } else if (this.team2Punkte >= this.maxPoints) {
+            return 2;
+        }
+        return 0;
+    }
     /*
 
     leaveRoom(personalInfo) {

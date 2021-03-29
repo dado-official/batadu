@@ -8,6 +8,7 @@ import axios from "axios";
 const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
     const [selected, setSelected] = useState(1);
     const [data, setData] = useState({ users: [] });
+    const [clicked, setClicked] = useState(false);
     const { room } = useParams();
     const history = useHistory();
 
@@ -19,6 +20,7 @@ const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
     }, []);
 
     const handlenOnClick = () => {
+        setClicked(true);
         setTeam(selected);
     };
 

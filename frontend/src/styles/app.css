@@ -391,3 +391,17 @@ body {
     transform: translateY(-100%);
     transition: 0.5s;
 }
+
+.countdown {
+    transition: all 1s;
+    animation: linear count 10s;
+}
+
+@keyframes count {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}

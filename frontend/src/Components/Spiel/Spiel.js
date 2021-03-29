@@ -42,6 +42,10 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
     const [isTeam1Gestrichen, setIsTeam1Gestrichen] = useState(false);
     const [isTeam2Gestrichen, setIsTeam2Gestrichen] = useState(false);
     const [is4erle, setIs4erle] = useState(false);
+    const [isOver, setIsOver] = useState(false);
+    const [won, setWon] = useState(false);
+    const [winningTeam, setWinningTeam] = useState(0);
+    const [showTimer, setShowTimer] = useState(false);
 
     const chatRef = useRef();
     const infosRef = useRef();
@@ -111,6 +115,21 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
             setHasSchlagtausch(false);
             setHasSchönere(false);
         });
+        socket.on("reset", () => {
+            console.log("resettttt");
+            setGebotenDavor(0);
+            setGeboten(2);
+            setSchlag("");
+            setTrumpf("");
+            setSeeCards(false);
+            setHasSchlagtausch(false);
+            setHasSchönere(false);
+            setKartenTisch([]);
+            setKarten([]);
+            setPunkte([]);
+            setIsTeam1Gestrichen(false);
+            setIsTeam2Gestrichen(false);
+        });
         socket.on("kein schönere", () => {
             setHasSchönere(true);
         });
@@ -125,6 +144,10 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
         });
         socket.on("reset status", () => {
             setStatus([]);
+        });
+        socket.on("win", (winningTeam) => {
+            setWinningTeam(winningTeam);
+            setIsOver(true);
         });
     }, []);
 
@@ -189,6 +212,27 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
     useEffect(() => {
         setUrl("/");
     }, []);
+
+    useEffect(() => {
+        console.log("Team: " + {});
+        if (winningTeam === 1 && pos % 2 === 0) {
+            setWon(true);
+        } else if (winningTeam === 2 && pos % 2 !== 0) {
+            setWon(true);
+        } else {
+            setWon(false);
+        }
+    }, [winningTeam]);
+
+    useEffect(() => {
+        if (isOver) {
+            setShowTimer(true);
+            setTimeout(() => {
+                setShowTimer(false);
+                setIsOver(false);
+            }, 10000);
+        }
+    }, [isOver]);
 
     function selectCardHandler(e) {
         if (
@@ -321,28 +365,72 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
         //schönere Nein
     }
 
+    function playAgainHandler() {
+        setIsOver(false);
+    }
+
     return (
         <div className="w-full">
             {exist ? (
                 <div className="relative grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-16">
                     <div className="xl:col-span-2 relative">
-                        <div className="flex justify-center mt-8">
-                            <Tisch
-                                geboten={geboten}
-                                isDarkmode={isDarkmode}
-                                users={users}
-                                pos={pos}
-                                teams={teams}
-                                stiche={stiche}
-                                status={status}
-                                calcPos={calcPos}
-                                karten={kartenTisch}
-                            />
+                        {/*Countdown bar */}
+                        <div
+                            data
+                            className={`${
+                                showTimer ? "countdown" : "hidden"
+                            } h-2 bg-secondary z-30 dark:bg-secondaryDark absolute rounded-st bottom-0 mb-16`}
+                        ></div>
+                        <div
+                            className={`flex justify-center mt-8 ${
+                                isOver ? "h-32" : null
+                            }`}
+                        >
+                            {!isOver ? (
+                                <Tisch
+                                    geboten={geboten}
+                                    isDarkmode={isDarkmode}
+                                    users={users}
+                                    pos={pos}
+                                    teams={teams}
+                                    stiche={stiche}
+                                    status={status}
+                                    calcPos={calcPos}
+                                    karten={kartenTisch}
+                                />
+                            ) : (
+                                <div className="bg-white h-bottomSpiel dark:bg-whiteDark absolute w-full top-0 left-0 z-20 rounded-st flex justify-center items-center">
+                                    <div className="flex justify-center items-center flex-col w-96 max-w-1/9">
+                                        <h3 className="dark:text-white text-4xl text-center font-bold">
+                                            {won ? "Gratulation!" : "Schade!"}
+                                            <br />
+                                            {won
+                                                ? "Sie haben gewonnen"
+                                                : "Sie haben verloren"}
+                                        </h3>
+                                        <h6 className="text-center text-xl text-gray-500 dark:text-gray-400 mt-4">
+                                            Sie können jetzt das Spiel verlassen
+                                            oder Sie spielen nochmal
+                                        </h6>
+                                        <button
+                                            onClick={playAgainHandler}
+                                            className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st cursor-pointer mt-8 xl:mt-20"
+                                        >
+                                            Nochmal Spielen
+                                        </button>
+                                        <Link to="/spielen" className="w-full">
+                                            <button className=" bg-bgWhite dark:bg-bgDark  dark:text-white font-medium w-full py-2 rounded-st cursor-pointer mt-4">
+                                                Verlassen
+                                            </button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                         {/*fenster wenn man gewinnt*/}
                         {/*fenster wenn geboten wird */}
                         <div
-                            className={`fixed mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                            className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
                                 isHaltenWindow ? "fadein" : "fadeout"
                             }`}
                         >
@@ -369,7 +457,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
                         </div>
                         {/*fenster für schlagtausch */}
                         <div
-                            className={`fixed mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                            className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
                                 isSchlagtauschWindow ? "fadein" : "fadeout"
                             }`}
                         >
@@ -394,7 +482,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
 
                         {/*fenster für  schönere*/}
                         <div
-                            className={`fixed mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                            className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
                                 isSchönereWindows ? "fadein" : "fadeout"
                             }`}
                         >

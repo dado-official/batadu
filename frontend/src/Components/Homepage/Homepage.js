@@ -20,18 +20,18 @@ const Homepage = ({ setUrl, isDarkmode }) => {
 
     return (
         <div className="flex w-1450 max-w-1/9 mx-auto py-12 md:my-auto">
-            <div className="w-full lg:flex-1">
+            <div className="w-full lg:w-1/2">
                 <h6 className="pb-2 font-bold text-xl text-gray-600 dark:text-gray-200 break-words">
                     Sammle Punkte und erhöhe dein Level
                 </h6>
-                <h1 className="text-7xl lg:text-7.5xl font-bold lg:pr-40 pb-8 break-words dark:text-white">
+                <h1 className="text-7xl lg:text-7.5xl font-bold pb-8 break-words dark:text-white">
                     Kostenlos Online{" "}
                     <span className="text-primary dark:text-primaryDark">
-                        Watten
-                    </span>{" "}
+                        Watten{" "}
+                    </span>
                     wie nie zuvor.
                 </h1>
-                <h5 className="text-7.5 text-gray-600 dark:text-gray-100 lg:pr-40">
+                <h5 className="text-7.5 text-gray-600 dark:text-gray-100">
                     Watten mit einer modernen Grafischen Oberfläche
                 </h5>
                 <div className="flex gap-4 mt-16">
@@ -43,7 +43,7 @@ const Homepage = ({ setUrl, isDarkmode }) => {
                     </button>
                 </div>
             </div>
-            <div className="hidden lg:flex-1 lg:flex items-center justify-center card-container">
+            <div className="hidden lg:flex w-1/2 items-center justify-center card-container">
                 <div
                     className={`bg-white rounded-3xl border-8 border-gray-500 w-80  h-110rem relative card ${
                         isDarkmode ? "cardDark" : "cardWhite"

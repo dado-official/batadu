@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS team(
 CREATE TABLE IF NOT EXISTS users(
     username VARCHAR(15) PRIMARY KEY NOT NULL UNIQUE,
     password VARCHAR(256) NOT NULL,
-    email VARCHAR(128) NOT NULL,
+    email VARCHAR(128) NOT NULL UNIQUE,
     anzstiche INT NOT NULL,
     punkte INT NOT NULL,
     gewonnenespiele INT NOT NULL,

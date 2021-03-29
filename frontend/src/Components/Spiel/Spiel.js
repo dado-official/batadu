@@ -4,8 +4,12 @@ import SpielInformations from "./SpielInformations";
 import Chat from "./Chat";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import NoDark from "../../assets/no-dark.svg";
+import YesDark from "../../assets/yes-dark.svg";
+import NoWhite from "../../assets/no-white.svg";
+import YesWhite from "../../assets/yes-white.svg";
 
-const Spiel = ({ setUrl, isDarkmode, socket }) => {
+const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
     const [geboten, setGeboten] = useState(2);
     const [schlag, setSchlag] = useState("?");
     const [trumpf, setTrumpf] = useState("?");
@@ -25,7 +29,7 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
     const [stich, setStich] = useState();
     const [selectedInfo, setSelectedInfo] = useState("Punkte");
     const [seeStiche, setSeeStiche] = useState(false);
-    const [punkte, setPunkte] = useState([]);
+    const [punkte, setPunkte] = useState([{ team1: 14 }, { team2: 14 }]);
     const [isBieten, setIsBieten] = useState(false);
     const [isHaltenWindow, setIsHaltenWindow] = useState(false);
     const [gebotenDavor, setGebotenDavor] = useState(0);
@@ -35,6 +39,9 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
     const [isSchönereWindows, setIsSchönereWindow] = useState(false);
     const [isSchönere, setIsSchönere] = useState(false);
     const [hasSchönere, setHasSchönere] = useState(false);
+    const [isTeam1Gestrichen, setIsTeam1Gestrichen] = useState(false);
+    const [isTeam2Gestrichen, setIsTeam2Gestrichen] = useState(false);
+    const [is4erle, setIs4erle] = useState(false);
 
     const chatRef = useRef();
     const infosRef = useRef();
@@ -43,10 +50,9 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
     const { room, username } = useParams();
 
     useEffect(() => {
-        socket.emit("joinRoom", { room: room, user: username });
+        socket.emit("joinRoom", { room: room, user: username, team: team });
         socket.on("roomExist", () => setExist(true));
         socket.on("roomNotExist", () => setExist(false));
-        socket.on("joinRoom", (counter) => console.log(counter));
         socket.on("players", (users) => {
             console.log("data " + users);
             setUsers(users.userPos);
@@ -107,6 +113,18 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
         });
         socket.on("kein schönere", () => {
             setHasSchönere(true);
+        });
+        socket.on("team1 gestrichen", () => {
+            setIsTeam1Gestrichen(true);
+        });
+        socket.on("team2 gestrichen", () => {
+            setIsTeam2Gestrichen(true);
+        });
+        socket.on("4erle", () => {
+            setIs4erle(true);
+        });
+        socket.on("reset status", () => {
+            setStatus([]);
         });
     }, []);
 
@@ -231,8 +249,14 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
             !isSchlagtauschWindow &&
             !isSchönereWindows
         ) {
+            if (geboten === 2 && isOneGestrichen()) return;
             socket.emit("bieten", pos);
         }
+    }
+    function isOneGestrichen() {
+        if (isTeam1Gestrichen && isTeam2Gestrichen) return false;
+        if (isTeam2Gestrichen || isTeam1Gestrichen) return true;
+        return false;
     }
     function schlagtauschHandler() {
         if (
@@ -261,12 +285,20 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
 
     function haltenHandler() {
         setIsHaltenWindow(false);
-        socket.emit("halten");
+        if (is4erle && geboten === 2) {
+            socket.emit("4erle halten");
+            setIs4erle(false);
+        } else {
+            socket.emit("halten");
+        }
     }
 
     function ablehnenHandler() {
         setIsHaltenWindow(false);
         socket.emit("ablehnen", pos);
+        if (is4erle) {
+            setIs4erle(false);
+        }
     }
     function schlagTauschJaHandler() {
         //Ja Schlagtausch
@@ -307,81 +339,84 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
                                 karten={kartenTisch}
                             />
                         </div>
+                        {/*fenster wenn man gewinnt*/}
                         {/*fenster wenn geboten wird */}
                         <div
-                            className={`fixed top-1/2 left-1/2 xl:ml-20 xl:mt-32 bg-white dark:bg-whiteDark p-6 rounded-st border-gray-400 border-4 z-10 ${
-                                isHaltenWindow ? "block" : "hidden"
+                            className={`fixed mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                                isHaltenWindow ? "fadein" : "fadeout"
                             }`}
-                            style={{ transform: "translate(-50%, -50%)" }}
                         >
-                            <p className="font-medium text-center text-2xl dark:text-white">
-                                {geboten + 1} halten?
+                            <p className="font-medium text-center text-2xl text-white dark:text-black">
+                                {is4erle && geboten === 2
+                                    ? geboten + 2
+                                    : geboten + 1}{" "}
+                                halten?
                             </p>
-                            <div className="flex mt-4 gap-4">
-                                <button
+                            <div className="flex gap-4">
+                                <img
+                                    src={isDarkmode ? YesDark : YesWhite}
+                                    alt="Ja"
                                     onClick={haltenHandler}
-                                    className="btn bg-primary dark:bg-primaryDark text-white dark:text-black text-center"
-                                >
-                                    Ja
-                                </button>
-                                <button
+                                    className="cursor-pointer"
+                                />
+                                <img
+                                    src={isDarkmode ? NoDark : NoWhite}
+                                    alt="Nein"
                                     onClick={ablehnenHandler}
-                                    className="btn bg-bgWhite dark:bg-bgDark text-black dark:text-white text-center "
-                                >
-                                    Nein
-                                </button>
+                                    className="cursor-pointer"
+                                />
                             </div>
                         </div>
                         {/*fenster für schlagtausch */}
                         <div
-                            className={`fixed top-1/2 left-1/2 xl:ml-20 xl:mt-32 bg-white dark:bg-whiteDark p-6 rounded-st border-gray-400 border-4 z-10 ${
-                                isSchlagtauschWindow ? "block" : "hidden"
+                            className={`fixed mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                                isSchlagtauschWindow ? "fadein" : "fadeout"
                             }`}
-                            style={{ transform: "translate(-50%, -50%)" }}
                         >
-                            <p className="font-medium text-center text-2xl dark:text-white">
+                            <p className="font-medium text-center text-2xl text-white dark:text-black">
                                 Schlagtausch?
                             </p>
-                            <div className="flex justify-between mt-4 gap-4">
-                                <button
+                            <div className="flex gap-4">
+                                <img
+                                    src={isDarkmode ? YesDark : YesWhite}
+                                    alt="Ja"
                                     onClick={schlagTauschJaHandler}
-                                    className="btn bg-primary dark:bg-primaryDark text-white dark:text-black text-center"
-                                >
-                                    Ja
-                                </button>
-                                <button
+                                    className="cursor-pointer"
+                                />
+                                <img
+                                    src={isDarkmode ? NoDark : NoWhite}
+                                    alt="Nein"
                                     onClick={schlagTauschNeinHandler}
-                                    className="btn bg-bgWhite dark:bg-bgDark text-black dark:text-white text-center "
-                                >
-                                    Nein
-                                </button>
+                                    className="cursor-pointer"
+                                />
                             </div>
                         </div>
-                        {/*fenster für  schänere*/}
+
+                        {/*fenster für  schönere*/}
                         <div
-                            className={`fixed top-1/2 left-1/2 xl:ml-20 xl:mt-32 bg-white dark:bg-whiteDark p-6 rounded-st border-gray-400 border-4 z-10 ${
-                                isSchönereWindows ? "block" : "hidden"
+                            className={`fixed mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                                isSchönereWindows ? "fadein" : "fadeout"
                             }`}
-                            style={{ transform: "translate(-50%, -50%)" }}
                         >
-                            <p className="font-medium text-center text-2xl dark:text-white">
+                            <p className="font-medium text-center text-2xl text-white dark:text-black">
                                 Schönere?
                             </p>
-                            <div className="flex justify-between mt-4 gap-4">
-                                <button
+                            <div className="flex gap-4">
+                                <img
+                                    src={isDarkmode ? YesDark : YesWhite}
+                                    alt="Ja"
                                     onClick={schönereJaHandler}
-                                    className="btn bg-primary dark:bg-primaryDark text-white dark:text-black text-center"
-                                >
-                                    Ja
-                                </button>
-                                <button
+                                    className="cursor-pointer"
+                                />
+                                <img
+                                    src={isDarkmode ? NoDark : NoWhite}
+                                    alt="Nein"
                                     onClick={schönereNeinHandler}
-                                    className="btn bg-bgWhite dark:bg-bgDark text-black dark:text-white text-center "
-                                >
-                                    Nein
-                                </button>
+                                    className="cursor-pointer"
+                                />
                             </div>
                         </div>
+
                         <div className="flex justify-between mt-28 md:mt-28 mb-16 flex-wrap">
                             <div className="flex justify-between md:flex-col gap-1 sm:gap-8 md:gap-2 w-full md:w-max mb-4 md:mb-0">
                                 <button
@@ -392,7 +427,8 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
                                             (pos % 2 === 0 ? 1 : 2) ||
                                         isHaltenWindow ||
                                         isSchlagtauschWindow ||
-                                        isSchönereWindows
+                                        isSchönereWindows ||
+                                        (geboten === 2 && isOneGestrichen())
                                             ? "opacity-20 cursor-not-allowed"
                                             : null
                                     }`}
@@ -497,6 +533,8 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
                             gewinner={stich}
                             pos={pos}
                             punkte={punkte}
+                            isTeam1Gestrichen={isTeam1Gestrichen}
+                            isTeam2Gestrichen={isTeam2Gestrichen}
                         />
                         <button
                             className="btn bg-secondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"
@@ -532,7 +570,7 @@ const Spiel = ({ setUrl, isDarkmode, socket }) => {
             ) : exist === false ? (
                 <div>
                     <h2 className="dark:text-white text-4xl text-center mt-16">
-                        Dieser Raum existiert nicht
+                        Dieser Raum existiert nicht oder ist voll
                     </h2>
                     <p className="text-sm pt-8 text-center text-gray-600 dark:text-gray-400 mb-8 md:mb-12 lg:mb-16">
                         Möchten Sie ein Spiel beitreten?{" "}

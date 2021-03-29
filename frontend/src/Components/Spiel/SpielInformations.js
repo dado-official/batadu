@@ -15,6 +15,8 @@ const SpielInformations = forwardRef(
             calcPos,
             pos,
             punkte,
+            isTeam1Gestrichen,
+            isTeam2Gestrichen,
         },
         ref
     ) => {
@@ -43,6 +45,8 @@ const SpielInformations = forwardRef(
                         <PunkteTabelle
                             punkte={punkte}
                             isDarkmode={isDarkmode}
+                            isTeam1Gestrichen={isTeam1Gestrichen}
+                            isTeam2Gestrichen={isTeam2Gestrichen}
                         />
                     ) : selected === "Stich 1" ? (
                         <Stich

@@ -22,6 +22,7 @@ function App() {
     const [isServer, setIsServer] = useState(true);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDarkmode, setIsDarkmode] = useState(false);
+    const [team, setTeam] = useState(0);
 
     useEffect(() => {
         loadDarkmode();
@@ -76,6 +77,7 @@ function App() {
                             setUrl={setUrl}
                             socket={socket}
                             isDarkmode={isDarkmode}
+                            setTeam={setTeam}
                         />
                     ) : (
                         <Homepage setUrl={setUrl} isDarkmode={isDarkmode} />
@@ -93,13 +95,19 @@ function App() {
                         setUrl={setUrl}
                         socket={socket}
                         isDarkmode={isDarkmode}
+                        team={team}
                     />
                 </Route>
                 <Route path="/rangliste">
                     <Rangliste setUrl={setUrl} isDarkmode={isDarkmode} />
                 </Route>
-                <Route path="/team">
-                    <SelectTeam setUrl={setUrl} isDarkmode={isDarkmode} />
+                <Route path="/team/:room">
+                    <SelectTeam
+                        setUrl={setUrl}
+                        isDarkmode={isDarkmode}
+                        setTeam={setTeam}
+                        team={team}
+                    />
                 </Route>
                 <Route path="/profile/:user">
                     <Profil setUrl={setUrl} isDarkmode={isDarkmode} />

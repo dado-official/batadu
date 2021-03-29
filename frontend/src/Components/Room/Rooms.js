@@ -4,11 +4,17 @@ import Room from "./Room";
 import Create from "../../assets/create-24px.svg";
 import SearchInput from "../Shared/SearchInput";
 
-const Rooms = ({ setUrl, isDarkmode, socket }) => {
+const Rooms = ({ setUrl, isDarkmode, socket, setTeam }) => {
     const [search, setSearch] = useState("");
+    const [rooms, setRooms] = useState([]);
 
     useEffect(() => {
-        //socket.on("rooms", (rooms) => console.log(rooms));
+        socket.emit("getRooms");
+        socket.on("rooms", (data) => {
+            console.log("Rooms");
+            console.log(data);
+            setRooms(data);
+        });
     }, []);
 
     useEffect(() => {
@@ -41,66 +47,22 @@ const Rooms = ({ setUrl, isDarkmode, socket }) => {
                 </Link>
             </div>
             <div className="grid gap-x-16 gap-y-8 grid-flow-row grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                <Room
-                    roomName="Hirte"
-                    score1="2"
-                    score2="2"
-                    team1_0="Danjo"
-                    team1_1="Holunderyogele"
-                    team2_0="Frangio"
-                    team2_1="Mangio"
-                    isDarkmode={isDarkmode}
-                />
-                <Room
-                    roomName="Hirte"
-                    score1="2"
-                    score2="2"
-                    team1_0="Danjo"
-                    team1_1=""
-                    team2_0="Frangio"
-                    team2_1="Mangio"
-                    isDarkmode={isDarkmode}
-                />
-                <Room
-                    roomName="Hirte"
-                    score1="2"
-                    score2="2"
-                    team1_0="Danjo"
-                    team1_1="Frangio"
-                    team2_0="Frangio"
-                    team2_1="Mangio"
-                    isDarkmode={isDarkmode}
-                />
-                <Room
-                    roomName="Hirte"
-                    score1="2"
-                    score2="2"
-                    team1_0="Danjo"
-                    team1_1="Frangio"
-                    team2_0="Frangio"
-                    team2_1="Mangio"
-                    isDarkmode={isDarkmode}
-                />
-                <Room
-                    roomName="Hirte"
-                    score1="2"
-                    score2="2"
-                    team1_0="Danjo"
-                    team1_1="Frangio"
-                    team2_0="Frangio"
-                    team2_1="Mangio"
-                    isDarkmode={isDarkmode}
-                />
-                <Room
-                    roomName="Hirte"
-                    score1="2"
-                    score2="2"
-                    team1_0="Danjo"
-                    team1_1="Frangio"
-                    team2_0="Frangio"
-                    team2_1="Mangio"
-                    isDarkmode={isDarkmode}
-                />
+                {rooms.map((element) => {
+                    return (
+                        <Room
+                            roomName={element.name}
+                            score1={element.team1}
+                            score2={element.team2}
+                            team1_0={element.users[0]}
+                            team1_1={element.users[2]}
+                            team2_0={element.users[1]}
+                            team2_1={element.users[3]}
+                            isDarkmode={isDarkmode}
+                            key={Math.random() * 1000}
+                            setTeam={setTeam}
+                        />
+                    );
+                })}
             </div>
         </div>
     );

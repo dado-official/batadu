@@ -2,14 +2,31 @@ import React, { useEffect, useState } from "react";
 import TeamIcon from "../../assets/group-24px.svg";
 import Team from "./Team";
 import Arrow from "../../assets/play_arrow-24px.svg";
-import { Link } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
+import axios from "axios";
 
-const SelectTeam = ({ setUrl, isDarkmode }) => {
+const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
     const [selected, setSelected] = useState(1);
+    const [data, setData] = useState({ users: [] });
+    const { room } = useParams();
+    const history = useHistory();
 
     useEffect(() => {
         setUrl("/");
+        axios.get(`http://localhost:3003/room/${room}`).then((res) => {
+            setData(res.data);
+        });
     }, []);
+
+    const handlenOnClick = () => {
+        setTeam(selected);
+    };
+
+    useEffect(() => {
+        if (team !== 0) {
+            history.push(`/spielen/${data.name}/ronaldinhio`);
+        }
+    }, [team]);
 
     return (
         <div className="flex justify-center items-center flex-col m-auto w-96 max-w-1/9">
@@ -26,22 +43,25 @@ const SelectTeam = ({ setUrl, isDarkmode }) => {
                 Teilnehmen
             </p>
             <Team
-                spieler1="Danjo"
-                spieler2=""
+                spieler1={data.users[0]}
+                spieler2={data.users[2]}
                 team={1}
-                punkte={0}
+                punkte={data.team1}
                 selected={selected}
                 setSelected={setSelected}
             />
             <Team
-                spieler1=""
-                spieler2="Frangio"
+                spieler1={data.users[1]}
+                spieler2={data.users[3]}
                 team={2}
-                punkte={0}
+                punkte={data.team2}
                 selected={selected}
                 setSelected={setSelected}
             />
-            <div className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4">
+            <div
+                onClick={handlenOnClick}
+                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
+            >
                 <img
                     src={Arrow}
                     alt="Spielen"

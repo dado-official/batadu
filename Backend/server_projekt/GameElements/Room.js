@@ -1,6 +1,10 @@
 class Room {
     constructor(config) {
         this.configRoom = config;
+        this.name = config.name;
+        this.maxPoints = 18;
+        this.team1Punkte = 14; //sollte 0 sein
+        this.team2Punkte = 16; //sollte 0 sein
         this.freePos = [0, 1, 2, 3];
         this.userPos = [];
         this.userTeam = [1, 2, 1, 2];
@@ -56,6 +60,15 @@ class Room {
         this.schlagtausch = false;
     }
 
+    tryNeueRunde() {
+        if (this.tischCards !== []) {
+            console.log("neue Runde :)");
+            this.neueRunde();
+            return true;
+        }
+        return false;
+    }
+
     calcPos(pos) {
         if (pos < 0) return pos + 4;
         return pos;
@@ -89,13 +102,47 @@ class Room {
     }
 
     getTeamPunkte() {
-        if (this.team1Stiche === 3) return { team1: this.geboten };
-        else return { team2: this.geboten };
+        if (this.team1Stiche === 3) {
+            this.team1Punkte += this.geboten;
+            console.log("Team 1 Punkte: " + this.team1Punkte);
+            return { team1: this.geboten };
+        } else {
+            this.team2Punkte += this.geboten;
+            console.log("Team 2 Punkte: " + this.team2Punkte);
+            return { team2: this.geboten };
+        }
+    }
+
+    isTeam1Gestrichen() {
+        if (this.team1Punkte >= this.maxPoints - 3) return true;
+        return false;
+    }
+    isTeam2Gestrichen() {
+        if (this.team2Punkte >= this.maxPoints - 3) return true;
+        return false;
+    }
+    isInGestrichenTeam(pos) {
+        if (this.isTeam1Gestrichen() && this.isTeam2Gestrichen()) return false;
+        else {
+            if (pos % 2 === 0) {
+                if (this.isTeam1Gestrichen()) return true;
+                else return false;
+            } else {
+                if (this.isTeam2Gestrichen()) return true;
+                else return false;
+            }
+        }
+        return false;
     }
 
     getTeamPunkteAbgelehnt(pos) {
-        if (pos % 2 === 0) return { team2: this.geboten };
-        else return { team1: this.geboten };
+        if (pos % 2 === 0) {
+            this.team2Punkte += this.geboten;
+            return { team2: this.geboten };
+        } else {
+            this.team1Punkte += this.geboten;
+            return { team1: this.geboten };
+        }
     }
 
     addStichToTeam(pos) {
@@ -154,11 +201,46 @@ class Room {
         return pos;
     }
 
+    addTeam(team, user) {
+        if (team === 1) {
+            //Team 1
+            let index = this.freePos.indexOf(0);
+            if (index !== -1) {
+                this.freePos.splice(index, 1);
+                this.userPos[0] = user;
+                return true;
+            }
+            index = this.freePos.indexOf(2);
+            if (index !== -1) {
+                this.freePos.splice(index, 1);
+                this.userPos[2] = user;
+                return true;
+            }
+        } else {
+            //Team 2
+            let index = this.freePos.indexOf(1);
+            if (index !== -1) {
+                this.freePos.splice(index, 1);
+                this.userPos[1] = user;
+                return true;
+            }
+            index = this.freePos.indexOf(3);
+            if (index !== -1) {
+                this.freePos.splice(index, 1);
+                this.userPos[3] = user;
+                return true;
+            }
+        }
+        return false;
+    }
+
     removeUser(user) {
         let index = this.userPos.indexOf(user);
         if (index > -1) {
-            this.userPos.splice(index, 1);
+            this.userPos[index] = null;
             this.freePos.push(index);
+            console.log("This.userPos:");
+            console.log(this.userPos);
         }
     }
 
@@ -195,6 +277,40 @@ class Room {
         console.log(this.configRoom.spielerIDs);
         console.log(this.configRoom.zuschauerIDs);
         return personalInfo.position;
+    }
+
+    getNecessary() {
+        return {
+            name: this.name,
+            users: this.userPos,
+            team1: this.team1Punkte,
+            team2: this.team1Punkte,
+        };
+    }
+
+    selectTeam() {
+        if (this.freePos.length >= 2) {
+            if (this.freePos.length === 2) {
+                if (
+                    this.userPos[0] !== undefined ||
+                    (this.userPos[0] !== null &&
+                        this.userPos[2] !== undefined) ||
+                    this.userPos[2] !== null
+                ) {
+                    return false;
+                }
+                if (
+                    this.userPos[1] !== undefined ||
+                    (this.userPos[1] !== null &&
+                        this.userPos[3] !== undefined) ||
+                    this.userPos[3] !== null
+                ) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     /*

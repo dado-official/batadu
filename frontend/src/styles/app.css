@@ -103,6 +103,10 @@ body {
     padding-bottom: 0.4rem;
 }
 
+.stiche thead,
+.stiche tbody {
+}
+
 .stiche td {
     padding-top: 0.1rem;
     padding-bottom: 0.1rem;
@@ -366,4 +370,24 @@ body {
 
 .emoji-mart-anchor-icon svg {
     margin: auto;
+}
+
+.fadein {
+    transform: translateY(0);
+    transition: all 1s;
+    animation: ease-in slide 0.5s;
+}
+
+@keyframes slide {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.fadeout {
+    transform: translateY(-100%);
+    transition: 0.5s;
 }

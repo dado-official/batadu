@@ -348,4 +348,17 @@ function updateuser(won, addedstiche, username, res){
         }
     )
 }
+
+app.get("/cards", (((req, res) => {
+    pool.query(
+        "SELECT bezeichnung, pfad FROM public.karten where bezeichnung = $1",
+        [req.body.bezeichnung],
+        (error, results) => {
+            if(error) {
+                res.status(500).send();
+            }
+            res.status(200).json(results.rows);
+        }
+    )
+})))
 app.listen(3000);

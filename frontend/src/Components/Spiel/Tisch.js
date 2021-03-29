@@ -21,45 +21,53 @@ const Tisch = ({
             {/*Kate oben */}
             {karten[calcPos(2 + pos)] !== undefined &&
             karten[calcPos(2 + pos)] !== null ? (
-                <div
-                    className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute top-6 md:top-12 left-1/2"
+                <img
+                    className="h-auto w-4.275rem md:w-4.75rem absolute top-6 md:top-12 left-1/2"
                     style={{ transform: "translateX(-50%)" }}
-                >
-                    {karten[calcPos(2 + pos)]}
-                </div>
+                    src={`http://10.10.30.218/${decodeURI(
+                        karten[calcPos(2 + pos)]
+                    )}.png`}
+                    alt={karten[calcPos(2 + pos)]}
+                />
             ) : null}
 
             {/*Karten left */}
             {karten[calcPos(3 + pos)] !== undefined &&
             karten[calcPos(3 + pos)] !== null ? (
-                <div
-                    className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute top-1/2 left-7 md:left-14"
+                <img
+                    className="h-auto w-4.275rem md:w-4.75rem absolute top-1/2 left-7 md:left-14"
                     style={{ transform: "translateY(-50%)" }}
-                >
-                    {karten[calcPos(3 + pos)]}
-                </div>
+                    src={`http://10.10.30.218/${decodeURI(
+                        karten[calcPos(3 + pos)]
+                    )}.png`}
+                    alt={karten[calcPos(3 + pos)]}
+                />
             ) : null}
 
             {/*Karten right */}
             {karten[calcPos(1 + pos)] !== undefined &&
             karten[calcPos(1 + pos)] !== null ? (
-                <div
-                    className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute top-1/2 right-7 md:right-14"
+                <img
+                    className="h-auto w-4.275rem md:w-4.75rem absolute top-1/2 right-7 md:right-14"
                     style={{ transform: "translateY(-50%)" }}
-                >
-                    {karten[calcPos(1 + pos)]}
-                </div>
+                    src={`http://10.10.30.218/${decodeURI(
+                        karten[calcPos(1 + pos)]
+                    )}.png`}
+                    alt={karten[calcPos(1 + pos)]}
+                />
             ) : null}
 
             {/*Karten unten */}
             {karten[calcPos(0 + pos)] !== undefined &&
             karten[calcPos(0 + pos)] !== null ? (
-                <div
-                    className="h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white absolute bottom-6 md:bottom-12 left-1/2"
+                <img
+                    className="h-auto w-4.275rem md:w-4.75rem absolute bottom-6 md:bottom-12 left-1/2"
                     style={{ transform: "translateX(-50%)" }}
-                >
-                    {karten[calcPos(0 + pos)]}
-                </div>
+                    src={`http://10.10.30.218/${decodeURI(
+                        karten[calcPos(0 + pos)]
+                    )}.png`}
+                    alt={karten[calcPos(0 + pos)]}
+                />
             ) : null}
 
             <p className="hidden sm:block dark:text-white">

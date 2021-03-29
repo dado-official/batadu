@@ -14,7 +14,7 @@ const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
 
     useEffect(() => {
         setUrl("/");
-        axios.get(`http://localhost:3003/room/${room}`).then((res) => {
+        axios.get(`http://10.10.30.213:3003/room/${room}`).then((res) => {
             setData(res.data);
         });
     }, []);

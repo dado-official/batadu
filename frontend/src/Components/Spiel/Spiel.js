@@ -241,11 +241,11 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
             !myStatus === "Gebot Antwort"
         ) {
             console.log("myStatus: " + myStatus);
-            console.log(e.target.innerHTML);
-            let card = e.target.innerHTML;
+            console.log(e.target.alt);
+            let card = e.target.alt;
             console.log("Emit: " + myStatus + " Karte: " + card);
 
-            let index = karten.findIndex((i) => i.name === e.target.innerHTML);
+            let index = karten.findIndex((i) => i.name === e.target.alt);
             console.log("Cherta: " + karten[index].name);
             let cardObject = karten[index];
 
@@ -556,39 +556,19 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
                             {seeCards
                                 ? karten.map((element) => {
                                       return (
-                                          <div
-                                              key={Math.random() * 1000}
-                                              onClick={selectCardHandler}
-                                              className={`h-7.92rem md:h-8.8rem w-4.275rem md:w-4.75rem bg-white ${
+                                          <img
+                                              className={`h-auto w-4.275rem md:w-4.75rem rounded-st ${
                                                   hover
                                                       ? "hover:border-secondary dark:hover:border-secondaryDark border-4 border-transparent cursor-pointer"
                                                       : null
-                                              } ${
-                                                  element.name.includes(
-                                                      "Schell"
-                                                  )
-                                                      ? "bg-yellow-200"
-                                                      : element.name.includes(
-                                                            "Laub"
-                                                        )
-                                                      ? "bg-green-300"
-                                                      : element.name.includes(
-                                                            "Eichel"
-                                                        )
-                                                      ? "bg-yellow-800"
-                                                      : element.name.includes(
-                                                            "Herz"
-                                                        )
-                                                      ? "bg-red-500"
-                                                      : element.name.includes(
-                                                            "Welli"
-                                                        )
-                                                      ? "bg-yellow-200"
-                                                      : null
-                                              }`}
-                                          >
-                                              {element.name}
-                                          </div>
+                                              } `}
+                                              src={`http://10.10.30.218/${decodeURI(
+                                                  element.name
+                                              )}.png`}
+                                              alt={element.name}
+                                              onClick={selectCardHandler}
+                                              key={Math.random() * 1000}
+                                          />
                                       );
                                   })
                                 : null}

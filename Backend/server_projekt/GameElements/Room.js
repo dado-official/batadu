@@ -3,8 +3,8 @@ class Room {
         this.configRoom = config;
         this.name = config.name;
         this.maxPoints = config.punkte;
-        this.team1Punkte = 14; //sollte 0 sein
-        this.team2Punkte = 16; //sollte 0 sein
+        this.team1Punkte = 0;
+        this.team2Punkte = 0;
         this.freePos = [0, 1, 2, 3];
         this.userPos = [];
         this.userTeam = [1, 2, 1, 2];

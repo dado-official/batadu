@@ -29,7 +29,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
     const [stich, setStich] = useState();
     const [selectedInfo, setSelectedInfo] = useState("Punkte");
     const [seeStiche, setSeeStiche] = useState(false);
-    const [punkte, setPunkte] = useState([{ team1: 14 }, { team2: 14 }]);
+    const [punkte, setPunkte] = useState([]);
     const [isBieten, setIsBieten] = useState(false);
     const [isHaltenWindow, setIsHaltenWindow] = useState(false);
     const [gebotenDavor, setGebotenDavor] = useState(0);

@@ -10,7 +10,7 @@ const Room = require("./GameElements/Room");
 
 let rooms = []; //array for all rooms
 
-rooms["Hirte"] = new Room({ userAnzahl: 4, name: "Hirte" });
+rooms["Hirte"] = new Room({ userAnzahl: 4, name: "Hirte", punkte: 18 });
 kartenMaster = new KartenMaster(rooms["Hirte"]);
 kartenMaster.kartenMischen();
 

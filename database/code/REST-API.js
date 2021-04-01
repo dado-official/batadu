@@ -180,13 +180,18 @@ app.get("/user/login", (((req, res) => {
 //Gets the best players, how many can be passed via .JSON
 app.get("/rankings", (((req, res) => {
     pool.query(
-        "SELECT username, punkte FROM public.users ORDER BY punkte DESC LIMIT $1",
+        "SELECT username, punkte, gewonnenespiele, verlorenespiele FROM public.users ORDER BY punkte DESC LIMIT $1",
         [req.body.limit],
         (error, results) => {
             if(error){
                 throw error;
             }
-            res.status(200).json(results.rows);
+            let ranking = [];
+            for (let i = 0; i < results.rowCount; i++) {
+                let winrate = Math.round(((results.rows[i].gewonnenespiele / (results.rows[i].gewonnenespiele + results.rows[i].verlorenespiele)) * 100 + Number.EPSILON) * 100) / 100;
+                ranking.push({username: results.rows[i].username, winrate: winrate, wongames: results.rows[i].gewonnenespiele, points: results.rows[i].punkte});
+            }
+            res.status(200).json(ranking);
         }
     )
 })));
@@ -375,4 +380,4 @@ app.get("/cards", (((req, res) => {
         }
     )
 })))
-app.listen(3000);
+app.listen(42069);

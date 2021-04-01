@@ -155,17 +155,21 @@ At the end of the process, the function returns the following, with status "OK" 
 ```
 
 ### Get the rankings of the various users
-This method lets you return the best players up to a certain point in the list, or simply all players. 
+This method returns the best players (Default order: Points) up to a certain point in the list, or simply all players. 
 To return all players, you just need to call _/rankings_, and a .JSON in the following format will be returned: 
 ```json
 [
   {
-    "username": "user1",
-    "punkte": 40
+    "username": "myusername",
+    "winrate": null,
+    "wongames": 0,
+    "points": 0
   },
   {
-    "username": "user2",
-    "punkte": 35
+    "username": "myusername2",
+    "winrate": null,
+    "wongames": 0,
+    "points": 0
   },
   {...}
 ]
@@ -176,7 +180,8 @@ If you, on the other hand, want to return a certain number of players, you need 
   "limit": 2
 }
 ```
-The results will be formatted like on a limitless request, only that you will have the exact number of users you wanted. 
+The results will be formatted like on a limitless request, only that you will have the exact number of users you wanted.
+<br><br>**Warning**: The winrate is automatically converted in % and rounded to two decimals! 
 
 ### Register a user
 When registering a user, to save its data you will need to send a .JSON via POST-Method to _/register_ in the following format: 

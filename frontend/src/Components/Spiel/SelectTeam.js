@@ -14,7 +14,7 @@ const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
 
     useEffect(() => {
         setUrl("/");
-        axios.get(`http://10.10.30.213:3003/room/${room}`).then((res) => {
+        axios.get(`http://127.0.0.1:3003/room/${room}`).then((res) => {
             setData(res.data);
         });
     }, []);
@@ -26,7 +26,7 @@ const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
 
     useEffect(() => {
         if (team !== 0) {
-            history.push(`/spielen/${data.name}/ronaldinhio`);
+            history.push(`/spielen/${data.name}`);
         }
     }, [team]);
 

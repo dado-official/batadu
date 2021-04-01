@@ -7,6 +7,7 @@ import SearchInput from "../Shared/SearchInput";
 const Rooms = ({ setUrl, isDarkmode, socket, setTeam }) => {
     const [search, setSearch] = useState("");
     const [rooms, setRooms] = useState([]);
+    const [showRooms, setShowRooms] = useState([]);
 
     useEffect(() => {
         socket.emit("getRooms");
@@ -19,13 +20,25 @@ const Rooms = ({ setUrl, isDarkmode, socket, setTeam }) => {
     }, []);
 
     useEffect(() => {
+        if (search === "" || search === " ") {
+            setShowRooms(rooms);
+        } else {
+            setShowRooms(
+                rooms.filter((element) =>
+                    element.name.toLowerCase().includes(search.toLowerCase())
+                )
+            );
+        }
+    }, [rooms, search]);
+
+    useEffect(() => {
         setUrl("/");
     }, []);
     return (
         <div className="w-1450 max-w-1/9 mx-auto mt-8 mb-16">
             <div className="flex justify-between md:mt-8 flex-col-reverse md:flex-row">
                 <h3 className="font-semibold text-3xl mb-6 dark:text-white">
-                    Offene Spiele
+                    Spiele
                 </h3>
                 <div className="mb-6 w-full md:w-max ">
                     <SearchInput
@@ -48,7 +61,7 @@ const Rooms = ({ setUrl, isDarkmode, socket, setTeam }) => {
                 </Link>
             </div>
             <div className="grid gap-x-16 gap-y-8 grid-flow-row grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {rooms.map((element) => {
+                {showRooms.map((element) => {
                     return (
                         <Room
                             roomName={element.name}

@@ -140,11 +140,11 @@ class Room {
     }
 
     isTeam1Gestrichen() {
-        if (this.team1Punkte >= this.maxPoints - 3) return true;
+        if (this.team1Punkte >= this.maxPoints - 2) return true;
         return false;
     }
     isTeam2Gestrichen() {
-        if (this.team2Punkte >= this.maxPoints - 3) return true;
+        if (this.team2Punkte >= this.maxPoints - 2) return true;
         return false;
     }
     isInGestrichenTeam(pos) {

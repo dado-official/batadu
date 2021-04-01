@@ -12,6 +12,10 @@ let rooms = []; //array for all rooms
 
 rooms["Hirte"] = new Room({ userAnzahl: 4, name: "Hirte", punkte: 18 });
 kartenMaster = new KartenMaster(rooms["Hirte"]);
+rooms["Legenden"] = new Room({ userAnzahl: 4, name: "Legenden", punkte: 18 });
+kartenMaster = new KartenMaster(rooms["Legenden"]);
+rooms["Wuw"] = new Room({ userAnzahl: 4, name: "Wuw", punkte: 18 });
+kartenMaster = new KartenMaster(rooms["Wuw"]);
 kartenMaster.kartenMischen();
 
 app.use(cors());

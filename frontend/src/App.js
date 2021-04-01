@@ -14,7 +14,7 @@ import Rangliste from "./Components/Rangliste/Rangliste";
 import ServerDown from "./Components/ServerDown/ServerDown";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import io from "socket.io-client";
-const socket = io("http://10.10.30.213:8080");
+const socket = io("http://127.0.0.1:8080");
 
 function App() {
     const [url, setUrl] = useState("");

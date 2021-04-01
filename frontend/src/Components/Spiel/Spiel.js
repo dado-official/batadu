@@ -51,6 +51,13 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
     const infosRef = useRef();
     const spielRef = useRef();
 
+    /*
+    let username = localStorage.getItem("username");
+    if (username === undefined || username === null || username === "") {
+        username = "Lamborghini";
+    }
+    */
+
     const { room, username } = useParams();
 
     useEffect(() => {
@@ -112,11 +119,11 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
             setSchlag("");
             setTrumpf("");
             setSeeCards(false);
+            setSeeStiche(false);
             setHasSchlagtausch(false);
             setHasSchönere(false);
         });
         socket.on("reset", () => {
-            console.log("resettttt");
             setGebotenDavor(0);
             setGeboten(2);
             setSchlag("");
@@ -129,6 +136,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
             setPunkte([]);
             setIsTeam1Gestrichen(false);
             setIsTeam2Gestrichen(false);
+            setSeeStiche(false);
         });
         socket.on("kein schönere", () => {
             setHasSchönere(true);
@@ -264,7 +272,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
     function removeCard(e) {
         let array = karten;
         console.log(array);
-        let index = array.findIndex((i) => i.name === e.target.innerHTML);
+        let index = array.findIndex((i) => i.name === e.target.alt);
         if (index !== -1) {
             array.splice(index, 1);
             setKarten(array);

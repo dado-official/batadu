@@ -81,7 +81,8 @@ const Rooms = ({ setUrl, isDarkmode, socket, setTeam }) => {
             {showRooms.length === 0 ? (
                 <p className="mt-4 dark:text-white">
                     Keine Spiele gefunden, Sie können selbt ein Spiel erstellen
-                    indem Sie auf dem Spiel erstellen drücken
+                    indem Sie auf{" "}
+                    <span className="font-bold">Spiel erstellen</span> drücken
                 </p>
             ) : null}
         </div>

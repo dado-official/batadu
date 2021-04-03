@@ -18,6 +18,7 @@ const Navbar = ({
     setIsDarkmode,
     username,
     logout,
+    level,
 }) => {
     const history = useHistory();
     function clickSidebarHandler() {
@@ -108,7 +109,7 @@ const Navbar = ({
                                 ) : null}
                             </div>
                         </Link>
-                        <Link to={`/profile/${username}`}>
+                        <Link to={`/profile/`}>
                             <div className="flex gap-3 items-center relative py-6">
                                 <img
                                     src={profileIcon}
@@ -178,7 +179,7 @@ const Navbar = ({
                     {username !== "" ? (
                         <div className="flex items-center gap-2">
                             <LevelBadge
-                                level={1}
+                                level={level}
                                 isDarkmode={isDarkmode}
                                 size="2.2rem"
                             />

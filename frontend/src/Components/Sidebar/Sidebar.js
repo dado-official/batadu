@@ -15,6 +15,7 @@ const Sidebar = ({
     setIsDarkmode,
     username,
     logout,
+    level,
 }) => {
     const history = useHistory();
     function closeSidebarHandler() {
@@ -184,7 +185,7 @@ const Sidebar = ({
                         <div className="flex flex-col items-center gap-8">
                             <div className="flex items-center gap-2">
                                 <LevelBadge
-                                    level={1}
+                                    level={level}
                                     isDarkmode={isDarkmode}
                                     size="2.2rem"
                                 />

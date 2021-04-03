@@ -32,6 +32,7 @@ function App() {
     const [team, setTeam] = useState(0);
     const [username, setUsername] = useState("");
     const [loaded, setLoaded] = useState(false);
+    const [userLevel, setUserLevel] = useState(0);
 
     useEffect(() => {
         loadDarkmode();
@@ -92,7 +93,16 @@ function App() {
             .then((response) => {
                 setUsername(user);
                 setIsLoggedIn(true);
-                setLoaded(true);
+                axios
+                    .get(
+                        "http://10.10.30.218:42069/user/level",
+                        { params: { username: user } },
+                        axiosConfig
+                    )
+                    .then((data) => {
+                        setUserLevel(data.data.currentlevel.nr);
+                        setLoaded(true);
+                    });
             })
             .catch(() => {
                 setLoaded(true);
@@ -119,6 +129,7 @@ function App() {
                     setIsDarkmode={setIsDarkmode}
                     username={username}
                     logout={logout}
+                    level={userLevel}
                 />
             ) : null}
             {loaded ? (
@@ -130,6 +141,7 @@ function App() {
                     setIsDarkmode={setIsDarkmode}
                     username={username}
                     logout={logout}
+                    level={userLevel}
                 />
             ) : null}
             {loaded ? (
@@ -221,7 +233,7 @@ function App() {
             {loaded ? <Footer isDarkmode={isDarkmode} /> : null}
             {!loaded ? (
                 <div
-                    class="lds-ellipsis fixed top-1/2 left-1/2 mt-4.5rem"
+                    className="lds-ellipsis fixed top-1/2 left-1/2 mt-4.5rem"
                     style={{ transform: "translate(-50%, -50%)" }}
                 >
                     <div className="bg-primary dark:bg-primaryDark"></div>

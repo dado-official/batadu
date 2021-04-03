@@ -183,6 +183,24 @@ If you, on the other hand, want to return a certain number of players, you need 
 The results will be formatted like on a limitless request, only that you will have the exact number of users you wanted.
 <br><br>**Warning**: The winrate is automatically converted in % and rounded to two decimals! 
 
+### Check if a username and email is taken
+To check if a email and username exist in the database you will need to send a .JSON in the following format to _/user/check_
+```json
+{
+  "username": "myusername",
+  "email": "myemail"
+}
+```
+As a response you will get Code _200_ if both are free, otherwise you will get code _409_ and a .JSON in the following format, where "taken" describes what is currently available or not.
+```json
+{
+  "taken": "both"
+}
+```
+<br>The "taken"-codes are these: 
+- "taken": "both" --> Both username and Email are already taken and not available anymore
+- "taken": "username" --> The username is taken, the passed email is still available
+- "taken": "email" --> The email is taken, the passed username is still available
 ### Register a user
 When registering a user, to save its data you will need to send a .JSON via POST-Method to _/register_ in the following format: 
 ```json

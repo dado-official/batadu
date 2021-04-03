@@ -32,9 +32,7 @@ app.get("/user", (req, res) => {
 });
 
 //Gets all the games in which a user participated
-app.get(
-    "/user/games",
-    asyncHandler(async (req, res) => {
+app.get("/user/games", asyncHandler(async (req, res) => {
         let gameinfos = await pool.query(
             "SELECT spiel.id, spiel.datum, spielen_in.stiche, spielen_in.teamid FROM public.spiel, public.team, public.spielen_in, public.users WHERE team.id = spielen_in.teamid AND users.username = spielen_in.usersusername AND team.spielid = spiel.id AND users.username = $1",
             [req.body.username]
@@ -236,7 +234,7 @@ app.get("/user/level", (req, res) => {
 });
 
 //Checks the users credentials to log in
-app.get("/user/login", (req, res) => {
+app.get("/user/login", (((req, res) => {
     let username = [req.body.username];
     let password = req.body.password;
     pool.query(
@@ -244,18 +242,22 @@ app.get("/user/login", (req, res) => {
         username,
         (error, results) => {
             if (error) {
-                throw error;
+                res.status(400).send();
             }
-            if (results.rows[0].password === password) {
-                let response = { username: username[0], login: "OK" };
-                res.status(200).json(response);
+            if(results.rowCount === 0){
+                res.status(400).send();
             } else {
-                let response = { username: username[0], login: "FAILED" };
-                res.status(401).json(response);
+                if (results.rows[0].password === password) {
+                    let response = {username: username[0], login: "OK"};
+                    res.status(200).json(response);
+                } else {
+                    let response = {username: username[0], login: "FAILED"};
+                    res.status(401).json(response);
+                }
             }
         }
-    );
-});
+    )
+})));
 
 //Gets the best players, how many can be passed via .JSON
 app.get("/rankings", (req, res) => {
@@ -289,6 +291,36 @@ app.get("/rankings", (req, res) => {
     );
 });
 
+app.get("/user/check", asyncHandler(async (req, res) => {
+    let usercheck = await pool.query(
+        "SELECT username FROM public.users WHERE username = $1",
+        [req.body.username]
+    )
+    let takenusername = false;
+    if(usercheck.rowCount > 0){
+        takenusername = true;
+    }
+
+    let emailcheck = await pool.query(
+        "SELECT email FROM public.users WHERE email = $1",
+        [req.body.email]
+    )
+    let takenemail = false;
+    if(emailcheck.rowCount > 0){
+        takenemail = true;
+    }
+
+    if(takenusername && takenemail){
+        res.status(409).json({taken: "both"});
+    }else if(takenusername){
+        res.status(409).json({taken: "username"});
+    } else if (takenemail) {
+        res.status(409).json({taken: "email"});
+    } else {
+        res.status(200).send();
+    }
+}));
+
 app.post("/register", (req, res) => {
     pool.query(
         "INSERT INTO public.users VALUES ($1, $2, $3, 0, 0, 0, 0)",
@@ -302,18 +334,11 @@ app.post("/register", (req, res) => {
     );
 });
 
-app.post(
-    "/game/results",
-    asyncHandler(async (req, res) => {
+app.post("/game/results", asyncHandler(async (req, res) => {
         //Check if a user exists
         let results = await pool.query(
             "SELECT username FROM public.users WHERE username = $1 OR username = $2 OR username = $3 OR username = $4",
-            [
-                req.body.team1user1,
-                req.body.team1user2,
-                req.body.team2user1,
-                req.body.team2user2,
-            ]
+            [req.body.team1user1, req.body.team1user2, req.body.team2user1, req.body.team2user2]
         );
         if (results.rowCount === 0) {
             res.status(400).send();
@@ -323,56 +348,16 @@ app.post(
         let teamids = await insertteams(req, res, gameid);
         if (req.body.gewinnerteam === 1) {
             insertwinner(res, teamids.team1id, gameid);
-            updateuser(
-                true,
-                req.body.team1stichespieler1,
-                req.body.team1user1,
-                res
-            );
-            updateuser(
-                true,
-                req.body.team1stichespieler2,
-                req.body.team1user2,
-                res
-            );
-            updateuser(
-                false,
-                req.body.team2stichespieler1,
-                req.body.team2user1,
-                res
-            );
-            updateuser(
-                false,
-                req.body.team2stichespieler2,
-                req.body.team2user2,
-                res
-            );
+            updateuser(true, req.body.team1stichespieler1, req.body.team1user1, res);
+            updateuser(true, req.body.team1stichespieler2, req.body.team1user2, res);
+            updateuser(false, req.body.team2stichespieler1, req.body.team2user1, res);
+            updateuser(false, req.body.team2stichespieler2, req.body.team2user2, res);
         } else if (req.body.gewinnerteam === 2) {
             insertwinner(res, teamids.team2id, gameid);
-            updateuser(
-                false,
-                req.body.team1stichespieler1,
-                req.body.team1user1,
-                res
-            );
-            updateuser(
-                false,
-                req.body.team1stichespieler2,
-                req.body.team1user2,
-                res
-            );
-            updateuser(
-                true,
-                req.body.team2stichespieler1,
-                req.body.team2user1,
-                res
-            );
-            updateuser(
-                true,
-                req.body.team2stichespieler2,
-                req.body.team2user2,
-                res
-            );
+            updateuser(false, req.body.team1stichespieler1, req.body.team1user1, res);
+            updateuser(false, req.body.team1stichespieler2, req.body.team1user2, res);
+            updateuser(true, req.body.team2stichespieler1, req.body.team2user1, res);
+            updateuser(true, req.body.team2stichespieler2, req.body.team2user2, res);
         }
         await bindusers(req, res, teamids);
         res.status(200).json({ gameid: gameid, teamids: teamids });

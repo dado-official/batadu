@@ -183,7 +183,7 @@ If you, on the other hand, want to return a certain number of players, you need 
 The results will be formatted like on a limitless request, only that you will have the exact number of users you wanted.
 <br><br>**Warning**: The winrate is automatically converted in % and rounded to two decimals! 
 
-## Check if a username and email is taken
+### Check if a username and email is taken
 To check if a email and username exist in the database you will need to send a .JSON in the following format to _/user/check_
 ```json
 {

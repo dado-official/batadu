@@ -191,7 +191,7 @@ To check if a email and username exist in the database you will need to send a .
   "email": "myemail"
 }
 ```
-As a response you will get Code _200_ if both are free, otherwise you will get a .JSON in the following format, where "taken" describes what is currently available or not.
+As a response you will get Code _200_ if both are free, otherwise you will get code _409_ and a .JSON in the following format, where "taken" describes what is currently available or not.
 ```json
 {
   "taken": "both"

@@ -236,7 +236,7 @@ app.get("/user/level", (req, res) => {
 });
 
 //Checks the users credentials to log in
-app.get("/user/login", (req, res) => {
+app.get("/user/login", (((req, res) => {
     let username = [req.body.username];
     let password = req.body.password;
     pool.query(
@@ -244,18 +244,22 @@ app.get("/user/login", (req, res) => {
         username,
         (error, results) => {
             if (error) {
-                throw error;
+                res.status(400).send();
             }
-            if (results.rows[0].password === password) {
-                let response = { username: username[0], login: "OK" };
-                res.status(200).json(response);
+            if(results.rowCount === 0){
+                res.status(400).send();
             } else {
-                let response = { username: username[0], login: "FAILED" };
-                res.status(401).json(response);
+                if (results.rows[0].password === password) {
+                    let response = {username: username[0], login: "OK"};
+                    res.status(200).json(response);
+                } else {
+                    let response = {username: username[0], login: "FAILED"};
+                    res.status(401).json(response);
+                }
             }
         }
-    );
-});
+    )
+})));
 
 //Gets the best players, how many can be passed via .JSON
 app.get("/rankings", (req, res) => {

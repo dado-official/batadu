@@ -12,20 +12,31 @@ import Registrieren from "./Components/Registrieren/Registrieren";
 import Profil from "./Components/Profil/Profil";
 import Rangliste from "./Components/Rangliste/Rangliste";
 import ServerDown from "./Components/ServerDown/ServerDown";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    Redirect,
+} from "react-router-dom";
+import axios from "axios";
 import io from "socket.io-client";
 const socket = io("http://127.0.0.1:8080");
 
 function App() {
     const [url, setUrl] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isServer, setIsServer] = useState(true);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDarkmode, setIsDarkmode] = useState(false);
     const [team, setTeam] = useState(0);
+    const [username, setUsername] = useState("");
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         loadDarkmode();
+        loadUser();
+        console.log("after");
     }, []);
 
     useEffect(() => {
@@ -52,74 +63,178 @@ function App() {
             setIsDarkmode(false);
         }
     }
+    function loadUser() {
+        let user = localStorage.getItem("username");
+        if (user === undefined || user === "") {
+            setLoaded(true);
+            return;
+        }
+
+        let password = localStorage.getItem("password");
+        if (password === undefined || password === "") {
+            setLoaded(true);
+            return;
+        }
+
+        let axiosConfig = {
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8",
+                "Access-Control-Allow-Origin": "*",
+            },
+        };
+        let data = {
+            params: {
+                username: user,
+                password: password,
+            },
+        };
+        axios
+            .get("http://10.10.30.218:42069/user/login", data, axiosConfig)
+            .then((response) => {
+                setUsername(user);
+                setIsLoggedIn(true);
+                setLoaded(true);
+            })
+            .catch(() => {
+                setLoaded(true);
+            });
+    }
+
+    function logout(history) {
+        setUsername("");
+        localStorage.setItem("username", "");
+        localStorage.setItem("password", "");
+        setIsLoggedIn(false);
+        history.push("/anmelden");
+    }
 
     return (
         <Router>
             {!isServer ? <ServerDown isDarkmode={isDarkmode} /> : null}
-            <Navbar
-                url={url}
-                isSidebarOpen={isSidebarOpen}
-                setIsSidebarOpen={setIsSidebarOpen}
-                isDarkmode={isDarkmode}
-                setIsDarkmode={setIsDarkmode}
-            />
-            <Sidebar
-                url={url}
-                isSidebarOpen={isSidebarOpen}
-                setIsSidebarOpen={setIsSidebarOpen}
-                isDarkmode={isDarkmode}
-                setIsDarkmode={setIsDarkmode}
-            />
-            <Switch>
-                <Route path={["/", "/spielen"]} exact>
-                    {isLoggedIn ? (
-                        <Rooms
+            {loaded ? (
+                <Navbar
+                    url={url}
+                    isSidebarOpen={isSidebarOpen}
+                    setIsSidebarOpen={setIsSidebarOpen}
+                    isDarkmode={isDarkmode}
+                    setIsDarkmode={setIsDarkmode}
+                    username={username}
+                    logout={logout}
+                />
+            ) : null}
+            {loaded ? (
+                <Sidebar
+                    url={url}
+                    isSidebarOpen={isSidebarOpen}
+                    setIsSidebarOpen={setIsSidebarOpen}
+                    isDarkmode={isDarkmode}
+                    setIsDarkmode={setIsDarkmode}
+                    username={username}
+                    logout={logout}
+                />
+            ) : null}
+            {loaded ? (
+                <Switch>
+                    <Route path={["/", "/spielen"]} exact>
+                        {isLoggedIn ? (
+                            <Rooms
+                                setUrl={setUrl}
+                                socket={socket}
+                                isDarkmode={isDarkmode}
+                                setTeam={setTeam}
+                            />
+                        ) : (
+                            <Homepage setUrl={setUrl} isDarkmode={isDarkmode} />
+                        )}
+                    </Route>
+                    <Route path="/spielen/erstellen">
+                        {isLoggedIn ? (
+                            <SpielErstellen
+                                setUrl={setUrl}
+                                socket={socket}
+                                isDarkmode={isDarkmode}
+                            />
+                        ) : (
+                            <Redirect to="/anmelden" />
+                        )}
+                        <SpielErstellen
                             setUrl={setUrl}
                             socket={socket}
                             isDarkmode={isDarkmode}
-                            setTeam={setTeam}
                         />
-                    ) : (
-                        <Homepage setUrl={setUrl} isDarkmode={isDarkmode} />
-                    )}
-                </Route>
-                <Route path="/spielen/erstellen">
-                    <SpielErstellen
-                        setUrl={setUrl}
-                        socket={socket}
-                        isDarkmode={isDarkmode}
-                    />
-                </Route>
-                <Route path="/spielen/:room/:username">
-                    <Spiel
-                        setUrl={setUrl}
-                        socket={socket}
-                        isDarkmode={isDarkmode}
-                        team={team}
-                    />
-                </Route>
-                <Route path="/rangliste">
-                    <Rangliste setUrl={setUrl} isDarkmode={isDarkmode} />
-                </Route>
-                <Route path="/team/:room">
-                    <SelectTeam
-                        setUrl={setUrl}
-                        isDarkmode={isDarkmode}
-                        setTeam={setTeam}
-                        team={team}
-                    />
-                </Route>
-                <Route path="/profile/:user">
-                    <Profil setUrl={setUrl} isDarkmode={isDarkmode} />
-                </Route>
-                <Route path="/anmelden">
-                    <Anmelden setUrl={setUrl} isDarkmode={isDarkmode} />
-                </Route>
-                <Route path="/registrieren">
-                    <Registrieren setUrl={setUrl} isDarkmode={isDarkmode} />
-                </Route>
-            </Switch>
-            <Footer isDarkmode={isDarkmode} />
+                    </Route>
+                    <Route path="/spielen/:room/:username">
+                        {isLoggedIn ? (
+                            <Spiel
+                                setUrl={setUrl}
+                                socket={socket}
+                                isDarkmode={isDarkmode}
+                                team={team}
+                            />
+                        ) : (
+                            <Redirect to="/anmelden" />
+                        )}
+                    </Route>
+                    <Route path="/rangliste">
+                        {isLoggedIn ? (
+                            <Rangliste
+                                setUrl={setUrl}
+                                isDarkmode={isDarkmode}
+                                isLoggedIn={isLoggedIn}
+                            />
+                        ) : (
+                            <Redirect to="/anmelden" />
+                        )}
+                    </Route>
+                    <Route path="/team/:room">
+                        {isLoggedIn ? (
+                            <SelectTeam
+                                setUrl={setUrl}
+                                isDarkmode={isDarkmode}
+                                setTeam={setTeam}
+                                team={team}
+                            />
+                        ) : (
+                            <Redirect to="/anmelden" />
+                        )}
+                    </Route>
+                    <Route path="/profile/:user">
+                        {isLoggedIn ? (
+                            <Profil setUrl={setUrl} isDarkmode={isDarkmode} />
+                        ) : (
+                            <Redirect to="/anmelden" />
+                        )}
+                    </Route>
+                    <Route path="/anmelden">
+                        <Anmelden
+                            setUrl={setUrl}
+                            isDarkmode={isDarkmode}
+                            setIsLoggedIn={setIsLoggedIn}
+                            setUsernameApp={setUsername}
+                        />
+                    </Route>
+                    <Route path="/registrieren">
+                        <Registrieren
+                            setUrl={setUrl}
+                            isDarkmode={isDarkmode}
+                            setIsLoggedIn={setIsLoggedIn}
+                            setUsernameApp={setUsername}
+                        />
+                    </Route>
+                </Switch>
+            ) : null}
+            {loaded ? <Footer isDarkmode={isDarkmode} /> : null}
+            {!loaded ? (
+                <div
+                    class="lds-ellipsis fixed top-1/2 left-1/2 mt-4.5rem"
+                    style={{ transform: "translate(-50%, -50%)" }}
+                >
+                    <div className="bg-primary dark:bg-primaryDark"></div>
+                    <div className="bg-primary dark:bg-primaryDark"></div>
+                    <div className="bg-primary dark:bg-primaryDark"></div>
+                    <div className="bg-primary dark:bg-primaryDark"></div>
+                </div>
+            ) : null}
         </Router>
     );
 }

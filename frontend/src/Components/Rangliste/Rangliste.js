@@ -9,6 +9,7 @@ const Rangliste = ({ setUrl, isDarkmode }) => {
     useEffect(() => {
         setUrl("/rangliste");
     }, []);
+
     return (
         <div className="flex w-1450 max-w-1/9 mx-auto pt-12 flex-col justify-center items-center">
             <img

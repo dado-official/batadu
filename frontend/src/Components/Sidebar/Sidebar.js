@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import casinoIcon from "../../assets/casino-24px.svg";
 import rankIcon from "../../assets/leaderboard-24px.svg";
 import profileIcon from "../../assets/account_circle-24px.svg";
 import DarkMode from "../../assets/dark_mode-24px.svg";
 import LightMode from "../../assets/light_mode-24px.svg";
+import LevelBadge from "../Shared/LevelBadge";
 
 const Sidebar = ({
     url,
@@ -12,7 +13,10 @@ const Sidebar = ({
     setIsSidebarOpen,
     isDarkmode,
     setIsDarkmode,
+    username,
+    logout,
 }) => {
+    const history = useHistory();
     function closeSidebarHandler() {
         setIsSidebarOpen(false);
     }
@@ -21,6 +25,10 @@ const Sidebar = ({
             localStorage.setItem("darkmode", !prev);
             return !prev;
         });
+    }
+
+    function logoutHandler() {
+        logout(history);
     }
 
     return (
@@ -98,7 +106,7 @@ const Sidebar = ({
                                 </h6>
                             </div>
                         </Link>
-                        <Link to="/profile">
+                        <Link to={`/profile/${username}`}>
                             <div
                                 className="flex gap-3 items-center relative py-2"
                                 onClick={closeSidebarHandler}
@@ -142,7 +150,7 @@ const Sidebar = ({
                         }`}
                         onClick={clickDarkmodeHandler}
                     />
-                    {url !== "Anmelden" ? (
+                    {url !== "Anmelden" && username === "" ? (
                         <Link
                             to="/anmelden"
                             onClick={closeSidebarHandler}
@@ -161,7 +169,7 @@ const Sidebar = ({
                             </h6>
                         </Link>
                     ) : null}
-                    {url !== "Registrieren" ? (
+                    {url !== "Registrieren" && username === "" ? (
                         <Link
                             to="/registrieren"
                             onClick={closeSidebarHandler}
@@ -171,6 +179,26 @@ const Sidebar = ({
                                 Registrieren
                             </button>
                         </Link>
+                    ) : null}
+                    {username !== "" ? (
+                        <div className="flex flex-col items-center gap-8">
+                            <div className="flex items-center gap-2">
+                                <LevelBadge
+                                    level={1}
+                                    isDarkmode={isDarkmode}
+                                    size="2.2rem"
+                                />
+                                <p className="font-bold dark:text-white">
+                                    {username}
+                                </p>
+                            </div>
+                            <button
+                                onClick={logoutHandler}
+                                className="btn text-base  text-white dark:text-black bg-primary dark:bg-primaryDark"
+                            >
+                                Abmelden
+                            </button>
+                        </div>
                     ) : null}
                 </div>
             </div>

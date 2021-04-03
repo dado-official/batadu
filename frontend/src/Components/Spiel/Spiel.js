@@ -9,7 +9,7 @@ import YesDark from "../../assets/yes-dark.svg";
 import NoWhite from "../../assets/no-white.svg";
 import YesWhite from "../../assets/yes-white.svg";
 
-const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
+const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
     const [geboten, setGeboten] = useState(2);
     const [schlag, setSchlag] = useState("?");
     const [trumpf, setTrumpf] = useState("?");
@@ -58,7 +58,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
     }
     */
 
-    const { room, username } = useParams();
+    const { room } = useParams();
 
     useEffect(() => {
         socket.emit("joinRoom", { room: room, user: username, team: team });

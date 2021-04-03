@@ -36,7 +36,6 @@ function App() {
     useEffect(() => {
         loadDarkmode();
         loadUser();
-        console.log("after");
     }, []);
 
     useEffect(() => {
@@ -157,19 +156,15 @@ function App() {
                         ) : (
                             <Redirect to="/anmelden" />
                         )}
-                        <SpielErstellen
-                            setUrl={setUrl}
-                            socket={socket}
-                            isDarkmode={isDarkmode}
-                        />
                     </Route>
-                    <Route path="/spielen/:room/:username">
+                    <Route path="/spielen/:room">
                         {isLoggedIn ? (
                             <Spiel
                                 setUrl={setUrl}
                                 socket={socket}
                                 isDarkmode={isDarkmode}
                                 team={team}
+                                username={username}
                             />
                         ) : (
                             <Redirect to="/anmelden" />

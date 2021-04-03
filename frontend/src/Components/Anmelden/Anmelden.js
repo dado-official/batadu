@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Account from "../../assets/account_circle-24px.svg";
 import Password from "../../assets/lock-24px.svg";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Anmelden = ({ setUrl, isDarkmode }) => {
     const [username, setUsername] = useState("");
@@ -12,6 +13,23 @@ const Anmelden = ({ setUrl, isDarkmode }) => {
     }
     function passwordHandler(e) {
         setPassword(e.target.value);
+    }
+    function login() {
+        let axiosConfig = {
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8",
+                "Access-Control-Allow-Origin": "*",
+            },
+        };
+        let data = {
+            user: "benni",
+            password: "hirte",
+        };
+        axios
+            .post("http://10.10.30.218:42069/user/login", data, axiosConfig)
+            .then((data) => {
+                console.log(data);
+            });
     }
     useEffect(() => {
         setUrl("Anmelden");
@@ -59,7 +77,10 @@ const Anmelden = ({ setUrl, isDarkmode }) => {
                 </div>
             </div>
             {/*Button + Zurück Link*/}
-            <button className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4">
+            <button
+                onClick={login()}
+                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
+            >
                 Anmelden
             </button>
             <p className="text-sm mt-3.625rem text-gray-600 dark:text-gray-400 mb-16">

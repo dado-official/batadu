@@ -52,6 +52,8 @@ const Registrieren = ({
             setError("Ihr Password muss mindestens ein Zeichen haben");
         } else if (!validateEmail(email)) {
             setError("Ihre Email ist nicht gültig");
+        } else if (username === "System" || username === "Ich") {
+            setError("Dieser Benutzername ist verboten");
         } else {
             let axiosConfig = {
                 headers: {

@@ -109,7 +109,7 @@ const Navbar = ({
                                 ) : null}
                             </div>
                         </Link>
-                        <Link to={`/profile/`}>
+                        <Link to={`/profile/${username}`}>
                             <div className="flex gap-3 items-center relative py-6">
                                 <img
                                     src={profileIcon}

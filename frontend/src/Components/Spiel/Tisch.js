@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import LevelBadge from "../Shared/LevelBadge";
 import NameContainer from "./NameContainer";
 import StatusContainer from "./StatusContainer";
 import UserGameInfo from "./UserGameInfo";
+import axios from "axios";
 
 const Tisch = ({
     geboten,
@@ -15,6 +16,34 @@ const Tisch = ({
     calcPos,
     karten,
 }) => {
+    const [level, setLevel] = useState([
+        { level: 0 },
+        { level: 0 },
+        { level: 0 },
+        { level: 0 },
+    ]);
+
+    useEffect(() => {
+        console.log("lenght: " + users.length);
+        for (let i = 0; i < users.length; i++) {
+            if (users[i] !== undefined && users[i] !== null) {
+                if (level[i].user === undefined && level[i].user !== users[i]) {
+                    axios
+                        .get("http://10.10.30.218:42069/user/level", {
+                            params: { username: users[i] },
+                        })
+                        .then((data) => {
+                            const newLevels = level.slice();
+                            newLevels[i].level = data.data.currentlevel.nr;
+                            newLevels[i].user = users[i];
+                            setLevel(newLevels);
+                            console.log("Levels");
+                            console.log(level);
+                        });
+                }
+            }
+        }
+    }, [users]);
     return (
         <div className="w-90% pt-90% sm:pt-0 sm:w-29rem sm:h-29rem flex items-center justify-center bg-tableGray dark:bg-whiteDark relative rounded-full border-8 sm:border-12 border-borderGray dark:border-borderBlack">
             {/*cards*/}
@@ -79,7 +108,7 @@ const Tisch = ({
                 <div className="absolute -top-10 left-1/2 topBadge">
                     <LevelBadge
                         className="tisch"
-                        level={1}
+                        level={level[calcPos(2 + pos)].level}
                         isDarkmode={isDarkmode}
                     />
                 </div>
@@ -89,7 +118,7 @@ const Tisch = ({
                 <div className="absolute top-1/2 -left-10 leftBadge">
                     <LevelBadge
                         className="tisch"
-                        level={1}
+                        level={level[calcPos(3 + pos)].level}
                         isDarkmode={isDarkmode}
                     />
                 </div>
@@ -99,7 +128,7 @@ const Tisch = ({
                 <div className="absolute top-1/2 -right-10 rightBadge">
                     <LevelBadge
                         className="tisch"
-                        level={1}
+                        level={level[calcPos(1 + pos)].level}
                         isDarkmode={isDarkmode}
                     />
                 </div>
@@ -109,7 +138,7 @@ const Tisch = ({
                 <div className="absolute -bottom-10 left-1/2 bottomBadge">
                     <LevelBadge
                         className="tisch"
-                        level={1}
+                        level={level[calcPos(0 + pos)].level}
                         isDarkmode={isDarkmode}
                     />
                 </div>

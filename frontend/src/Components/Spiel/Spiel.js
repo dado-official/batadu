@@ -8,8 +8,11 @@ import NoDark from "../../assets/no-dark.svg";
 import YesDark from "../../assets/yes-dark.svg";
 import NoWhite from "../../assets/no-white.svg";
 import YesWhite from "../../assets/yes-white.svg";
+import SpielPassword from "../SpielPassword/SpielPassword";
+import axios from "axios";
 
 const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
+    const [isPassword, setIsPassword] = useState(false);
     const [geboten, setGeboten] = useState(2);
     const [schlag, setSchlag] = useState("?");
     const [trumpf, setTrumpf] = useState("?");
@@ -60,8 +63,25 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
 
     const { room } = useParams();
 
+    function joinGame() {
+        socket.emit("joinRoom", {
+            room: room,
+            user: username,
+            team: team,
+        });
+    }
+
     useEffect(() => {
-        socket.emit("joinRoom", { room: room, user: username, team: team });
+        axios
+            .get(`http://127.0.0.1:3003/room/isPassword/${room}`)
+            .then((res) => {
+                console.log(res.data);
+                if (res.data) {
+                    setIsPassword(true);
+                } else {
+                    joinGame();
+                }
+            });
         socket.on("roomExist", () => setExist(true));
         socket.on("roomNotExist", () => setExist(false));
         socket.on("players", (users) => {
@@ -80,6 +100,19 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
             setStatus(status);
         });
         socket.on("karten", (data) => {
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log("got Karten");
+            console.log(data);
             setAlleKarten(data);
         });
         socket.on("karten sehen", () => {
@@ -379,7 +412,14 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
 
     return (
         <div className="w-full">
-            {exist ? (
+            {isPassword ? (
+                <SpielPassword
+                    isDarkmode={isDarkmode}
+                    setIsPassword={setIsPassword}
+                    joinGame={joinGame}
+                    room={room}
+                />
+            ) : exist ? (
                 <div className="relative grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-16">
                     <div className="xl:col-span-2 relative">
                         {/*Countdown bar */}

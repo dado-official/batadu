@@ -3,13 +3,15 @@ class Room {
         this.configRoom = config;
         this.name = config.name;
         this.maxPoints = config.punkte;
-        this.team1Punkte = 0;
-        this.team2Punkte = 0;
+        this.password = "";
+        this.team1Punkte = 17;
+        this.team2Punkte = 17;
         this.freePos = [0, 1, 2, 3];
         this.userPos = [];
         this.userTeam = [1, 2, 1, 2];
         this.userStiche = [0, 0, 0, 0];
         this.team1Stiche = 0;
+        this.userSticheGesamt = [0, 0, 0, 0];
         this.team2Stiche = 0;
         this.userStatus = [];
         this.userCards = [];
@@ -57,6 +59,7 @@ class Room {
         this.geboten = 2;
         this.gebotenDavor = 0;
         this.schlagtausch = false;
+        this.userSticheGesamt = [0, 0, 0, 0];
     }
 
     getTeam(pos) {
@@ -172,6 +175,7 @@ class Room {
     }
 
     addStichToTeam(pos) {
+        this.userSticheGesamt[pos] += 1;
         if (pos % 2 === 0) {
             this.team1Stiche += 1;
         } else {

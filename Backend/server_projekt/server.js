@@ -7,16 +7,9 @@ const io = require("socket.io")(http, {
 });
 const KartenMaster = require("./GameElements/KartenMaster");
 const Room = require("./GameElements/Room");
+const axios = require("axios");
 
 let rooms = []; //array for all rooms
-
-rooms["Hirte"] = new Room({ userAnzahl: 4, name: "Hirte", punkte: 18 });
-kartenMaster = new KartenMaster(rooms["Hirte"]);
-rooms["Legenden"] = new Room({ userAnzahl: 4, name: "Legenden", punkte: 18 });
-kartenMaster = new KartenMaster(rooms["Legenden"]);
-rooms["Wuw"] = new Room({ userAnzahl: 4, name: "Wuw", punkte: 18 });
-kartenMaster = new KartenMaster(rooms["Wuw"]);
-kartenMaster.kartenMischen();
 
 app.use(cors());
 app.get("/room/select/:name", (req, res) => {
@@ -24,6 +17,26 @@ app.get("/room/select/:name", (req, res) => {
     if (rooms[name].selectTeam()) {
         res.send(true);
     } else res.send(false);
+});
+
+app.get("");
+
+app.get("/room/isPassword/:name", (req, res) => {
+    let name = req.params.name;
+    if (rooms[name] !== undefined && rooms[name].password === "") {
+        res.send(false);
+    }
+    if (rooms[name] !== undefined && rooms[name].password !== "") {
+        res.send(true);
+    }
+});
+app.get("/room/password/:name/:password", (req, res) => {
+    let name = req.params.name;
+    let password = req.params.password;
+    if (rooms[name] !== undefined && rooms[name].password === password) {
+        res.send(true);
+    }
+    res.send(false);
 });
 
 app.get("/room/:name", (req, res) => {
@@ -105,6 +118,8 @@ io.on("connection", (socket) => {
 
             kartenMaster.kartenMischen();
             kartenMaster.kartenAusteilen();
+            console.log("usercards");
+            console.log(rooms[room].userCards);
             io.to(room).emit("karten", rooms[room].userCards);
             rooms[room].userStatus[rooms[room].schlagPos] = "Schlag";
             rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
@@ -231,6 +246,41 @@ io.on("connection", (socket) => {
             if (winningTeam !== 0) {
                 console.log("Jemand hat gewonnen");
                 io.to(room).emit("win", winningTeam);
+                let axiosConfig = {
+                    headers: {
+                        "Content-Type": "application/json;charset=UTF-8",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                };
+                axios
+                    .post(
+                        "http://10.10.30.218:42069/game/results",
+                        {
+                            spielname: rooms[room].name,
+                            team1punkte: rooms[room].team1Punkte,
+                            team1stichespieler1:
+                                rooms[room].userSticheGesamt[0],
+                            team1stichespieler2:
+                                rooms[room].userSticheGesamt[2],
+                            team2punkte: rooms[room].team2Punkte,
+                            team2stichespieler1:
+                                rooms[room].userSticheGesamt[1],
+                            team2stichespieler2:
+                                rooms[room].userSticheGesamt[3],
+                            gewinnerteam: winningTeam,
+                            team1user1: rooms[room].userPos[0],
+                            team1user2: rooms[room].userPos[2],
+                            team2user1: rooms[room].userPos[1],
+                            team2user2: rooms[room].userPos[3],
+                        },
+                        axiosConfig
+                    )
+                    .then((data) => {
+                        console.log(
+                            "Game was saved in the Database successfully :)"
+                        );
+                        console.log(data);
+                    });
                 setTimeout(() => {
                     if (rooms[room].freePos.length === 0) {
                         console.log("ddat spiel beginnt");

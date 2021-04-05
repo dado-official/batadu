@@ -26,6 +26,8 @@ class KartenMaster {
             this.room.userCards[i] = bar;
             j += 5;
         }
+        console.log("in Kartenmaster");
+        console.log(this.room.userCards);
     }
 
     getBestKarte(par, points) {

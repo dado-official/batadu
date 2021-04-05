@@ -35,6 +35,7 @@ app.get("/room/password/:name/:password", (req, res) => {
     let password = req.params.password;
     if (rooms[name] !== undefined && rooms[name].password === password) {
         res.send(true);
+        return;
     }
     res.send(false);
 });
@@ -81,7 +82,11 @@ io.on("connection", (socket) => {
         let team = data.team;
         console.log("Team " + team);
 
-        if (rooms[room] === undefined || rooms[room].freePos.length === 0) {
+        if (
+            rooms[room] === undefined ||
+            rooms[room].freePos.length === 0 ||
+            rooms[room].userPos.includes(user)
+        ) {
             socket.emit("roomNotExist");
             return;
         }
@@ -177,13 +182,6 @@ io.on("connection", (socket) => {
                 } else {
                     io.to(room).emit("status", rooms[room].userStatus);
                 }
-                //if amzug == in gestrichen Team
-                /*
-                    Todo
-                    - function: im gestrichen Team  && only 1 team gestrichen
-                    - auch im schlag function
-                    - geboten 4 senden
-                */
             } else {
                 rooms[room].userStatus[rooms[room].trumpfPos] = null;
                 io.to(room).emit("status", rooms[room].userStatus);

@@ -3,7 +3,11 @@ class Room {
         this.configRoom = config;
         this.name = config.name;
         this.maxPoints = config.punkte;
+        this.isPassword = config.isPassword;
         this.password = "";
+        if (this.isPassword) {
+            this.password = config.password;
+        }
         this.team1Punkte = 17;
         this.team2Punkte = 17;
         this.freePos = [0, 1, 2, 3];

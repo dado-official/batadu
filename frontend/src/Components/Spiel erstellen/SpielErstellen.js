@@ -42,6 +42,8 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                 punkte: punkte,
                 name: spielName,
                 modus: modus,
+                isPassword: isPassword,
+                password: password,
             });
             history.push(`/spielen/${spielName}`);
         }

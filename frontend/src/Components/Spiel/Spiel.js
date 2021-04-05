@@ -54,13 +54,6 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
     const infosRef = useRef();
     const spielRef = useRef();
 
-    /*
-    let username = localStorage.getItem("username");
-    if (username === undefined || username === null || username === "") {
-        username = "Lamborghini";
-    }
-    */
-
     const { room } = useParams();
 
     function joinGame() {

@@ -205,7 +205,7 @@ function App() {
                             <Redirect to="/anmelden" />
                         )}
                     </Route>
-                    <Route path="/profile/:user">
+                    <Route path="/profile/:username">
                         {isLoggedIn ? (
                             <Profil setUrl={setUrl} isDarkmode={isDarkmode} />
                         ) : (

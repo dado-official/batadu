@@ -570,4 +570,18 @@ app.get("/cards", (req, res) => {
         }
     );
 });
+app.get("/users/search", (req, res) => {
+    pool.query(
+        "SELECT username FROM public.users WHERE LOWER(username) LIKE '%" +
+            req.query.search +
+            "%'",
+        (error, results) => {
+            if (error) {
+                res.status(500).send();
+                return;
+            }
+            res.status(200).json(results.rows);
+        }
+    );
+});
 app.listen(42069);

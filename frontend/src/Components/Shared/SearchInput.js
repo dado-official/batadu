@@ -5,6 +5,7 @@ const SearchInput = ({ search, setSearch, isDarkmode }) => {
     function searchHandler(e) {
         setSearch(e.target.value);
     }
+
     return (
         <div className="bg-white dark:bg-whiteDark rounded-st relative py-2 flex items-center">
             <img

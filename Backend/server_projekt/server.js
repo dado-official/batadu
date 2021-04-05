@@ -452,6 +452,42 @@ io.on("connection", (socket) => {
                         if (winningTeam !== 0) {
                             console.log("Jemand hat gewonnen");
                             io.to(room).emit("win", winningTeam);
+                            let axiosConfig = {
+                                headers: {
+                                    "Content-Type":
+                                        "application/json;charset=UTF-8",
+                                    "Access-Control-Allow-Origin": "*",
+                                },
+                            };
+                            axios
+                                .post(
+                                    "http://10.10.30.218:42069/game/results",
+                                    {
+                                        spielname: rooms[room].name,
+                                        team1punkte: rooms[room].team1Punkte,
+                                        team1stichespieler1:
+                                            rooms[room].userSticheGesamt[0],
+                                        team1stichespieler2:
+                                            rooms[room].userSticheGesamt[2],
+                                        team2punkte: rooms[room].team2Punkte,
+                                        team2stichespieler1:
+                                            rooms[room].userSticheGesamt[1],
+                                        team2stichespieler2:
+                                            rooms[room].userSticheGesamt[3],
+                                        gewinnerteam: winningTeam,
+                                        team1user1: rooms[room].userPos[0],
+                                        team1user2: rooms[room].userPos[2],
+                                        team2user1: rooms[room].userPos[1],
+                                        team2user2: rooms[room].userPos[3],
+                                    },
+                                    axiosConfig
+                                )
+                                .then((data) => {
+                                    console.log(
+                                        "Game was saved in the Database successfully :)"
+                                    );
+                                    console.log(data);
+                                });
                             setTimeout(() => {
                                 if (rooms[room].freePos.length === 0) {
                                     console.log("ddat spiel beginnt");

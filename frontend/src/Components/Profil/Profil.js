@@ -44,7 +44,7 @@ const Profil = ({ setUrl, isDarkmode }) => {
             .then((res) => {
                 setGames(res.data);
             });
-    }, []);
+    }, [username]);
 
     return (
         <div>

@@ -32,10 +32,12 @@ app.get("/user", (req, res) => {
 });
 
 //Gets all the games in which a user participated
-app.get("/user/games", asyncHandler(async (req, res) => {
+app.get(
+    "/user/games",
+    asyncHandler(async (req, res) => {
         let gameinfos = await pool.query(
             "SELECT spiel.id, spiel.datum, spielen_in.stiche, spielen_in.teamid FROM public.spiel, public.team, public.spielen_in, public.users WHERE team.id = spielen_in.teamid AND users.username = spielen_in.usersusername AND team.spielid = spiel.id AND users.username = $1",
-            [req.body.username]
+            [req.query.username]
         );
         let teams = await getteampoints(
             gameinfos.rows[0].id,
@@ -43,7 +45,8 @@ app.get("/user/games", asyncHandler(async (req, res) => {
         );
         let returns;
         if (teams.myteampoints > teams.otherteampoints) {
-            returns = [{
+            returns = [
+                {
                     gameid: gameinfos.rows[0].id,
                     gamedate: gameinfos.rows[0].datum,
                     mystiche: gameinfos.rows[0].stiche,
@@ -114,44 +117,59 @@ async function getteampoints(gameid, myteamid) {
 }
 
 //Gets stats from a user, like won and lost games, winrate, "stiche" and "stiche"/game
-app.get("/user/stats", asyncHandler(async(req, res) => {
-    let results = await pool.query(
-        "SELECT users.anzstiche, users.punkte, users.gewonnenespiele, users.verlorenespiele FROM public.users WHERE users.username = $1",
-        [req.body.username]
-    );
-    if(results.rowCount === 0){
-        res.status(400).send();
-        return;
-    }
-    let level = await pool.query(
-        "SELECT * FROM public.level WHERE erforderlichepunkte < $1 ORDER BY erforderlichepunkte DESC",
-        [results.rows[0].punkte],
-    );
-    if(level.rowCount === 0){
-        res.status(400).send();
-        return;
-    }
-    let anzspieler = await pool.query(
-        "SELECT COUNT(*) FROM public.users"
-    );
-    if(anzspieler.rowCount === 0){
-        res.status(400).send();
-        return;
-    }
-    let sticheprospiel = Math.round((results.rows[0].anzstiche / (results.rows[0].gewonnenespiele + results.rows[0].verlorenespiele)) * 100) / 100;
-    let winrate = Math.round(((results.rows[0].gewonnenespiele / (results.rows[0].gewonnenespiele + results.rows[0].verlorenespiele)) * 100 + Number.EPSILON) * 100) / 100;
-    let stats = {
-        anzstiche: results.rows[0].anzstiche,
-        punkte: results.rows[0].punkte,
-        gewonnenespiele: results.rows[0].gewonnenespiele,
-        verlorenespiele: results.rows[0].verlorenespiele,
-        sticheprospiel: sticheprospiel,
-        winrate: winrate,
-        level: level.rows[0].nr,
-        anzspieler: anzspieler.rows[0].count
-    };
-    res.status(200).json(stats);
-}));
+app.get(
+    "/user/stats",
+    asyncHandler(async (req, res) => {
+        let results = await pool.query(
+            "SELECT users.anzstiche, users.punkte, users.gewonnenespiele, users.verlorenespiele FROM public.users WHERE users.username = $1",
+            [req.query.username]
+        );
+        if (results.rowCount === 0) {
+            res.status(400).send();
+            return;
+        }
+        let level = await pool.query(
+            "SELECT * FROM public.level WHERE erforderlichepunkte < $1 ORDER BY erforderlichepunkte DESC",
+            [results.rows[0].punkte]
+        );
+        if (level.rowCount === 0) {
+            res.status(400).send();
+            return;
+        }
+        let anzspieler = await pool.query("SELECT COUNT(*) FROM public.users");
+        if (anzspieler.rowCount === 0) {
+            res.status(400).send();
+            return;
+        }
+        let sticheprospiel =
+            Math.round(
+                (results.rows[0].anzstiche /
+                    (results.rows[0].gewonnenespiele +
+                        results.rows[0].verlorenespiele)) *
+                    100
+            ) / 100;
+        let winrate =
+            Math.round(
+                ((results.rows[0].gewonnenespiele /
+                    (results.rows[0].gewonnenespiele +
+                        results.rows[0].verlorenespiele)) *
+                    100 +
+                    Number.EPSILON) *
+                    100
+            ) / 100;
+        let stats = {
+            anzstiche: results.rows[0].anzstiche,
+            punkte: results.rows[0].punkte,
+            gewonnenespiele: results.rows[0].gewonnenespiele,
+            verlorenespiele: results.rows[0].verlorenespiele,
+            sticheprospiel: sticheprospiel,
+            winrate: winrate,
+            level: level.rows[0].nr,
+            anzspieler: anzspieler.rows[0].count,
+        };
+        res.status(200).json(stats);
+    })
+);
 
 //Gets a level based on the amount of points
 app.get("/level", (req, res) => {
@@ -293,7 +311,9 @@ app.get("/rankings", (req, res) => {
 });
 
 //Checks if a username and email are available
-app.get("/user/check", asyncHandler(async (req, res) => {
+app.get(
+    "/user/check",
+    asyncHandler(async (req, res) => {
         let usercheck = await pool.query(
             "SELECT username FROM public.users WHERE username = $1",
             [req.params.username]
@@ -339,7 +359,9 @@ app.post("/register", (req, res) => {
 });
 
 //Sets all results of a past game
-app.post("/game/results", asyncHandler(async (req, res) => {
+app.post(
+    "/game/results",
+    asyncHandler(async (req, res) => {
         //Check if a user exists
         let results = await pool.query(
             "SELECT username FROM public.users WHERE username = $1 OR username = $2 OR username = $3 OR username = $4",
@@ -571,56 +593,16 @@ app.get("/cards", (req, res) => {
 //Searches for a user
 app.get("/users/search", (req, res) => {
     pool.query(
-        "SELECT username FROM public.users WHERE LOWER(username) LIKE $1",
-        [req.body.username],
+        "SELECT username FROM public.users WHERE LOWER(username) LIKE '%" +
+            req.query.username +
+            "%'",
         (error, results) => {
             if (error) {
                 res.status(500).send();
                 return;
             }
-            if(results.rowCount === 0){
-                res.status(400).send();
-            } else {
-                pool.query(
-                    "SELECT punkte FROM public.users WHERE username = $1",
-                    [req.body.username],
-                    (error, results) => {
-                        if (error) {
-                            res.status(500).send();
-                        }
-                        let punkte = results.rows[0].punkte;
-                        if (punkte === 0) {
-                            let currentlevel = { nr: 0, erforderlichepunkte: 0 };
-                            let nextlevel = { nr: 1, erforderlichepunkte: 20 };
-                            let response = {username: req.body.username, punkte: punkte, currentlevel: currentlevel, nextlevel: nextlevel};
-                            res.status(200).json(response);
-                            return;
-                        }
-                        pool.query(
-                            "SELECT * FROM public.level WHERE erforderlichepunkte < $1 ORDER BY erforderlichepunkte DESC",
-                            [punkte],
-                            (error, results) => {
-                                if (error) {
-                                    res.status(500).send();
-                                }
-                                let currentlevel = results.rows[0];
-                                pool.query(
-                                    "SELECT * FROM public.level WHERE nr = $1",
-                                    [currentlevel.nr + 1],
-                                    (err, result) => {
-                                        if (err) {
-                                            res.status(500).send();
-                                        }
-                                        let nextlevel = result.rows[0];
-                                        let response = {username: req.body.username, punkte: punkte, currentlevel: currentlevel, nextlevel: nextlevel};
-                                        res.status(200).json(response);
-                                    }
-                                );
-                            }
-                        );
-                    }
-                );
-            }
+            res.status(200).json(results.rows);
+            return;
         }
     );
 });

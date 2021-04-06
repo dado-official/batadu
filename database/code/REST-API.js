@@ -157,7 +157,7 @@ app.get("/user/stats", asyncHandler(async(req, res) => {
 app.get("/level", (req, res) => {
     let punkte = req.body.points;
     pool.query(
-        "SELECT * FROM public.level WHERE erforderlichepunkte < $1 ORDER BY erforderlichepunkte DESC",
+        "SELECT * FROM public.level WHERE erforderlichepunkte <= $1 ORDER BY erforderlichepunkte DESC",
         [punkte],
         (error, results) => {
             if (error) {
@@ -204,7 +204,7 @@ app.get("/user/level", (req, res) => {
                 return;
             }
             pool.query(
-                "SELECT * FROM public.level WHERE erforderlichepunkte < $1 ORDER BY erforderlichepunkte DESC",
+                "SELECT * FROM public.level WHERE erforderlichepunkte <= $1 ORDER BY erforderlichepunkte DESC",
                 [punkte],
                 (error, results) => {
                     if (error) {

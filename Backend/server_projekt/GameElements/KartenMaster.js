@@ -9,7 +9,6 @@ class KartenMaster {
 
     kartenMischen() {
         this.kartendeck = shuffle(kartenJSON.Karten);
-        console.log(this.kartendeck);
     }
     kartenAusteilen() {
         let j = 0;
@@ -26,8 +25,6 @@ class KartenMaster {
             this.room.userCards[i] = bar;
             j += 5;
         }
-        console.log("in Kartenmaster");
-        console.log(this.room.userCards);
     }
 
     getBestKarte(par, points) {

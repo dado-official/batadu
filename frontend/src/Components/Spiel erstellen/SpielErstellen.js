@@ -39,13 +39,12 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
             setProblem("Der Spielname fehlt!");
         } else {
             axios
-                .get("http://127.0.0.1:3003/room/available", {
-                    params: { name: spielName },
-                })
+                .get(`http://127.0.0.1:3003/room/available/${spielName}`)
                 .then((res) => {
+                    console.log(res.data);
                     if (res.data) {
                         setProblem(
-                            "Dieser Spielname exsistiert schon, wählen Sie eine anderer Name"
+                            "Dieser Spielname existiert schon, wählen Sie einen anderer Name"
                         );
                     } else {
                         socket.emit("createRoom", {
@@ -187,7 +186,7 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
             <p
                 className={`${
                     problem === "" ? "hidden" : "block"
-                } text-xm text-primary dark:text-primaryDark`}
+                } text-xm text-primary dark:text-primaryDark text-center`}
             >
                 {problem}
             </p>

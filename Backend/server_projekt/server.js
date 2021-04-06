@@ -41,7 +41,7 @@ app.get("/room/password/:name/:password", (req, res) => {
 });
 app.get("/room/available/:name", (req, res) => {
     let name = req.params.name;
-    if (rooms.includes(name)) {
+    if (rooms[name] !== undefined) {
         res.send(true);
         return;
     }

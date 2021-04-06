@@ -77,7 +77,7 @@ The data is returned in this format:
 A GET-call on _<domain>/user/stats_ returns useful player's stats, like winrate, lost and won games and many more. The username needed to make the call is passed via .JSON in the following format: 
 ```json
 {
-	"username": "mysuername"
+  "username": "mysuername"
 }
 ```
 The returned data is formatted in .JSON like the example below: 
@@ -88,7 +88,9 @@ The returned data is formatted in .JSON like the example below:
   "gewonnenespiele": 2,
   "verlorenespiele": 0,
   "sticheprospiel": 6.5,
-  "winrate": 100
+  "winrate": 100,
+  "level": 1,
+  "anzspieler": "7"
 }
 ```
 **Warning:** The winrate is in percent, rounded to two decimals; The _sticheprospiel_-Parameter is also rounded to two decimals
@@ -266,3 +268,26 @@ The returned value will be also coded in .JSON and look like this:
 }
 ```
 **Warning:** This method is untested!!
+
+### Search for a Player:
+With a GET-call on _/users/search_ you can search for a user via its username, which is passed via .JSON like this: 
+```json
+{
+  "username": "myusername"
+}
+```
+The returned Values will be also coded in .JSON and will look like this:
+```json
+{
+  "username": "myusername",
+  "punkte": 40,
+  "currentlevel": {
+    "nr": 1,
+    "erforderlichepunkte": 20
+  },
+  "nextlevel": {
+    "nr": 2,
+    "erforderlichepunkte": 60
+  }
+}
+```

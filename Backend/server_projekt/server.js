@@ -56,8 +56,6 @@ app.get("/room/:name", (req, res) => {
 app.listen(3003, () => console.log("Listening on Port 3003"));
 
 io.on("connection", (socket) => {
-    console.log("New Connection");
-
     socket.on("createRoom", (config) => {
         rooms[config.name] = new Room(config);
 
@@ -88,7 +86,6 @@ io.on("connection", (socket) => {
         let room = data.room;
         let user = data.user;
         let team = data.team;
-        console.log("Team " + team);
 
         if (
             rooms[room] === undefined ||
@@ -108,8 +105,6 @@ io.on("connection", (socket) => {
 
         socket.emit("roomExist"); //saying to the client that the room exists
 
-        console.log("Room name: " + room);
-
         socket.join(room); //joinig a room
         socket.emit("pos");
         io.to(room).emit("players", {
@@ -119,10 +114,8 @@ io.on("connection", (socket) => {
             userStatus: rooms[room].userStatus,
         });
 
-        console.log("Länge " + rooms[room].userPos.length);
         //Hier beginnt das Spiel :)
         if (rooms[room].freePos.length === 0) {
-            console.log("ddat spiel beginnt");
             io.to(room).emit("chat", {
                 message: `Das Spiel beginnt`,
                 sender: "System",
@@ -131,8 +124,6 @@ io.on("connection", (socket) => {
 
             kartenMaster.kartenMischen();
             kartenMaster.kartenAusteilen();
-            console.log("usercards");
-            console.log(rooms[room].userCards);
             io.to(room).emit("karten", rooms[room].userCards);
             rooms[room].userStatus[rooms[room].schlagPos] = "Schlag";
             rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
@@ -146,7 +137,6 @@ io.on("connection", (socket) => {
 
         socket.on("Schlag", (card) => {
             rooms[room].schlag = card;
-            console.log("Trumpf Gewählt: " + rooms[room].trumpfGewaelt);
             if (rooms[room].trumpfGewaelt) {
                 io.to(room).emit("karten sehen");
                 io.to(room).emit("schlag trumpf", {
@@ -173,7 +163,6 @@ io.on("connection", (socket) => {
         socket.on("Trumpf", (card) => {
             rooms[room].trumpf = card;
 
-            console.log("Schlag Gewählt: " + rooms[room].schlagGewaelt);
             if (rooms[room].schlagGewaelt) {
                 io.to(room).emit("karten sehen");
                 io.to(room).emit("schlag trumpf", {
@@ -227,7 +216,6 @@ io.on("connection", (socket) => {
         });
         socket.on("ablehnen", (pos) => {
             //anderes team gewinnt
-            console.log("ablehnen");
             //neue Runde
             let team;
             if (pos % 2 === 0) team = 1;
@@ -250,7 +238,6 @@ io.on("connection", (socket) => {
             }
             let winningTeam = rooms[room].checkWin();
             if (winningTeam !== 0) {
-                console.log("Jemand hat gewonnen");
                 io.to(room).emit("win", winningTeam);
                 let axiosConfig = {
                     headers: {
@@ -281,15 +268,9 @@ io.on("connection", (socket) => {
                         },
                         axiosConfig
                     )
-                    .then((data) => {
-                        console.log(
-                            "Game was saved in the Database successfully :)"
-                        );
-                        console.log(data);
-                    });
+                    .then((data) => {});
                 setTimeout(() => {
                     if (rooms[room].freePos.length === 0) {
-                        console.log("ddat spiel beginnt");
                         io.to(room).emit("chat", {
                             message: `Das Spiel beginnt`,
                             sender: "System",
@@ -318,8 +299,6 @@ io.on("connection", (socket) => {
                 rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
                 io.to(room).emit("status", rooms[room].userStatus);
                 io.to(room).emit("tischkarten", rooms[room].tischCards);
-
-                console.log("gewonnen");
             }
         });
         socket.on("schlagtausch", (pos) => {
@@ -348,7 +327,6 @@ io.on("connection", (socket) => {
             io.to(room).emit("status", rooms[room].userStatus);
         });
         socket.on("schlagtausch annehmen", () => {
-            console.log("schlagtausch annehmen");
             let trumpfTmp = rooms[room].trumpfPos;
             rooms[room].trumpfPos = rooms[room].schlagPos;
             rooms[room].schlagPos = trumpfTmp;
@@ -377,7 +355,6 @@ io.on("connection", (socket) => {
         socket.on("schönere ablehnen", () => {
             io.to(room).emit("kein schönere");
             io.to(room).emit("status", rooms[room].userStatus);
-            console.log("Schönere wurde abgelehnt");
         });
         socket.on("schönere annehmen", () => {
             kartenMaster.kartenMischen();
@@ -392,8 +369,6 @@ io.on("connection", (socket) => {
         });
         socket.on("Am Zug", (card) => {
             rooms[room].createCheckObject();
-            console.log("Am Zug: " + card);
-            console.log("Counter: " + rooms[room].gelegt);
             rooms[room].tischCardsObject.push({
                 ...card,
                 position: rooms[room].gelegt,
@@ -422,14 +397,11 @@ io.on("connection", (socket) => {
                 }
             } else {
                 //gewinner berechnen
-                console.log("Gewonnen: ");
                 let gewonnen = kartenMaster.getBestKarte(
                     rooms[room].createCheckObject(),
                     2
                 );
-                console.log(gewonnen);
                 let gewonnenPos = rooms[room].gewinnerPos(gewonnen.position);
-                console.log("GewonnePos " + gewonnenPos);
                 if (rooms[room].stich === 0) {
                     io.to(room).emit("stich", gewonnenPos);
                 }
@@ -440,7 +412,6 @@ io.on("connection", (socket) => {
                 rooms[room].stich += 1;
                 rooms[room].addStichToTeam(gewonnenPos);
                 if (rooms[room].stich === 2) {
-                    console.log("hide JUNGE");
                     io.to(room).emit("hide Stich");
                 }
                 setTimeout(() => {
@@ -458,7 +429,6 @@ io.on("connection", (socket) => {
 
                         let winningTeam = rooms[room].checkWin();
                         if (winningTeam !== 0) {
-                            console.log("Jemand hat gewonnen");
                             io.to(room).emit("win", winningTeam);
                             let axiosConfig = {
                                 headers: {
@@ -490,15 +460,9 @@ io.on("connection", (socket) => {
                                     },
                                     axiosConfig
                                 )
-                                .then((data) => {
-                                    console.log(
-                                        "Game was saved in the Database successfully :)"
-                                    );
-                                    console.log(data);
-                                });
+                                .then((data) => {});
                             setTimeout(() => {
                                 if (rooms[room].freePos.length === 0) {
-                                    console.log("ddat spiel beginnt");
                                     io.to(room).emit("chat", {
                                         message: `Das Spiel beginnt`,
                                         sender: "System",
@@ -541,8 +505,6 @@ io.on("connection", (socket) => {
                                 "tischkarten",
                                 rooms[room].tischCards
                             );
-
-                            console.log("gewonnen");
                         }
                     } else {
                         rooms[room].resetAfterStich(gewonnenPos);
@@ -576,7 +538,6 @@ io.on("connection", (socket) => {
             }
             if (rooms[room].freePos.length === 4) {
                 delete rooms[room];
-                console.log("delete");
                 let i = 0;
                 let roomsSend = [];
                 for (var key in rooms) {

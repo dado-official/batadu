@@ -54,7 +54,6 @@ const Profil = ({ setUrl, isDarkmode }) => {
                 },
             })
             .then((res) => {
-                console.log(res.data);
                 setAnzSpieler(res.data.anzspieler);
                 setWinrate(res.data.winrate);
                 setSpieleGes(
@@ -167,7 +166,7 @@ const Profil = ({ setUrl, isDarkmode }) => {
                     Verlauf
                 </h5>
                 {games.length === 0 ? (
-                    <p className="dark:white">
+                    <p className="dark:text-white">
                         {username} hat noch keine Spiele gespielt
                     </p>
                 ) : (

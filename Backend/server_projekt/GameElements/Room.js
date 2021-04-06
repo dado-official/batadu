@@ -8,8 +8,8 @@ class Room {
         if (this.isPassword) {
             this.password = config.password;
         }
-        this.team1Punkte = 17;
-        this.team2Punkte = 17;
+        this.team1Punkte = 0;
+        this.team2Punkte = 0;
         this.freePos = [0, 1, 2, 3];
         this.userPos = [];
         this.userTeam = [1, 2, 1, 2];
@@ -35,7 +35,6 @@ class Room {
         this.geboten = 2;
         this.gebotenDavor = 0;
         this.schlagtausch = false;
-        console.log("max points: " + this.maxPoints);
 
         return 0;
     }
@@ -95,7 +94,6 @@ class Room {
 
     tryNeueRunde() {
         if (this.tischCards !== []) {
-            console.log("neue Runde :)");
             this.neueRunde();
             return true;
         }
@@ -137,11 +135,9 @@ class Room {
     getTeamPunkte() {
         if (this.team1Stiche === 3) {
             this.team1Punkte += this.geboten;
-            console.log("Team 1 Punkte: " + this.team1Punkte);
             return { team1: this.geboten };
         } else {
             this.team2Punkte += this.geboten;
-            console.log("Team 2 Punkte: " + this.team2Punkte);
             return { team2: this.geboten };
         }
     }
@@ -190,14 +186,12 @@ class Room {
     gewinnerPos(pos) {
         if (!this.schlagtausch) {
             let gewinnerPos = pos - this.zugStart;
-            console.log("ZugStart: " + this.zugStart);
             if (gewinnerPos < 0) gewinnerPos = 4 + gewinnerPos;
             if (gewinnerPos === 3) return 1;
             if (gewinnerPos === 1) return 3;
             return gewinnerPos;
         } else {
             let gewinnerPos = pos + this.zugStart;
-            console.log("ZugStart: " + this.zugStart);
             if (gewinnerPos > 3) gewinnerPos = gewinnerPos - 4;
             return gewinnerPos;
         }
@@ -209,7 +203,6 @@ class Room {
             karte: this.tischCardsObject,
         };
 
-        console.log(check);
         return check;
     }
 
@@ -225,13 +218,11 @@ class Room {
                 this.amZug = 0;
             }
         }
-        console.log(this.amZug);
     }
 
     addUser(user) {
         let pos = this.freePos.shift();
         this.userPos[pos] = user;
-        console.log(this.userPos);
         return pos;
     }
 
@@ -273,8 +264,6 @@ class Room {
         if (index > -1) {
             this.userPos[index] = null;
             this.freePos.push(index);
-            console.log("This.userPos:");
-            console.log(this.userPos);
         }
     }
 
@@ -308,8 +297,6 @@ class Room {
             personalInfo.position = this.calcPosition(personalInfo).toString();
             this.configRoom.spielerIDs.push(personalInfo);
         }
-        console.log(this.configRoom.spielerIDs);
-        console.log(this.configRoom.zuschauerIDs);
         return personalInfo.position;
     }
 

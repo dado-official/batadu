@@ -24,7 +24,6 @@ const Tisch = ({
     ]);
 
     useEffect(() => {
-        console.log("lenght: " + users.length);
         for (let i = 0; i < users.length; i++) {
             if (users[i] !== undefined && users[i] !== null) {
                 if (level[i].user === undefined && level[i].user !== users[i]) {
@@ -37,8 +36,6 @@ const Tisch = ({
                             newLevels[i].level = data.data.currentlevel.nr;
                             newLevels[i].user = users[i];
                             setLevel(newLevels);
-                            console.log("Levels");
-                            console.log(level);
                         });
                 }
             }

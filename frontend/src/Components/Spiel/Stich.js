@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 
 const Stich = ({ gewinner, karten, pos, calcPos }) => {
-    useEffect(() => {
-        console.log("poooooosss: " + calcPos(gewinner + pos));
-    }, [gewinner]);
+    useEffect(() => {}, [gewinner]);
     return (
         <div className="bg-white dark:bg-whiteDark relative flex justify-center items-center w-full h-96 xl:h-64 rounded-b-st">
             <div className="h-56 w-56 relative">

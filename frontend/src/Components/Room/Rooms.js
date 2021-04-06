@@ -12,8 +12,6 @@ const Rooms = ({ setUrl, isDarkmode, socket, setTeam }) => {
     useEffect(() => {
         socket.emit("getRooms");
         socket.on("rooms", (data) => {
-            console.log("Rooms");
-            console.log(data);
             setRooms(data);
         });
         setTeam(0);

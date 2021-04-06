@@ -68,7 +68,6 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
         axios
             .get(`http://127.0.0.1:3003/room/isPassword/${room}`)
             .then((res) => {
-                console.log(res.data);
                 if (res.data) {
                     setIsPassword(true);
                 } else {
@@ -78,7 +77,6 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
         socket.on("roomExist", () => setExist(true));
         socket.on("roomNotExist", () => setExist(false));
         socket.on("players", (users) => {
-            console.log("data " + users);
             setUsers(users.userPos);
             setTeams(users.userTeam);
             setStiche(users.userStiche);
@@ -86,35 +84,19 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
 
             if (pos === undefined) {
                 setPos(users.userPos.indexOf(username));
-                console.log("pos SET!");
             }
         });
         socket.on("status", (status) => {
             setStatus(status);
         });
         socket.on("karten", (data) => {
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log("got Karten");
-            console.log(data);
             setAlleKarten(data);
         });
         socket.on("karten sehen", () => {
             setSeeCards(true);
         });
         socket.on("tischkarten", (data) => {
-            console.log("Tischkarten: " + data);
             setKartenTisch(data);
-            console.log("See Stiche? " + seeStiche);
         });
         socket.on("stich", (gewinner) => {
             setSeeStiche(true);
@@ -218,7 +200,6 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
                 setSeeCards(true);
                 if (statusMe === "Schlag" || statusMe === "Trumpf") {
                     socket.on("schlag trumpf", (data) => {
-                        console.log("Schlag Trumpf: " + data);
                         setSchlag(data.schlag);
                         setTrumpf(data.trumpf);
                     });
@@ -248,7 +229,6 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
     }, []);
 
     useEffect(() => {
-        console.log("Team: " + {});
         if (winningTeam === 1 && pos % 2 === 0) {
             setWon(true);
         } else if (winningTeam === 2 && pos % 2 !== 0) {
@@ -274,17 +254,12 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
             !myStatus.includes("Gestochen") ||
             !myStatus === "Gebot Antwort"
         ) {
-            console.log("myStatus: " + myStatus);
-            console.log(e.target.alt);
             let card = e.target.alt;
-            console.log("Emit: " + myStatus + " Karte: " + card);
 
             let index = karten.findIndex((i) => i.name === e.target.alt);
-            console.log("Cherta: " + karten[index].name);
             let cardObject = karten[index];
 
             if (myStatus === "Am Zug") {
-                console.log("Delete");
                 //delete
                 removeCard(e);
             }
@@ -297,7 +272,6 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
 
     function removeCard(e) {
         let array = karten;
-        console.log(array);
         let index = array.findIndex((i) => i.name === e.target.alt);
         if (index !== -1) {
             array.splice(index, 1);

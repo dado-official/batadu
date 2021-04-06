@@ -54,7 +54,6 @@ function App() {
 
     function loadDarkmode() {
         let value = localStorage.getItem("darkmode");
-        console.log(value);
         if (value === undefined) return;
         if (value == "true") {
             setIsDarkmode(true);

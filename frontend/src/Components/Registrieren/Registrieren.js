@@ -71,7 +71,6 @@ const Registrieren = ({
                     email: email,
                 },
             };
-            console.log(data);
             axios
                 .get(`http://10.10.30.218:42069/user/check`, data, axiosConfig)
                 .then((response) => {
@@ -80,7 +79,6 @@ const Registrieren = ({
                         password: md6(password),
                         email: email,
                     };
-                    console.log(data);
                     axios
                         .post(
                             "http://10.10.30.218:42069/register",
@@ -92,7 +90,6 @@ const Registrieren = ({
                             localStorage.setItem("username", username);
                             localStorage.setItem("password", md6(password));
                             setIsLoggedIn(true);
-                            console.log(response);
                             history.push("/spielen");
                         })
                         .catch((error) => {
@@ -113,7 +110,6 @@ const Registrieren = ({
                             "Email und Benutzername wurden schon benutzt, wählen Sie etwas anderes"
                         );
                     }
-                    console.log(error.response.data);
                 });
         }
     }

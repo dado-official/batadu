@@ -35,7 +35,6 @@ const Anmelden = ({ setUrl, isDarkmode, setIsLoggedIn, setUsernameApp }) => {
                     password: md6(password),
                 },
             };
-            console.log(data);
             axios
                 .get("http://10.10.30.218:42069/user/login", data, axiosConfig)
                 .then((response) => {

@@ -44,7 +44,6 @@ const Search = ({ isDarkmode }) => {
                     },
                 })
                 .then((res) => {
-                    console.log(res.data);
                     setSearchResults(res.data);
                 });
         }

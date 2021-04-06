@@ -6,7 +6,6 @@ import Search from "./Search";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
-const breakPoint = 5;
 
 const Profil = ({ setUrl, isDarkmode }) => {
     const [punkte, setPunkte] = useState(0);
@@ -14,6 +13,11 @@ const Profil = ({ setUrl, isDarkmode }) => {
     const [nextPunkte, setNextPunkte] = useState(0);
     const [level, setLevel] = useState(0);
     const [games, setGames] = useState([]);
+    const [position, setPosition] = useState("?");
+    const [anzSpieler, setAnzSpieler] = useState("?");
+    const [winrate, setWinrate] = useState("0");
+    const [spielerGes, setSpieleGes] = useState("?");
+    const [sticheSpiel, setSticheSpiel] = useState("0");
     const { username } = useParams();
 
     useEffect(() => {
@@ -26,7 +30,6 @@ const Profil = ({ setUrl, isDarkmode }) => {
                 },
             })
             .then((res) => {
-                console.log(res);
                 let data = res.data;
                 setLevel(data.currentlevel.nr);
                 setPunkte(data.punkte);
@@ -44,11 +47,30 @@ const Profil = ({ setUrl, isDarkmode }) => {
             .then((res) => {
                 setGames(res.data);
             });
+        axios
+            .get("http://10.10.30.218:42069/user/stats", {
+                params: {
+                    username: username,
+                },
+            })
+            .then((res) => {
+                console.log(res.data);
+                setAnzSpieler(res.data.anzspieler);
+                setWinrate(res.data.winrate);
+                setSpieleGes(
+                    res.data.verlorenespiele + res.data.gewonnenespiele
+                );
+                setSticheSpiel(res.data.sticheprospiel);
+            });
+
+        axios.get("http://10.10.30.218:42069/rankings").then((res) => {
+            setPosition(res.data.findIndex((a) => a.username === username) + 1);
+        });
     }, [username]);
 
     return (
         <div>
-            <div className="w-1450 max-w-1/9 mx-auto mt-8 md:mt-16">
+            <div className="w-1450 max-w-1/9 mx-auto mt-8">
                 <div className="md:hidden">
                     <Search isDarkmode={isDarkmode} />
                 </div>
@@ -78,7 +100,10 @@ const Profil = ({ setUrl, isDarkmode }) => {
                         Level {level + 1}
                     </h6>
                     <div className="relative w-full rounded-st h-9">
-                        {(100 / nextPunkte) * punkte <= breakPoint ? (
+                        <div className="w-full bg-secondary dark:bg-secondaryDark rounded-st h-full opacity-20 flex justify-center items-center"></div>
+                        {(100 / (nextPunkte - curLevelPunkteRequired)) *
+                            (punkte - curLevelPunkteRequired) >
+                            30 || punkte === curLevelPunkteRequired ? (
                             <p
                                 className="absolute text-black dark:text-white font-regular left-1/2 top-1/2"
                                 style={{ transform: "translate(-0%, -50%" }}
@@ -86,7 +111,6 @@ const Profil = ({ setUrl, isDarkmode }) => {
                                 {punkte}/{nextPunkte}
                             </p>
                         ) : null}
-                        <div className="w-full bg-secondary dark:bg-secondaryDark rounded-st h-full opacity-20 flex justify-center items-center"></div>
                         <div
                             className="bg-secondary dark:bg-secondaryDark rounded-st flex items-center justify-center h-full absolute left-0 top-0"
                             style={{
@@ -97,7 +121,9 @@ const Profil = ({ setUrl, isDarkmode }) => {
                                 }%`,
                             }}
                         >
-                            {(100 / nextPunkte) * punkte > breakPoint ? (
+                            {(100 / (nextPunkte - curLevelPunkteRequired)) *
+                                (punkte - curLevelPunkteRequired) >
+                            30 ? (
                                 <p className="text-white dark:text-black font-regular">
                                     {punkte}/{nextPunkte}
                                 </p>
@@ -116,17 +142,21 @@ const Profil = ({ setUrl, isDarkmode }) => {
                         Statistiken
                     </h5>
                     <div className="grid gap-x-8 lg:gap-x-20 gap-y-8 grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        <Statistik typ="Rang" data="#1" extra="von 76" />
+                        <Statistik
+                            typ="Rang"
+                            data={`#${position}`}
+                            extra={`von ${anzSpieler}`}
+                        />
                         <Statistik
                             typ="Winnrate %"
-                            data="62.1 %"
-                            percentage={"62.1"}
+                            data={`${winrate} %`}
+                            percentage={winrate}
                         />
-                        <Statistik typ="Spiele gesamt" data="38" />
+                        <Statistik typ="Spiele gesamt" data={spielerGes} />
                         <Statistik
                             typ="Stich/Spiel %"
-                            data="40 %"
-                            percentage={"40"}
+                            data={`${sticheSpiel} %`}
+                            percentage={sticheSpiel}
                         />
                     </div>
                 </div>

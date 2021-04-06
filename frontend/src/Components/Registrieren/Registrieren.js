@@ -44,6 +44,10 @@ const Registrieren = ({
             setError("Die Passwörter stimmen nicht überein");
         } else if (username.length > 15) {
             setError("Der Benutzername ist zu groß");
+        } else if (username.search(/^[a-zA-Z0-9]+$/) < 0) {
+            setError(
+                "Der Benutzername ist kann Buchstaben und Zahlen beiinhalten"
+            );
         } else if (password.length < 8) {
             setError("Ihr Password muss mindestens 8 Zeichen groß sein");
         } else if (password.search(/[a-z]/i) < 0) {

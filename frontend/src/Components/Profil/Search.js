@@ -40,7 +40,7 @@ const Search = ({ isDarkmode }) => {
             axios
                 .get("http://10.10.30.218:42069/users/search", {
                     params: {
-                        search: search.toLocaleLowerCase(),
+                        username: search.toLocaleLowerCase(),
                     },
                 })
                 .then((res) => {

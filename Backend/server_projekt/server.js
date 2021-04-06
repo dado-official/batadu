@@ -39,6 +39,14 @@ app.get("/room/password/:name/:password", (req, res) => {
     }
     res.send(false);
 });
+app.get("/room/available/:name", (req, res) => {
+    let name = req.params.name;
+    if (rooms.includes(name)) {
+        res.send(true);
+        return;
+    }
+    res.send(false);
+});
 
 app.get("/room/:name", (req, res) => {
     let name = req.params.name;

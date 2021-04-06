@@ -16,7 +16,6 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     Redirect,
 } from "react-router-dom";
 import axios from "axios";
@@ -99,8 +98,8 @@ function App() {
                         { params: { username: user } },
                         axiosConfig
                     )
-                    .then((data) => {
-                        setUserLevel(data.data.currentlevel.nr);
+                    .then((res) => {
+                        setUserLevel(res.data.currentlevel.nr);
                         setLoaded(true);
                     });
             })

@@ -10,7 +10,6 @@ const SearchResults = ({ isDarkmode, searchResults }) => {
             {searchResults.map((element) => {
                 return (
                     <SearchResultElement
-                        level={0}
                         username={element.username}
                         isDarkmode={isDarkmode}
                     />

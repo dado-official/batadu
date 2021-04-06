@@ -116,21 +116,8 @@ io.on("connection", (socket) => {
             rooms[room].schlag = card;
             console.log("Trumpf Gewählt: " + rooms[room].trumpfGewaelt);
             if (rooms[room].trumpfGewaelt) {
-                io.to(room).emit("karten sehen");
-                io.to(room).emit("schlag trumpf", {
-                    schlag: rooms[room].schlag.name,
-                    trumpf: rooms[room].trumpf.name,
-                });
-                rooms[room].userStatus = [];
-                rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
-                if (rooms[room].isInGestrichenTeam(rooms[room].amZug)) {
-                    io.to("4erle");
-                    let status = [];
-                    status[rooms[room].amZug] = "Geboten Antwort";
-                    io.to(room).emit("status", status);
-                } else {
-                    io.to(room).emit("status", rooms[room].userStatus);
-                }
+                sendSchlagAndTrumpf(room);
+                gestrichen(room);
             } else {
                 rooms[room].userStatus[rooms[room].schlagPos] = null;
                 io.to(room).emit("status", rooms[room].userStatus);
@@ -143,21 +130,8 @@ io.on("connection", (socket) => {
 
             console.log("Schlag Gewählt: " + rooms[room].schlagGewaelt);
             if (rooms[room].schlagGewaelt) {
-                io.to(room).emit("karten sehen");
-                io.to(room).emit("schlag trumpf", {
-                    schlag: rooms[room].schlag.name,
-                    trumpf: rooms[room].trumpf.name,
-                });
-                rooms[room].userStatus = [];
-                rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
-                if (rooms[room].isInGestrichenTeam(rooms[room].amZug)) {
-                    io.to(room).emit("4erle");
-                    let status = [];
-                    status[rooms[room].amZug] = "Geboten Antwort";
-                    io.to(room).emit("status", status);
-                } else {
-                    io.to(room).emit("status", rooms[room].userStatus);
-                }
+                sendSchlagAndTrumpf(room);
+                gestrichen(room);
                 //if amzug == in gestrichen Team
                 /*
                     Todo
@@ -171,6 +145,7 @@ io.on("connection", (socket) => {
             }
             rooms[room].trumpfGewaelt = true;
         });
+
         socket.on("bieten", (pos) => {
             let haltenPos;
             if (!rooms[room].trumpfGewaelt || !rooms[room].schlagGewaelt) {
@@ -190,15 +165,11 @@ io.on("connection", (socket) => {
         });
         socket.on("4erle halten", () => {
             //geboten++
-            io.to(room).emit("status", rooms[room].userStatus);
-            rooms[room].geboten += 2;
-            io.to(room).emit("geboten", rooms[room].geboten);
+            geboten(2, room)
         });
         socket.on("halten", () => {
             //geboten++
-            io.to(room).emit("status", rooms[room].userStatus);
-            rooms[room].geboten += 1;
-            io.to(room).emit("geboten", rooms[room].geboten);
+            geboten(1, room)
         });
         socket.on("ablehnen", (pos) => {
             //anderes team gewinnt
@@ -497,5 +468,33 @@ io.on("connection", (socket) => {
         });
     });
 });
+
+
+function sendSchlagAndTrumpf(room) {
+    io.to(room).emit("karten sehen");
+    io.to(room).emit("schlag trumpf", {
+        schlag: rooms[room].schlag.name,
+        trumpf: rooms[room].trumpf.name,
+    });
+    rooms[room].userStatus = [];
+    rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
+}
+
+function gestrichen(room){
+    if (rooms[room].isInGestrichenTeam(rooms[room].amZug)) {
+        io.to("4erle");
+        let status = [];
+        status[rooms[room].amZug] = "Geboten Antwort";
+        io.to(room).emit("status", status);
+    } else {
+        io.to(room).emit("status", rooms[room].userStatus);
+    }
+}
+
+function geboten(add, room) {
+    io.to(room).emit("status", rooms[room].userStatus);
+    rooms[room].geboten += add;
+    io.to(room).emit("geboten", rooms[room].geboten);
+}
 
 http.listen(8080, () => console.log("listening on http://localhost:8080"));

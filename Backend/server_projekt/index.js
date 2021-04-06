@@ -20,7 +20,9 @@ app.get("/", function (req, res) {
     res.send("Hello Worldlul!");
 });
 //create Room
-app.listen(3000, () => console.log("listening on http://localhost:3000"));
+app.listen(3000, () => {
+    console.log("listening on http://localhost:3000");
+});
 
 //create a new room
 app.post("/room", (req, res) => {

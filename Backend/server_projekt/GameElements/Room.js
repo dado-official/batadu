@@ -86,15 +86,17 @@ class Room {
         this.schlagtausch = false;
     }
 
+    //fehler? immer true??????
     tryNeueRunde() {
         if (this.tischCards !== []) {
-            console.log("neue Runde :)");
+            //console.log("neue Runde :)");
             this.neueRunde();
             return true;
         }
         return false;
     }
 
+    //why <0
     calcPos(pos) {
         if (pos < 0) return pos + 4;
         return pos;
@@ -143,10 +145,12 @@ class Room {
         if (this.team1Punkte >= this.maxPoints - 3) return true;
         return false;
     }
+
     isTeam2Gestrichen() {
         if (this.team2Punkte >= this.maxPoints - 3) return true;
         return false;
     }
+
     isInGestrichenTeam(pos) {
         if (this.isTeam1Gestrichen() && this.isTeam2Gestrichen()) return false;
         else {
@@ -160,6 +164,8 @@ class Room {
         }
         return false;
     }
+
+    //untill here tested ---------------------------------------------------------------------
 
     getTeamPunkteAbgelehnt(pos) {
         if (pos % 2 === 0) {

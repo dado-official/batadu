@@ -602,7 +602,20 @@ app.get("/users/search", (req, res) => {
                 return;
             }
             res.status(200).json(results.rows);
-            return;
+        }
+    );
+});
+
+//Get all cards
+app.get("/cards/all", (req, res) => {
+    pool.query(
+        "SELECT * FROM public.karten",
+        (error, results) => {
+            if(error){
+                res.status(500).send();
+                return;
+            }
+            res.status(200).json(results.rows);
         }
     );
 });

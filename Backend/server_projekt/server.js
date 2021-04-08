@@ -23,6 +23,10 @@ app.get("");
 
 app.get("/room/isPassword/:name", (req, res) => {
     let name = req.params.name;
+    if (rooms[name] === undefined || rooms[name] === null) {
+        res.send(false);
+        return;
+    }
     if (rooms[name] !== undefined && rooms[name].password === "") {
         res.send(false);
     }
@@ -87,6 +91,7 @@ io.on("connection", (socket) => {
         let room = data.room;
         let user = data.user;
         let team = data.team;
+        console.log(room);
 
         if (
             rooms[room] === undefined ||

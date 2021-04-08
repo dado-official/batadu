@@ -16,7 +16,9 @@ const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
 
     useEffect(() => {
         setUrl("/");
-        if (room === undefined) history.push("/");
+        if (room === "undefined") {
+            history.push("/");
+        }
         axios.get(`http://127.0.0.1:3003/room/${room}`).then((res) => {
             setData(res.data);
         });

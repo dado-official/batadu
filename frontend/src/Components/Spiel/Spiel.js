@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Tisch from "./Tisch";
 import SpielInformations from "./SpielInformations";
 import Chat from "./Chat";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import NoDark from "../../assets/no-dark.svg";
 import YesDark from "../../assets/yes-dark.svg";
@@ -54,6 +54,8 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
     const infosRef = useRef();
     const spielRef = useRef();
 
+    const history = useHistory();
+
     const { room } = useParams();
 
     function joinGame() {
@@ -65,6 +67,9 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
     }
 
     useEffect(() => {
+        if (room === "undefined") {
+            history.push("/");
+        }
         axios
             .get(`http://127.0.0.1:3003/room/isPassword/${room}`)
             .then((res) => {
@@ -595,7 +600,9 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
                             <div className="flex flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static sm:flex-col justify-between md:justify-start w-full sm:w-max mt-4 md:mt-0">
                                 <p className="dark:text-white">
                                     Schlag:{" "}
-                                    <span className="font-bold">{schlag}</span>
+                                    <span className="font-bold">
+                                        {seeCards ? schlag : "?"}
+                                    </span>
                                 </p>
                                 <p className="dark:text-white">
                                     Trumpf:{" "}
@@ -605,8 +612,8 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
                                 </p>
                                 <p className="block sm:hidden dark:text-white">
                                     Geboten:{" "}
-                                    <span className="font-bold">
-                                        {seeCards ? geboten : "?"}
+                                    <span className={`font-bold`}>
+                                        {geboten}
                                     </span>
                                 </p>
                             </div>

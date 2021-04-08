@@ -124,18 +124,19 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
         socket.on("neue Runde", () => {
             setGebotenDavor(0);
             setGeboten(2);
-            setSchlag("");
-            setTrumpf("");
+            setSchlag("?");
+            setTrumpf("?");
             setSeeCards(false);
             setSeeStiche(false);
             setHasSchlagtausch(false);
             setHasSchönere(false);
+            setSelectedInfo("Punkte");
         });
         socket.on("reset", () => {
             setGebotenDavor(0);
             setGeboten(2);
-            setSchlag("");
-            setTrumpf("");
+            setSchlag("?");
+            setTrumpf("?");
             setSeeCards(false);
             setHasSchlagtausch(false);
             setHasSchönere(false);
@@ -165,6 +166,14 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
             setWinningTeam(winningTeam);
             setIsOver(true);
         });
+        socket.on("schlag trumpf", (data) => {
+            setSchlag(data.schlag);
+            setTrumpf(data.trumpf);
+        });
+
+        return () => {
+            socket.emit("leave");
+        };
     }, []);
 
     useEffect(() => {
@@ -199,10 +208,6 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
                 setMyStatus(statusMe);
                 setSeeCards(true);
                 if (statusMe === "Schlag" || statusMe === "Trumpf") {
-                    socket.on("schlag trumpf", (data) => {
-                        setSchlag(data.schlag);
-                        setTrumpf(data.trumpf);
-                    });
                     setIsSchlagtausch(true);
                     setIsSchönere(true);
                 } else {
@@ -594,11 +599,15 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
                                 </p>
                                 <p className="dark:text-white">
                                     Trumpf:{" "}
-                                    <span className="font-bold">{trumpf}</span>
+                                    <span className="font-bold">
+                                        {seeCards ? trumpf : "?"}
+                                    </span>
                                 </p>
                                 <p className="block sm:hidden dark:text-white">
                                     Geboten:{" "}
-                                    <span className="font-bold">{geboten}</span>
+                                    <span className="font-bold">
+                                        {seeCards ? geboten : "?"}
+                                    </span>
                                 </p>
                             </div>
                         </div>

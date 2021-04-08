@@ -262,8 +262,8 @@ class Room {
     removeUser(user) {
         let index = this.userPos.indexOf(user);
         if (index > -1) {
-            this.userPos[index] = null;
             this.freePos.push(index);
+            this.userPos[index] = null;
         }
     }
 

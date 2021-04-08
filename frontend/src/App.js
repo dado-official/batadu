@@ -34,6 +34,9 @@ function App() {
     const [userLevel, setUserLevel] = useState(0);
 
     useEffect(() => {
+        socket.on("connect_failed", () => {
+            console.log("Fella");
+        });
         loadDarkmode();
         loadUser();
     }, []);

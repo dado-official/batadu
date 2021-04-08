@@ -267,7 +267,8 @@ The returned value will be also coded in .JSON and look like this:
   "pfad": "myurl"
 }
 ```
-**Warning:** This method is untested!!
+If you want to get all cards, just make a request to _/cards/all_ without sending anything. The response should be the same as for a single card.
+<br>**Warning:** This method is untested!!
 
 ### Search for a Player:
 With a GET-call on _/users/search_ you can search for a user via its username, which is passed via .JSON like this: 

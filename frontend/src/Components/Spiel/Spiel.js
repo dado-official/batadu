@@ -9,9 +9,22 @@ import YesDark from "../../assets/yes-dark.svg";
 import NoWhite from "../../assets/no-white.svg";
 import YesWhite from "../../assets/yes-white.svg";
 import SpielPassword from "../SpielPassword/SpielPassword";
+import useSound from "use-sound";
 import axios from "axios";
+import { cardPhotos } from "../Karten/Karten";
+import sound1Mp3 from "../../assets/game-1.mp3";
+import sound2Mp3 from "../../assets/game-2.mp3";
+import sound3Mp3 from "../../assets/game-3.mp3";
+import sound4Mp3 from "../../assets/game-4.mp3";
 
-const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
+const Spiel = ({
+    setUrl,
+    isDarkmode,
+    socket,
+    team,
+    username,
+    setReconnect,
+}) => {
     const [isPassword, setIsPassword] = useState(false);
     const [geboten, setGeboten] = useState(2);
     const [schlag, setSchlag] = useState("?");
@@ -49,6 +62,8 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
     const [won, setWon] = useState(false);
     const [winningTeam, setWinningTeam] = useState(0);
     const [showTimer, setShowTimer] = useState(false);
+    const [playedSoundWaelen, setPlayedSoundWaelen] = useState(false);
+    const [playedSoundZug, setPlayedSoundZug] = useState(false);
 
     const chatRef = useRef();
     const infosRef = useRef();
@@ -57,6 +72,11 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
     const history = useHistory();
 
     const { room } = useParams();
+
+    const [sound1] = useSound(sound1Mp3, { volume: 0.5 });
+    const [sound2] = useSound(sound2Mp3, { volume: 0.2 });
+    const [sound3] = useSound(sound3Mp3, { volume: 0.3 });
+    const [sound4] = useSound(sound4Mp3, { volume: 0.6 });
 
     function joinGame() {
         socket.emit("joinRoom", {
@@ -70,6 +90,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
         if (room === "undefined") {
             history.push("/");
         }
+        setReconnect(false);
         axios
             .get(`http://127.0.0.1:3003/room/isPassword/${room}`)
             .then((res) => {
@@ -116,6 +137,8 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
             setStatus(data.status);
             setKartenTisch(data.karten);
             setStiche(data.stiche);
+            setPlayedSoundWaelen(false);
+            setPlayedSoundZug(false);
         });
         socket.on("punkte", (data) => {
             setPunkte((prev) => [...prev, data]);
@@ -136,6 +159,8 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
             setHasSchlagtausch(false);
             setHasSchönere(false);
             setSelectedInfo("Punkte");
+            setPlayedSoundWaelen(false);
+            setPlayedSoundZug(false);
         });
         socket.on("reset", () => {
             setGebotenDavor(0);
@@ -151,6 +176,8 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
             setIsTeam1Gestrichen(false);
             setIsTeam2Gestrichen(false);
             setSeeStiche(false);
+            setPlayedSoundWaelen(false);
+            setPlayedSoundZug(false);
         });
         socket.on("kein schönere", () => {
             setHasSchönere(true);
@@ -177,7 +204,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
         });
 
         return () => {
-            socket.emit("leave");
+            window.location.reload();
         };
     }, []);
 
@@ -199,10 +226,24 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
                     setHover(true);
                     setIsBieten(true);
                 }
+
+                if (statusMe.includes("Gestochen")) {
+                    sound3();
+                }
+
+                if (statusMe === "Am Zug") {
+                    if (!playedSoundZug) {
+                        sound1();
+                        setPlayedSoundZug(true);
+                        setPlayedSoundWaelen(false);
+                    }
+                }
                 if (statusMe === "Geboten Antwort") {
                     setHover(false);
+                    sound4();
                     setIsHaltenWindow(true);
                 } else if (statusMe === "Schlagtausch Antwort") {
+                    sound4();
                     setHover(false);
                     setIsSchlagtauschWindow(true);
                 } else if (statusMe === "Schönere Antwort") {
@@ -213,6 +254,10 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
                 setMyStatus(statusMe);
                 setSeeCards(true);
                 if (statusMe === "Schlag" || statusMe === "Trumpf") {
+                    if (!playedSoundWaelen) {
+                        sound1();
+                        setPlayedSoundWaelen(true);
+                    }
                     setIsSchlagtausch(true);
                     setIsSchönere(true);
                 } else {
@@ -237,6 +282,12 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
     useEffect(() => {
         setUrl("/");
     }, []);
+
+    useEffect(() => {
+        if (kartenTisch !== undefined && kartenTisch.length > 0) {
+            sound2();
+        }
+    }, [kartenTisch]);
 
     useEffect(() => {
         if (winningTeam === 1 && pos % 2 === 0) {
@@ -422,6 +473,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
                                     status={status}
                                     calcPos={calcPos}
                                     karten={kartenTisch}
+                                    cardPhotos={cardPhotos}
                                 />
                             ) : (
                                 <div className="bg-white h-bottomSpiel dark:bg-whiteDark absolute w-full top-0 left-0 z-20 rounded-st flex justify-center items-center">
@@ -582,14 +634,12 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
                                 ? karten.map((element) => {
                                       return (
                                           <img
-                                              className={`h-auto w-4.275rem md:w-4.75rem rounded-st ${
+                                              className={`h-auto w-4.275rem md:w-4.75rem rounded-st karte ${
                                                   hover
                                                       ? "hover:border-secondary dark:hover:border-secondaryDark border-4 border-transparent cursor-pointer"
                                                       : null
                                               } `}
-                                              src={`http://10.10.30.218/${decodeURI(
-                                                  element.name
-                                              )}.png`}
+                                              src={cardPhotos[element.name]}
                                               alt={element.name}
                                               onClick={selectCardHandler}
                                               key={Math.random() * 1000}
@@ -634,6 +684,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team, username }) => {
                             punkte={punkte}
                             isTeam1Gestrichen={isTeam1Gestrichen}
                             isTeam2Gestrichen={isTeam2Gestrichen}
+                            cardPhotos={cardPhotos}
                         />
                         <button
                             className="btn bg-secondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"

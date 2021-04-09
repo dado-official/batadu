@@ -76,7 +76,6 @@ io.on("connection", (socket) => {
     });
 
     socket.on("getRooms", () => {
-        console.log("Jet rooms");
         let i = 0;
         let roomsSend = [];
         for (var key in rooms) {
@@ -91,7 +90,6 @@ io.on("connection", (socket) => {
         let room = data.room;
         let user = data.user;
         let team = data.team;
-        console.log(room);
 
         if (
             rooms[room] === undefined ||
@@ -276,22 +274,24 @@ io.on("connection", (socket) => {
                     )
                     .then((data) => {});
                 setTimeout(() => {
-                    if (rooms[room].freePos.length === 0) {
-                        io.to(room).emit("chat", {
-                            message: `Das Spiel beginnt`,
-                            sender: "System",
-                            type: "text",
-                        });
-                        rooms[room].neuesSpiel();
-                        io.to(room).emit("reset");
-                        kartenMaster.kartenMischen();
-                        kartenMaster.kartenAusteilen();
-                        io.to(room).emit("karten", rooms[room].userCards);
-                        rooms[room].userStatus[rooms[room].schlagPos] =
-                            "Schlag";
-                        rooms[room].userStatus[rooms[room].trumpfPos] =
-                            "Trumpf";
-                        io.to(room).emit("status", rooms[room].userStatus);
+                    if (rooms[room] !== undefined) {
+                        if (rooms[room].freePos.length === 0) {
+                            io.to(room).emit("chat", {
+                                message: `Das Spiel beginnt`,
+                                sender: "System",
+                                type: "text",
+                            });
+                            rooms[room].neuesSpiel();
+                            io.to(room).emit("reset");
+                            kartenMaster.kartenMischen();
+                            kartenMaster.kartenAusteilen();
+                            io.to(room).emit("karten", rooms[room].userCards);
+                            rooms[room].userStatus[rooms[room].schlagPos] =
+                                "Schlag";
+                            rooms[room].userStatus[rooms[room].trumpfPos] =
+                                "Trumpf";
+                            io.to(room).emit("status", rooms[room].userStatus);
+                        }
                     }
                 }, 10000);
             } else {
@@ -421,116 +421,123 @@ io.on("connection", (socket) => {
                     io.to(room).emit("hide Stich");
                 }
                 setTimeout(() => {
-                    if (rooms[room].won()) {
-                        //wenn ein Team 3 Punkte hat
-                        let punkte = rooms[room].getTeamPunkte();
-                        io.to(room).emit("punkte", punkte);
+                    if (rooms[room] !== undefined) {
+                        if (rooms[room].won()) {
+                            //wenn ein Team 3 Punkte hat
+                            let punkte = rooms[room].getTeamPunkte();
+                            io.to(room).emit("punkte", punkte);
 
-                        if (rooms[room].isTeam1Gestrichen()) {
-                            io.to(room).emit("team1 gestrichen");
-                        }
-                        if (rooms[room].isTeam2Gestrichen()) {
-                            io.to(room).emit("team2 gestrichen");
-                        }
+                            if (rooms[room].isTeam1Gestrichen()) {
+                                io.to(room).emit("team1 gestrichen");
+                            }
+                            if (rooms[room].isTeam2Gestrichen()) {
+                                io.to(room).emit("team2 gestrichen");
+                            }
 
-                        let winningTeam = rooms[room].checkWin();
-                        if (winningTeam !== 0) {
-                            io.to(room).emit("win", winningTeam);
-                            let axiosConfig = {
-                                headers: {
-                                    "Content-Type":
-                                        "application/json;charset=UTF-8",
-                                    "Access-Control-Allow-Origin": "*",
-                                },
-                            };
-                            axios
-                                .post(
-                                    "http://10.10.30.218:42069/game/results",
-                                    {
-                                        spielname: rooms[room].name,
-                                        team1punkte: rooms[room].team1Punkte,
-                                        team1stichespieler1:
-                                            rooms[room].userSticheGesamt[0],
-                                        team1stichespieler2:
-                                            rooms[room].userSticheGesamt[2],
-                                        team2punkte: rooms[room].team2Punkte,
-                                        team2stichespieler1:
-                                            rooms[room].userSticheGesamt[1],
-                                        team2stichespieler2:
-                                            rooms[room].userSticheGesamt[3],
-                                        gewinnerteam: winningTeam,
-                                        team1user1: rooms[room].userPos[0],
-                                        team1user2: rooms[room].userPos[2],
-                                        team2user1: rooms[room].userPos[1],
-                                        team2user2: rooms[room].userPos[3],
+                            let winningTeam = rooms[room].checkWin();
+                            if (winningTeam !== 0) {
+                                io.to(room).emit("win", winningTeam);
+                                let axiosConfig = {
+                                    headers: {
+                                        "Content-Type":
+                                            "application/json;charset=UTF-8",
+                                        "Access-Control-Allow-Origin": "*",
                                     },
-                                    axiosConfig
-                                )
-                                .then((data) => {});
-                            setTimeout(() => {
-                                if (rooms[room].freePos.length === 0) {
-                                    io.to(room).emit("chat", {
-                                        message: `Das Spiel beginnt`,
-                                        sender: "System",
-                                        type: "text",
-                                    });
-                                    rooms[room].neuesSpiel();
-                                    io.to(room).emit("reset");
+                                };
+                                axios
+                                    .post(
+                                        "http://10.10.30.218:42069/game/results",
+                                        {
+                                            spielname: rooms[room].name,
+                                            team1punkte:
+                                                rooms[room].team1Punkte,
+                                            team1stichespieler1:
+                                                rooms[room].userSticheGesamt[0],
+                                            team1stichespieler2:
+                                                rooms[room].userSticheGesamt[2],
+                                            team2punkte:
+                                                rooms[room].team2Punkte,
+                                            team2stichespieler1:
+                                                rooms[room].userSticheGesamt[1],
+                                            team2stichespieler2:
+                                                rooms[room].userSticheGesamt[3],
+                                            gewinnerteam: winningTeam,
+                                            team1user1: rooms[room].userPos[0],
+                                            team1user2: rooms[room].userPos[2],
+                                            team2user1: rooms[room].userPos[1],
+                                            team2user2: rooms[room].userPos[3],
+                                        },
+                                        axiosConfig
+                                    )
+                                    .then((data) => {});
+                                setTimeout(() => {
+                                    if (rooms[room].freePos.length === 0) {
+                                        io.to(room).emit("chat", {
+                                            message: `Das Spiel beginnt`,
+                                            sender: "System",
+                                            type: "text",
+                                        });
+                                        rooms[room].neuesSpiel();
+                                        io.to(room).emit("reset");
 
-                                    kartenMaster.kartenMischen();
-                                    kartenMaster.kartenAusteilen();
-                                    io.to(room).emit(
-                                        "karten",
-                                        rooms[room].userCards
-                                    );
-                                    rooms[room].userStatus[
-                                        rooms[room].schlagPos
-                                    ] = "Schlag";
-                                    rooms[room].userStatus[
-                                        rooms[room].trumpfPos
-                                    ] = "Trumpf";
-                                    io.to(room).emit(
-                                        "status",
-                                        rooms[room].userStatus
-                                    );
-                                }
-                            }, 10000);
+                                        kartenMaster.kartenMischen();
+                                        kartenMaster.kartenAusteilen();
+                                        io.to(room).emit(
+                                            "karten",
+                                            rooms[room].userCards
+                                        );
+                                        rooms[room].userStatus[
+                                            rooms[room].schlagPos
+                                        ] = "Schlag";
+                                        rooms[room].userStatus[
+                                            rooms[room].trumpfPos
+                                        ] = "Trumpf";
+                                        io.to(room).emit(
+                                            "status",
+                                            rooms[room].userStatus
+                                        );
+                                    }
+                                }, 10000);
+                            } else {
+                                //neue Runde
+                                rooms[room].neueRunde();
+                                io.to(room).emit("neue Runde");
+                                kartenMaster.kartenMischen();
+                                kartenMaster.kartenAusteilen();
+                                io.to(room).emit(
+                                    "karten",
+                                    rooms[room].userCards
+                                );
+                                rooms[room].userStatus[rooms[room].schlagPos] =
+                                    "Schlag";
+                                rooms[room].userStatus[rooms[room].trumpfPos] =
+                                    "Trumpf";
+                                io.to(room).emit(
+                                    "status",
+                                    rooms[room].userStatus
+                                );
+                                io.to(room).emit(
+                                    "tischkarten",
+                                    rooms[room].tischCards
+                                );
+                            }
                         } else {
-                            //neue Runde
-                            rooms[room].neueRunde();
-                            io.to(room).emit("neue Runde");
-                            kartenMaster.kartenMischen();
-                            kartenMaster.kartenAusteilen();
-                            io.to(room).emit("karten", rooms[room].userCards);
-                            rooms[room].userStatus[rooms[room].schlagPos] =
-                                "Schlag";
-                            rooms[room].userStatus[rooms[room].trumpfPos] =
-                                "Trumpf";
-                            io.to(room).emit("status", rooms[room].userStatus);
-                            io.to(room).emit(
-                                "tischkarten",
-                                rooms[room].tischCards
-                            );
+                            rooms[room].resetAfterStich(gewonnenPos);
+                            rooms[room].userStatus = [];
+                            rooms[room].userStatus[rooms[room].amZug] =
+                                "Am Zug";
+                            io.to(room).emit("reset nach stich", {
+                                status: rooms[room].userStatus,
+                                karten: rooms[room].tischCards,
+                                stiche: rooms[room].userStiche,
+                            });
                         }
-                    } else {
-                        rooms[room].resetAfterStich(gewonnenPos);
-                        rooms[room].userStatus = [];
-                        rooms[room].userStatus[rooms[room].amZug] = "Am Zug";
-                        io.to(room).emit("reset nach stich", {
-                            status: rooms[room].userStatus,
-                            karten: rooms[room].tischCards,
-                            stiche: rooms[room].userStiche,
-                        });
-                    }
 
-                    //neu ziehen
+                        //neu ziehen
+                    }
                 }, 7000);
                 //gewinner ziehen und neu legen
             }
-        });
-
-        socket.on("leave", () => {
-            disconnectUser();
         });
 
         socket.on("disconnect", () => {
@@ -538,6 +545,7 @@ io.on("connection", (socket) => {
         });
 
         function disconnectUser() {
+            console.log("disconnect BAM");
             if (rooms[room] !== undefined) {
                 rooms[room].removeUser(user);
                 socket.to(room).emit("players", {

@@ -20,7 +20,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
-const socket = io("http://127.0.0.1:8080");
+let socket = io("http://127.0.0.1:8080");
 
 function App() {
     const [url, setUrl] = useState("");
@@ -32,6 +32,7 @@ function App() {
     const [username, setUsername] = useState("");
     const [loaded, setLoaded] = useState(false);
     const [userLevel, setUserLevel] = useState(0);
+    const [reconnect, setReconnect] = useState(false);
 
     useEffect(() => {
         socket.on("connect_failed", () => {
@@ -40,6 +41,12 @@ function App() {
         loadDarkmode();
         loadUser();
     }, []);
+
+    useEffect(() => {
+        if (reconnect) {
+            socket = io("http://127.0.0.1:8080");
+        }
+    }, [reconnect]);
 
     useEffect(() => {
         //enable or disable darkmode
@@ -178,6 +185,7 @@ function App() {
                                 isDarkmode={isDarkmode}
                                 team={team}
                                 username={username}
+                                setReconnect={setReconnect}
                             />
                         ) : (
                             <Redirect to="/anmelden" />

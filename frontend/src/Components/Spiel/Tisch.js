@@ -15,6 +15,7 @@ const Tisch = ({
     teams,
     calcPos,
     karten,
+    cardPhotos,
 }) => {
     const [level, setLevel] = useState([
         { level: 0 },
@@ -50,9 +51,7 @@ const Tisch = ({
                 <img
                     className="h-auto w-4.275rem md:w-4.75rem absolute top-6 md:top-12 left-1/2"
                     style={{ transform: "translateX(-50%)" }}
-                    src={`http://10.10.30.218/${decodeURI(
-                        karten[calcPos(2 + pos)]
-                    )}.png`}
+                    src={cardPhotos[karten[calcPos(2 + pos)]]}
                     alt={karten[calcPos(2 + pos)]}
                 />
             ) : null}
@@ -63,9 +62,7 @@ const Tisch = ({
                 <img
                     className="h-auto w-4.275rem md:w-4.75rem absolute top-1/2 left-7 md:left-14"
                     style={{ transform: "translateY(-50%)" }}
-                    src={`http://10.10.30.218/${decodeURI(
-                        karten[calcPos(3 + pos)]
-                    )}.png`}
+                    src={cardPhotos[karten[calcPos(3 + pos)]]}
                     alt={karten[calcPos(3 + pos)]}
                 />
             ) : null}
@@ -76,9 +73,7 @@ const Tisch = ({
                 <img
                     className="h-auto w-4.275rem md:w-4.75rem absolute top-1/2 right-7 md:right-14"
                     style={{ transform: "translateY(-50%)" }}
-                    src={`http://10.10.30.218/${decodeURI(
-                        karten[calcPos(1 + pos)]
-                    )}.png`}
+                    src={cardPhotos[karten[calcPos(1 + pos)]]}
                     alt={karten[calcPos(1 + pos)]}
                 />
             ) : null}
@@ -89,9 +84,7 @@ const Tisch = ({
                 <img
                     className="h-auto w-4.275rem md:w-4.75rem absolute bottom-6 md:bottom-12 left-1/2"
                     style={{ transform: "translateX(-50%)" }}
-                    src={`http://10.10.30.218/${decodeURI(
-                        karten[calcPos(0 + pos)]
-                    )}.png`}
+                    src={cardPhotos[karten[calcPos(0 + pos)]]}
                     alt={karten[calcPos(0 + pos)]}
                 />
             ) : null}

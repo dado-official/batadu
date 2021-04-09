@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Stich = ({ gewinner, karten, pos, calcPos }) => {
+const Stich = ({ gewinner, karten, pos, calcPos, cardPhotos }) => {
     useEffect(() => {}, [gewinner]);
     return (
         <div className="bg-white dark:bg-whiteDark relative flex justify-center items-center w-full h-96 xl:h-64 rounded-b-st">
@@ -12,9 +12,7 @@ const Stich = ({ gewinner, karten, pos, calcPos }) => {
                             : null
                     }`}
                     style={{ transform: "translateX(-50%)" }}
-                    src={`http://10.10.30.218/${decodeURI(
-                        karten[calcPos(2 + pos)]
-                    )}.png`}
+                    src={cardPhotos[karten[calcPos(2 + pos)]]}
                     alt={karten[calcPos(2 + pos)]}
                 />
                 <img
@@ -24,9 +22,7 @@ const Stich = ({ gewinner, karten, pos, calcPos }) => {
                             : null
                     }`}
                     style={{ transform: "translateY(-50%)" }}
-                    src={`http://10.10.30.218/${decodeURI(
-                        karten[calcPos(3 + pos)]
-                    )}.png`}
+                    src={cardPhotos[karten[calcPos(3 + pos)]]}
                     alt={karten[calcPos(3 + pos)]}
                 />
                 <img
@@ -36,9 +32,7 @@ const Stich = ({ gewinner, karten, pos, calcPos }) => {
                             : null
                     }`}
                     style={{ transform: "translateY(-50%)" }}
-                    src={`http://10.10.30.218/${decodeURI(
-                        karten[calcPos(1 + pos)]
-                    )}.png`}
+                    src={cardPhotos[karten[calcPos(1 + pos)]]}
                     alt={karten[calcPos(1 + pos)]}
                 />
                 <img
@@ -48,9 +42,7 @@ const Stich = ({ gewinner, karten, pos, calcPos }) => {
                             : null
                     }`}
                     style={{ transform: "translateX(-50%)" }}
-                    src={`http://10.10.30.218/${decodeURI(
-                        karten[calcPos(0 + pos)]
-                    )}.png`}
+                    src={cardPhotos[karten[calcPos(0 + pos)]]}
                     alt={karten[calcPos(0 + pos)]}
                 />
             </div>

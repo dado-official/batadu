@@ -545,7 +545,6 @@ io.on("connection", (socket) => {
         });
 
         function disconnectUser() {
-            console.log("disconnect BAM");
             if (rooms[room] !== undefined) {
                 rooms[room].removeUser(user);
                 socket.to(room).emit("players", {

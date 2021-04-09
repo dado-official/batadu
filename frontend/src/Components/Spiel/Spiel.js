@@ -64,6 +64,7 @@ const Spiel = ({
     const [showTimer, setShowTimer] = useState(false);
     const [playedSoundWaelen, setPlayedSoundWaelen] = useState(false);
     const [playedSoundZug, setPlayedSoundZug] = useState(false);
+    const [showSchlagTrumpf, setShowSchlagTrumpf] = useState(false);
 
     const chatRef = useRef();
     const infosRef = useRef();
@@ -161,6 +162,7 @@ const Spiel = ({
             setSelectedInfo("Punkte");
             setPlayedSoundWaelen(false);
             setPlayedSoundZug(false);
+            setShowSchlagTrumpf(false);
         });
         socket.on("reset", () => {
             setGebotenDavor(0);
@@ -178,6 +180,7 @@ const Spiel = ({
             setSeeStiche(false);
             setPlayedSoundWaelen(false);
             setPlayedSoundZug(false);
+            setShowSchlagTrumpf(false);
         });
         socket.on("kein schönere", () => {
             setHasSchönere(true);
@@ -254,6 +257,7 @@ const Spiel = ({
                 setMyStatus(statusMe);
                 setSeeCards(true);
                 if (statusMe === "Schlag" || statusMe === "Trumpf") {
+                    setShowSchlagTrumpf(true);
                     if (!playedSoundWaelen) {
                         sound1();
                         setPlayedSoundWaelen(true);
@@ -651,13 +655,13 @@ const Spiel = ({
                                 <p className="dark:text-white">
                                     Schlag:{" "}
                                     <span className="font-bold">
-                                        {seeCards ? schlag : "?"}
+                                        {showSchlagTrumpf ? schlag : "?"}
                                     </span>
                                 </p>
                                 <p className="dark:text-white">
                                     Trumpf:{" "}
                                     <span className="font-bold">
-                                        {seeCards ? trumpf : "?"}
+                                        {showSchlagTrumpf ? trumpf : "?"}
                                     </span>
                                 </p>
                                 <p className="block sm:hidden dark:text-white">

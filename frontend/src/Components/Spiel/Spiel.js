@@ -93,7 +93,7 @@ const Spiel = ({
         }
         setReconnect(false);
         axios
-            .get(`http://127.0.0.1:3003/room/isPassword/${room}`)
+            .get(`http://10.10.30.218:3003/room/isPassword/${room}`)
             .then((res) => {
                 if (res.data) {
                     setIsPassword(true);
@@ -635,19 +635,19 @@ const Spiel = ({
                             </div>
                             {/*my cards*/}
                             {seeCards
-                                ? karten.map((element) => {
+                                ? karten.map((element, index) => {
                                       return (
-                                          <img
-                                              className={`h-auto w-4.275rem md:w-4.75rem rounded-st karte ${
-                                                  hover
-                                                      ? "hover:border-secondary dark:hover:border-secondaryDark border-4 border-transparent cursor-pointer"
-                                                      : null
-                                              } `}
-                                              src={cardPhotos[element.name]}
-                                              alt={element.name}
-                                              onClick={selectCardHandler}
-                                              key={Math.random() * 1000}
-                                          />
+                                          <div className="w-4.275rem md:w-4.75rem rounded-st relative h-6.705 md:h-8.381875">
+                                              <img
+                                                  className={`h-auto w-4.275rem md:w-4.75rem rounded-st absolute ${
+                                                      hover ? "karteHover" : ""
+                                                  }`}
+                                                  src={cardPhotos[element.name]}
+                                                  alt={element.name}
+                                                  onClick={selectCardHandler}
+                                                  key={Math.random() * 1000}
+                                              />
+                                          </div>
                                       );
                                   })
                                 : null}

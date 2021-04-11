@@ -20,7 +20,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
-let socket = io("http://127.0.0.1:8080");
+let socket = io("http://10.10.30.218:8080");
 
 function App() {
     const [url, setUrl] = useState("");
@@ -44,7 +44,7 @@ function App() {
 
     useEffect(() => {
         if (reconnect) {
-            socket = io("http://127.0.0.1:8080");
+            socket = io("http://10.10.30.218:8080");
         }
     }, [reconnect]);
 

@@ -545,37 +545,41 @@ io.on("connection", (socket) => {
         });
 
         function disconnectUser() {
-            if (rooms[room] !== undefined) {
-                rooms[room].removeUser(user);
-                socket.to(room).emit("players", {
-                    userPos: rooms[room].userPos,
-                    userTeam: rooms[room].userTeam,
-                    userStiche: rooms[room].userStiche,
-                    userStatus: rooms[room].userStatus,
-                });
-                let reset = rooms[room].tryNeueRunde();
-                if (reset) {
-                    socket.to(room).emit("neue Runde");
-                    socket.to(room).emit("reset status");
-                }
-                if (rooms[room].freePos.length === 4) {
-                    delete rooms[room];
+            try {
+                if (rooms[room] !== undefined) {
+                    rooms[room].removeUser(user);
+                    socket.to(room).emit("players", {
+                        userPos: rooms[room].userPos,
+                        userTeam: rooms[room].userTeam,
+                        userStiche: rooms[room].userStiche,
+                        userStatus: rooms[room].userStatus,
+                    });
+                    let reset = rooms[room].tryNeueRunde();
+                    if (reset) {
+                        socket.to(room).emit("neue Runde");
+                        socket.to(room).emit("reset status");
+                    }
+                    if (rooms[room].freePos.length === 4) {
+                        delete rooms[room];
 
-                    let i = 0;
-                    let roomsSend = [];
-                    for (var key in rooms) {
-                        roomsSend[i] = rooms[key].getNecessary();
-                        i++;
+                        let i = 0;
+                        let roomsSend = [];
+                        for (var key in rooms) {
+                            roomsSend[i] = rooms[key].getNecessary();
+                            i++;
+                        }
+
+                        socket.broadcast.emit("rooms", roomsSend);
                     }
 
-                    socket.broadcast.emit("rooms", roomsSend);
+                    socket.to(room).emit("chat", {
+                        message: `${user} disconnect`,
+                        sender: "System",
+                        type: "text",
+                    });
                 }
-
-                socket.to(room).emit("chat", {
-                    message: `${user} disconnect`,
-                    sender: "System",
-                    type: "text",
-                });
+            } catch (e) {
+                console.log(e);
             }
         }
     });

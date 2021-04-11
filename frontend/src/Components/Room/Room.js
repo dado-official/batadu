@@ -17,7 +17,7 @@ const Room = ({
     const history = useHistory();
     const handleOnClick = () => {
         axios
-            .get(`http://127.0.0.1:3003/room/select/${roomName}`)
+            .get(`http://10.10.30.218:3003/room/select/${roomName}`)
             .then((res) => {
                 if (res.data) {
                     history.push(`/team/${roomName}`);

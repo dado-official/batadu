@@ -39,7 +39,7 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
             setProblem("Der Spielname fehlt!");
         } else {
             axios
-                .get(`http://127.0.0.1:3003/room/available/${spielName}`)
+                .get(`http://10.10.30.218:3003/room/available/${spielName}`)
                 .then((res) => {
                     console.log(res.data);
                     if (res.data) {

@@ -33,13 +33,13 @@ const RanglisteTabelleData = ({ pos, username, points, winrate, games }) => {
                 )}
             </td>
             <td data-label="Benutzer">{username}</td>
-            <td data-label="Winrate %">{points}</td>
-            <td data-label="Gewonnene Spiele">{winrate}</td>
+            <td data-label="Winrate %">{winrate}</td>
+            <td data-label="Gewonnene Spiele">{games}</td>
             <td
                 className="rounded-b-st md:rounded-b-none md:rounded-r-st"
                 data-label="Punkte"
             >
-                {games}
+                {points}
             </td>
         </tr>
     );

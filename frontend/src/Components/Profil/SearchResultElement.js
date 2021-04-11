@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LevelBadge from "../Shared/LevelBadge";
+import axios from "axios";
 
-const SearchResultElement = ({ level, username, isDarkmode }) => {
+const SearchResultElement = ({ username, isDarkmode }) => {
+    const [level, setLevel] = useState(0);
+
+    useEffect(() => {
+        axios
+            .get("http://10.10.30.218:42069/user/level", {
+                params: { username: username },
+            })
+            .then((res) => {
+                setLevel(res.data.currentlevel.nr);
+            });
+    }, []);
+
     return (
         <Link to={`/profile/${username}`}>
             <div className="bg-white dark:bg-whiteDark dark:text-white relative py-2 flex items-center">

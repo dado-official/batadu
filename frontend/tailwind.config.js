@@ -57,8 +57,6 @@ module.exports = {
                 "17.5rem": "17.5rem",
                 "4.25rem": "4.25rem",
                 bottomSpiel: "calc(100% - 4rem)",
-                8.381875: "8.381875rem",
-                6.705: "6.705rem",
             },
             maxWidth: {
                 "1/9": "90%",

@@ -9,19 +9,17 @@ const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
     const [selected, setSelected] = useState(1);
     const [data, setData] = useState({ users: [] });
     const [clicked, setClicked] = useState(false);
+
     const { room } = useParams();
+
     const history = useHistory();
 
     useEffect(() => {
         setUrl("/");
-<<<<<<< HEAD
         if (room === "undefined") {
             history.push("/");
         }
         axios.get(`http://10.10.30.218:3003/room/${room}`).then((res) => {
-=======
-        axios.get(`http://10.10.30.213:3003/room/${room}`).then((res) => {
->>>>>>> 6c2ebf8bbe8b8aa0bfff515b3f1d8a02b5e40f33
             setData(res.data);
         });
     }, []);
@@ -33,7 +31,7 @@ const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
 
     useEffect(() => {
         if (team !== 0) {
-            history.push(`/spielen/${data.name}/ronaldinhio`);
+            history.push(`/spielen/${data.name}`);
         }
     }, [team]);
 

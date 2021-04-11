@@ -459,13 +459,3 @@ body {
         transform: translate(24px, 0);
     }
 }
-
-.karteHover {
-    transition: 0.3s;
-}
-
-.karteHover:hover {
-    transition: 0.3s;
-    transform: scale(1.15);
-    cursor: pointer;
-}

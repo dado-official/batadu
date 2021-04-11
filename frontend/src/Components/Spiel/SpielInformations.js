@@ -17,6 +17,7 @@ const SpielInformations = forwardRef(
             punkte,
             isTeam1Gestrichen,
             isTeam2Gestrichen,
+            cardPhotos,
         },
         ref
     ) => {
@@ -55,6 +56,7 @@ const SpielInformations = forwardRef(
                             seeStiche={seeStiche}
                             calcPos={calcPos}
                             pos={pos}
+                            cardPhotos={cardPhotos}
                         />
                     ) : null}
                 </div>

@@ -2,14 +2,30 @@ import React, { useEffect, useState, useRef } from "react";
 import Tisch from "./Tisch";
 import SpielInformations from "./SpielInformations";
 import Chat from "./Chat";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import NoDark from "../../assets/no-dark.svg";
 import YesDark from "../../assets/yes-dark.svg";
 import NoWhite from "../../assets/no-white.svg";
 import YesWhite from "../../assets/yes-white.svg";
+import SpielPassword from "../SpielPassword/SpielPassword";
+import useSound from "use-sound";
+import axios from "axios";
+import { cardPhotos } from "../Karten/Karten";
+import sound1Mp3 from "../../assets/game-1.mp3";
+import sound2Mp3 from "../../assets/game-2.mp3";
+import sound3Mp3 from "../../assets/game-3.mp3";
+import sound4Mp3 from "../../assets/game-4.mp3";
 
-const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
+const Spiel = ({
+    setUrl,
+    isDarkmode,
+    socket,
+    team,
+    username,
+    setReconnect,
+}) => {
+    const [isPassword, setIsPassword] = useState(false);
     const [geboten, setGeboten] = useState(2);
     const [schlag, setSchlag] = useState("?");
     const [trumpf, setTrumpf] = useState("?");
@@ -46,12 +62,30 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
     const [won, setWon] = useState(false);
     const [winningTeam, setWinningTeam] = useState(0);
     const [showTimer, setShowTimer] = useState(false);
+    const [playedSoundWaelen, setPlayedSoundWaelen] = useState(false);
+    const [playedSoundZug, setPlayedSoundZug] = useState(false);
+    const [showSchlagTrumpf, setShowSchlagTrumpf] = useState(false);
 
     const chatRef = useRef();
     const infosRef = useRef();
     const spielRef = useRef();
 
-    const { room, username } = useParams();
+    const history = useHistory();
+
+    const { room } = useParams();
+
+    const [sound1] = useSound(sound1Mp3, { volume: 0.5 });
+    const [sound2] = useSound(sound2Mp3, { volume: 0.2 });
+    const [sound3] = useSound(sound3Mp3, { volume: 0.3 });
+    const [sound4] = useSound(sound4Mp3, { volume: 0.6 });
+
+    function joinGame() {
+        socket.emit("joinRoom", {
+            room: room,
+            user: username,
+            team: team,
+        });
+    }
 
     useEffect(() => {
         if (room === "undefined") {
@@ -70,7 +104,6 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
         socket.on("roomExist", () => setExist(true));
         socket.on("roomNotExist", () => setExist(false));
         socket.on("players", (users) => {
-            console.log("data " + users);
             setUsers(users.userPos);
             setTeams(users.userTeam);
             setStiche(users.userStiche);
@@ -78,7 +111,6 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
 
             if (pos === undefined) {
                 setPos(users.userPos.indexOf(username));
-                console.log("pos SET!");
             }
         });
         socket.on("status", (status) => {
@@ -91,9 +123,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
             setSeeCards(true);
         });
         socket.on("tischkarten", (data) => {
-            console.log("Tischkarten: " + data);
             setKartenTisch(data);
-            console.log("See Stiche? " + seeStiche);
         });
         socket.on("stich", (gewinner) => {
             setSeeStiche(true);
@@ -108,6 +138,8 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
             setStatus(data.status);
             setKartenTisch(data.karten);
             setStiche(data.stiche);
+            setPlayedSoundWaelen(false);
+            setPlayedSoundZug(false);
         });
         socket.on("punkte", (data) => {
             setPunkte((prev) => [...prev, data]);
@@ -121,18 +153,22 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
         socket.on("neue Runde", () => {
             setGebotenDavor(0);
             setGeboten(2);
-            setSchlag("");
-            setTrumpf("");
+            setSchlag("?");
+            setTrumpf("?");
             setSeeCards(false);
+            setSeeStiche(false);
             setHasSchlagtausch(false);
             setHasSchönere(false);
+            setSelectedInfo("Punkte");
+            setPlayedSoundWaelen(false);
+            setPlayedSoundZug(false);
+            setShowSchlagTrumpf(false);
         });
         socket.on("reset", () => {
-            console.log("resettttt");
             setGebotenDavor(0);
             setGeboten(2);
-            setSchlag("");
-            setTrumpf("");
+            setSchlag("?");
+            setTrumpf("?");
             setSeeCards(false);
             setHasSchlagtausch(false);
             setHasSchönere(false);
@@ -141,6 +177,10 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
             setPunkte([]);
             setIsTeam1Gestrichen(false);
             setIsTeam2Gestrichen(false);
+            setSeeStiche(false);
+            setPlayedSoundWaelen(false);
+            setPlayedSoundZug(false);
+            setShowSchlagTrumpf(false);
         });
         socket.on("kein schönere", () => {
             setHasSchönere(true);
@@ -161,6 +201,14 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
             setWinningTeam(winningTeam);
             setIsOver(true);
         });
+        socket.on("schlag trumpf", (data) => {
+            setSchlag(data.schlag);
+            setTrumpf(data.trumpf);
+        });
+
+        return () => {
+            window.location.reload();
+        };
     }, []);
 
     useEffect(() => {
@@ -181,10 +229,24 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
                     setHover(true);
                     setIsBieten(true);
                 }
+
+                if (statusMe.includes("Gestochen")) {
+                    sound3();
+                }
+
+                if (statusMe === "Am Zug") {
+                    if (!playedSoundZug) {
+                        sound1();
+                        setPlayedSoundZug(true);
+                        setPlayedSoundWaelen(false);
+                    }
+                }
                 if (statusMe === "Geboten Antwort") {
                     setHover(false);
+                    sound4();
                     setIsHaltenWindow(true);
                 } else if (statusMe === "Schlagtausch Antwort") {
+                    sound4();
                     setHover(false);
                     setIsSchlagtauschWindow(true);
                 } else if (statusMe === "Schönere Antwort") {
@@ -195,11 +257,11 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
                 setMyStatus(statusMe);
                 setSeeCards(true);
                 if (statusMe === "Schlag" || statusMe === "Trumpf") {
-                    socket.on("schlag trumpf", (data) => {
-                        console.log("Schlag Trumpf: " + data);
-                        setSchlag(data.schlag);
-                        setTrumpf(data.trumpf);
-                    });
+                    setShowSchlagTrumpf(true);
+                    if (!playedSoundWaelen) {
+                        sound1();
+                        setPlayedSoundWaelen(true);
+                    }
                     setIsSchlagtausch(true);
                     setIsSchönere(true);
                 } else {
@@ -226,7 +288,12 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
     }, []);
 
     useEffect(() => {
-        console.log("Team: " + {});
+        if (kartenTisch !== undefined && kartenTisch.length > 0) {
+            sound2();
+        }
+    }, [kartenTisch]);
+
+    useEffect(() => {
         if (winningTeam === 1 && pos % 2 === 0) {
             setWon(true);
         } else if (winningTeam === 2 && pos % 2 !== 0) {
@@ -252,17 +319,12 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
             !myStatus.includes("Gestochen") ||
             !myStatus === "Gebot Antwort"
         ) {
-            console.log("myStatus: " + myStatus);
-            console.log(e.target.alt);
             let card = e.target.alt;
-            console.log("Emit: " + myStatus + " Karte: " + card);
 
             let index = karten.findIndex((i) => i.name === e.target.alt);
-            console.log("Cherta: " + karten[index].name);
             let cardObject = karten[index];
 
             if (myStatus === "Am Zug") {
-                console.log("Delete");
                 //delete
                 removeCard(e);
             }
@@ -275,8 +337,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
 
     function removeCard(e) {
         let array = karten;
-        console.log(array);
-        let index = array.findIndex((i) => i.name === e.target.innerHTML);
+        let index = array.findIndex((i) => i.name === e.target.alt);
         if (index !== -1) {
             array.splice(index, 1);
             setKarten(array);
@@ -383,7 +444,14 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
 
     return (
         <div className="w-full">
-            {exist ? (
+            {isPassword ? (
+                <SpielPassword
+                    isDarkmode={isDarkmode}
+                    setIsPassword={setIsPassword}
+                    joinGame={joinGame}
+                    room={room}
+                />
+            ) : exist ? (
                 <div className="relative grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-16">
                     <div className="xl:col-span-2 relative">
                         {/*Countdown bar */}
@@ -409,6 +477,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
                                     status={status}
                                     calcPos={calcPos}
                                     karten={kartenTisch}
+                                    cardPhotos={cardPhotos}
                                 />
                             ) : (
                                 <div className="bg-white h-bottomSpiel dark:bg-whiteDark absolute w-full top-0 left-0 z-20 rounded-st flex justify-center items-center">
@@ -566,34 +635,40 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
                             </div>
                             {/*my cards*/}
                             {seeCards
-                                ? karten.map((element, index) => {
+                                ? karten.map((element) => {
                                       return (
-                                          <div className="w-4.275rem md:w-4.75rem rounded-st relative h-6.705 md:h-8.381875">
-                                              <img
-                                                  className={`h-auto w-4.275rem md:w-4.75rem rounded-st absolute ${
-                                                      hover ? "karteHover" : ""
-                                                  }`}
-                                                  src={cardPhotos[element.name]}
-                                                  alt={element.name}
-                                                  onClick={selectCardHandler}
-                                                  key={Math.random() * 1000}
-                                              />
-                                          </div>
+                                          <img
+                                              className={`h-auto w-4.275rem md:w-4.75rem rounded-st karte ${
+                                                  hover
+                                                      ? "hover:border-secondary dark:hover:border-secondaryDark border-4 border-transparent cursor-pointer"
+                                                      : null
+                                              } `}
+                                              src={cardPhotos[element.name]}
+                                              alt={element.name}
+                                              onClick={selectCardHandler}
+                                              key={Math.random() * 1000}
+                                          />
                                       );
                                   })
                                 : null}
                             <div className="flex flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static sm:flex-col justify-between md:justify-start w-full sm:w-max mt-4 md:mt-0">
                                 <p className="dark:text-white">
                                     Schlag:{" "}
-                                    <span className="font-bold">{schlag}</span>
+                                    <span className="font-bold">
+                                        {showSchlagTrumpf ? schlag : "?"}
+                                    </span>
                                 </p>
                                 <p className="dark:text-white">
                                     Trumpf:{" "}
-                                    <span className="font-bold">{trumpf}</span>
+                                    <span className="font-bold">
+                                        {showSchlagTrumpf ? trumpf : "?"}
+                                    </span>
                                 </p>
                                 <p className="block sm:hidden dark:text-white">
                                     Geboten:{" "}
-                                    <span className="font-bold">{geboten}</span>
+                                    <span className={`font-bold`}>
+                                        {geboten}
+                                    </span>
                                 </p>
                             </div>
                         </div>
@@ -613,6 +688,7 @@ const Spiel = ({ setUrl, isDarkmode, socket, team }) => {
                             punkte={punkte}
                             isTeam1Gestrichen={isTeam1Gestrichen}
                             isTeam2Gestrichen={isTeam2Gestrichen}
+                            cardPhotos={cardPhotos}
                         />
                         <button
                             className="btn bg-secondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"

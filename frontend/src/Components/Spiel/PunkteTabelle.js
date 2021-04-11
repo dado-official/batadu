@@ -12,7 +12,7 @@ const PunkteTabelle = ({
                 isDarkmode ? "scrollDark" : "scrollWhite"
             }`}
         >
-            <table className="mx-auto my-4 dark:text-white relative">
+            <table className="mx-auto my-4 dark:text-white relative text-sm text-center">
                 <div
                     className={`bg-gray-500 absolute ${
                         isTeam1Gestrichen ? "left-1/4" : "hidden"

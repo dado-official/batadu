@@ -61,7 +61,10 @@ class KartenMaster {
             }
             if (element.schlag === guter && element.farbe === par.farbe) {
                 //guter
-                winKarte = element;
+                //welli
+                if(element.schlag !== 6){
+                    winKarte = element;
+                }
             }
         });
 

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import LevelBadge from "../Shared/LevelBadge";
 import NameContainer from "./NameContainer";
 import StatusContainer from "./StatusContainer";
 import UserGameInfo from "./UserGameInfo";
-import axios from "axios";
 
 const Tisch = ({
     geboten,
@@ -15,33 +14,7 @@ const Tisch = ({
     teams,
     calcPos,
     karten,
-    cardPhotos,
 }) => {
-    const [level, setLevel] = useState([
-        { level: 0 },
-        { level: 0 },
-        { level: 0 },
-        { level: 0 },
-    ]);
-
-    useEffect(() => {
-        for (let i = 0; i < users.length; i++) {
-            if (users[i] !== undefined && users[i] !== null) {
-                if (level[i].user === undefined && level[i].user !== users[i]) {
-                    axios
-                        .get("http://10.10.30.218:42069/user/level", {
-                            params: { username: users[i] },
-                        })
-                        .then((data) => {
-                            const newLevels = level.slice();
-                            newLevels[i].level = data.data.currentlevel.nr;
-                            newLevels[i].user = users[i];
-                            setLevel(newLevels);
-                        });
-                }
-            }
-        }
-    }, [users]);
     return (
         <div className="w-90% pt-90% sm:pt-0 sm:w-29rem sm:h-29rem flex items-center justify-center bg-tableGray dark:bg-whiteDark relative rounded-full border-8 sm:border-12 border-borderGray dark:border-borderBlack">
             {/*cards*/}
@@ -51,7 +24,9 @@ const Tisch = ({
                 <img
                     className="h-auto w-4.275rem md:w-4.75rem absolute top-6 md:top-12 left-1/2"
                     style={{ transform: "translateX(-50%)" }}
-                    src={cardPhotos[karten[calcPos(2 + pos)]]}
+                    src={`http://10.10.30.218/${decodeURI(
+                        karten[calcPos(2 + pos)]
+                    )}.png`}
                     alt={karten[calcPos(2 + pos)]}
                 />
             ) : null}
@@ -62,7 +37,9 @@ const Tisch = ({
                 <img
                     className="h-auto w-4.275rem md:w-4.75rem absolute top-1/2 left-7 md:left-14"
                     style={{ transform: "translateY(-50%)" }}
-                    src={cardPhotos[karten[calcPos(3 + pos)]]}
+                    src={`http://10.10.30.218/${decodeURI(
+                        karten[calcPos(3 + pos)]
+                    )}.png`}
                     alt={karten[calcPos(3 + pos)]}
                 />
             ) : null}
@@ -73,7 +50,9 @@ const Tisch = ({
                 <img
                     className="h-auto w-4.275rem md:w-4.75rem absolute top-1/2 right-7 md:right-14"
                     style={{ transform: "translateY(-50%)" }}
-                    src={cardPhotos[karten[calcPos(1 + pos)]]}
+                    src={`http://10.10.30.218/${decodeURI(
+                        karten[calcPos(1 + pos)]
+                    )}.png`}
                     alt={karten[calcPos(1 + pos)]}
                 />
             ) : null}
@@ -84,7 +63,9 @@ const Tisch = ({
                 <img
                     className="h-auto w-4.275rem md:w-4.75rem absolute bottom-6 md:bottom-12 left-1/2"
                     style={{ transform: "translateX(-50%)" }}
-                    src={cardPhotos[karten[calcPos(0 + pos)]]}
+                    src={`http://10.10.30.218/${decodeURI(
+                        karten[calcPos(0 + pos)]
+                    )}.png`}
                     alt={karten[calcPos(0 + pos)]}
                 />
             ) : null}
@@ -98,7 +79,7 @@ const Tisch = ({
                 <div className="absolute -top-10 left-1/2 topBadge">
                     <LevelBadge
                         className="tisch"
-                        level={level[calcPos(2 + pos)].level}
+                        level={1}
                         isDarkmode={isDarkmode}
                     />
                 </div>
@@ -108,7 +89,7 @@ const Tisch = ({
                 <div className="absolute top-1/2 -left-10 leftBadge">
                     <LevelBadge
                         className="tisch"
-                        level={level[calcPos(3 + pos)].level}
+                        level={1}
                         isDarkmode={isDarkmode}
                     />
                 </div>
@@ -118,7 +99,7 @@ const Tisch = ({
                 <div className="absolute top-1/2 -right-10 rightBadge">
                     <LevelBadge
                         className="tisch"
-                        level={level[calcPos(1 + pos)].level}
+                        level={1}
                         isDarkmode={isDarkmode}
                     />
                 </div>
@@ -128,7 +109,7 @@ const Tisch = ({
                 <div className="absolute -bottom-10 left-1/2 bottomBadge">
                     <LevelBadge
                         className="tisch"
-                        level={level[calcPos(0 + pos)].level}
+                        level={1}
                         isDarkmode={isDarkmode}
                     />
                 </div>

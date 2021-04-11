@@ -17,7 +17,11 @@ const Room = ({
     const history = useHistory();
     const handleOnClick = () => {
         axios
+<<<<<<< HEAD
             .get(`http://10.10.30.218:3003/room/select/${roomName}`)
+=======
+            .get(`http://10.10.30.213:3003/room/select/${roomName}`)
+>>>>>>> 6c2ebf8bbe8b8aa0bfff515b3f1d8a02b5e40f33
             .then((res) => {
                 if (res.data) {
                     history.push(`/team/${roomName}`);

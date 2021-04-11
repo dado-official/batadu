@@ -19,6 +19,7 @@ export default function GifPicker({ isDarkmode, sendHandler }) {
                 url: `https://g.tenor.com/v1/search?q=${gifInput}&key=SL1KD4EPL166`,
                 cancelToken: new axios.CancelToken((c) => (cancel = c)),
             }).then((res) => {
+                console.log(res.data);
                 setGifs(
                     res.data.results.map((element) => {
                         return {

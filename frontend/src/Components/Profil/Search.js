@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import SearchResults from "./SearchResults";
 import SearchInput from "../Shared/SearchInput";
-import axios from "axios";
 
 const Search = ({ isDarkmode }) => {
     const [search, setSearch] = useState("");
     const [isOpenSearch, setIsOpenSearch] = useState(false);
-    const [searchResults, setSearchResults] = useState([]);
 
     useEffect(() => {
         if (!isOpenSearch) setIsOpenSearch(true);
@@ -35,20 +33,6 @@ const Search = ({ isDarkmode }) => {
         };
     });
 
-    useEffect(() => {
-        if (search != "") {
-            axios
-                .get("http://10.10.30.218:42069/users/search", {
-                    params: {
-                        username: search.toLocaleLowerCase(),
-                    },
-                })
-                .then((res) => {
-                    setSearchResults(res.data);
-                });
-        }
-    }, [search]);
-
     return (
         <div
             ref={searchResultRef}
@@ -62,10 +46,7 @@ const Search = ({ isDarkmode }) => {
             />
             <div>
                 {isOpenSearch && search !== "" ? (
-                    <SearchResults
-                        isDarkmode={isDarkmode}
-                        searchResults={searchResults}
-                    />
+                    <SearchResults isDarkmode={isDarkmode} />
                 ) : null}
             </div>
         </div>

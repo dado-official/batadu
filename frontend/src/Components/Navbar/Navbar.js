@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import casinoIcon from "../../assets/casino-24px.svg";
 import rankIcon from "../../assets/leaderboard-24px.svg";
@@ -8,7 +8,6 @@ import Menu from "../../assets/Menu.svg";
 import Cancel from "../../assets/Cancel.svg";
 import DarkMode from "../../assets/dark_mode-24px.svg";
 import LightMode from "../../assets/light_mode-24px.svg";
-import LevelBadge from "../Shared/LevelBadge";
 
 const Navbar = ({
     url,
@@ -16,11 +15,7 @@ const Navbar = ({
     setIsSidebarOpen,
     isDarkmode,
     setIsDarkmode,
-    username,
-    logout,
-    level,
 }) => {
-    const history = useHistory();
     function clickSidebarHandler() {
         setIsSidebarOpen((prev) => !prev);
     }
@@ -29,9 +24,6 @@ const Navbar = ({
             localStorage.setItem("darkmode", !prev);
             return !prev;
         });
-    }
-    function logoutHandler() {
-        logout(history);
     }
 
     return (
@@ -109,7 +101,7 @@ const Navbar = ({
                                 ) : null}
                             </div>
                         </Link>
-                        <Link to={`/profile/${username}`}>
+                        <Link to="/profile">
                             <div className="flex gap-3 items-center relative py-6">
                                 <img
                                     src={profileIcon}
@@ -151,7 +143,7 @@ const Navbar = ({
                         }`}
                         onClick={clickDarkmodeHandler}
                     />
-                    {url !== "Anmelden" && username === "" ? (
+                    {url !== "Anmelden" ? (
                         <Link
                             to="/anmelden"
                             className={`${
@@ -169,30 +161,12 @@ const Navbar = ({
                             </h6>
                         </Link>
                     ) : null}
-                    {url !== "Registrieren" && username === "" ? (
+                    {url !== "Registrieren" ? (
                         <Link to="/registrieren" className="py-4.5">
                             <button className="btn text-base text-white dark:text-black bg-primary dark:bg-primaryDark">
                                 Registrieren
                             </button>
                         </Link>
-                    ) : null}
-                    {username !== "" ? (
-                        <div className="flex items-center gap-2">
-                            <LevelBadge
-                                level={level}
-                                isDarkmode={isDarkmode}
-                                size="2.2rem"
-                            />
-                            <p className="font-bold dark:text-white">
-                                {username}
-                            </p>
-                            <button
-                                onClick={logoutHandler}
-                                className="btn text-base ml-4 text-white dark:text-black bg-primary dark:bg-primaryDark"
-                            >
-                                Abmelden
-                            </button>
-                        </div>
                     ) : null}
                 </div>
                 <div className="py-6 lg:hidden">

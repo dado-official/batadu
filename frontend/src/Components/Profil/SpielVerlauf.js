@@ -33,7 +33,7 @@ const SpielVerlauf = ({
             <div className="hidden sm:block"></div>
             <div className="flex items-end gap-3 m-auto">
                 {" "}
-                <h6 className="font-bold text-xl dark:text-white">
+                <h6 className="font-bold text-xl">
                     <span className="text-secondary dark:text-secondaryDark">
                         {team1}
                     </span>

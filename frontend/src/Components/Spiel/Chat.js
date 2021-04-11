@@ -122,6 +122,7 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
     }
     function onKeyDownHandler(e) {
         if (e.key === "Enter") {
+            console.log("enter");
             sendMessage();
         }
     }

@@ -2,22 +2,13 @@ import React, { useState, useEffect } from "react";
 import Trophy from "../../assets/emoji_events-24px.svg";
 import SelectElement from "../Shared/SelectElement";
 import RanglisteTabelle from "./RanglisteTabelle";
-import axios from "axios";
 
 const Rangliste = ({ setUrl, isDarkmode }) => {
-    const [filter, setFilter] = useState("Punkte");
-    const [data, setData] = useState([]);
+    const [filter, setFilter] = useState("Gewonnene Spiele");
 
     useEffect(() => {
         setUrl("/rangliste");
     }, []);
-
-    useEffect(() => {
-        axios.get("http://10.10.30.218:42069/rankings").then((res) => {
-            setData(res.data);
-        });
-    }, []);
-
     return (
         <div className="flex w-1450 max-w-1/9 mx-auto pt-12 flex-col justify-center items-center">
             <img
@@ -46,7 +37,7 @@ const Rangliste = ({ setUrl, isDarkmode }) => {
                         setSelectValue={setFilter}
                     />
                 </div>
-                <RanglisteTabelle data={data} filter={filter} />
+                <RanglisteTabelle />
             </div>
         </div>
     );

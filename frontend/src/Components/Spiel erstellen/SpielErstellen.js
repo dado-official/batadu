@@ -6,7 +6,6 @@ import Name from "../../assets/drive_file_rename_outline-24px.svg";
 import PunkteSelector from "../Shared/SelectElement";
 import Switch from "./Switch";
 import Lock from "../../assets/lock-24px.svg";
-import axios from "axios";
 
 const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
     const [spielName, setSpielName] = useState("");
@@ -38,6 +37,7 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
         if (spielName === "" || spielName === " ") {
             setProblem("Der Spielname fehlt!");
         } else {
+<<<<<<< HEAD
             axios
                 .get(`http://10.10.30.218:3003/room/available/${spielName}`)
                 .then((res) => {
@@ -58,6 +58,15 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                         history.push(`/spielen/${spielName}`);
                     }
                 });
+=======
+            socket.emit("createRoom", {
+                spielerAnzahl: spieler,
+                punkte: punkte,
+                name: spielName,
+                modus: modus,
+            });
+            history.push(`/spielen/${spielName}`);
+>>>>>>> 6c2ebf8bbe8b8aa0bfff515b3f1d8a02b5e40f33
         }
     }
 
@@ -95,8 +104,6 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                         ></input>
                     </div>
                 </div>
-                {/*
-                wird später villeicht implementiert
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Modus</p>
                     <div className="flex justify-between gap-4 sm:gap-8">
@@ -112,7 +119,6 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                         />
                     </div>
                 </div>
-                 */}
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Spielen bis</p>
                     <div className="flex justify-between gap-4 sm:gap-8">
@@ -133,8 +139,6 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                         />
                     </div>
                 </div>
-                {/*
-                wird später villeicht implementiert
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Spieler</p>
                     <div className="flex justify-between gap-4 sm:gap-8">
@@ -150,7 +154,6 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                         />
                     </div>
                 </div>
-                 */}
 
                 <div className="w-full mb-8">
                     <p className="font-bold text-left mb-2">Password</p>
@@ -186,7 +189,7 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
             <p
                 className={`${
                     problem === "" ? "hidden" : "block"
-                } text-xm text-primary dark:text-primaryDark text-center`}
+                } text-xm text-primary dark:text-primaryDark`}
             >
                 {problem}
             </p>

@@ -77,7 +77,7 @@ The data is returned in this format:
 A GET-call on _<domain>/user/stats_ returns useful player's stats, like winrate, lost and won games and many more. The username needed to make the call is passed via .JSON in the following format: 
 ```json
 {
-  "username": "mysuername"
+	"username": "mysuername"
 }
 ```
 The returned data is formatted in .JSON like the example below: 
@@ -88,9 +88,7 @@ The returned data is formatted in .JSON like the example below:
   "gewonnenespiele": 2,
   "verlorenespiele": 0,
   "sticheprospiel": 6.5,
-  "winrate": 100,
-  "level": 1,
-  "anzspieler": "7"
+  "winrate": 100
 }
 ```
 **Warning:** The winrate is in percent, rounded to two decimals; The _sticheprospiel_-Parameter is also rounded to two decimals
@@ -185,24 +183,6 @@ If you, on the other hand, want to return a certain number of players, you need 
 The results will be formatted like on a limitless request, only that you will have the exact number of users you wanted.
 <br><br>**Warning**: The winrate is automatically converted in % and rounded to two decimals! 
 
-### Check if a username and email is taken
-To check if a email and username exist in the database you will need to send a .JSON in the following format to _/user/check_
-```json
-{
-  "username": "myusername",
-  "email": "myemail"
-}
-```
-As a response you will get Code _200_ if both are free, otherwise you will get code _409_ and a .JSON in the following format, where "taken" describes what is currently available or not.
-```json
-{
-  "taken": "both"
-}
-```
-<br>The "taken"-codes are these: 
-- "taken": "both" --> Both username and Email are already taken and not available anymore
-- "taken": "username" --> The username is taken, the passed email is still available
-- "taken": "email" --> The email is taken, the passed username is still available
 ### Register a user
 When registering a user, to save its data you will need to send a .JSON via POST-Method to _/register_ in the following format: 
 ```json
@@ -267,28 +247,4 @@ The returned value will be also coded in .JSON and look like this:
   "pfad": "myurl"
 }
 ```
-If you want to get all cards, just make a request to _/cards/all_ without sending anything. The response should be the same as for a single card.
-<br>**Warning:** This method is untested!!
-
-### Search for a Player:
-With a GET-call on _/users/search_ you can search for a user via its username, which is passed via .JSON like this: 
-```json
-{
-  "username": "myusername"
-}
-```
-The returned Values will be also coded in .JSON and will look like this:
-```json
-{
-  "username": "myusername",
-  "punkte": 40,
-  "currentlevel": {
-    "nr": 1,
-    "erforderlichepunkte": 20
-  },
-  "nextlevel": {
-    "nr": 2,
-    "erforderlichepunkte": 60
-  }
-}
-```
+**Warning:** This method is untested!!

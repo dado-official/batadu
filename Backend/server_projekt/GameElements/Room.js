@@ -86,6 +86,11 @@ class Room {
         this.schlagtausch = false;
     }
 
+    resetSchlagTrumpf() {
+        this.schlagGewaelt = false;
+        this.trumpfGewaelt = false;
+    }
+
     //fehler? immer true??????
     tryNeueRunde() {
         if (this.tischCards !== []) {

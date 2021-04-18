@@ -291,6 +291,7 @@ io.on("connection", (socket) => {
             console.log("Schönere wurde abgelehnt");
         });
         socket.on("schönere annehmen", () => {
+            rooms[room].resetSchlagTrumpf();
             kartenMaster.kartenMischen();
             kartenMaster.kartenAusteilen();
             io.to(room).emit("karten", rooms[room].userCards);

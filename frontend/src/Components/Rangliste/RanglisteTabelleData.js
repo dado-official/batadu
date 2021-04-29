@@ -5,7 +5,7 @@ import Bronze from "../../assets/bronze.svg";
 
 const RanglisteTabelleData = ({ pos, username, points, winrate, games }) => {
     return (
-        <tr className="mb-8">
+        <tr className="mb-8 enter" style={{ animationDelay: `${pos * 0.1}s` }}>
             <td
                 className="rounded-t-st md:rounded-t-none md:rounded-l-st dark:bg-whiteDark dark:text-white"
                 data-label="Platz"

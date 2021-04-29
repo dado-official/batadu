@@ -170,26 +170,30 @@ const Profil = ({ setUrl, isDarkmode }) => {
                         {username} hat noch keine Spiele gespielt
                     </p>
                 ) : (
-                    games.map((element) => {
-                        return (
-                            <SpielVerlauf
-                                win={element.amiawinner}
-                                team1={element.teams.myteampoints}
-                                team2={element.teams.otherteampoints}
-                                date={moment(element.gamedate).format(
-                                    "MM/DD/YYYY"
-                                )}
-                                punkte={element.wonpoints}
-                                percentage={
-                                    (100 /
-                                        (element.teams.myteampoints +
-                                            element.teams.otherteampoints)) *
-                                    element.teams.myteampoints
-                                }
-                                /*Stiche=... */
-                            />
-                        );
-                    })
+                    games
+                        .map((element) => {
+                            return (
+                                <SpielVerlauf
+                                    win={element.amiawinner}
+                                    team1={element.teams.myteampoints}
+                                    team2={element.teams.otherteampoints}
+                                    stiche={element.mystiche}
+                                    date={moment(element.gamedate).format(
+                                        "MM/DD/YYYY"
+                                    )}
+                                    punkte={element.wonpoints}
+                                    percentage={
+                                        (100 /
+                                            (element.teams.myteampoints +
+                                                element.teams
+                                                    .otherteampoints)) *
+                                        element.teams.myteampoints
+                                    }
+                                    /*Stiche=... */
+                                />
+                            );
+                        })
+                        .reverse()
                 )}
             </div>
         </div>

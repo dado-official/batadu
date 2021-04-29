@@ -93,7 +93,7 @@ const Spiel = ({
         }
         setReconnect(false);
         axios
-            .get(`http://10.10.30.218:3003/room/isPassword/${room}`)
+            .get(`http://localhost:3003/room/isPassword/${room}`)
             .then((res) => {
                 if (res.data) {
                     setIsPassword(true);
@@ -232,6 +232,7 @@ const Spiel = ({
 
                 if (statusMe.includes("Gestochen")) {
                     sound3();
+                    setIsBieten(false);
                 }
 
                 if (statusMe === "Am Zug") {
@@ -456,7 +457,6 @@ const Spiel = ({
                     <div className="xl:col-span-2 relative">
                         {/*Countdown bar */}
                         <div
-                            data
                             className={`${
                                 showTimer ? "countdown" : "hidden"
                             } h-2 bg-secondary z-30 dark:bg-secondaryDark absolute rounded-st bottom-0 mb-16`}

@@ -459,3 +459,18 @@ body {
         transform: translate(24px, 0);
     }
 }
+
+.enter {
+    animation: slideshowin 0.4s ease-in;
+    animation-fill-mode: backwards;
+}
+
+@keyframes slideshowin {
+    from {
+        opacity: 0%;
+    }
+
+    to {
+        opacity: 100%;
+    }
+}

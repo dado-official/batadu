@@ -19,7 +19,6 @@ const LevelBadge = ({ level, size, className, isDarkmode }) => {
             />
             <p
                 className={`text-white dark:text-black absolute top-1/2 left-1/2 `}
-                d
                 style={{
                     transform: "translate(-50%, -50%)",
                     fontSize: `${

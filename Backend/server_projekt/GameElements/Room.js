@@ -1,8 +1,15 @@
+const KartenMaster = require("./KartenMaster");
+
 class Room {
     constructor(config) {
         this.configRoom = config;
         this.name = config.name;
         this.maxPoints = config.punkte;
+        this.isPassword = config.isPassword;
+        this.password = "";
+        if (this.isPassword) {
+            this.password = config.password;
+        }
         this.team1Punkte = 0;
         this.team2Punkte = 0;
         this.freePos = [0, 1, 2, 3];
@@ -10,6 +17,7 @@ class Room {
         this.userTeam = [1, 2, 1, 2];
         this.userStiche = [0, 0, 0, 0];
         this.team1Stiche = 0;
+        this.userSticheGesamt = [0, 0, 0, 0];
         this.team2Stiche = 0;
         this.userStatus = [];
         this.userCards = [];
@@ -29,7 +37,7 @@ class Room {
         this.geboten = 2;
         this.gebotenDavor = 0;
         this.schlagtausch = false;
-        console.log("max points: " + this.maxPoints);
+        this.kartenMaster = new KartenMaster(this);
 
         return 0;
     }
@@ -57,6 +65,14 @@ class Room {
         this.geboten = 2;
         this.gebotenDavor = 0;
         this.schlagtausch = false;
+        this.userSticheGesamt = [0, 0, 0, 0];
+    }
+
+    resetSchlagTrumpf() {
+        this.schlagGewaelt = false;
+        this.trumpfGewaelt = false;
+        this.schlag;
+        this.trumpf;
     }
 
     getTeam(pos) {
@@ -86,22 +102,14 @@ class Room {
         this.schlagtausch = false;
     }
 
-    resetSchlagTrumpf() {
-        this.schlagGewaelt = false;
-        this.trumpfGewaelt = false;
-    }
-
-    //fehler? immer true??????
     tryNeueRunde() {
         if (this.tischCards !== []) {
-            //console.log("neue Runde :)");
             this.neueRunde();
             return true;
         }
         return false;
     }
 
-    //why <0
     calcPos(pos) {
         if (pos < 0) return pos + 4;
         return pos;
@@ -137,25 +145,21 @@ class Room {
     getTeamPunkte() {
         if (this.team1Stiche === 3) {
             this.team1Punkte += this.geboten;
-            console.log("Team 1 Punkte: " + this.team1Punkte);
             return { team1: this.geboten };
         } else {
             this.team2Punkte += this.geboten;
-            console.log("Team 2 Punkte: " + this.team2Punkte);
             return { team2: this.geboten };
         }
     }
 
     isTeam1Gestrichen() {
-        if (this.team1Punkte >= this.maxPoints - 3) return true;
+        if (this.team1Punkte >= this.maxPoints - 2) return true;
         return false;
     }
-
     isTeam2Gestrichen() {
-        if (this.team2Punkte >= this.maxPoints - 3) return true;
+        if (this.team2Punkte >= this.maxPoints - 2) return true;
         return false;
     }
-
     isInGestrichenTeam(pos) {
         if (this.isTeam1Gestrichen() && this.isTeam2Gestrichen()) return false;
         else {
@@ -170,8 +174,6 @@ class Room {
         return false;
     }
 
-    //untill here tested ---------------------------------------------------------------------
-
     getTeamPunkteAbgelehnt(pos) {
         if (pos % 2 === 0) {
             this.team2Punkte += this.geboten;
@@ -183,6 +185,7 @@ class Room {
     }
 
     addStichToTeam(pos) {
+        this.userSticheGesamt[pos] += 1;
         if (pos % 2 === 0) {
             this.team1Stiche += 1;
         } else {
@@ -193,14 +196,12 @@ class Room {
     gewinnerPos(pos) {
         if (!this.schlagtausch) {
             let gewinnerPos = pos - this.zugStart;
-            console.log("ZugStart: " + this.zugStart);
             if (gewinnerPos < 0) gewinnerPos = 4 + gewinnerPos;
             if (gewinnerPos === 3) return 1;
             if (gewinnerPos === 1) return 3;
             return gewinnerPos;
         } else {
             let gewinnerPos = pos + this.zugStart;
-            console.log("ZugStart: " + this.zugStart);
             if (gewinnerPos > 3) gewinnerPos = gewinnerPos - 4;
             return gewinnerPos;
         }
@@ -212,7 +213,6 @@ class Room {
             karte: this.tischCardsObject,
         };
 
-        console.log(check);
         return check;
     }
 
@@ -228,13 +228,11 @@ class Room {
                 this.amZug = 0;
             }
         }
-        console.log(this.amZug);
     }
 
     addUser(user) {
         let pos = this.freePos.shift();
         this.userPos[pos] = user;
-        console.log(this.userPos);
         return pos;
     }
 
@@ -276,8 +274,6 @@ class Room {
         if (index > -1) {
             this.userPos[index] = null;
             this.freePos.push(index);
-            console.log("This.userPos:");
-            console.log(this.userPos);
         }
     }
 
@@ -311,8 +307,6 @@ class Room {
             personalInfo.position = this.calcPosition(personalInfo).toString();
             this.configRoom.spielerIDs.push(personalInfo);
         }
-        console.log(this.configRoom.spielerIDs);
-        console.log(this.configRoom.zuschauerIDs);
         return personalInfo.position;
     }
 

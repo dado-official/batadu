@@ -9,8 +9,8 @@ class KartenMaster {
 
     kartenMischen() {
         this.kartendeck = shuffle(kartenJSON.Karten);
-        console.log(this.kartendeck);
     }
+
     kartenAusteilen() {
         let j = 0;
         for (let i = 0; i < 4; i++) {
@@ -62,7 +62,7 @@ class KartenMaster {
             if (element.schlag === guter && element.farbe === par.farbe) {
                 //guter
                 //welli
-                if(element.schlag !== 6){
+                if (element.schlag !== 6) {
                     winKarte = element;
                 }
             }

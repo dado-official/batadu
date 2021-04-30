@@ -19,7 +19,7 @@ const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
         if (room === "undefined") {
             history.push("/");
         }
-        axios.get(`http://10.10.30.218:3003/room/${room}`).then((res) => {
+        axios.get(`http://localhost:3003/room/${room}`).then((res) => {
             setData(res.data);
         });
     }, []);

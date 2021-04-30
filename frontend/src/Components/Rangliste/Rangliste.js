@@ -13,7 +13,7 @@ const Rangliste = ({ setUrl, isDarkmode }) => {
     }, []);
 
     useEffect(() => {
-        axios.get("http://10.10.30.218:42069/rankings").then((res) => {
+        axios.get("http://82.165.104.152:42069/rankings").then((res) => {
             setData(res.data);
         });
     }, []);

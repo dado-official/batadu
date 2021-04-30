@@ -355,7 +355,7 @@ function updateuser(won, addedstiche, username, res){
                 let newpoints = results.rows[0].punkte + 5;
                 let newlostgames = results.rows[0].verlorenespiele + 1;
                 pool.query(
-                    "UPDATE public.users SET anzstiche = $1, punkte = $2, gewonnenespiele = $3 WHERE username = $4",
+                    "UPDATE public.users SET anzstiche = $1, punkte = $2, verlorenespiele = $3 WHERE username = $4",
                     [newstiche, newpoints, newlostgames, username],
                     (error, results) => {
                         if (error){

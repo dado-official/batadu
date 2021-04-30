@@ -36,7 +36,7 @@ const Anmelden = ({ setUrl, isDarkmode, setIsLoggedIn, setUsernameApp }) => {
                 },
             };
             axios
-                .get("http://10.10.30.218:42069/user/login", data, axiosConfig)
+                .get("http://82.165.104.152:42069/user/login", data, axiosConfig)
                 .then((response) => {
                     setUsernameApp(username);
                     setIsLoggedIn(true);

@@ -92,21 +92,23 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
     }
 
     function sendMessage() {
-        let chat = {
-            message: chatInput,
-            type: "text",
-            sender: username,
-        };
-        socket.emit("chat", chat);
-        setChatMessages((prev) => [
-            ...prev,
-            {
+        if (chatInput !== "" && chatInput !== " ") {
+            let chat = {
                 message: chatInput,
-                sender: "Ich",
                 type: "text",
-            },
-        ]);
-        setChatInput("");
+                sender: username,
+            };
+            socket.emit("chat", chat);
+            setChatMessages((prev) => [
+                ...prev,
+                {
+                    message: chatInput,
+                    sender: "Ich",
+                    type: "text",
+                },
+            ]);
+            setChatInput("");
+        }
     }
 
     function sendGif(e) {
@@ -133,6 +135,7 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
     function isGifOpenHandler() {
         setIsGifOpen((prev) => !prev);
     }
+
     return (
         <div ref={ref} className="relative flex flex-col h-40rem xl:h-28.25rem">
             {" "}
@@ -157,6 +160,7 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
                         className={`${
                             isDarkmode ? "scrollDark" : "scrollWhite"
                         }`}
+                        forceScroll={true}
                     >
                         {chatMessages.map((element) => {
                             if (element.type === "text") {

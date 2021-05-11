@@ -38,7 +38,7 @@ const Search = ({ isDarkmode }) => {
     useEffect(() => {
         if (search != "") {
             axios
-                .get("http://10.10.30.218:42069/users/search", {
+                .get("http://82.165.104.152:42069/users/search", {
                     params: {
                         username: search.toLocaleLowerCase(),
                     },

@@ -42,7 +42,9 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                 setProblem("Spielname muss kleiner als 32 Zeichen sein!");
             } else {
                 axios
-                    .get(`http://localhost:3003/room/available/${spielName}`)
+                    .get(
+                        `http://82.165.104.152:3003/room/available/${spielName}`
+                    )
                     .then((res) => {
                         console.log(res.data);
                         if (res.data) {

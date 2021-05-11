@@ -39,6 +39,7 @@
     font-family: "Roboto", sans-serif;
 }
 body {
+    overflow-y: scroll;
     @apply bg-bgWhite dark:bg-bgDark;
 }
 

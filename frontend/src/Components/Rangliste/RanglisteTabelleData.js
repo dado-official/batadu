@@ -2,10 +2,17 @@ import React from "react";
 import Gold from "../../assets/gold.svg";
 import Silver from "../../assets/silver.svg";
 import Bronze from "../../assets/bronze.svg";
+import { useHistory } from "react-router-dom";
 
 const RanglisteTabelleData = ({ pos, username, points, winrate, games }) => {
+    const history = useHistory();
     return (
-        <tr className="mb-8 enter" style={{ animationDelay: `${pos * 0.1}s` }}>
+        <tr
+            className="mb-8 cursor-pointer"
+            onClick={() => {
+                history.push(`/profile/${username}`);
+            }}
+        >
             <td
                 className="rounded-t-st md:rounded-t-none md:rounded-l-st dark:bg-whiteDark dark:text-white"
                 data-label="Platz"

@@ -7,14 +7,16 @@ import axios from "axios";
 const Rangliste = ({ setUrl, isDarkmode }) => {
     const [filter, setFilter] = useState("Punkte");
     const [data, setData] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         setUrl("/rangliste");
     }, []);
 
     useEffect(() => {
-        axios.get("http://82.165.104.152:42069/rankings").then((res) => {
+        axios.get("http://10.10.30.218:42069/rankings").then((res) => {
             setData(res.data);
+            setLoaded(true);
         });
     }, []);
 
@@ -46,7 +48,19 @@ const Rangliste = ({ setUrl, isDarkmode }) => {
                         setSelectValue={setFilter}
                     />
                 </div>
-                <RanglisteTabelle data={data} filter={filter} />
+                {loaded ? (
+                    <RanglisteTabelle data={data} filter={filter} />
+                ) : (
+                    <div
+                        className="lds-ellipsis w-full flex justify-center mt-16 left-1/2"
+                        style={{ transform: "translateX(-50%)" }}
+                    >
+                        <div className="bg-primary dark:bg-primaryDark"></div>
+                        <div className="bg-primary dark:bg-primaryDark"></div>
+                        <div className="bg-primary dark:bg-primaryDark"></div>
+                        <div className="bg-primary dark:bg-primaryDark"></div>
+                    </div>
+                )}
             </div>
         </div>
     );

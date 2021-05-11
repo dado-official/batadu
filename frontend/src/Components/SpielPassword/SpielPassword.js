@@ -17,7 +17,7 @@ export default function SpielPassword({
 
     function clickHandler() {
         axios
-            .get(`http://82.165.104.152:3003/room/password/${room}/${password}`)
+            .get(`http://localhost:3003/room/password/${room}/${password}`)
             .then((res) => {
                 if (res.data) {
                     setIsPassword(false);

@@ -8,7 +8,7 @@ const SearchResultElement = ({ username, isDarkmode }) => {
 
     useEffect(() => {
         axios
-            .get("http://82.165.104.152:42069/user/level", {
+            .get("http://10.10.30.218:42069/user/level", {
                 params: { username: username },
             })
             .then((res) => {

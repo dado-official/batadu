@@ -249,7 +249,7 @@ io.on("connection", (socket) => {
                 };
                 axios
                     .post(
-                        "http://82.165.104.152:42069/game/results",
+                        "http://10.10.30.218:42069/game/results",
                         {
                             spielname: rooms[room].name,
                             team1punkte: rooms[room].team1Punkte,
@@ -426,7 +426,7 @@ io.on("connection", (socket) => {
                 }
                 setTimeout(() => {
                     if (rooms[room] !== undefined) {
-                        if (rooms[room].won()) {
+                        if (rooms[room] !== undefined && rooms[room].won()) {
                             //wenn ein Team 3 Punkte hat
                             let punkte = rooms[room].getTeamPunkte();
                             io.to(room).emit("punkte", punkte);
@@ -450,7 +450,7 @@ io.on("connection", (socket) => {
                                 };
                                 axios
                                     .post(
-                                        "http://82.165.104.152:42069/game/results",
+                                        "http://10.10.30.218:42069/game/results",
                                         {
                                             spielname: rooms[room].name,
                                             team1punkte:
@@ -475,7 +475,10 @@ io.on("connection", (socket) => {
                                     )
                                     .then((data) => {});
                                 setTimeout(() => {
-                                    if (rooms[room].freePos.length === 0) {
+                                    if (
+                                        rooms[room] !== undefined &&
+                                        rooms[room].freePos.length === 0
+                                    ) {
                                         io.to(room).emit("chat", {
                                             message: `Das Spiel beginnt`,
                                             sender: "System",
@@ -593,4 +596,4 @@ io.on("connection", (socket) => {
     });
 });
 
-http.listen(8080, () => console.log("listening on http://82.165.104.152:8080"));
+http.listen(8080, () => console.log("listening on http://localhost:8080"));

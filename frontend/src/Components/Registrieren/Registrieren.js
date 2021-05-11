@@ -72,7 +72,7 @@ const Registrieren = ({
                 },
             };
             axios
-                .get(`http://82.165.104.152:42069/user/check`, data, axiosConfig)
+                .get(`http://10.10.30.218:42069/user/check`, data, axiosConfig)
                 .then((response) => {
                     let data = {
                         username: username,
@@ -81,7 +81,7 @@ const Registrieren = ({
                     };
                     axios
                         .post(
-                            "http://82.165.104.152:42069/register",
+                            "http://10.10.30.218:42069/register",
                             data,
                             axiosConfig
                         )

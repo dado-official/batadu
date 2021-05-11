@@ -24,7 +24,7 @@ const Profil = ({ setUrl, isDarkmode }) => {
         setUrl("/profile");
 
         axios
-            .get("http://82.165.104.152:42069/user/level", {
+            .get("http://10.10.30.218:42069/user/level", {
                 params: {
                     username: username,
                 },
@@ -39,7 +39,7 @@ const Profil = ({ setUrl, isDarkmode }) => {
                 setNextPunkte(data.nextlevel.erforderlichepunkte);
             });
         axios
-            .get("http://82.165.104.152:42069/user/games", {
+            .get("http://10.10.30.218:42069/user/games", {
                 params: {
                     username: username,
                 },
@@ -48,7 +48,7 @@ const Profil = ({ setUrl, isDarkmode }) => {
                 setGames(res.data);
             });
         axios
-            .get("http://82.165.104.152:42069/user/stats", {
+            .get("http://10.10.30.218:42069/user/stats", {
                 params: {
                     username: username,
                 },
@@ -62,7 +62,7 @@ const Profil = ({ setUrl, isDarkmode }) => {
                 setSticheSpiel(res.data.sticheprospiel);
             });
 
-        axios.get("http://82.165.104.152:42069/rankings").then((res) => {
+        axios.get("http://10.10.30.218:42069/rankings").then((res) => {
             setPosition(res.data.findIndex((a) => a.username === username) + 1);
         });
     }, [username]);
@@ -101,7 +101,7 @@ const Profil = ({ setUrl, isDarkmode }) => {
                     <div className="relative w-full rounded-st h-9">
                         <div className="w-full bg-secondary dark:bg-secondaryDark rounded-st h-full opacity-20 flex justify-center items-center"></div>
                         {(100 / (nextPunkte - curLevelPunkteRequired)) *
-                            (punkte - curLevelPunkteRequired) >
+                            (punkte - curLevelPunkteRequired) <
                             30 || punkte === curLevelPunkteRequired ? (
                             <p
                                 className="absolute text-black dark:text-white font-regular left-1/2 top-1/2"

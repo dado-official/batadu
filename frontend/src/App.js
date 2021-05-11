@@ -20,7 +20,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
-let socket = io("http://82.165.104.152:8080");
+let socket = io("http://localhost:8080");
 
 function App() {
     const [url, setUrl] = useState("");
@@ -44,7 +44,7 @@ function App() {
 
     useEffect(() => {
         if (reconnect) {
-            socket = io("http://82.165.104.152:8080");
+            socket = io("http://localhost:8080");
         }
     }, [reconnect]);
 
@@ -97,13 +97,13 @@ function App() {
             },
         };
         axios
-            .get("http://82.165.104.152:42069/user/login", data, axiosConfig)
+            .get("http://10.10.30.218:42069/user/login", data, axiosConfig)
             .then((response) => {
                 setUsername(user);
                 setIsLoggedIn(true);
                 axios
                     .get(
-                        "http://82.165.104.152:42069/user/level",
+                        "http://10.10.30.218:42069/user/level",
                         { params: { username: user } },
                         axiosConfig
                     )

@@ -93,7 +93,7 @@ const Spiel = ({
         }
         setReconnect(false);
         axios
-            .get(`http://82.165.104.152:3003/room/isPassword/${room}`)
+            .get(`http://localhost:3003/room/isPassword/${room}`)
             .then((res) => {
                 if (res.data) {
                     setIsPassword(true);

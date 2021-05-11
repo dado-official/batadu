@@ -36,7 +36,7 @@ function App() {
 
     useEffect(() => {
         socket.on("connect_failed", () => {
-            console.log("Fella");
+            console.log("Network error");
         });
         loadDarkmode();
         loadUser();
@@ -114,6 +114,7 @@ function App() {
             })
             .catch(() => {
                 setLoaded(true);
+                setIsServer(false);
             });
     }
 

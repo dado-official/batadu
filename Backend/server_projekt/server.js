@@ -119,7 +119,7 @@ io.on("connection", (socket) => {
         //Hier beginnt das Spiel :)
         if (rooms[room].freePos.length === 0) {
             io.to(room).emit("chat", {
-                message: `Das Spiel beginnt`,
+                message: `Das Spiel beginnt🥳`,
                 sender: "System",
                 type: "text",
             });
@@ -223,12 +223,14 @@ io.on("connection", (socket) => {
             if (pos % 2 === 0) team = 1;
             else team = 2;
 
-            let nachricht = `Team ${team} hat nicht gehalten 😕`;
+            let nachricht = `Team ${team} hat nicht gehalten 🤯`;
             io.to(room).emit("chat", {
                 message: nachricht,
                 sender: "System",
                 type: "text",
             });
+
+            chatSendSchlagTrumpf(rooms[room].schlag, rooms[room].trumpf);
             let punkte = rooms[room].getTeamPunkteAbgelehnt(pos);
             io.to(room).emit("punkte", punkte);
 
@@ -273,9 +275,9 @@ io.on("connection", (socket) => {
                     .then((data) => {});
                 setTimeout(() => {
                     if (rooms[room] !== undefined) {
-                        if (rooms[room].freePos.length === 0) {
+                        if (rooms[room].freePos.length === i0) {
                             io.to(room).emit("chat", {
-                                message: `Das Spiel beginnt`,
+                                message: `Das Spiel beginnt🥳`,
                                 sender: "System",
                                 type: "text",
                             });
@@ -343,7 +345,7 @@ io.on("connection", (socket) => {
             rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
             io.to(room).emit("status", rooms[room].userStatus);
             io.to(room).emit("chat", {
-                message: "Schlagtausch wurde angenommen",
+                message: "Schlagtausch wurde angenommen😎",
                 sender: "System",
                 type: "text",
             });
@@ -372,7 +374,7 @@ io.on("connection", (socket) => {
             io.to(room).emit("karten", rooms[room].userCards);
             io.to(room).emit("status", rooms[room].userStatus);
             io.to(room).emit("chat", {
-                message: "Schönere wurde angenommen",
+                message: "Schönere wurde angenommen😉",
                 sender: "System",
                 type: "text",
             });
@@ -430,6 +432,10 @@ io.on("connection", (socket) => {
                             //wenn ein Team 3 Punkte hat
                             let punkte = rooms[room].getTeamPunkte();
                             io.to(room).emit("punkte", punkte);
+                            chatSendSchlagTrumpf(
+                                rooms[room].schlag,
+                                rooms[room].trumpf
+                            );
 
                             if (rooms[room].isTeam1Gestrichen()) {
                                 io.to(room).emit("team1 gestrichen");
@@ -480,7 +486,7 @@ io.on("connection", (socket) => {
                                         rooms[room].freePos.length === 0
                                     ) {
                                         io.to(room).emit("chat", {
-                                            message: `Das Spiel beginnt`,
+                                            message: `Das Spiel beginnt🥳`,
                                             sender: "System",
                                             type: "text",
                                         });
@@ -584,7 +590,7 @@ io.on("connection", (socket) => {
                     }
 
                     socket.to(room).emit("chat", {
-                        message: `${user} disconnect`,
+                        message: `${user} disconnect😭`,
                         sender: "System",
                         type: "text",
                     });
@@ -592,6 +598,25 @@ io.on("connection", (socket) => {
             } catch (e) {
                 console.log(e);
             }
+        }
+        function chatSendSchlagTrumpf(schlag, trumpf) {
+            let message = "";
+            if (schlag !== undefined) {
+                message = `Schlag: ${schlag.name}`;
+            } else {
+                message = "Schlag: 🤷‍♂️";
+            }
+
+            if (trumpf !== undefined) {
+                message += `, Trumpf: ${trumpf.name}`;
+            } else {
+                message += ", Trumpf: 🤷";
+            }
+            io.to(room).emit("chat", {
+                message: message,
+                sender: "System",
+                type: "text",
+            });
         }
     });
 });

@@ -2,7 +2,7 @@ import React from "react";
 
 const ChatMessage = ({ message, sender }) => {
     return (
-        <div className="flex flex-col w-full pr-2">
+        <div className="flex flex-col w-full pr-2 mb-2">
             <div
                 className={`flex w-full ${
                     sender === "Ich" ? "justify-end" : null

@@ -8,7 +8,7 @@ export default function ChatGif({ sender, url }) {
                     sender === "Ich" ? "justify-end" : null
                 }`}
             >
-                <img src={url} alt="gif" className="w-1/2 rounded-st" />
+                <img src={url} alt="gif" className="h-24 rounded-st" />
             </div>
             <p
                 className={`font-bold text-xs py-1 dark:text-white ${

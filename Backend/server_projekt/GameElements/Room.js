@@ -315,7 +315,7 @@ class Room {
             name: this.name,
             users: this.userPos,
             team1: this.team1Punkte,
-            team2: this.team1Punkte,
+            team2: this.team2Punkte,
         };
     }
 

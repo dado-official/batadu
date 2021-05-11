@@ -116,6 +116,13 @@ io.on("connection", (socket) => {
             userStatus: rooms[room].userStatus,
         });
 
+        if (rooms[room].team1Punkte !== 0 || rooms[room].team2Punkte !== 0) {
+            socket.emit("punkte", {
+                team1: rooms[room].team1Punkte,
+                team2: rooms[room].team2Punkte,
+            });
+        }
+
         //Hier beginnt das Spiel :)
         if (rooms[room].freePos.length === 0) {
             io.to(room).emit("chat", {

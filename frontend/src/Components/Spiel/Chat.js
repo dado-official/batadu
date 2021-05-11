@@ -11,14 +11,7 @@ import { Picker } from "emoji-mart";
 
 const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
     const [chatInput, setChatInput] = useState("");
-    const [chatMessages, setChatMessages] = useState([
-        {
-            message: "Wilkommen im Chat",
-            sender: "System",
-            type: "text",
-            key: Math.random() * 10000,
-        },
-    ]);
+    const [chatMessages, setChatMessages] = useState([]);
     const [isEmojisOpen, setIsEmojisOpen] = useState(false);
     const emojiPickerRef = useRef();
     const emojiIconRef = useRef();

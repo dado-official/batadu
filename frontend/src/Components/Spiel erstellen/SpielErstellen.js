@@ -38,26 +38,30 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
         if (spielName === "" || spielName === " ") {
             setProblem("Der Spielname fehlt!");
         } else {
-            axios
-                .get(`http://localhost:3003/room/available/${spielName}`)
-                .then((res) => {
-                    console.log(res.data);
-                    if (res.data) {
-                        setProblem(
-                            "Dieser Spielname existiert schon, wählen Sie einen anderer Name"
-                        );
-                    } else {
-                        socket.emit("createRoom", {
-                            spielerAnzahl: spieler,
-                            punkte: punkte,
-                            name: spielName,
-                            modus: modus,
-                            isPassword: isPassword,
-                            password: password,
-                        });
-                        history.push(`/spielen/${spielName}`);
-                    }
-                });
+            if (spielName.length > 31) {
+                setProblem("Spielname muss kleiner als 32 Zeichen sein!");
+            } else {
+                axios
+                    .get(`http://localhost:3003/room/available/${spielName}`)
+                    .then((res) => {
+                        console.log(res.data);
+                        if (res.data) {
+                            setProblem(
+                                "Dieser Spielname existiert schon, wählen Sie einen anderer Name"
+                            );
+                        } else {
+                            socket.emit("createRoom", {
+                                spielerAnzahl: spieler,
+                                punkte: punkte,
+                                name: spielName,
+                                modus: modus,
+                                isPassword: isPassword,
+                                password: password,
+                            });
+                            history.push(`/spielen/${spielName}`);
+                        }
+                    });
+            }
         }
     }
 
@@ -128,6 +132,11 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                         />
                         <PunkteSelector
                             value="18"
+                            setSelectValue={setPunkte}
+                            selectValue={punkte}
+                        />
+                        <PunkteSelector
+                            value="21"
                             setSelectValue={setPunkte}
                             selectValue={punkte}
                         />

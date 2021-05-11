@@ -205,7 +205,6 @@ const Spiel = ({
             setSchlag(data.schlag);
             setTrumpf(data.trumpf);
         });
-
         return () => {
             window.location.reload();
         };

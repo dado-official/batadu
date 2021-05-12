@@ -114,7 +114,6 @@ function App() {
             })
             .catch(() => {
                 setLoaded(true);
-                setIsServer(false);
             });
     }
 

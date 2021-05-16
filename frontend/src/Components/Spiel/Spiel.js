@@ -93,7 +93,7 @@ const Spiel = ({
         }
         setReconnect(false);
         axios
-            .get(`http://82.165.104.152:3003/room/isPassword/${room}`)
+            .get(`http://localhost:3003/room/isPassword/${room}`)
             .then((res) => {
                 if (res.data) {
                     setIsPassword(true);
@@ -636,33 +636,51 @@ const Spiel = ({
                             {seeCards
                                 ? karten.map((element) => {
                                       return (
-                                          <img
-                                              className={`h-auto w-4.275rem md:w-4.75rem rounded-st karte ${
-                                                  hover
-                                                      ? "hover:border-secondary dark:hover:border-secondaryDark border-4 border-transparent cursor-pointer"
-                                                      : null
-                                              } `}
-                                              src={cardPhotos[element.name]}
-                                              alt={element.name}
-                                              onClick={selectCardHandler}
-                                              key={Math.random() * 1000}
-                                          />
+                                          <div className="h-6.73625 md:h-8.421875 w-4.275rem md:w-4.75rem relative">
+                                              <img
+                                                  className={`h-auto absolute top-0 left-0 rounded-st karte ${
+                                                      hover
+                                                          ? "selectCard cursor-pointer"
+                                                          : null
+                                                  } `}
+                                                  src={cardPhotos[element.name]}
+                                                  alt={element.name}
+                                                  onClick={selectCardHandler}
+                                                  key={Math.random() * 1000}
+                                              />
+                                          </div>
                                       );
                                   })
                                 : null}
-                            <div className="flex flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static sm:flex-col justify-between md:justify-start w-full sm:w-max mt-4 md:mt-0">
-                                <p className="dark:text-white">
-                                    Schlag:{" "}
-                                    <span className="font-bold">
-                                        {showSchlagTrumpf ? schlag : "?"}
-                                    </span>
-                                </p>
-                                <p className="dark:text-white">
-                                    Trumpf:{" "}
-                                    <span className="font-bold">
-                                        {showSchlagTrumpf ? trumpf : "?"}
-                                    </span>
-                                </p>
+                            <div className="flex gap-4 font-bold flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static text-sm text-center justify-between md:justify-start w-full sm:w-min mt-4 md:mt-0">
+                                {showSchlagTrumpf && schlag !== "?" ? (
+                                    <div className="w-3.625rem">
+                                        <p className="dark:text-white mb-1">
+                                            Schlag
+                                        </p>
+                                        {showSchlagTrumpf ? (
+                                            <img
+                                                src={cardPhotos[schlag]}
+                                                alt={schlag}
+                                                className="w-3.625rem"
+                                            />
+                                        ) : null}
+                                    </div>
+                                ) : null}
+                                {showSchlagTrumpf && schlag !== "?" ? (
+                                    <div className="w-3.625rem">
+                                        <p className="dark:text-white mb-1">
+                                            Trumpf
+                                        </p>
+                                        {showSchlagTrumpf ? (
+                                            <img
+                                                src={cardPhotos[trumpf]}
+                                                alt={trumpf}
+                                                className="w-3.625rem"
+                                            />
+                                        ) : null}
+                                    </div>
+                                ) : null}
                                 <p className="block sm:hidden dark:text-white">
                                     Geboten:{" "}
                                     <span className={`font-bold`}>

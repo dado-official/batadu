@@ -2,33 +2,29 @@ import React from "react";
 
 const ChatMessage = ({ message, sender }) => {
     return (
-        <div className="flex flex-col w-full pr-2 mb-2">
-            <div
-                className={`flex w-full ${
-                    sender === "Ich" ? "justify-end" : null
-                }`}
-            >
+        <div className="flex flex-col w-full pr-2">
+            <div className={`flex w-full`}>
                 <p
-                    className={`text-sm w-max-content w-max-full py-2 px-4 rounded-st break-words  ${
-                        sender === "System"
-                            ? "text-white dark:text-black bg-primary dark:bg-primaryDark"
-                            : "bg-spielGray dark:bg-chatBlack dark:text-white"
+                    className={`text-sm py-1 dark:text-white font-bold ${
+                        sender === "Ich"
+                            ? "text-blue-500 dark:text-blue-400"
+                            : sender === "System"
+                            ? "text-primary dark:text-primaryDark"
+                            : null
                     }`}
                 >
-                    {message}
+                    {sender}:{" "}
+                    <span
+                        className={`text-sm font-normal break-all text-black w-max-content w-max-full rounded-st break-words  ${
+                            sender === "System"
+                                ? "dark:text-white text-black"
+                                : "dark:text-white"
+                        }`}
+                    >
+                        {message}
+                    </span>
                 </p>
             </div>
-            <p
-                className={`font-bold text-xs py-1 dark:text-white ${
-                    sender === "Ich"
-                        ? "flex justify-end"
-                        : sender === "System"
-                        ? "text-primary dark:text-primaryDark"
-                        : null
-                }`}
-            >
-                {sender}
-            </p>
         </div>
     );
 };

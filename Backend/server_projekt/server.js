@@ -88,6 +88,7 @@ io.on("connection", (socket) => {
         let room = data.room;
         let user = data.user;
         let team = data.team;
+        let typingUsers = [];
 
         if (
             rooms[room] === undefined ||
@@ -142,6 +143,18 @@ io.on("connection", (socket) => {
         socket.on("chat", (message) => {
             //broadcast to roommembers when new message
             socket.to(room).emit("chat", message);
+        });
+
+        socket.on("typing", (data) => {
+            if (data.typing && !typingUsers.includes(data.username)) {
+                typingUsers.push(data.username);
+            } else if (!data.typing && typingUsers.includes(data.username)) {
+                const index = typingUsers.indexOf(data.username);
+                if (index > -1) {
+                    typingUsers.splice(index, 1);
+                }
+            }
+            io.to(room).emit("typing", typingUsers);
         });
 
         socket.on("Schlag", (card) => {
@@ -258,7 +271,7 @@ io.on("connection", (socket) => {
                 };
                 axios
                     .post(
-                        "http://82.165.104.152:42069/game/results",
+                        "http://10.10.30.218:42069/game/results",
                         {
                             spielname: rooms[room].name,
                             team1punkte: rooms[room].team1Punkte,
@@ -463,7 +476,7 @@ io.on("connection", (socket) => {
                                 };
                                 axios
                                     .post(
-                                        "http://82.165.104.152:42069/game/results",
+                                        "http://10.10.30.218:42069/game/results",
                                         {
                                             spielname: rooms[room].name,
                                             team1punkte:
@@ -628,4 +641,4 @@ io.on("connection", (socket) => {
     });
 });
 
-http.listen(8080, () => console.log("listening on http://82.165.104.152:8080"));
+http.listen(8080, () => console.log("listening on http://localhost:8080"));

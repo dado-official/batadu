@@ -475,3 +475,12 @@ body {
         opacity: 100%;
     }
 }
+
+.selectCard {
+    transition: 500ms;
+}
+.selectCard:hover {
+    transform: scale(1.15);
+    box-shadow: #888888a6 5px 5px 20px;
+    transition: 500ms;
+}

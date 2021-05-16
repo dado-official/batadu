@@ -9,10 +9,15 @@ import "emoji-mart/css/emoji-mart.css";
 import GifPicker from "./GifPicker";
 import { Picker } from "emoji-mart";
 
+let typingTimeout;
+
 const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
     const [chatInput, setChatInput] = useState("");
+    const [currentTyping, setCurrentTyping] = useState([]);
+    const [typing, setTyping] = useState(false);
     const [chatMessages, setChatMessages] = useState([]);
     const [isEmojisOpen, setIsEmojisOpen] = useState(false);
+
     const emojiPickerRef = useRef();
     const emojiIconRef = useRef();
 
@@ -78,14 +83,41 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
         socket.on("chat", (chat) => {
             setChatMessages((prev) => [...prev, chat]);
         });
+
+        socket.on("typing", (data) => {
+            const index = data.indexOf(username);
+            if (index > -1) {
+                data.splice(index, 1);
+            }
+            setCurrentTyping(data);
+        });
     }, []);
 
     function inputHandler(e) {
+        if (typing) {
+            clearTimeout(typingTimeout);
+        } else {
+            setTyping(true);
+            socket.emit("typing", { username: username, typing: true });
+        }
+
+        typingTimeout = setTimeout(() => {
+            setTyping(false);
+            console.log("false");
+            socket.emit("typing", { username: username, typing: false });
+        }, 1000);
+
         setChatInput(e.target.value);
     }
 
     function sendMessage() {
         if (chatInput !== "" && chatInput !== " ") {
+            if (typing) {
+                clearTimeout(typingTimeout);
+                setTyping(false);
+                socket.emit("typing", { username: username, typing: false });
+            }
+
             let chat = {
                 message: chatInput,
                 type: "text",
@@ -138,7 +170,7 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
                     className={`text-left font-bold py-3 px-4 cursor-pointer text-primary dark:text-primaryDark`}
                 >
                     {" "}
-                    Spiel Chat{" "}
+                    Spiel Chat
                 </p>{" "}
                 <div className="bg-primary dark:bg-primaryDark z-10 h-1.5 w-full absolute rounded-b-st -bottom-1.5" />{" "}
             </div>{" "}
@@ -150,7 +182,7 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
                     }`}
                 >
                     <ScrollableFeed
-                        className={`${
+                        className={`flex flex-col gap-1 ${
                             isDarkmode ? "scrollDark" : "scrollWhite"
                         }`}
                         forceScroll={true}
@@ -174,6 +206,16 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
                                 );
                             }
                         })}
+                        {currentTyping.length > 0 ? (
+                            <p className="text-sm dark:text-yellow-400 text-yellow-500">
+                                <span className="font-bold">
+                                    {currentTyping.toString()}
+                                </span>{" "}
+                                {currentTyping.length > 1
+                                    ? "schreiben..."
+                                    : "schreibt..."}
+                            </p>
+                        ) : null}
                     </ScrollableFeed>
                 </div>
                 {/*Emoji picker */}

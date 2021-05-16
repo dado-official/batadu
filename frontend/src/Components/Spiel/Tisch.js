@@ -29,7 +29,7 @@ const Tisch = ({
             if (users[i] !== undefined && users[i] !== null) {
                 if (level[i].user === undefined && level[i].user !== users[i]) {
                     axios
-                        .get("http://10.10.30.218:42069/user/level", {
+                        .get("http://82.165.104.152:42069/user/level", {
                             params: { username: users[i] },
                         })
                         .then((data) => {

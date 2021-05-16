@@ -271,7 +271,7 @@ io.on("connection", (socket) => {
                 };
                 axios
                     .post(
-                        "http://10.10.30.218:42069/game/results",
+                        "http://82.165.104.152:42069/game/results",
                         {
                             spielname: rooms[room].name,
                             team1punkte: rooms[room].team1Punkte,
@@ -476,7 +476,7 @@ io.on("connection", (socket) => {
                                 };
                                 axios
                                     .post(
-                                        "http://10.10.30.218:42069/game/results",
+                                        "http://82.165.104.152:42069/game/results",
                                         {
                                             spielname: rooms[room].name,
                                             team1punkte:
@@ -641,4 +641,4 @@ io.on("connection", (socket) => {
     });
 });
 
-http.listen(8080, () => console.log("listening on http://localhost:8080"));
+http.listen(8080, () => console.log("listening on http://82.165.104.152:8080"));

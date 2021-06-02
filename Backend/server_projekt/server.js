@@ -295,7 +295,7 @@ io.on("connection", (socket) => {
                     .then((data) => {});
                 setTimeout(() => {
                     if (rooms[room] !== undefined) {
-                        if (rooms[room].freePos.length === i0) {
+                        if (rooms[room].freePos.length === 0) {
                             io.to(room).emit("chat", {
                                 message: `Das Spiel beginnt🥳`,
                                 sender: "System",

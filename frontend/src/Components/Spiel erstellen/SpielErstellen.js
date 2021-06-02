@@ -121,7 +121,12 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                  */}
                 <div className="w-full">
                     <p className="font-bold text-left mb-2">Spielen bis</p>
-                    <div className="flex justify-between gap-4 sm:gap-8">
+                    <div className="flex justify-between gap-2 sm:gap-8">
+                        <PunkteSelector
+                            value="9"
+                            setSelectValue={setPunkte}
+                            selectValue={punkte}
+                        />
                         <PunkteSelector
                             value="11"
                             setSelectValue={setPunkte}

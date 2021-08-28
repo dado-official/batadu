@@ -1,12 +1,11 @@
 import "../styles/app.css";
-import "tailwindcss/tailwind.css";
-import Layout from "../comps/Layout";
+import { Provider } from "next-auth/client";
 
 function MyApp({ Component, pageProps }) {
     return (
-        <Layout>
+        <Provider session={pageProps.session}>
             <Component {...pageProps} />
-        </Layout>
+        </Provider>
     );
 }
 

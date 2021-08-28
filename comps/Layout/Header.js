@@ -2,15 +2,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
+import { signIn, signOut } from "next-auth/client";
+import Image from "next/image";
 
-function Header({
-    session,
-    username,
-    isDarkmode,
-    isSidebarOpen,
-    setIsSidebarOpen,
-}) {
+function Header({ isDarkmode, isSidebarOpen, setIsSidebarOpen, session }) {
     const { asPath } = useRouter();
+    console.log(session);
 
     function clickDarkmodeHandler() {
         setIsDarkmode((prev) => {
@@ -39,41 +36,41 @@ function Header({
                         <div className="hidden lg:flex lg:gap-12">
                             <Link href="/">
                                 <div className="flex gap-3 cursor-pointer items-center relative py-6">
-                                    <h6
-                                        className={`text-base dark:text-white ${
+                                    <p
+                                        className={`dark:text-white ${
                                             asPath === "/"
                                                 ? "text-primary dark:text-primaryDark font-bold"
                                                 : null
                                         }`}
                                     >
                                         Spielen
-                                    </h6>
+                                    </p>
                                 </div>
                             </Link>
                             <Link href="/rangliste">
                                 <div className="flex cursor-pointer gap-3 items-center relative py-6">
-                                    <h6
-                                        className={`text-base dark:text-white ${
+                                    <p
+                                        className={`dark:text-white ${
                                             asPath === "/rangliste"
                                                 ? "text-primary dark:text-primaryDark font-bold"
                                                 : "dark:text-white"
                                         }`}
                                     >
                                         Rangliste
-                                    </h6>
+                                    </p>
                                 </div>
                             </Link>
-                            <Link href={`/profile/${username}`}>
+                            <Link href={`/profile/${session.user.name}`}>
                                 <div className="flex cursor-pointer gap-3 items-center relative py-6">
-                                    <h6
-                                        className={`text-base dark:text-white ${
+                                    <p
+                                        className={`dark:text-white ${
                                             asPath === "/profile"
                                                 ? "text-primary dark:text-primaryDark font-bold"
                                                 : null
                                         }`}
                                     >
                                         Profile
-                                    </h6>
+                                    </p>
                                 </div>
                             </Link>
                         </div>
@@ -89,28 +86,34 @@ function Header({
                                     className="h-6 cursor-pointer"
                                 />
                             )}
-                            <Link href="/anmelden">
-                                <h6 className="text-base ml-4 btn text-white dark:text-black bg-primary dark:bg-primaryDark">
-                                    Anmelden
-                                </h6>
-                            </Link>
-                            {session && (
-                                <div className="flex items-center gap-2">
-                                    <LevelBadge
-                                        level={level}
-                                        isDarkmode={isDarkmode}
-                                        size="2.2rem"
+                            {session ? (
+                                <div className="flex relative items-center gap-4 ml-4">
+                                    <Image
+                                        src={session.user.image}
+                                        width="25"
+                                        height="25"
+                                        className="rounded-full"
+                                        objectFit="contain"
                                     />
-                                    <p className="font-bold dark:text-white">
-                                        {username}
+                                    <p className="dark:text-white">
+                                        {session.user.name}
                                     </p>
                                     <button
-                                        onClick={logoutHandler}
+                                        onClick={signOut}
                                         className="btn text-base ml-4 text-white dark:text-black bg-primary dark:bg-primaryDark"
                                     >
                                         Abmelden
                                     </button>
                                 </div>
+                            ) : (
+                                <Link href="/anmelden">
+                                    <button
+                                        onClick={signIn}
+                                        className="ml-4 btn text-white dark:text-black bg-primary dark:bg-primaryDark"
+                                    >
+                                        Anmelden
+                                    </button>
+                                </Link>
                             )}
                         </div>
                         <div className="py-6 lg:hidden">

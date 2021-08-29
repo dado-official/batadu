@@ -1,9 +1,11 @@
 import "../styles/app.css";
 import { Provider } from "next-auth/client";
 import { useState, useEffect } from "react";
+import io from "socket.io-client";
+let socket = io("http://82.165.104.152:8080");
 
 function MyApp({ Component, pageProps }) {
-    const [isDarkmode, setIsDarkmode] = useState(true);
+    const [isDarkmode, setIsDarkmode] = useState(false);
 
     useEffect(() => {
         //enable or disable darkmode
@@ -25,6 +27,7 @@ function MyApp({ Component, pageProps }) {
                 {...pageProps}
                 setIsDarkmode={setIsDarkmode}
                 isDarkmode={isDarkmode}
+                socket={socket}
             />
         </Provider>
     );

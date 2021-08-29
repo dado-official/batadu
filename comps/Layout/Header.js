@@ -44,7 +44,7 @@ function Header({
                                 <div className="flex gap-3 cursor-pointer items-center relative py-6">
                                     <p
                                         className={`dark:text-white ${
-                                            asPath === "/"
+                                            asPath === "/spielen"
                                                 ? "text-primary dark:text-primaryDark font-bold"
                                                 : null
                                         }`}

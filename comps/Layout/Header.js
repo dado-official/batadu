@@ -5,7 +5,13 @@ import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import { signIn, signOut } from "next-auth/client";
 import Image from "next/image";
 
-function Header({ isDarkmode, isSidebarOpen, setIsSidebarOpen, session }) {
+function Header({
+    isDarkmode,
+    setIsDarkmode,
+    isSidebarOpen,
+    setIsSidebarOpen,
+    session,
+}) {
     const { asPath } = useRouter();
     console.log(session);
 
@@ -78,7 +84,7 @@ function Header({ isDarkmode, isSidebarOpen, setIsSidebarOpen, session }) {
                             {isDarkmode ? (
                                 <SunIcon
                                     onClick={clickDarkmodeHandler}
-                                    className="h-6 cursor-pointer"
+                                    className="h-6 cursor-pointer text-white"
                                 />
                             ) : (
                                 <MoonIcon

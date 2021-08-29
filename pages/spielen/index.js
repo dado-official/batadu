@@ -1,8 +1,17 @@
 import Layout from "../../comps/Layout";
 import { getSession } from "next-auth/client";
 
-function Spielen({ session, set }) {
-    return <Layout session={session}>Mensch</Layout>;
+function Spielen({ session, setIsDarkmode, isDarkmode }) {
+    return (
+        <Layout
+            session={session}
+            isDarkmode={isDarkmode}
+            setIsDarkmode={setIsDarkmode}
+            setIsDarkmode={setIsDarkmode}
+        >
+            Mensch
+        </Layout>
+    );
 }
 
 export default Spielen;

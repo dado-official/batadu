@@ -3,7 +3,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Head from "next/head";
 
-function Layout({ children, title, session, isDarkmode }) {
+function Layout({ children, title, session, isDarkmode, setIsDarkmode }) {
     return (
         <Fragment>
             <Head>
@@ -14,7 +14,11 @@ function Layout({ children, title, session, isDarkmode }) {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Header session={session} isDarkmode={isDarkmode} />
+            <Header
+                session={session}
+                isDarkmode={isDarkmode}
+                setIsDarkmode={setIsDarkmode}
+            />
             {children}
             <Footer />
         </Fragment>

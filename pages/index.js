@@ -3,7 +3,7 @@ import Link from "next/link";
 import Layout from "../comps/Layout";
 import { getSession } from "next-auth/client";
 
-export default function Home({ isDarkmode, session }) {
+export default function Home({ isDarkmode, setIsDarkmode, session }) {
     const [yAxis, setYAxis] = useState(0);
     const [xAxis, setXAxis] = useState(0);
 
@@ -18,7 +18,11 @@ export default function Home({ isDarkmode, session }) {
     }, []);
 
     return (
-        <Layout session={session} isDarkmode={isDarkmode}>
+        <Layout
+            session={session}
+            isDarkmode={isDarkmode}
+            setIsDarkmode={setIsDarkmode}
+        >
             <main className="flex w-1450 max-w-1/9 mx-auto py-12 md:my-auto">
                 <div className="w-full lg:w-1/2">
                     <h6 className="pb-2 font-bold text-xl text-gray-600 dark:text-gray-200 break-words">

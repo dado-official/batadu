@@ -49,6 +49,17 @@ small,
     font-size: 0.8rem;
 }
 
+.centerAbsolute {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.centerY {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .btn {
     @apply py-1.5 px-4 rounded-st focus:outline-none cursor-pointer;
 }

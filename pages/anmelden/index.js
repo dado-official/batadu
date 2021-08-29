@@ -1,9 +1,10 @@
 import Head from "next/head";
 import { signIn, getSession, providers } from "next-auth/client";
+import Provider from "../../comps/Provider";
 
-function index({ providers }) {
+function index({ providers, isDarkmode }) {
     return (
-        <div className="text-white w-full">
+        <div className="text-black w-full text-center">
             <Head>
                 <title>Batadù - Anmelden</title>
                 <meta
@@ -12,50 +13,25 @@ function index({ providers }) {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+
             {/*signin Container*/}
             <div className="p-12 bg-bgLight2 rounded-st fixed centerAbsolute w-96">
-                <h6 className="text-2xl text-white font-semibold">Welcome</h6>
-
-                <p className="text-sm mt-2 mb-10 text-grayLight">
-                    By logging in you accept our{" "}
-                    <a
-                        href="/Privacy"
-                        className="text-blue1 font-semibold hover:underline"
-                    >
-                        Privacy Policy
-                    </a>{" "}
-                    and{" "}
-                    <a
-                        href="/terms"
-                        className="text-blue1 font-semibold hover:underline"
-                    >
-                        Terms of Service
-                    </a>
-                    .
+                <h2 className="dark:text-white">Wilkommen</h2>
+                <p className="mt-6 mb-4 text-whiteDark dark:text-tableGray">
+                    Anmelden mit:
                 </p>
+
                 {/*Google signin */}
                 <div className="flex flex-col gap-6">
-                    <button
-                        className="signinBtn"
-                        onClick={() => signIn(providers.github.id)}
-                    >
-                        <div
-                            className="absolute h-max left-8 centerY"
-                            style={{ marginTop: "3px" }}
-                        ></div>
-                        <p>Continue with GitHub</p>
-                    </button>
-
-                    <button
-                        className="signinBtn"
-                        onClick={() => signIn(providers.facebook.id)}
-                    >
-                        <p>Continue with Facebook</p>
-                        <div
-                            className="absolute ml-1 left-7 centerY"
-                            style={{ marginTop: "3px" }}
-                        ></div>
-                    </button>
+                    {Object.values(providers).map((provider) => {
+                        return (
+                            <Provider
+                                provider={provider}
+                                isDarkmode={isDarkmode}
+                                key={provider.id}
+                            />
+                        );
+                    })}
                 </div>
             </div>
         </div>

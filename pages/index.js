@@ -18,7 +18,7 @@ export default function Home({ isDarkmode, session }) {
     }, []);
 
     return (
-        <Layout session={session}>
+        <Layout session={session} isDarkmode={isDarkmode}>
             <main className="flex w-1450 max-w-1/9 mx-auto py-12 md:my-auto">
                 <div className="w-full lg:w-1/2">
                     <h6 className="pb-2 font-bold text-xl text-gray-600 dark:text-gray-200 break-words">
@@ -94,4 +94,8 @@ export async function getServerSideProps(context) {
             },
         };
     }
+
+    return {
+        props: { session: null },
+    };
 }

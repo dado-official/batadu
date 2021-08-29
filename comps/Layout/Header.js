@@ -60,7 +60,7 @@ function Header({ isDarkmode, isSidebarOpen, setIsSidebarOpen, session }) {
                                     </p>
                                 </div>
                             </Link>
-                            <Link href={`/profile/${session.user.name}`}>
+                            <Link href={`/profile/${session?.user.name}`}>
                                 <div className="flex cursor-pointer gap-3 items-center relative py-6">
                                     <p
                                         className={`dark:text-white ${
@@ -107,10 +107,7 @@ function Header({ isDarkmode, isSidebarOpen, setIsSidebarOpen, session }) {
                                 </div>
                             ) : (
                                 <Link href="/anmelden">
-                                    <button
-                                        onClick={signIn}
-                                        className="ml-4 btn text-white dark:text-black bg-primary dark:bg-primaryDark"
-                                    >
+                                    <button className="ml-4 btn text-white dark:text-black bg-primary dark:bg-primaryDark">
                                         Anmelden
                                     </button>
                                 </Link>

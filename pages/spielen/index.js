@@ -1,7 +1,7 @@
 import Layout from "../../comps/Layout";
 import { getSession } from "next-auth/client";
 
-function Spielen({ session }) {
+function Spielen({ session, set }) {
     return <Layout session={session}>Mensch</Layout>;
 }
 

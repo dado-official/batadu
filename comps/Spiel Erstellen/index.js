@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SelectElement from "../SelectElement";
 import Link from "next/link";
 import OutsideClickHandler from "react-outside-click-handler";
-import { SearchIcon, XIcon } from "@heroicons/react/solid";
+import { XIcon } from "@heroicons/react/solid";
 
 import { Fragment } from "react";
 

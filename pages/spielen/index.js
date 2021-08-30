@@ -6,12 +6,15 @@ import Link from "next/link";
 import { PlusIcon } from "@heroicons/react/solid";
 import Room from "../../comps/Room";
 import SpielErstellen from "../../comps/Spiel Erstellen";
+import SelectElement from "../../comps/SelectElement";
+import SelectTeam from "../../comps/SelectTeam";
 
 function Spielen({ session, setIsDarkmode, isDarkmode, socket, setTeam }) {
     const [search, setSearch] = useState("");
     const [rooms, setRooms] = useState([]);
     const [showRooms, setShowRooms] = useState([]);
-    const [showSpielErstellen, setShowSpielErstellen] = useState(true);
+    const [showSpielErstellen, setShowSpielErstellen] = useState(false);
+    const [showSelectTeam, setShowSelectTeam] = useState(true);
 
     useEffect(() => {
         socket.emit("getRooms");
@@ -99,6 +102,7 @@ function Spielen({ session, setIsDarkmode, isDarkmode, socket, setTeam }) {
             {showSpielErstellen && (
                 <SpielErstellen setShow={setShowSpielErstellen} />
             )}
+            {showSelectTeam && <SelectTeam setShow={setShowSelectTeam} />}
         </Layout>
     );
 }

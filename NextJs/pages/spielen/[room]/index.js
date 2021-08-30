@@ -2,15 +2,22 @@ import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/client";
 import axios from "axios";
+import Tisch from "../../../comps/Spiel/Tisch";
+import Link from "next/link";
+import { cardPhotos } from "../../../comps/Spiel/Karten";
+import SpielInformations from "../../../comps/Spiel/SpielInformations";
+import Chat from "../../../comps/Spiel/Chat";
+import Layout from "../../../comps/Layout";
 
 const Spiel = ({
-    setUrl,
     isDarkmode,
     socket,
     team,
     username,
     setReconnect,
     room,
+    session,
+    setIsDarkmode,
 }) => {
     const [isPassword, setIsPassword] = useState(false);
     const [geboten, setGeboten] = useState(2);
@@ -78,11 +85,12 @@ const Spiel = ({
         }
         setReconnect(false);
         axios
-            .get(`http://82.165.104.152:3003/room/isPassword/${room}`)
+            .get(`${process.env.GAMEAPI_URL}/room/isPassword/${room}`)
             .then((res) => {
                 if (res.data) {
                     setIsPassword(true);
                 } else {
+                    console.log("Hallo");
                     joinGame();
                 }
             });
@@ -190,9 +198,6 @@ const Spiel = ({
             setSchlag(data.schlag);
             setTrumpf(data.trumpf);
         });
-        return () => {
-            window.location.reload();
-        };
     }, []);
 
     useEffect(() => {
@@ -267,10 +272,6 @@ const Spiel = ({
             setKarten(alleKarten[pos]);
         }
     }, [alleKarten]);
-
-    useEffect(() => {
-        setUrl("/");
-    }, []);
 
     useEffect(() => {
         if (kartenTisch !== undefined && kartenTisch.length > 0) {
@@ -428,317 +429,335 @@ const Spiel = ({
     }
 
     return (
-        <div className="w-full">
-            {isPassword ? (
-                <SpielPassword
-                    isDarkmode={isDarkmode}
-                    setIsPassword={setIsPassword}
-                    joinGame={joinGame}
-                    room={room}
-                />
-            ) : exist ? (
-                <div className="relative grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-16">
-                    <div className="xl:col-span-2 relative">
-                        {/*Countdown bar */}
-                        <div
-                            className={`${
-                                showTimer ? "countdown" : "hidden"
-                            } h-2 bg-secondary z-30 dark:bg-secondaryDark absolute rounded-st bottom-0 mb-16`}
-                        ></div>
-                        <div
-                            className={`flex justify-center mt-8 ${
-                                isOver ? "h-32" : null
-                            }`}
-                        >
-                            {!isOver ? (
-                                <Tisch
-                                    geboten={geboten}
-                                    isDarkmode={isDarkmode}
-                                    users={users}
-                                    pos={pos}
-                                    teams={teams}
-                                    stiche={stiche}
-                                    status={status}
-                                    calcPos={calcPos}
-                                    karten={kartenTisch}
-                                    cardPhotos={cardPhotos}
-                                />
-                            ) : (
-                                <div className="bg-white h-bottomSpiel dark:bg-whiteDark absolute w-full top-0 left-0 z-20 rounded-st flex justify-center items-center">
-                                    <div className="flex justify-center items-center flex-col w-96 max-w-1/9">
-                                        <h3 className="dark:text-white text-4xl text-center font-bold">
-                                            {won ? "Gratulation!" : "Schade!"}
-                                            <br />
-                                            {won
-                                                ? "Sie haben gewonnen"
-                                                : "Sie haben verloren"}
-                                        </h3>
-                                        <h6 className="text-center text-xl text-gray-500 dark:text-gray-400 mt-4">
-                                            Sie können jetzt das Spiel verlassen
-                                            oder Sie spielen nochmal
-                                        </h6>
-                                        <button
-                                            onClick={playAgainHandler}
-                                            className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st cursor-pointer mt-8 xl:mt-20"
-                                        >
-                                            Nochmal Spielen
-                                        </button>
-                                        <Link to="/spielen" className="w-full">
-                                            <button className=" bg-bgWhite dark:bg-bgDark  dark:text-white font-medium w-full py-2 rounded-st cursor-pointer mt-4">
-                                                Verlassen
+        <Layout
+            session={session}
+            isDarkmode={isDarkmode}
+            setIsDarkmode={setIsDarkmode}
+        >
+            <div className="w-full">
+                {isPassword ? (
+                    <SpielPassword
+                        isDarkmode={isDarkmode}
+                        setIsPassword={setIsPassword}
+                        joinGame={joinGame}
+                        room={room}
+                    />
+                ) : exist ? (
+                    <div className="relative grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-16">
+                        <div className="xl:col-span-2 relative">
+                            {/*Countdown bar */}
+                            <div
+                                className={`${
+                                    showTimer ? "countdown" : "hidden"
+                                } h-2 bg-secondary z-30 dark:bg-secondaryDark absolute rounded-st bottom-0 mb-16`}
+                            ></div>
+                            <div
+                                className={`flex justify-center mt-8 ${
+                                    isOver ? "h-32" : null
+                                }`}
+                            >
+                                {!isOver ? (
+                                    <Tisch
+                                        geboten={geboten}
+                                        isDarkmode={isDarkmode}
+                                        users={users}
+                                        pos={pos}
+                                        teams={teams}
+                                        stiche={stiche}
+                                        status={status}
+                                        calcPos={calcPos}
+                                        karten={kartenTisch}
+                                        cardPhotos={cardPhotos}
+                                    />
+                                ) : (
+                                    <div className="bg-white h-bottomSpiel dark:bg-whiteDark absolute w-full top-0 left-0 z-20 rounded-st flex justify-center items-center">
+                                        <div className="flex justify-center items-center flex-col w-96 max-w-1/9">
+                                            <h3 className="dark:text-white text-4xl text-center font-bold">
+                                                {won
+                                                    ? "Gratulation!"
+                                                    : "Schade!"}
+                                                <br />
+                                                {won
+                                                    ? "Sie haben gewonnen"
+                                                    : "Sie haben verloren"}
+                                            </h3>
+                                            <h6 className="text-center text-xl text-gray-500 dark:text-gray-400 mt-4">
+                                                Sie können jetzt das Spiel
+                                                verlassen oder Sie spielen
+                                                nochmal
+                                            </h6>
+                                            <button
+                                                onClick={playAgainHandler}
+                                                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st cursor-pointer mt-8 xl:mt-20"
+                                            >
+                                                Nochmal Spielen
                                             </button>
-                                        </Link>
+                                            <Link
+                                                to="/spielen"
+                                                className="w-full"
+                                            >
+                                                <button className=" bg-bgWhite dark:bg-bgDark  dark:text-white font-medium w-full py-2 rounded-st cursor-pointer mt-4">
+                                                    Verlassen
+                                                </button>
+                                            </Link>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                        </div>
-                        {/*fenster wenn man gewinnt*/}
-                        {/*fenster wenn geboten wird */}
-                        <div
-                            className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
-                                isHaltenWindow ? "fadein" : "fadeout"
-                            }`}
-                        >
-                            <p className="font-medium text-center text-2xl text-white dark:text-black">
-                                {is4erle && geboten === 2
-                                    ? geboten + 2
-                                    : geboten + 1}{" "}
-                                halten?
-                            </p>
-                            <div className="flex gap-4">
-                                <img
-                                    src={isDarkmode ? YesDark : YesWhite}
-                                    alt="Ja"
-                                    onClick={haltenHandler}
-                                    className="cursor-pointer"
-                                />
-                                <img
-                                    src={isDarkmode ? NoDark : NoWhite}
-                                    alt="Nein"
-                                    onClick={ablehnenHandler}
-                                    className="cursor-pointer"
-                                />
+                                )}
                             </div>
-                        </div>
-                        {/*fenster für schlagtausch */}
-                        <div
-                            className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
-                                isSchlagtauschWindow ? "fadein" : "fadeout"
-                            }`}
-                        >
-                            <p className="font-medium text-center text-2xl text-white dark:text-black">
-                                Schlagtausch?
-                            </p>
-                            <div className="flex gap-4">
-                                <img
-                                    src={isDarkmode ? YesDark : YesWhite}
-                                    alt="Ja"
-                                    onClick={schlagTauschJaHandler}
-                                    className="cursor-pointer"
-                                />
-                                <img
-                                    src={isDarkmode ? NoDark : NoWhite}
-                                    alt="Nein"
-                                    onClick={schlagTauschNeinHandler}
-                                    className="cursor-pointer"
-                                />
-                            </div>
-                        </div>
-
-                        {/*fenster für  schönere*/}
-                        <div
-                            className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
-                                isSchönereWindows ? "fadein" : "fadeout"
-                            }`}
-                        >
-                            <p className="font-medium text-center text-2xl text-white dark:text-black">
-                                Schönere?
-                            </p>
-                            <div className="flex gap-4">
-                                <img
-                                    src={isDarkmode ? YesDark : YesWhite}
-                                    alt="Ja"
-                                    onClick={schönereJaHandler}
-                                    className="cursor-pointer"
-                                />
-                                <img
-                                    src={isDarkmode ? NoDark : NoWhite}
-                                    alt="Nein"
-                                    onClick={schönereNeinHandler}
-                                    className="cursor-pointer"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="flex justify-between mt-28 md:mt-28 mb-16 flex-wrap">
-                            <div className="flex justify-between md:flex-col gap-1 sm:gap-8 md:gap-2 w-full md:w-max mb-4 md:mb-0">
-                                <button
-                                    onClick={bietenHandler}
-                                    className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
-                                        !isBieten ||
-                                        gebotenDavor ===
-                                            (pos % 2 === 0 ? 1 : 2) ||
-                                        isHaltenWindow ||
-                                        isSchlagtauschWindow ||
-                                        isSchönereWindows ||
-                                        (geboten === 2 && isOneGestrichen())
-                                            ? "opacity-20 cursor-not-allowed"
-                                            : null
-                                    }`}
-                                >
-                                    Bieten
-                                </button>
-                                <button
-                                    onClick={schönereHandler}
-                                    className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
-                                        !isSchönere ||
-                                        hasSchönere ||
-                                        isSchlagtauschWindow ||
-                                        isHaltenWindow ||
-                                        isSchönereWindows
-                                            ? "opacity-20 cursor-not-allowed"
-                                            : null
-                                    }`}
-                                >
-                                    Schönere
-                                </button>
-                                <button
-                                    onClick={schlagtauschHandler}
-                                    className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
-                                        !isSchlagtausch ||
-                                        hasSchlagtausch ||
-                                        isSchlagtauschWindow ||
-                                        isHaltenWindow ||
-                                        isSchönereWindows
-                                            ? "opacity-20 cursor-not-allowed"
-                                            : null
-                                    }`}
-                                >
-                                    Schlagtausch
-                                </button>
-                            </div>
-                            {/*my cards*/}
-                            {seeCards
-                                ? karten.map((element) => {
-                                      return (
-                                          <div className="h-6.73625 md:h-8.421875 w-4.275rem md:w-4.75rem relative">
-                                              <img
-                                                  className={`h-auto absolute top-0 left-0 rounded-st karte ${
-                                                      hover
-                                                          ? "selectCard cursor-pointer"
-                                                          : null
-                                                  } `}
-                                                  src={cardPhotos[element.name]}
-                                                  alt={element.name}
-                                                  onClick={selectCardHandler}
-                                                  key={Math.random() * 1000}
-                                              />
-                                          </div>
-                                      );
-                                  })
-                                : null}
-                            <div className="flex gap-4 font-bold flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static text-sm text-center justify-between md:justify-start w-full sm:w-min mt-4 md:mt-0">
-                                {showSchlagTrumpf && schlag !== "?" ? (
-                                    <div className="w-3.625rem">
-                                        <p className="dark:text-white mb-1">
-                                            Schlag
-                                        </p>
-                                        {showSchlagTrumpf ? (
-                                            <img
-                                                src={cardPhotos[schlag]}
-                                                alt={schlag}
-                                                className="w-3.625rem"
-                                            />
-                                        ) : null}
-                                    </div>
-                                ) : null}
-                                {showSchlagTrumpf && schlag !== "?" ? (
-                                    <div className="w-3.625rem">
-                                        <p className="dark:text-white mb-1">
-                                            Trumpf
-                                        </p>
-                                        {showSchlagTrumpf ? (
-                                            <img
-                                                src={cardPhotos[trumpf]}
-                                                alt={trumpf}
-                                                className="w-3.625rem"
-                                            />
-                                        ) : null}
-                                    </div>
-                                ) : null}
-                                <p className="block sm:hidden dark:text-white">
-                                    Geboten:{" "}
-                                    <span className={`font-bold`}>
-                                        {geboten}
-                                    </span>
+                            {/*fenster wenn man gewinnt*/}
+                            {/*fenster wenn geboten wird */}
+                            <div
+                                className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                                    isHaltenWindow ? "fadein" : "fadeout"
+                                }`}
+                            >
+                                <p className="font-medium text-center text-2xl text-white dark:text-black">
+                                    {is4erle && geboten === 2
+                                        ? geboten + 2
+                                        : geboten + 1}{" "}
+                                    halten?
                                 </p>
+                                <div className="flex gap-4">
+                                    <p
+                                        onClick={haltenHandler}
+                                        className="cursor-pointer"
+                                    >
+                                        Ja
+                                    </p>
+                                    <p
+                                        onClick={ablehnenHandler}
+                                        className="cursor-pointer"
+                                    >
+                                        Nein
+                                    </p>
+                                </div>
+                            </div>
+                            {/*fenster für schlagtausch */}
+                            <div
+                                className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                                    isSchlagtauschWindow ? "fadein" : "fadeout"
+                                }`}
+                            >
+                                <p className="font-medium text-center text-2xl text-white dark:text-black">
+                                    Schlagtausch?
+                                </p>
+                                <div className="flex gap-4">
+                                    <p
+                                        onClick={schlagTauschJaHandler}
+                                        className="cursor-pointer"
+                                    >
+                                        Ja
+                                    </p>
+                                    <p
+                                        onClick={schlagTauschNeinHandler}
+                                        className="cursor-pointer"
+                                    >
+                                        Nein
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/*fenster für  schönere*/}
+                            <div
+                                className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                                    isSchönereWindows ? "fadein" : "fadeout"
+                                }`}
+                            >
+                                <p className="font-medium text-center text-2xl text-white dark:text-black">
+                                    Schönere?
+                                </p>
+                                <div className="flex gap-4">
+                                    <p
+                                        onClick={schönereJaHandler}
+                                        className="cursor-pointer"
+                                    >
+                                        Ja
+                                    </p>
+                                    <p
+                                        onClick={schönereNeinHandler}
+                                        className="cursor-pointer"
+                                    >
+                                        Nein
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="flex justify-between mt-28 md:mt-28 mb-16 flex-wrap">
+                                <div className="flex justify-between md:flex-col gap-1 sm:gap-8 md:gap-2 w-full md:w-max mb-4 md:mb-0">
+                                    <button
+                                        onClick={bietenHandler}
+                                        className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
+                                            !isBieten ||
+                                            gebotenDavor ===
+                                                (pos % 2 === 0 ? 1 : 2) ||
+                                            isHaltenWindow ||
+                                            isSchlagtauschWindow ||
+                                            isSchönereWindows ||
+                                            (geboten === 2 && isOneGestrichen())
+                                                ? "opacity-20 cursor-not-allowed"
+                                                : null
+                                        }`}
+                                    >
+                                        Bieten
+                                    </button>
+                                    <button
+                                        onClick={schönereHandler}
+                                        className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
+                                            !isSchönere ||
+                                            hasSchönere ||
+                                            isSchlagtauschWindow ||
+                                            isHaltenWindow ||
+                                            isSchönereWindows
+                                                ? "opacity-20 cursor-not-allowed"
+                                                : null
+                                        }`}
+                                    >
+                                        Schönere
+                                    </button>
+                                    <button
+                                        onClick={schlagtauschHandler}
+                                        className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
+                                            !isSchlagtausch ||
+                                            hasSchlagtausch ||
+                                            isSchlagtauschWindow ||
+                                            isHaltenWindow ||
+                                            isSchönereWindows
+                                                ? "opacity-20 cursor-not-allowed"
+                                                : null
+                                        }`}
+                                    >
+                                        Schlagtausch
+                                    </button>
+                                </div>
+                                {/*my cards*/}
+                                {seeCards
+                                    ? karten.map((element) => {
+                                          return (
+                                              <div className="h-6.73625 md:h-8.421875 w-4.275rem md:w-4.75rem relative">
+                                                  <img
+                                                      className={`h-auto absolute top-0 left-0 rounded-st karte ${
+                                                          hover
+                                                              ? "selectCard cursor-pointer"
+                                                              : null
+                                                      } `}
+                                                      src={
+                                                          cardPhotos[
+                                                              element.name
+                                                          ]
+                                                      }
+                                                      alt={element.name}
+                                                      onClick={
+                                                          selectCardHandler
+                                                      }
+                                                      key={Math.random() * 1000}
+                                                  />
+                                              </div>
+                                          );
+                                      })
+                                    : null}
+                                <div className="flex gap-4 font-bold flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static text-sm text-center justify-between md:justify-start w-full sm:w-min mt-4 md:mt-0">
+                                    {showSchlagTrumpf && schlag !== "?" ? (
+                                        <div className="w-3.625rem">
+                                            <p className="dark:text-white mb-1">
+                                                Schlag
+                                            </p>
+                                            {showSchlagTrumpf ? (
+                                                <img
+                                                    src={cardPhotos[schlag]}
+                                                    alt={schlag}
+                                                    className="w-3.625rem"
+                                                />
+                                            ) : null}
+                                        </div>
+                                    ) : null}
+                                    {showSchlagTrumpf && schlag !== "?" ? (
+                                        <div className="w-3.625rem">
+                                            <p className="dark:text-white mb-1">
+                                                Trumpf
+                                            </p>
+                                            {showSchlagTrumpf ? (
+                                                <img
+                                                    src={cardPhotos[trumpf]}
+                                                    alt={trumpf}
+                                                    className="w-3.625rem"
+                                                />
+                                            ) : null}
+                                        </div>
+                                    ) : null}
+                                    <p className="block sm:hidden dark:text-white">
+                                        Geboten:{" "}
+                                        <span className={`font-bold`}>
+                                            {geboten}
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {/*Rechte Seite */}
-                    <div className="xl:col-span-1 mb-16 flex flex-col">
-                        <SpielInformations
-                            ref={infosRef}
-                            isDarkmode={isDarkmode}
-                            selected={selectedInfo}
-                            setSelected={setSelectedInfo}
-                            karten={kartenStich}
-                            seeStiche={seeStiche}
-                            calcPos={calcPos}
-                            gewinner={stich}
-                            pos={pos}
-                            punkte={punkte}
-                            isTeam1Gestrichen={isTeam1Gestrichen}
-                            isTeam2Gestrichen={isTeam2Gestrichen}
-                            cardPhotos={cardPhotos}
-                        />
-                        <button
-                            className="btn bg-secondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"
-                            onClick={scrollToSpielHandler}
+                        {/*Rechte Seite */}
+                        <div className="xl:col-span-1 mb-16 flex flex-col">
+                            <SpielInformations
+                                ref={infosRef}
+                                isDarkmode={isDarkmode}
+                                selected={selectedInfo}
+                                setSelected={setSelectedInfo}
+                                karten={kartenStich}
+                                seeStiche={seeStiche}
+                                calcPos={calcPos}
+                                gewinner={stich}
+                                pos={pos}
+                                punkte={punkte}
+                                isTeam1Gestrichen={isTeam1Gestrichen}
+                                isTeam2Gestrichen={isTeam2Gestrichen}
+                                cardPhotos={cardPhotos}
+                            />
+                            <button
+                                className="btn bg-secondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"
+                                onClick={scrollToSpielHandler}
+                            >
+                                Zurück zum Spiel
+                            </button>
+                            <Chat
+                                socket={socket}
+                                ref={chatRef}
+                                isDarkmode={isDarkmode}
+                                username={username}
+                            />
+                        </div>
+                        <div
+                            ref={spielRef}
+                            className="flex justify-between gap-16 absolute top-0 w-full xl:hidden -mt-96 pt-96"
                         >
-                            Zurück zum Spiel
-                        </button>
-                        <Chat
-                            socket={socket}
-                            ref={chatRef}
-                            isDarkmode={isDarkmode}
-                            username={username}
-                        />
+                            <button
+                                className="btn bg-white border-4 border-secondary w-28 font-bold"
+                                onClick={scrollToChatHandler}
+                            >
+                                Chat
+                            </button>
+                            <button
+                                className="btn bg-white border-4 border-secondary w-28 font-bold text-black xl:hidden"
+                                onClick={scrollToInfosHandler}
+                            >
+                                Infos
+                            </button>
+                        </div>
                     </div>
-                    <div
-                        ref={spielRef}
-                        className="flex justify-between gap-16 absolute top-0 w-full xl:hidden -mt-96 pt-96"
-                    >
-                        <button
-                            className="btn bg-white border-4 border-secondary w-28 font-bold"
-                            onClick={scrollToChatHandler}
-                        >
-                            Chat
-                        </button>
-                        <button
-                            className="btn bg-white border-4 border-secondary w-28 font-bold text-black xl:hidden"
-                            onClick={scrollToInfosHandler}
-                        >
-                            Infos
-                        </button>
+                ) : exist === false ? (
+                    <div>
+                        <h2 className="dark:text-white text-4xl text-center mt-16">
+                            Dieser Raum existiert nicht oder ist voll
+                        </h2>
+                        <p className="text-sm pt-8 text-center text-gray-600 dark:text-gray-400 mb-8 md:mb-12 lg:mb-16">
+                            Möchten Sie ein Spiel beitreten?{" "}
+                            <Link href="/spielen">
+                                <span className="font-bold cursor-pointer underline text-black dark:text-white">
+                                    Zu den Offenen Spielen
+                                </span>
+                            </Link>
+                        </p>
                     </div>
-                </div>
-            ) : exist === false ? (
-                <div>
-                    <h2 className="dark:text-white text-4xl text-center mt-16">
-                        Dieser Raum existiert nicht oder ist voll
-                    </h2>
-                    <p className="text-sm pt-8 text-center text-gray-600 dark:text-gray-400 mb-8 md:mb-12 lg:mb-16">
-                        Möchten Sie ein Spiel beitreten?{" "}
-                        <Link to="/spielen">
-                            <span className="font-bold underline text-black dark:text-white">
-                                Zu den Offenen Spielen
-                            </span>
-                        </Link>
-                    </p>
-                </div>
-            ) : null}
-        </div>
+                ) : null}
+            </div>
+        </Layout>
     );
 };
 

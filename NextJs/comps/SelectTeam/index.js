@@ -3,27 +3,44 @@ import Team from "./Team";
 import OutsideClickHandler from "react-outside-click-handler";
 import Link from "next/link";
 import { XIcon } from "@heroicons/react/solid";
+import axios from "axios";
+import { useRouter } from "next/router";
 
-const SelectTeam = ({ setShow, setUrl, isDarkmode, setTeam, team, room }) => {
+const SelectTeam = ({ selectTeam, setSelectTeam, team, setTeam }) => {
     const [selected, setSelected] = useState(1);
-    const [data, setData] = useState({
-        users: ["Hirte", "Seppl"],
-        team2: 2,
-        team1: 8,
-    });
-    const [clicked, setClicked] = useState(false);
+    const [data, setData] = useState({ users: [] });
+
+    const router = useRouter();
+
+    useEffect(() => {
+        if (selectTeam.room === undefined) {
+            setSelectTeam({ show: false });
+        } else {
+            console.log(`${process.env.GAMEAPI_URL}/room/${selectTeam.room}`);
+            axios
+                .get(`${process.env.GAMEAPI_URL}/room/${selectTeam.room}`)
+                .then((res) => {
+                    setData(res.data);
+                });
+        }
+    }, []);
 
     const handlenOnClick = () => {
-        setClicked(true);
         setTeam(selected);
     };
+
+    useEffect(() => {
+        if (team !== 0) {
+            router.push(`/spielen/${data.name}`);
+        }
+    }, [team]);
 
     return (
         <Fragment>
             <div className="fixed flex justify-center items-center w-full z-50 h-full left-0 top-0 bg-darkBg backdrop-filter backdrop-blur">
                 <OutsideClickHandler
                     onOutsideClick={() => {
-                        setShow(false);
+                        setSelectTeam((prev) => ({ ...prev, show: false }));
                     }}
                 >
                     <div
@@ -34,7 +51,10 @@ const SelectTeam = ({ setShow, setUrl, isDarkmode, setTeam, team, room }) => {
                         <XIcon
                             className="h-5 absolute right-10 top-10 text-gray hover:text-whiteDark transition-all cursor-pointer"
                             onClick={() => {
-                                setShow(false);
+                                setSelectTeam((prev) => ({
+                                    ...prev,
+                                    show: false,
+                                }));
                             }}
                         />
                         <p className="text_small text-gray dark:text-gray-400 pt-2 text-center mb-8">

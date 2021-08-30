@@ -9,17 +9,18 @@ const Room = ({
     team1_1,
     team2_0,
     team2_1,
-    isDarkmode,
-    setTeam,
+    setSelectTeam,
 }) => {
     const router = useRouter();
 
     const handleOnClick = () => {
+        console.log(`${process.env.GAMEAPI_URL}/room/select/${roomName}`);
         axios
-            .get(`http://82.165.104.152:3003/room/select/${roomName}`)
+            .get(`${process.env.GAMEAPI_URL}/room/select/${roomName}`)
             .then((res) => {
                 if (res.data) {
-                    router.push(`/team/${roomName}`);
+                    //router.push(`/team/${roomName}`);
+                    setSelectTeam({ show: true, room: roomName });
                 } else {
                     router.push(`/spielen/${roomName}`);
                 }

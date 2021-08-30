@@ -164,8 +164,8 @@ function SpielErstellen({ setShow }) {
                                     <div className="flex justify-between gap-4">
                                         <SelectElement
                                             value="Ja"
-                                            setSelectValue={setModus}
-                                            selectValue={modus}
+                                            setSelectValue={setGuten}
+                                            selectValue={guten}
                                         />
                                         <SelectElement
                                             value="Nein"

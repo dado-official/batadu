@@ -10,6 +10,9 @@ const axios = require("axios");
 
 let rooms = []; //array for all rooms
 
+rooms["test"] = new Room({ name: "test", punkte: 18, isPassword: false });
+rooms["test"].kartenMaster.kartenMischen();
+
 app.use(cors());
 app.get("/room/select/:name", (req, res) => {
     let name = req.params.name;
@@ -86,6 +89,7 @@ io.on("connection", (socket) => {
     socket.on("joinRoom", (data) => {
         //client joining a room
         let room = data.room;
+        console.log("User Joined :)");
         let user = data.user;
         let team = data.team;
         let typingUsers = [];
@@ -641,4 +645,4 @@ io.on("connection", (socket) => {
     });
 });
 
-http.listen(8080, () => console.log("listening on http://82.165.104.152:8080"));
+http.listen(8080, () => console.log("listening on http://localhost:8080"));

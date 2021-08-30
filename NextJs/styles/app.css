@@ -437,7 +437,7 @@ body {
 
 @keyframes slide {
     from {
-        transform: translateY(-100%);
+        transform: translateY(-250%);
     }
     to {
         transform: translateY(0);
@@ -445,7 +445,7 @@ body {
 }
 
 .fadeout {
-    transform: translateY(-100%);
+    transform: translateY(-250%);
     transition: 0.5s;
 }
 

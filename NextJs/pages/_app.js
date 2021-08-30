@@ -2,11 +2,12 @@ import "../styles/app.css";
 import { Provider } from "next-auth/client";
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
-let socket = io("http://82.165.104.152:8080");
+let socket = io("http://localhost:8080");
 
 function MyApp({ Component, pageProps }) {
     const [isDarkmode, setIsDarkmode] = useState(false);
     const [reconnect, setReconnect] = useState(false);
+    const [team, setTeam] = useState(0);
 
     useEffect(() => {
         //enable or disable darkmode
@@ -30,6 +31,8 @@ function MyApp({ Component, pageProps }) {
                 isDarkmode={isDarkmode}
                 socket={socket}
                 setReconnect={setReconnect}
+                team={team}
+                setTeam={setTeam}
             />
         </Provider>
     );

@@ -9,12 +9,19 @@ import SpielErstellen from "../../comps/Spiel Erstellen";
 import SelectElement from "../../comps/SelectElement";
 import SelectTeam from "../../comps/SelectTeam";
 
-function Spielen({ session, setIsDarkmode, isDarkmode, socket, setTeam }) {
+function Spielen({
+    session,
+    setIsDarkmode,
+    isDarkmode,
+    socket,
+    setTeam,
+    team,
+}) {
     const [search, setSearch] = useState("");
     const [rooms, setRooms] = useState([]);
     const [showRooms, setShowRooms] = useState([]);
     const [showSpielErstellen, setShowSpielErstellen] = useState(false);
-    const [showSelectTeam, setShowSelectTeam] = useState(true);
+    const [selectTeam, setSelectTeam] = useState({ show: false });
 
     useEffect(() => {
         socket.emit("getRooms");
@@ -40,7 +47,6 @@ function Spielen({ session, setIsDarkmode, isDarkmode, socket, setTeam }) {
         <Layout
             session={session}
             isDarkmode={isDarkmode}
-            setIsDarkmode={setIsDarkmode}
             setIsDarkmode={setIsDarkmode}
         >
             <div className="w-1450 max-w-1/9 mx-auto mt-8 mb-16">
@@ -74,21 +80,10 @@ function Spielen({ session, setIsDarkmode, isDarkmode, socket, setTeam }) {
                                 team2_1={element.users[3]}
                                 isDarkmode={isDarkmode}
                                 key={Math.random() * 1000}
-                                setTeam={setTeam}
+                                setSelectTeam={setSelectTeam}
                             />
                         );
                     })}
-                    <Room
-                        roomName={"Test"}
-                        score1={0}
-                        score2={0}
-                        team1_0={"hirte"}
-                        team1_1={"Bee"}
-                        team2_0={"beee"}
-                        team2_1={"ui8"}
-                        isDarkmode={isDarkmode}
-                        setTeam={setTeam}
-                    />
                 </div>
                 {showRooms.length === 0 ? (
                     <p className="mt-4 dark:text-white text-whiteDark">
@@ -102,7 +97,14 @@ function Spielen({ session, setIsDarkmode, isDarkmode, socket, setTeam }) {
             {showSpielErstellen && (
                 <SpielErstellen setShow={setShowSpielErstellen} />
             )}
-            {showSelectTeam && <SelectTeam setShow={setShowSelectTeam} />}
+            {selectTeam.show && (
+                <SelectTeam
+                    selectTeam={selectTeam}
+                    setSelectTeam={setSelectTeam}
+                    setTeam={setTeam}
+                    team={team}
+                />
+            )}
         </Layout>
     );
 }

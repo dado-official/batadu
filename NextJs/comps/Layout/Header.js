@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import { signIn, signOut } from "next-auth/client";
 import Image from "next/image";
+import logo from "../../public/logo.svg";
 
 function Header({
     isDarkmode,
@@ -13,7 +14,6 @@ function Header({
     session,
 }) {
     const { asPath } = useRouter();
-    console.log(session);
 
     function clickDarkmodeHandler() {
         setIsDarkmode((prev) => {
@@ -29,11 +29,16 @@ function Header({
     return (
         <Fragment>
             {asPath !== "anmelden" ? (
-                <header className="bg-white dark:bg-whiteDark z-50 w-full">
+                <header className="bg-white dark:bg-whiteDark z-1000 w-full">
                     <div className="bg-white dark:bg-whiteDark flex justify-between items-center lg:w-1450 mx-auto max-w-1/9 h-auto">
                         <Link href="/">
                             <div className="flex gap-2 cursor-pointer">
-                                <img src="./logo.svg" alt="4 Wattkarten" />
+                                <Image
+                                    src="/logo.svg"
+                                    width="50"
+                                    height="40"
+                                    alt="4 Wattkarten"
+                                />
                                 <h4 className=" text-logoGray dark:text-gray-100 text-7.5 font-abril font-normal">
                                     Batadú
                                 </h4>

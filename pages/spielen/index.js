@@ -5,11 +5,13 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { PlusIcon } from "@heroicons/react/solid";
 import Room from "../../comps/Room";
+import SpielErstellen from "../../comps/Spiel Erstellen";
 
 function Spielen({ session, setIsDarkmode, isDarkmode, socket, setTeam }) {
     const [search, setSearch] = useState("");
     const [rooms, setRooms] = useState([]);
     const [showRooms, setShowRooms] = useState([]);
+    const [showSpielErstellen, setShowSpielErstellen] = useState(true);
 
     useEffect(() => {
         socket.emit("getRooms");
@@ -48,12 +50,13 @@ function Spielen({ session, setIsDarkmode, isDarkmode, socket, setTeam }) {
                             isDarkmode={isDarkmode}
                         />
                     </div>
-                    <Link href="/spielen/erstellen" className="w-full md:w-max">
-                        <button className="w-full md:w-max py-1.5 gap-2 rounded-st bg-primary dark:bg-primaryDark text-white dark:text-black mb-6 flex justify-center items-center px-8">
-                            <PlusIcon className="h-5" />
-                            Spiel erstellen
-                        </button>
-                    </Link>
+                    <button
+                        className="w-full md:w-max py-1.5 gap-2 rounded-st bg-primary dark:bg-primaryDark text-white dark:text-black mb-6 flex justify-center items-center px-8"
+                        onClick={() => setShowSpielErstellen(true)}
+                    >
+                        <PlusIcon className="h-5" />
+                        Spiel erstellen
+                    </button>
                 </div>
                 <div className="grid gap-x-16 gap-y-8 grid-flow-row grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     {showRooms.map((element) => {
@@ -93,6 +96,9 @@ function Spielen({ session, setIsDarkmode, isDarkmode, socket, setTeam }) {
                     </p>
                 ) : null}
             </div>
+            {showSpielErstellen && (
+                <SpielErstellen setShow={setShowSpielErstellen} />
+            )}
         </Layout>
     );
 }

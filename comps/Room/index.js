@@ -1,4 +1,3 @@
-import React from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 
@@ -14,6 +13,7 @@ const Room = ({
     setTeam,
 }) => {
     const router = useRouter();
+
     const handleOnClick = () => {
         axios
             .get(`http://82.165.104.152:3003/room/select/${roomName}`)

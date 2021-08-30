@@ -64,6 +64,10 @@ small,
     @apply py-1.5 px-4 rounded-st focus:outline-none cursor-pointer;
 }
 
+.input {
+    @apply focus:outline-none dark:bg-whiteDark dark:text-white bg-bgWhite w-full py-2 px-4 rounded-st border-2 border-gray focus:ring-4 ring-primaryLight focus:border-primary transition-all text-black;
+}
+
 .primaryDarkSVG {
     filter: invert(56%) sepia(99%) saturate(1400%) hue-rotate(306deg)
         brightness(98%) contrast(96%);

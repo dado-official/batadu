@@ -26,6 +26,8 @@ module.exports = {
                 roomBlack: "#1E1E1E",
                 borderBlack: "#535353",
                 chatBlack: "#4B4B4B",
+                darkBg: "rgba(0,0,0,0.4)",
+                gray: "#8f8f8f",
             },
             spacing: {
                 1450: "1400px",

@@ -17,6 +17,7 @@ module.exports = {
                 roomGray: "#d9d9d9",
                 tableGray: "#CECECE",
                 borderGray: "#858585",
+                borderGray2: "#E1E1E1",
                 primaryLight: "#E3A2B1",
                 primaryLightDark: "#7E3A4A",
                 spielGray: "#E6E6E6",
@@ -28,6 +29,7 @@ module.exports = {
                 chatBlack: "#4B4B4B",
                 darkBg: "rgba(0,0,0,0.4)",
                 gray: "#8f8f8f",
+                grayLight: "#A7A7A7",
             },
             spacing: {
                 1450: "1400px",

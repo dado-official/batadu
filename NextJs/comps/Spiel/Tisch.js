@@ -4,6 +4,7 @@ import NameContainer from "./NameContainer";
 import StatusContainer from "./StatusContainer";
 import UserGameInfo from "./UserGameInfo";
 import axios from "axios";
+import ProfilePicture from "./ProfilePicture";
 
 const Tisch = ({
     geboten,
@@ -28,8 +29,8 @@ const Tisch = ({
         for (let i = 0; i < users.length; i++) {
             if (users[i] !== undefined && users[i] !== null) {
                 if (level[i].user === undefined && level[i].user !== users[i]) {
-                    axios
-                        .get("http://82.165.104.152:42069/user/level", {
+                    /*axios
+                        .get(`http://82.165.104.152:42069/user/level`, {
                             params: { username: users[i] },
                         })
                         .then((data) => {
@@ -37,13 +38,17 @@ const Tisch = ({
                             newLevels[i].level = data.data.currentlevel.nr;
                             newLevels[i].user = users[i];
                             setLevel(newLevels);
-                        });
+                        });*/
+                    const newLevels = level.slice();
+                    newLevels[i].level = 5;
+                    newLevels[i].user = users[i];
+                    setLevel(newLevels);
                 }
             }
         }
     }, [users]);
     return (
-        <div className="w-90% pt-90% sm:pt-0 sm:w-29rem sm:h-29rem flex items-center justify-center bg-tableGray dark:bg-whiteDark relative rounded-full border-8 sm:border-12 border-borderGray dark:border-borderBlack">
+        <div className="w-90% pt-90% sm:pt-0 sm:w-29rem sm:h-29rem flex items-center justify-center bg-tableGray dark:bg-whiteDark relative rounded-full border-8 sm:border-12 border-borderGray2 dark:border-borderBlack">
             {/*cards*/}
             {/*Kate oben */}
             {karten[calcPos(2 + pos)] !== undefined &&
@@ -96,47 +101,47 @@ const Tisch = ({
             {users[calcPos(2 + pos)] !== undefined &&
             users[calcPos(2 + pos)] !== null ? (
                 <div className="absolute -top-10 left-1/2 topBadge">
-                    <LevelBadge
-                        className="tisch"
+                    <ProfilePicture
                         level={level[calcPos(2 + pos)].level}
-                        isDarkmode={isDarkmode}
+                        size={70}
+                        imgSrc="https://avatars.githubusercontent.com/u/63723690?v=4"
                     />
                 </div>
             ) : null}
             {users[calcPos(3 + pos)] !== undefined &&
             users[calcPos(3 + pos)] !== null ? (
                 <div className="absolute top-1/2 -left-10 leftBadge">
-                    <LevelBadge
-                        className="tisch"
+                    <ProfilePicture
                         level={level[calcPos(3 + pos)].level}
-                        isDarkmode={isDarkmode}
+                        size={70}
+                        imgSrc="https://avatars.githubusercontent.com/u/63723690?v=4"
                     />
                 </div>
             ) : null}
             {users[calcPos(1 + pos)] !== undefined &&
             users[calcPos(1 + pos)] !== null ? (
                 <div className="absolute top-1/2 -right-10 rightBadge">
-                    <LevelBadge
-                        className="tisch"
+                    <ProfilePicture
                         level={level[calcPos(1 + pos)].level}
-                        isDarkmode={isDarkmode}
+                        size={70}
+                        imgSrc="https://avatars.githubusercontent.com/u/63723690?v=4"
                     />
                 </div>
             ) : null}
             {users[calcPos(0 + pos)] !== undefined &&
             users[calcPos(0 + pos)] !== null ? (
                 <div className="absolute -bottom-10 left-1/2 bottomBadge">
-                    <LevelBadge
-                        className="tisch"
+                    <ProfilePicture
                         level={level[calcPos(0 + pos)].level}
-                        isDarkmode={isDarkmode}
+                        size={70}
+                        imgSrc="https://avatars.githubusercontent.com/u/63723690?v=4"
                     />
                 </div>
             ) : null}
             {/*AccountsInformations */}
             {users[calcPos(2 + pos)] !== undefined &&
             users[calcPos(2 + pos)] !== null ? (
-                <div className="absolute -top-10 top md:left-1/2 flex flex-col items-center">
+                <div className="absolute -top-10 top md:left-1/2 -ml-2 bg-bgWhite py-3 px-4 rounded-st bg-opacity-50 shadow-sm text-right -mt-3 transition-all hover:shadow-md hover:bg-opacity-70">
                     <NameContainer name={users[calcPos(2 + pos)]} />
                     <UserGameInfo
                         stiche={stiche[calcPos(2 + pos)]}
@@ -150,7 +155,7 @@ const Tisch = ({
 
             {users[calcPos(3 + pos)] !== undefined &&
             users[calcPos(3 + pos)] !== null ? (
-                <div className="absolute top-1/2 left -left-4 flex flex-col items-center">
+                <div className="absolute top-1/2 left -left-4 bg-bgWhite shadow-sm rounded-st py-3 px-4 -mt-5 -ml-1 transition-all hover:shadow-md">
                     <NameContainer name={users[calcPos(3 + pos)]} />
                     <UserGameInfo
                         stiche={stiche[calcPos(3 + pos)]}
@@ -164,7 +169,7 @@ const Tisch = ({
 
             {users[calcPos(1 + pos)] !== undefined &&
             users[calcPos(1 + pos)] !== null ? (
-                <div className="absolute top-1/2 -right-4 right flex flex-col items-center">
+                <div className="absolute top-1/2 -right-7 -mt-5 mr-1 right shadow-sm py-3 px-4 rounded-st hover:shadow-md transition-all">
                     <NameContainer name={users[calcPos(1 + pos)]} />
                     <UserGameInfo
                         stiche={stiche[calcPos(1 + pos)]}
@@ -178,7 +183,7 @@ const Tisch = ({
 
             {users[calcPos(0 + pos)] !== undefined &&
             users[calcPos(0 + pos)] !== null ? (
-                <div className="absolute -bottom-4 bottom left-1/2 flex flex-col items-center">
+                <div className="absolute -bottom-5 bottom left-1/2 bg-bgWhite bg-opacity-50 ml-2 shadow-sm py-3 px-4 rounded-st transition-all hover:shadow-md hover:bg-opacity-70">
                     <NameContainer name={users[calcPos(0 + pos)]} />
                     <UserGameInfo
                         stiche={stiche[calcPos(0 + pos)]}

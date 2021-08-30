@@ -13,7 +13,6 @@ const Spiel = ({
     isDarkmode,
     socket,
     team,
-    username,
     setReconnect,
     room,
     session,
@@ -65,6 +64,8 @@ const Spiel = ({
     const spielRef = useRef();
 
     const router = useRouter();
+
+    const username = session.user.name;
 
     /*const [sound1] = useSound(sound1Mp3, { volume: 0.5 });
     const [sound2] = useSound(sound2Mp3, { volume: 0.2 });

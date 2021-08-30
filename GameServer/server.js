@@ -90,6 +90,7 @@ io.on("connection", (socket) => {
         //client joining a room
         let room = data.room;
         console.log("User Joined :)");
+        console.log(data.user);
         let user = data.user;
         let team = data.team;
         let typingUsers = [];

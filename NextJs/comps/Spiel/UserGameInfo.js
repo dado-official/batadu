@@ -1,12 +1,8 @@
 const UserGameInfo = ({ team, stiche }) => {
     return (
-        <div className="flex">
-            <p className="bg-primaryLight dark:bg-primaryLightDark text-xxs sm:text-xs text-black dark:text-white py-1 sm:py-2 px-2 sm:px-3 border-gray-700 dark:border-gray-300 border-r-2 rounded-l-st">
-                Team <span className="font-bold">{team}</span>
-            </p>
-            <p className="bg-primaryLight dark:bg-primaryLightDark text-xxs sm:text-xs text-black dark:text-white py-1 sm:py-2 px-2 sm:px-3 rounded-r-st">
-                <span className="font-bold">{stiche}</span> Stiche
-            </p>
+        <div className="text_small  text-gray">
+            <p className="-mb-1">Stiche: {stiche}</p>
+            <p>Team: {team}</p>
         </div>
     );
 };

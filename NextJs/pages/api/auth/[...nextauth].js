@@ -31,6 +31,13 @@ export default NextAuth({
         signIn: "/anmelden",
     },
 
+    callbacks: {
+        session: async (session, user) => {
+            session.userId = user.id;
+            return Promise.resolve(session);
+        },
+    },
+
     // A database is optional, but required to persist accounts in a database
     database: process.env.DATABASE_URL,
 });

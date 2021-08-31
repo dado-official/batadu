@@ -43,10 +43,7 @@ const SelectTeam = ({ selectTeam, setSelectTeam, team, setTeam }) => {
                         setSelectTeam((prev) => ({ ...prev, show: false }));
                     }}
                 >
-                    <div
-                        className="flex relative bg-white p-10 rounded-st justify-center items-center flex-col m-auto max-w-1/9"
-                        style={{ width: "30rem" }}
-                    >
+                    <div className="flex relative bg-white p-10 rounded-st justify-center items-center flex-col m-auto max-w-1/9">
                         <h3 className="dark:text-white">Team aussuchen</h3>
                         <XIcon
                             className="h-5 absolute right-10 top-10 text-gray hover:text-whiteDark transition-all cursor-pointer"

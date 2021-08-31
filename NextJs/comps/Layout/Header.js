@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
-import { MoonIcon, SunIcon } from "@heroicons/react/solid";
+import { LogoutIcon, MoonIcon, SunIcon } from "@heroicons/react/solid";
 import { signIn, signOut } from "next-auth/client";
 import Image from "next/image";
 import logo from "../../public/logo.svg";
@@ -109,12 +109,10 @@ function Header({
                                     <p className="dark:text-white">
                                         {session.user.name}
                                     </p>
-                                    <button
+                                    <LogoutIcon
                                         onClick={signOut}
-                                        className="btn text-base ml-4 text-white dark:text-black bg-primary dark:bg-primaryDark"
-                                    >
-                                        Abmelden
-                                    </button>
+                                        className="cursor-pointer h-5 ml-4 text-statistikGray"
+                                    />
                                 </div>
                             ) : (
                                 <Link href="/anmelden">

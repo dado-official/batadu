@@ -98,7 +98,7 @@ io.on("connection", (socket) => {
         if (
             rooms[room] === undefined ||
             rooms[room].freePos.length === 0 ||
-            rooms[room].userPos.includes(user)
+            rooms[room].userPos.some((e) => e?.userId === user.userId)
         ) {
             socket.emit("roomNotExist");
             return;

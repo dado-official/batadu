@@ -43,7 +43,7 @@ const Room = ({
                     >
                         {team1_0 === undefined || team1_0 === null
                             ? "offen"
-                            : team1_0}
+                            : team1_0.username}
                     </p>
                     <h5 className="text-right mr-2 font-medium text-primary dark:text-primaryDark">
                         {score1}
@@ -57,7 +57,7 @@ const Room = ({
                     >
                         {team1_1 === undefined || team1_1 === null
                             ? "offen"
-                            : team1_1}
+                            : team1_1.username}
                     </p>
                 </div>
                 <div className="flex flex-1 flex-col py-3 px-2">
@@ -70,7 +70,7 @@ const Room = ({
                     >
                         {team2_0 === undefined || team2_0 === null
                             ? "offen"
-                            : team2_0}
+                            : team2_0.username}
                     </p>
                     <h5 className="text-left ml-2 font-medium text-primary dark:text-primaryDark">
                         {score2}
@@ -84,7 +84,7 @@ const Room = ({
                     >
                         {team2_1 === undefined || team2_1 === null
                             ? "offen"
-                            : team2_1}
+                            : team2_1.username}
                     </p>
                 </div>
             </div>

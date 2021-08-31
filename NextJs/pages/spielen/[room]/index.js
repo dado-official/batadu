@@ -17,6 +17,7 @@ const Spiel = ({
     room,
     session,
     setIsDarkmode,
+    userId,
 }) => {
     const [isPassword, setIsPassword] = useState(false);
     const [geboten, setGeboten] = useState(2);
@@ -75,14 +76,19 @@ const Spiel = ({
     function joinGame() {
         socket.emit("joinRoom", {
             room: room,
-            user: username,
+            user: {
+                userId: userId,
+                username: username,
+                userPic: session.user.image,
+                level: 2,
+            },
             team: team,
         });
     }
 
     useEffect(() => {
         if (room === "undefined") {
-            history.push("/");
+            router.push("/spielen");
         }
         setReconnect(false);
         axios
@@ -104,7 +110,7 @@ const Spiel = ({
             setStatus(users.userStatus);
 
             if (pos === undefined) {
-                setPos(users.userPos.indexOf(username));
+                setPos(users.userPos.map((e) => e?.userId).indexOf(userId));
             }
         });
         socket.on("status", (status) => {
@@ -769,11 +775,13 @@ export async function getServerSideProps(context) {
 
     if (session && session.accessToken) {
         const { room } = context.query;
+        const { userId } = session;
 
         return {
             props: {
                 session: session,
                 room: room,
+                userId: userId,
             },
         };
     }

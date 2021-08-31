@@ -87,7 +87,7 @@ function Spielen({
                 </div>
                 {showRooms.length === 0 ? (
                     <p className="mt-4 dark:text-white text-whiteDark">
-                        Keine Spiele gefunden, Sie können selbts ein Spiel
+                        Keine Spiele gefunden, Sie können selbst ein Spiel
                         erstellen indem Sie auf{" "}
                         <span className="font-bold">Spiel erstellen</span>{" "}
                         drücken
@@ -95,7 +95,10 @@ function Spielen({
                 ) : null}
             </div>
             {showSpielErstellen && (
-                <SpielErstellen setShow={setShowSpielErstellen} />
+                <SpielErstellen
+                    setShow={setShowSpielErstellen}
+                    socket={socket}
+                />
             )}
             {selectTeam.show && (
                 <SelectTeam

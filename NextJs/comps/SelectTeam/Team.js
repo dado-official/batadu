@@ -27,11 +27,12 @@ const Team = ({ spieler1, spieler2, punkte, team, selected, setSelected }) => {
                     </div>
                 )}
                 <p
-                    className={`px-2 whitespace-nowrap max-w-xs overflow-hidden ${
+                    className={`px-2 whitespace-nowrap overflow-hidden ${
                         spieler1 === undefined || spieler1 === null
                             ? "text-secondary dark:text-secondaryDark underline"
                             : "dark:text-white"
                     }`}
+                    style={{ maxWidth: "8rem" }}
                 >
                     {spieler1 === undefined || spieler1 === null
                         ? "offen"
@@ -55,6 +56,7 @@ const Team = ({ spieler1, spieler2, punkte, team, selected, setSelected }) => {
                             ? "text-secondary dark:text-secondaryDark underline"
                             : "dark:text-white"
                     }`}
+                    style={{ maxWidth: "8rem" }}
                 >
                     {spieler2 === undefined || spieler2 === null
                         ? "offen"

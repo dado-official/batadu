@@ -3,20 +3,22 @@ import SelectElement from "../SelectElement";
 import Link from "next/link";
 import OutsideClickHandler from "react-outside-click-handler";
 import { XIcon } from "@heroicons/react/solid";
-
 import { Fragment } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
 
-function SpielErstellen({ setShow }) {
+function SpielErstellen({ setShow, socket }) {
     const [spielName, setSpielName] = useState("");
     const [punkte, setPunkte] = useState("18");
     const [runde, setRunde] = useState("Pausieren");
     const [password, setPassword] = useState("");
-    const [isPassword, setIsPassword] = useState(true);
     const [spieler, setSpieler] = useState("4");
     const [modus, setModus] = useState("Blind");
     const [warten, setWarten] = useState("10");
     const [guten, setGuten] = useState("Nein");
     const [problem, setProblem] = useState("");
+
+    const router = useRouter();
 
     function spielNameHandler(e) {
         setSpielName(e.target.value);
@@ -26,8 +28,41 @@ function SpielErstellen({ setShow }) {
         setPassword(e.target.value);
     }
 
-    function isPasswordHandler(e) {
-        setIsPassword((prev) => !prev);
+    function erstellenSpielHandler() {
+        if (spielName === "" || spielName === " ") {
+            setProblem("Bitte tragen Sie einen Spielnamen ein!");
+        } else {
+            if (spielName.length > 31) {
+                setProblem("Spielname muss kleiner als 32 Zeichen sein!");
+            } else {
+                axios
+                    .get(
+                        `${process.env.GAMEAPI_URL}/room/available/${spielName}`
+                    )
+                    .then((res) => {
+                        console.log(res.data);
+                        if (res.data) {
+                            setProblem(
+                                "Dieser Spielname gibt es schon, wählen Sie bitte einen anderen."
+                            );
+                        } else {
+                            socket.emit("createRoom", {
+                                spielerAnzahl: spieler,
+                                punkte: punkte,
+                                runde: runde,
+                                spieler: spieler,
+                                name: spielName,
+                                modus: modus,
+                                password: password,
+                                modus: modus,
+                                warten: warten,
+                                gute: guten,
+                            });
+                            router.push(`/spielen/${spielName}`);
+                        }
+                    });
+            }
+        }
     }
 
     return (
@@ -210,8 +245,12 @@ function SpielErstellen({ setShow }) {
                         >
                             {problem}
                         </p>
+
                         {/*Button + Zurück Link*/}
-                        <button className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4">
+                        <button
+                            onClick={erstellenSpielHandler}
+                            className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
+                        >
                             <p>Erstellen</p>
                         </button>
                         <p className="text-sm pt-8 text-gray-600 dark:text-gray-400">

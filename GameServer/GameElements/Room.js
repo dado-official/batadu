@@ -317,6 +317,7 @@ class Room {
             users: this.userPos,
             team1: this.team1Punkte,
             team2: this.team2Punkte,
+            config: this.configRoom,
         };
     }
 

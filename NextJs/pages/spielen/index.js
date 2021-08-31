@@ -74,12 +74,10 @@ function Spielen({
                                 roomName={element.name}
                                 score1={element.team1}
                                 score2={element.team2}
-                                team1_0={element.users[0]}
-                                team1_1={element.users[2]}
-                                team2_0={element.users[1]}
-                                team2_1={element.users[3]}
+                                users={element.users}
                                 isDarkmode={isDarkmode}
-                                key={Math.random() * 1000}
+                                config={element.config}
+                                key={element.name}
                                 setSelectTeam={setSelectTeam}
                             />
                         );

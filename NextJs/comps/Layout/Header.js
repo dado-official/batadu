@@ -29,7 +29,7 @@ function Header({
     return (
         <Fragment>
             {asPath !== "anmelden" ? (
-                <header className="bg-white dark:bg-whiteDark z-1000 w-full">
+                <header className="bg-white shadow dark:bg-whiteDark z-1000 w-full">
                     <div className="bg-white dark:bg-whiteDark flex justify-between items-center lg:w-1450 mx-auto max-w-1/9 h-auto">
                         <Link href="/">
                             <div className="flex gap-2 cursor-pointer">

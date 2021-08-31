@@ -577,7 +577,7 @@ io.on("connection", (socket) => {
 
                         //neu ziehen
                     }
-                }, 7000);
+                }, rooms[room].waitingTime);
                 //gewinner ziehen und neu legen
             }
         });

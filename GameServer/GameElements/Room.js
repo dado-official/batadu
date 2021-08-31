@@ -4,6 +4,7 @@ class Room {
     constructor(config) {
         this.configRoom = config;
         this.name = config.name;
+        this.waitingTime = parseInt(config.warten);
         this.maxPoints = config.punkte;
         this.isPassword = config.isPassword;
         this.password = "";

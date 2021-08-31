@@ -11,7 +11,7 @@ module.exports = {
                 bgWhite: "#eeeff2",
                 bgWhiteDark: "##E2E2E2",
                 bgDark: "#121212",
-                secondary: "#03A57A",
+                secondary: "#39C15D",
                 secondaryDark: "#06D6A0",
                 logoGray: "#545454",
                 roomGray: "#d9d9d9",
@@ -30,6 +30,7 @@ module.exports = {
                 darkBg: "rgba(0,0,0,0.4)",
                 gray: "#8f8f8f",
                 grayLight: "#A7A7A7",
+                buttonGray: "#E2E2E2",
             },
             spacing: {
                 1450: "1400px",

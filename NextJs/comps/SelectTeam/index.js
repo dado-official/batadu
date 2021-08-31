@@ -78,7 +78,7 @@ const SelectTeam = ({ selectTeam, setSelectTeam, team, setTeam }) => {
                             onClick={handlenOnClick}
                             className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
                         >
-                            <p>Teilnehmen</p>
+                            <p>Beitreten</p>
                         </div>
                         <p className="text_small pt-8 text-gray dark:text-gray-400">
                             Möchten Sie ein anderes Spiel beitreten?{" "}

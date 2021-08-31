@@ -14,7 +14,7 @@ function SpielErstellen({ setShow, socket }) {
     const [password, setPassword] = useState("");
     const [spieler, setSpieler] = useState("4");
     const [modus, setModus] = useState("Blind");
-    const [warten, setWarten] = useState("10");
+    const [warten, setWarten] = useState("8");
     const [guten, setGuten] = useState("Nein");
     const [problem, setProblem] = useState("");
 

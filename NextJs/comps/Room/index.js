@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
+import Image from "next/image";
 import axios from "axios";
+import { Fragment } from "react";
 
 const Room = ({
     roomName,
@@ -28,72 +30,100 @@ const Room = ({
     };
 
     return (
-        <div className="w-full">
-            <p className="bg-roomGray dark:bg-roomBlack dark:text-white text-center py-2 rounded-t-st border-gray-400 border-b-2 dark:border-black">
-                {roomName}
-            </p>
-            <div className="flex bg-white dark:bg-whiteDark justify-center dark:text-white text-whiteDark">
-                <div className="flex flex-1 flex-col py-3 px-2 border-gray-400 dark:border-black border-r-2">
-                    <p
-                        className={`w-12ch text_small text-center ${
-                            team1_0 === undefined || team1_0 === null
-                                ? "text-secondary dark:text-secondaryDark underline"
-                                : null
-                        }`}
-                    >
-                        {team1_0 === undefined || team1_0 === null
-                            ? "offen"
-                            : team1_0.username}
-                    </p>
-                    <h5 className="text-right mr-2 font-medium text-primary dark:text-primaryDark">
-                        {score1}
-                    </h5>
-                    <p
-                        className={`w-12ch text_small text-center ${
-                            team1_1 === undefined || team1_1 === null
-                                ? "text-secondary dark:text-secondaryDark underline"
-                                : null
-                        }`}
-                    >
-                        {team1_1 === undefined || team1_1 === null
-                            ? "offen"
-                            : team1_1.username}
-                    </p>
+        <div className="w-full bg-white shadow hover:shadow-lg transition-all py-4 px-5 rounded-st flex gap-16">
+            <div className="flex-1">
+                <div className="mb-1 flex gap-6 text_small text-borderGray">
+                    <p>Bis: 18</p>
+                    <p>Bei Spieler Disconnect, Runde: Pausieren</p>
+                    <p>Welli hat einen Guten: Nein</p>
+                    <p>Wartezeit nach Stich: 8 Sekunden</p>
                 </div>
-                <div className="flex flex-1 flex-col py-3 px-2">
-                    <p
-                        className={`w-12ch text_small text-center ml-auto ${
-                            team2_0 === undefined || team2_0 === null
-                                ? "text-secondary dark:text-secondaryDark underline"
-                                : null
-                        }`}
-                    >
-                        {team2_0 === undefined || team2_0 === null
-                            ? "offen"
-                            : team2_0.username}
-                    </p>
-                    <h5 className="text-left ml-2 font-medium text-primary dark:text-primaryDark">
-                        {score2}
-                    </h5>
-                    <p
-                        className={`w-12ch text_small text-center ml-auto ${
-                            team2_1 === undefined || team2_1 === null
-                                ? "text-secondary dark:text-secondaryDark underline"
-                                : null
-                        }`}
-                    >
-                        {team2_1 === undefined || team2_1 === null
-                            ? "offen"
-                            : team2_1.username}
-                    </p>
+                <div className="flex justify-between">
+                    <h5 className="">{roomName}</h5>
+                    <p className="">2/4 Spieler</p>
+                </div>
+                <div className="flex gap-12 text-black">
+                    <div className="w-full text_small mt-3 flex items-center gap-4">
+                        <p>Team 1:</p>
+                        {team1_0 ? (
+                            <Fragment>
+                                <div className="h-6 w-6 relative rounded-full -mr-2">
+                                    <Image
+                                        src={team1_0.userPic}
+                                        layout="fill"
+                                        objectFit="contain"
+                                        className="rounded-full"
+                                    />{" "}
+                                </div>
+                                <p>{team1_0.username}</p>
+                            </Fragment>
+                        ) : (
+                            <p className="text-secondary">offen</p>
+                        )}
+                        {team1_1 ? (
+                            <Fragment>
+                                <div className="h-6 w-6 relative rounded-full -mr-2">
+                                    <Image
+                                        src={team1_1.userPic}
+                                        layout="fill"
+                                        objectFit="contain"
+                                        className="rounded-full"
+                                    />{" "}
+                                </div>
+                                <p>{team1_1.username}</p>
+                            </Fragment>
+                        ) : (
+                            <p className="text-secondary">offen</p>
+                        )}
+                        <p className="flex-1 text-right text-base text-black">
+                            {score1}
+                        </p>
+                    </div>
+                    <div className="w-full text_small mt-3 flex items-center gap-4">
+                        <p className="flex-1 text-base text-black">{score2}</p>
+                        <p>Team 2:</p>
+                        {team2_0 ? (
+                            <Fragment>
+                                <div className="h-6 w-6 relative rounded-full -mr-2">
+                                    <Image
+                                        src={team2_0.userPic}
+                                        layout="fill"
+                                        objectFit="contain"
+                                        className="rounded-full"
+                                    />{" "}
+                                </div>
+                                <p>{team2_0.username}</p>
+                            </Fragment>
+                        ) : (
+                            <p className="text-secondary">offen</p>
+                        )}
+                        {team2_1 ? (
+                            <Fragment>
+                                <div className="h-6 w-6 relative rounded-full -mr-2">
+                                    <Image
+                                        src={team2_1.userPic}
+                                        layout="fill"
+                                        objectFit="contain"
+                                        className="rounded-full"
+                                    />{" "}
+                                </div>
+                                <p>{team2_1.username}</p>
+                            </Fragment>
+                        ) : (
+                            <p className="text-secondary">offen</p>
+                        )}
+                    </div>
                 </div>
             </div>
-            <button
-                onClick={handleOnClick}
-                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-b-st flex justify-center gap-2 cursor-pointer"
-            >
-                <p>Teilnehmen</p>
-            </button>
+            <div className="flex flex-col justify-between">
+                <button
+                    onClick={handleOnClick}
+                    className=" bg-bgWhite hover:bg-buttonGray transition-all rounded-st py-1.5 px-4 w-44 cursor-pointer text-center"
+                >
+                    Beitreten
+                </button>
+                <button className="">Zuschauen</button>
+            </div>
         </div>
     );
 };

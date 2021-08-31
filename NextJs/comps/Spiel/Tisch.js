@@ -126,7 +126,7 @@ const Tisch = ({
 
             {users[calcPos(3 + pos)] !== undefined &&
             users[calcPos(3 + pos)] !== null ? (
-                <div className="absolute top-1/2 left -left-4 bg-bgWhite shadow-sm rounded-st py-3 px-4 -mt-5 -ml-1 transition-all hover:shadow-md">
+                <div className="absolute top-1/2 left -left-4 bg-bgWhite bg-opacity-90 hover:bg-opacity-100 shadow-sm rounded-st py-3 px-4 -mt-5 -ml-1 transition-all hover:shadow-md">
                     <NameContainer name={users[calcPos(3 + pos)].username} />
                     <UserGameInfo
                         stiche={stiche[calcPos(3 + pos)]}

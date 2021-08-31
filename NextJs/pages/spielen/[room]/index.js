@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Fragment } from "react";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/client";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { cardPhotos } from "../../../comps/Spiel/Karten";
 import SpielInformations from "../../../comps/Spiel/SpielInformations";
 import Chat from "../../../comps/Spiel/Chat";
 import Layout from "../../../comps/Layout";
+import SpectatorElement from "../../../comps/Spiel/SpectatorElement";
 
 const Spiel = ({
     isDarkmode,
@@ -31,6 +32,74 @@ const Spiel = ({
     const [hover, setHover] = useState(false);
     const [teams, setTeams] = useState([]);
     const [stiche, setStiche] = useState([]);
+    const [spectators, setSpectators] = useState([
+        {
+            userId: 5,
+            username: "Hirte51",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+        {
+            userId: 5,
+            username: "Hirte51",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+        {
+            userId: 5,
+            username: "Hirte51",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+        {
+            userId: 5,
+            username: "Hirte51",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+        {
+            userId: 5,
+            username: "Hirte51",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+        {
+            userId: 5,
+            username: "Hirte51",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+        {
+            userId: 5,
+            username: "Hirte51",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+        {
+            userId: 5,
+            username: "Hirte51",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+        {
+            userId: 5,
+            username: "Hirte51asdfasdfasdfasdf",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+        {
+            userId: 5,
+            username: "Hirte51asdfasdfasdfasdf",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+        {
+            userId: 5,
+            username: "Hirte5asdfasdfasdf1",
+            userPic:
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+        },
+    ]);
     const [status, setStatus] = useState([]);
     const [myStatus, setMyStatus] = useState("");
     const [seeCards, setSeeCards] = useState(false);
@@ -450,7 +519,7 @@ const Spiel = ({
                         room={room}
                     />
                 ) : exist ? (
-                    <div className="relative grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-16">
+                    <div className="relative grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-8">
                         <div className="xl:col-span-2 relative">
                             {/*Countdown bar */}
                             <div
@@ -459,23 +528,36 @@ const Spiel = ({
                                 } h-2 bg-secondary z-30 dark:bg-secondaryDark absolute rounded-st bottom-0 mb-16`}
                             ></div>
                             <div
-                                className={`flex justify-center mt-8 ${
+                                className={`flex relative justify-center mt-8 ${
                                     isOver ? "h-32" : null
                                 }`}
                             >
                                 {!isOver ? (
-                                    <Tisch
-                                        geboten={geboten}
-                                        isDarkmode={isDarkmode}
-                                        users={users}
-                                        pos={pos}
-                                        teams={teams}
-                                        stiche={stiche}
-                                        status={status}
-                                        calcPos={calcPos}
-                                        karten={kartenTisch}
-                                        cardPhotos={cardPhotos}
-                                    />
+                                    <Fragment>
+                                        <div className="absolute left-0 -top-8">
+                                            <p>
+                                                Spectators: {spectators.length}
+                                            </p>
+                                            {spectators.map((element) => (
+                                                <SpectatorElement
+                                                    data={element}
+                                                    key={element.key}
+                                                />
+                                            ))}
+                                        </div>
+                                        <Tisch
+                                            geboten={geboten}
+                                            isDarkmode={isDarkmode}
+                                            users={users}
+                                            pos={pos}
+                                            teams={teams}
+                                            stiche={stiche}
+                                            status={status}
+                                            calcPos={calcPos}
+                                            karten={kartenTisch}
+                                            cardPhotos={cardPhotos}
+                                        />
+                                    </Fragment>
                                 ) : (
                                     <div className="bg-white h-bottomSpiel dark:bg-whiteDark absolute w-full top-0 left-0 z-20 rounded-st flex justify-center items-center">
                                         <div className="flex justify-center items-center flex-col w-96 max-w-1/9">

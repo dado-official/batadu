@@ -86,6 +86,39 @@ io.on("connection", (socket) => {
         socket.emit("rooms", roomsSend);
     });
 
+    socket.on("spectateRoom", (data) => {
+        let room = data.room;
+        console.log("New Spectator :)");
+        let user = data.user;
+        if (!rooms[room]) {
+            socket.emit("roomNotExist");
+            return;
+        }
+        socket.emit("roomExist");
+        socket.join(room); //joinig a room
+        rooms[room]?.spectators.push(user);
+        io.to(room).emit("spectators", {
+            spectators: rooms[room].spectators,
+        });
+
+        socket.on("disconnect", () => {
+            disconnectUser();
+        });
+
+        function disconnectUser() {
+            try {
+                if (rooms[room] !== undefined) {
+                    rooms[room].removeSpectator(user);
+                    io.to(room).emit("spectators", {
+                        spectators: rooms[room].spectators,
+                    });
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    });
+
     socket.on("joinRoom", (data) => {
         //client joining a room
         let room = data.room;

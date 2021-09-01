@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import Image from "next/image";
 import axios from "axios";
+import Link from "next/link";
 import { Fragment } from "react";
 import { LockClosedIcon } from "@heroicons/react/solid";
 
@@ -148,7 +149,9 @@ const Room = ({ roomName, score1, score2, users, setSelectTeam, config }) => {
                 >
                     Beitreten
                 </button>
-                <button className="">Zuschauen</button>
+                <Link href={`/spielen/${roomName}?mode=spectate`}>
+                    <button className="">Zuschauen</button>
+                </Link>
             </div>
         </div>
     );

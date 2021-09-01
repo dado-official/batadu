@@ -3,7 +3,14 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Head from "next/head";
 
-function Layout({ children, title, session, isDarkmode, setIsDarkmode }) {
+function Layout({
+    children,
+    title,
+    session,
+    isDarkmode,
+    setIsDarkmode,
+    gameMode,
+}) {
     return (
         <Fragment>
             <Head>
@@ -18,6 +25,7 @@ function Layout({ children, title, session, isDarkmode, setIsDarkmode }) {
                 session={session}
                 isDarkmode={isDarkmode}
                 setIsDarkmode={setIsDarkmode}
+                gameMode={gameMode}
             />
             {children}
             <Footer />

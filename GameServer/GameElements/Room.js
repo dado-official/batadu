@@ -11,6 +11,7 @@ class Room {
         if (this.isPassword) {
             this.password = config.password;
         }
+        this.spectators = [];
         this.team1Punkte = 0;
         this.team2Punkte = 0;
         this.freePos = [0, 1, 2, 3];
@@ -275,6 +276,13 @@ class Room {
         if (index > -1) {
             this.userPos[index] = null;
             this.freePos.push(index);
+        }
+    }
+
+    removeSpectator(user) {
+        let index = this.spectators.indexOf(user);
+        if (index > -1) {
+            this.spectators.splice(index, 1);
         }
     }
 

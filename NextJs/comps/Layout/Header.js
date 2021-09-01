@@ -1,7 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
-import { LogoutIcon, MoonIcon, SunIcon } from "@heroicons/react/solid";
+import {
+    HeartIcon,
+    LogoutIcon,
+    MoonIcon,
+    SunIcon,
+} from "@heroicons/react/solid";
 import { signIn, signOut } from "next-auth/client";
 import Image from "next/image";
 import logo from "../../public/logo.svg";
@@ -12,6 +17,7 @@ function Header({
     isSidebarOpen,
     setIsSidebarOpen,
     session,
+    gameMode,
 }) {
     const { asPath } = useRouter();
 
@@ -30,23 +36,20 @@ function Header({
         <Fragment>
             {asPath !== "anmelden" ? (
                 <header className="bg-white shadow dark:bg-whiteDark z-1000 w-full">
-                    <div className="bg-white dark:bg-whiteDark flex justify-between items-center lg:w-1450 mx-auto max-w-1/9 h-auto">
+                    <div
+                        className={`bg-white dark:bg-whiteDark flex justify-between items-center lg:w-1450 mx-auto max-w-1/9 h-auto`}
+                    >
                         <Link href="/">
-                            <div className="flex gap-2 cursor-pointer">
-                                <Image
-                                    src="/logo.svg"
-                                    width="50"
-                                    height="40"
-                                    alt="4 Wattkarten"
-                                />
-                                <h4 className=" text-logoGray dark:text-gray-100 text-7.5 font-abril font-normal">
+                            <div className="flex gap-2 cursor-pointer items-center">
+                                <HeartIcon className="h-8 text-primary" />
+                                <h5 className=" text-primary dark:text-gray-100 font-semibold">
                                     Batadú
-                                </h4>
+                                </h5>
                             </div>
                         </Link>
                         <div className="hidden lg:flex lg:gap-12">
                             <Link href="/">
-                                <div className="flex gap-3 cursor-pointer items-center relative py-6">
+                                <div className="flex gap-3 cursor-pointer items-center relative py-4">
                                     <p
                                         className={`dark:text-white ${
                                             asPath === "/spielen"
@@ -59,7 +62,7 @@ function Header({
                                 </div>
                             </Link>
                             <Link href="/rangliste">
-                                <div className="flex cursor-pointer gap-3 items-center relative py-6">
+                                <div className="flex cursor-pointer gap-3 items-center relative py-4">
                                     <p
                                         className={`dark:text-white ${
                                             asPath === "/rangliste"
@@ -72,7 +75,7 @@ function Header({
                                 </div>
                             </Link>
                             <Link href={`/profile/${session?.user.name}`}>
-                                <div className="flex cursor-pointer gap-3 items-center relative py-6">
+                                <div className="flex cursor-pointer gap-3 items-center relative py-4">
                                     <p
                                         className={`dark:text-white ${
                                             asPath === "/profile"

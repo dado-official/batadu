@@ -18,7 +18,7 @@ module.exports = {
                 tableGray: "#CECECE",
                 borderGray: "#858585",
                 borderGray2: "#E1E1E1",
-                primaryLight: "#E3A2B1",
+                primaryLight: "#dad7f7",
                 primaryLightDark: "#7E3A4A",
                 spielGray: "#E6E6E6",
                 whiteDark: "#2E2E2E",
@@ -30,6 +30,7 @@ module.exports = {
                 darkBg: "rgba(0,0,0,0.4)",
                 gray: "#8f8f8f",
                 grayLight: "#A7A7A7",
+                grayLight2: "#c9c9c9",
                 buttonGray: "#E2E2E2",
             },
             spacing: {
@@ -102,6 +103,8 @@ module.exports = {
     variants: {
         extend: {
             boxShadow: ["dark"],
+            width: ["hover"],
+            display: ["hover", "group-hover"],
         },
     },
     plugins: [],

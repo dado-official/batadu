@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import Footer from "./Footer";
-import Header from "./Header";
+import Sidebar from "./Sidebar";
 import Head from "next/head";
 
 function Layout({
@@ -9,7 +9,9 @@ function Layout({
     session,
     isDarkmode,
     setIsDarkmode,
-    gameMode,
+    spielen,
+    rank,
+    profil,
 }) {
     return (
         <Fragment>
@@ -21,13 +23,15 @@ function Layout({
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Header
+            <Sidebar
                 session={session}
                 isDarkmode={isDarkmode}
                 setIsDarkmode={setIsDarkmode}
-                gameMode={gameMode}
+                spielen={spielen}
+                rank={rank}
+                profil={profil}
             />
-            {children}
+            <main className="ml-20">{children}</main>
             <Footer />
         </Fragment>
     );

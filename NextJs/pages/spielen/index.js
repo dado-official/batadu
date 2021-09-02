@@ -48,6 +48,7 @@ function Spielen({
             session={session}
             isDarkmode={isDarkmode}
             setIsDarkmode={setIsDarkmode}
+            spielen={true}
         >
             <div className="w-1450 max-w-1/9 mx-auto mt-8 mb-16">
                 <div className="flex justify-between md:mt-8 flex-col-reverse md:flex-row">

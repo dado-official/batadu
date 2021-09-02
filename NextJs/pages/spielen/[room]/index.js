@@ -460,6 +460,7 @@ const Spiel = ({
             session={session}
             isDarkmode={isDarkmode}
             setIsDarkmode={setIsDarkmode}
+            spielen={true}
         >
             <div className="w-full">
                 {isPassword ? (

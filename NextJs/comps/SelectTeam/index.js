@@ -37,7 +37,7 @@ const SelectTeam = ({ selectTeam, setSelectTeam, team, setTeam }) => {
 
     return (
         <Fragment>
-            <div className="fixed flex justify-center items-center w-full z-50 h-full left-0 top-0 bg-darkBg backdrop-filter backdrop-blur">
+            <div className="fixed flex justify-center items-center w-full z-10000 h-full left-0 top-0 bg-darkBg backdrop-filter backdrop-blur">
                 <OutsideClickHandler
                     onOutsideClick={() => {
                         setSelectTeam((prev) => ({ ...prev, show: false }));

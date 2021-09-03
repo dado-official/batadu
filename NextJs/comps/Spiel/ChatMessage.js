@@ -1,30 +1,34 @@
-import React from "react";
+import React, { Fragment } from "react";
+import Image from "next/image";
 
-const ChatMessage = ({ message, sender }) => {
+const ChatMessage = ({ message, user, hideUsername }) => {
     return (
-        <div className="flex flex-col w-full pr-2">
-            <div className={`flex w-full`}>
-                <p
-                    className={`text-sm py-1 dark:text-white font-bold ${
-                        sender === "Ich"
-                            ? "text-blue-500 dark:text-blue-400"
-                            : sender === "System"
-                            ? "text-primary dark:text-primaryDark"
-                            : null
-                    }`}
-                >
-                    {sender}:{" "}
-                    <span
-                        className={`text-sm font-normal break-all text-black w-max-content w-max-full rounded-st break-words  ${
-                            sender === "System"
-                                ? "dark:text-white text-black"
-                                : "dark:text-white"
-                        }`}
-                    >
-                        {message}
-                    </span>
-                </p>
+        <div
+            className={`flex w-full pr-2 gap-2 ${
+                hideUsername ? "-mt-1" : "mt-2"
+            }`}
+        >
+            <div className="relative h-6 w-6 min-w-0 flex-none">
+                {!hideUsername && (
+                    <Image
+                        src={user.userPic}
+                        layout="fill"
+                        objectFit="contain"
+                        className="rounded-full"
+                    />
+                )}
             </div>
+            <p className="text-gray text_small break-all w-max-content w-max-full break-words">
+                {!hideUsername && (
+                    <Fragment>
+                        <span className="text-black font-medium">
+                            {user.username}
+                        </span>
+                        <br />
+                    </Fragment>
+                )}
+                {message}
+            </p>
         </div>
     );
 };

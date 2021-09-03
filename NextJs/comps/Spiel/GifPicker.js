@@ -59,17 +59,17 @@ export default function GifPicker({ isDarkmode, sendHandler }) {
     }
 
     return (
-        <div className="w-full h-96 p-3 gap-1 flex flex-col bg-white dark:border-gray-500 border-gray-300 border-1 dark:bg-roomBlack rounded-st">
+        <div className="w-80 shadow-2xl h-96 p-2 gap-1 flex flex-col bg-white border-t-1 border-grayLight2 dark:border-gray-500  dark:bg-roomBlack rounded">
             <input
                 type="text"
                 value={gifInput}
                 placeholder="Suchen Sie einen Gif..."
                 onChange={inputHandler}
-                className="input outline-none w-full text-sm dark:bg-chatBlack bg-spielGray dark:text-white"
+                className="outline-none transition-all rounded border border-grayLight2 focus:outline-none focus:ring-primaryLight focus:ring-2 pl-3 pr-2 py-2 w-full text-sm dark:bg-chatBlack dark:text-white"
             />
             <div
                 className={`flex-1 w-full overflow-auto flex flex-wrap ${
-                    isDarkmode ? "scrollDark" : "scrollWhite"
+                    isDarkmode ? "scrollDark" : "chat"
                 }`}
             >
                 <div className="w-1/2">

@@ -745,7 +745,7 @@ const Spiel = ({
                             )}
                         </div>
                         {/*Rechte Seite */}
-                        <div className="xl:col-span-1 mb-16 flex flex-col">
+                        <div className="fixed right-0 top-0 flex flex-col h-screen w-80">
                             <SpielInformations
                                 ref={infosRef}
                                 isDarkmode={isDarkmode}
@@ -761,17 +761,13 @@ const Spiel = ({
                                 isTeam2Gestrichen={isTeam2Gestrichen}
                                 cardPhotos={cardPhotos}
                             />
-                            <button
-                                className="btn bg-secondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"
-                                onClick={scrollToSpielHandler}
-                            >
-                                Zurück zum Spiel
-                            </button>
                             <Chat
                                 socket={socket}
                                 ref={chatRef}
                                 isDarkmode={isDarkmode}
                                 username={username}
+                                userPic={session.user.image}
+                                userId={userId}
                             />
                         </div>
                         <div

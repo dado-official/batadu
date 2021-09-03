@@ -8,11 +8,11 @@ const PunkteTabelle = ({
 }) => {
     return (
         <div
-            className={`bg-white dark:bg-whiteDark flex flex-center text-xs text-center rounded-b-st h-96 xl:h-64 overflow-auto stiche ${
+            className={`bg-white resize-y dark:bg-whiteDark text-xs text-center h-96 xl:h-64 overflow-auto stiche ${
                 isDarkmode ? "scrollDark" : "scrollWhite"
             }`}
         >
-            <table className="mx-auto my-4 dark:text-white relative text-sm text-center">
+            <table className="mx-auto my-6 dark:text-white relative text-sm text-center">
                 <div
                     className={`bg-gray-500 absolute ${
                         isTeam1Gestrichen ? "left-1/4" : "hidden"
@@ -32,7 +32,7 @@ const PunkteTabelle = ({
                     }}
                 ></div>
                 <thead>
-                    <tr>
+                    <tr className=" font-normal">
                         <th>Team 1</th>
                         <th>Team 2</th>
                     </tr>

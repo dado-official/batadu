@@ -27,7 +27,7 @@ const SpielInformations = forwardRef(
 
         return (
             <div ref={ref} className="pt-20 -mt-28 xl:pt-0 xl:mt-0">
-                <div className="flex bg-spielGray dark:bg-roomBlack dark:text-white rounded-t-st">
+                <div className="flex bg-spielGray dark:bg-roomBlack dark:text-white">
                     <SelectInformations
                         selectHandler={selectHandler}
                         selected={selected}

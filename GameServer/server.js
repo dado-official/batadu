@@ -166,7 +166,12 @@ io.on("connection", (socket) => {
         if (rooms[room].freePos.length === 0) {
             io.to(room).emit("chat", {
                 message: `Das Spiel beginnt🥳`,
-                sender: "System",
+                sender: {
+                    userPic:
+                        "https://cdn1.iconfinder.com/data/icons/science-technology-outline-24-px/24/Android_android_robot_operative_system_robot_technology-48.png",
+                    username: "System",
+                    userId: -1,
+                },
                 type: "text",
             });
 
@@ -180,14 +185,15 @@ io.on("connection", (socket) => {
 
         socket.on("chat", (message) => {
             //broadcast to roommembers when new message
-            socket.to(room).emit("chat", message);
+            console.log(message);
+            io.to(room).emit("chat", message);
         });
 
         socket.on("typing", (data) => {
-            if (data.typing && !typingUsers.includes(data.username)) {
-                typingUsers.push(data.username);
-            } else if (!data.typing && typingUsers.includes(data.username)) {
-                const index = typingUsers.indexOf(data.username);
+            if (data.typing && !typingUsers.includes(data.user)) {
+                typingUsers.push(data.user);
+            } else if (!data.typing && typingUsers.includes(data.user)) {
+                const index = typingUsers.indexOf(data.user);
                 if (index > -1) {
                     typingUsers.splice(index, 1);
                 }
@@ -284,7 +290,12 @@ io.on("connection", (socket) => {
             let nachricht = `Team ${team} hat nicht gehalten 🤯`;
             io.to(room).emit("chat", {
                 message: nachricht,
-                sender: "System",
+                sender: {
+                    userPic:
+                        "https://cdn1.iconfinder.com/data/icons/science-technology-outline-24-px/24/Android_android_robot_operative_system_robot_technology-48.png",
+                    username: "System",
+                    userId: -1,
+                },
                 type: "text",
             });
 
@@ -336,7 +347,12 @@ io.on("connection", (socket) => {
                         if (rooms[room].freePos.length === 0) {
                             io.to(room).emit("chat", {
                                 message: `Das Spiel beginnt🥳`,
-                                sender: "System",
+                                sender: {
+                                    userPic:
+                                        "https://cdn1.iconfinder.com/data/icons/science-technology-outline-24-px/24/Android_android_robot_operative_system_robot_technology-48.png",
+                                    username: "System",
+                                    userId: -1,
+                                },
                                 type: "text",
                             });
                             rooms[room].neuesSpiel();
@@ -404,7 +420,12 @@ io.on("connection", (socket) => {
             io.to(room).emit("status", rooms[room].userStatus);
             io.to(room).emit("chat", {
                 message: "Schlagtausch wurde angenommen😎",
-                sender: "System",
+                sender: {
+                    userPic:
+                        "https://cdn1.iconfinder.com/data/icons/science-technology-outline-24-px/24/Android_android_robot_operative_system_robot_technology-48.png",
+                    username: "System",
+                    userId: -1,
+                },
                 type: "text",
             });
         });
@@ -433,7 +454,12 @@ io.on("connection", (socket) => {
             io.to(room).emit("status", rooms[room].userStatus);
             io.to(room).emit("chat", {
                 message: "Schönere wurde angenommen😉",
-                sender: "System",
+                sender: {
+                    userPic:
+                        "https://cdn1.iconfinder.com/data/icons/science-technology-outline-24-px/24/Android_android_robot_operative_system_robot_technology-48.png",
+                    username: "System",
+                    userId: -1,
+                },
                 type: "text",
             });
         });
@@ -545,7 +571,12 @@ io.on("connection", (socket) => {
                                     ) {
                                         io.to(room).emit("chat", {
                                             message: `Das Spiel beginnt🥳`,
-                                            sender: "System",
+                                            sender: {
+                                                userPic:
+                                                    "https://cdn1.iconfinder.com/data/icons/science-technology-outline-24-px/24/Android_android_robot_operative_system_robot_technology-48.png",
+                                                username: "System",
+                                                userId: -1,
+                                            },
                                             type: "text",
                                         });
                                         rooms[room].neuesSpiel();
@@ -648,8 +679,8 @@ io.on("connection", (socket) => {
                     }
 
                     socket.to(room).emit("chat", {
-                        message: `${user} disconnect😭`,
-                        sender: "System",
+                        message: `Ich bin weg 👋`,
+                        sender: user,
                         type: "text",
                     });
                 }
@@ -672,7 +703,12 @@ io.on("connection", (socket) => {
             }
             io.to(room).emit("chat", {
                 message: message,
-                sender: "System",
+                sender: {
+                    userPic:
+                        "https://cdn1.iconfinder.com/data/icons/science-technology-outline-24-px/24/Android_android_robot_operative_system_robot_technology-48.png",
+                    username: "System",
+                    userId: -1,
+                },
                 type: "text",
             });
         }

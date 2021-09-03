@@ -9,6 +9,7 @@ import SpielInformations from "../../../comps/Spiel/SpielInformations";
 import Chat from "../../../comps/Spiel/Chat";
 import Layout from "../../../comps/Layout";
 import SpectatorElement from "../../../comps/Spiel/SpectatorElement";
+import BottomContainer from "../../../comps/Spiel/BottomContainer";
 
 const Spiel = ({
     isDarkmode,
@@ -28,7 +29,13 @@ const Spiel = ({
     const [exist, setExist] = useState("");
     const [users, setUsers] = useState("");
     const [pos, setPos] = useState(undefined);
-    const [karten, setKarten] = useState([]);
+    const [karten, setKarten] = useState([
+        { name: "Achter Eichel" },
+        { name: "Neuner Eichel" },
+        { name: "Ass Shell" },
+        { name: "Ass Herz" },
+        { name: "Ass Laub" },
+    ]);
     const [alleKarten, setAlleKarten] = useState([]);
     const [hover, setHover] = useState(false);
     const [teams, setTeams] = useState([]);
@@ -628,120 +635,31 @@ const Spiel = ({
                             </div>
 
                             {mode !== "spectate" && (
-                                <div className="flex justify-between mt-28 md:mt-28 mb-16 flex-wrap">
-                                    <div className="flex justify-between md:flex-col gap-1 sm:gap-8 md:gap-2 w-full md:w-max mb-4 md:mb-0">
-                                        <button
-                                            onClick={bietenHandler}
-                                            className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
-                                                !isBieten ||
-                                                gebotenDavor ===
-                                                    (pos % 2 === 0 ? 1 : 2) ||
-                                                isHaltenWindow ||
-                                                isSchlagtauschWindow ||
-                                                isSchönereWindows ||
-                                                (geboten === 2 &&
-                                                    isOneGestrichen())
-                                                    ? "opacity-20 cursor-not-allowed"
-                                                    : null
-                                            }`}
-                                        >
-                                            Bieten
-                                        </button>
-                                        <button
-                                            onClick={schönereHandler}
-                                            className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
-                                                !isSchönere ||
-                                                hasSchönere ||
-                                                isSchlagtauschWindow ||
-                                                isHaltenWindow ||
-                                                isSchönereWindows
-                                                    ? "opacity-20 cursor-not-allowed"
-                                                    : null
-                                            }`}
-                                        >
-                                            Schönere
-                                        </button>
-                                        <button
-                                            onClick={schlagtauschHandler}
-                                            className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
-                                                !isSchlagtausch ||
-                                                hasSchlagtausch ||
-                                                isSchlagtauschWindow ||
-                                                isHaltenWindow ||
-                                                isSchönereWindows
-                                                    ? "opacity-20 cursor-not-allowed"
-                                                    : null
-                                            }`}
-                                        >
-                                            Schlagtausch
-                                        </button>
-                                    </div>
-                                    {/*my cards*/}
-                                    {seeCards
-                                        ? karten.map((element) => {
-                                              return (
-                                                  <div className="h-6.73625 md:h-8.421875 w-4.275rem md:w-4.75rem relative">
-                                                      <img
-                                                          className={`h-auto absolute top-0 left-0 rounded-st karte ${
-                                                              hover
-                                                                  ? "selectCard cursor-pointer"
-                                                                  : null
-                                                          } `}
-                                                          src={
-                                                              cardPhotos[
-                                                                  element.name
-                                                              ]
-                                                          }
-                                                          alt={element.name}
-                                                          onClick={
-                                                              selectCardHandler
-                                                          }
-                                                          key={
-                                                              Math.random() *
-                                                              1000
-                                                          }
-                                                      />
-                                                  </div>
-                                              );
-                                          })
-                                        : null}
-                                    <div className="flex gap-4 font-bold flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static text-sm text-center justify-between md:justify-start w-full sm:w-min mt-4 md:mt-0">
-                                        {showSchlagTrumpf && schlag !== "?" ? (
-                                            <div className="w-3.625rem">
-                                                <p className="dark:text-white mb-1">
-                                                    Schlag
-                                                </p>
-                                                {showSchlagTrumpf ? (
-                                                    <img
-                                                        src={cardPhotos[schlag]}
-                                                        alt={schlag}
-                                                        className="w-3.625rem"
-                                                    />
-                                                ) : null}
-                                            </div>
-                                        ) : null}
-                                        {showSchlagTrumpf && schlag !== "?" ? (
-                                            <div className="w-3.625rem">
-                                                <p className="dark:text-white mb-1">
-                                                    Trumpf
-                                                </p>
-                                                {showSchlagTrumpf ? (
-                                                    <img
-                                                        src={cardPhotos[trumpf]}
-                                                        alt={trumpf}
-                                                        className="w-3.625rem"
-                                                    />
-                                                ) : null}
-                                            </div>
-                                        ) : null}
-                                        <p className="block sm:hidden dark:text-white">
-                                            Geboten:{" "}
-                                            <span className={`font-bold`}>
-                                                {geboten}
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
+                                <BottomContainer
+                                    bietenHandler={bietenHandler}
+                                    isBieten={isBieten}
+                                    gebotenDavor={gebotenDavor}
+                                    pos={pos}
+                                    isHaltenWindow={isHaltenWindow}
+                                    isSchlagtauschWindow={isSchlagtauschWindow}
+                                    geboten={geboten}
+                                    isOneGestrichen={isOneGestrichen}
+                                    schönereHandler={schönereHandler}
+                                    isSchönere={isSchönere}
+                                    hasSchönere={hasSchönere}
+                                    isSchönereWindows={isSchönereWindows}
+                                    schlagtauschHandler={schlagtauschHandler}
+                                    isSchlagtausch={isSchlagtausch}
+                                    hasSchlagtausch={hasSchlagtausch}
+                                    seeCards={seeCards}
+                                    karten={karten}
+                                    hover={hover}
+                                    cardPhotos={cardPhotos}
+                                    selectCardHandler={selectCardHandler}
+                                    showSchlagTrumpf={showSchlagTrumpf}
+                                    schlag={schlag}
+                                    trumpf={trumpf}
+                                />
                             )}
                         </div>
                         {/*Rechte Seite */}

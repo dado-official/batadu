@@ -653,6 +653,7 @@ const Spiel = ({
                                     hasSchlagtausch={hasSchlagtausch}
                                     seeCards={seeCards}
                                     karten={karten}
+                                    setKarten={setKarten}
                                     hover={hover}
                                     cardPhotos={cardPhotos}
                                     selectCardHandler={selectCardHandler}

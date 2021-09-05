@@ -32,6 +32,8 @@ module.exports = {
                 grayLight: "#A7A7A7",
                 grayLight2: "#c9c9c9",
                 buttonGray: "#E2E2E2",
+                text: "#515362",
+                f1: "#F1F1F1",
             },
             spacing: {
                 1450: "1400px",

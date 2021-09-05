@@ -5,6 +5,7 @@ import StatusContainer from "./StatusContainer";
 import UserGameInfo from "./UserGameInfo";
 import axios from "axios";
 import ProfilePicture from "./ProfilePicture";
+import Image from "next/image";
 
 const Tisch = ({
     geboten,
@@ -19,50 +20,90 @@ const Tisch = ({
     cardPhotos,
 }) => {
     return (
-        <div className="w-90% shadow-lg transition-all hover:shadow-xl pt-90% sm:pt-0 sm:w-29rem sm:h-29rem flex items-center justify-center bg-tableGray dark:bg-whiteDark relative rounded-full border-8 sm:border-12 border-borderGray2 dark:border-borderBlack">
+        <div className="w-90% pt-90% sm:pt-0 sm:w-29rem sm:h-29rem flex items-center justify-center bg-tableGray dark:bg-whiteDark relative rounded-full border-8 sm:border-12 border-borderGray2 dark:border-borderBlack">
             {/*cards*/}
             {/*Kate oben */}
             {karten[calcPos(2 + pos)] !== undefined &&
             karten[calcPos(2 + pos)] !== null ? (
-                <img
-                    className="h-auto w-4.275rem md:w-4.75rem absolute top-6 md:top-12 left-1/2"
+                <div
+                    className="absolute top-6 md:top-12 left-1/2"
                     style={{ transform: "translateX(-50%)" }}
-                    src={cardPhotos[karten[calcPos(2 + pos)]]}
-                    alt={karten[calcPos(2 + pos)]}
-                />
+                >
+                    <div className="relative w-4.275rem md:w-4.75rem h-6.73625 md:h-8.421875 hover:shadow-lg transition-all">
+                        <Image
+                            src={cardPhotos[karten[calcPos(2 + pos)]]}
+                            layout="fill"
+                            objectFit="contain"
+                            alt={karten[calcPos(2 + pos)]}
+                            blurDataURL={cardPhotos[karten[calcPos(2 + pos)]]}
+                            placeholder="blur"
+                            title={karten[calcPos(2 + pos)]}
+                        />
+                    </div>
+                </div>
             ) : null}
 
             {/*Karten left */}
             {karten[calcPos(3 + pos)] !== undefined &&
             karten[calcPos(3 + pos)] !== null ? (
-                <img
-                    className="h-auto w-4.275rem md:w-4.75rem absolute top-1/2 left-7 md:left-14"
+                <div
+                    className="absolute top-1/2 left-7 md:left-14"
                     style={{ transform: "translateY(-50%)" }}
-                    src={cardPhotos[karten[calcPos(3 + pos)]]}
-                    alt={karten[calcPos(3 + pos)]}
-                />
+                >
+                    <div className="relative w-4.275rem md:w-4.75rem h-6.73625 md:h-8.421875 hover:shadow-lg transition-all">
+                        <Image
+                            src={cardPhotos[karten[calcPos(3 + pos)]]}
+                            layout="fill"
+                            objectFit="contain"
+                            alt={karten[calcPos(3 + pos)]}
+                            blurDataURL={cardPhotos[karten[calcPos(3 + pos)]]}
+                            placeholder="blur"
+                            title={karten[calcPos(3 + pos)]}
+                        />
+                    </div>
+                </div>
             ) : null}
 
             {/*Karten right */}
             {karten[calcPos(1 + pos)] !== undefined &&
             karten[calcPos(1 + pos)] !== null ? (
-                <img
-                    className="h-auto w-4.275rem md:w-4.75rem absolute top-1/2 right-7 md:right-14"
+                <div
+                    className="absolute top-1/2 right-7 md:right-14"
                     style={{ transform: "translateY(-50%)" }}
-                    src={cardPhotos[karten[calcPos(1 + pos)]]}
-                    alt={karten[calcPos(1 + pos)]}
-                />
+                >
+                    <div className="relative w-4.275rem md:w-4.75rem h-6.73625 md:h-8.421875 hover:shadow-lg transition-all">
+                        <Image
+                            src={cardPhotos[karten[calcPos(1 + pos)]]}
+                            layout="fill"
+                            objectFit="contain"
+                            alt={karten[calcPos(1 + pos)]}
+                            blurDataURL={cardPhotos[karten[calcPos(1 + pos)]]}
+                            placeholder="blur"
+                            title={karten[calcPos(1 + pos)]}
+                        />
+                    </div>
+                </div>
             ) : null}
 
             {/*Karten unten */}
             {karten[calcPos(0 + pos)] !== undefined &&
             karten[calcPos(0 + pos)] !== null ? (
-                <img
-                    className="h-auto w-4.275rem md:w-4.75rem absolute bottom-6 md:bottom-12 left-1/2"
+                <div
+                    className="absolute bottom-6 md:bottom-12 left-1/2"
                     style={{ transform: "translateX(-50%)" }}
-                    src={cardPhotos[karten[calcPos(0 + pos)]]}
-                    alt={karten[calcPos(0 + pos)]}
-                />
+                >
+                    <div className="relative w-4.275rem md:w-4.75rem h-6.73625 md:h-8.421875 hover:shadow-lg transition-all">
+                        <Image
+                            src={cardPhotos[karten[calcPos(0 + pos)]]}
+                            layout="fill"
+                            objectFit="contain"
+                            alt={karten[calcPos(0 + pos)]}
+                            blurDataURL={cardPhotos[karten[calcPos(0 + pos)]]}
+                            placeholder="blur"
+                            title={karten[calcPos(0 + pos)]}
+                        />
+                    </div>
+                </div>
             ) : null}
 
             <p className="hidden sm:block dark:text-white">

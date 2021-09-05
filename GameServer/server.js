@@ -641,7 +641,7 @@ io.on("connection", (socket) => {
 
                         //neu ziehen
                     }
-                }, rooms[room].waitingTime);
+                }, rooms[room].waitingTime * 1000);
                 //gewinner ziehen und neu legen
             }
         });

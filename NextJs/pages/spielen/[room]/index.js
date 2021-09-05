@@ -254,23 +254,23 @@ const Spiel = ({
                 }
 
                 if (statusMe.includes("Gestochen")) {
-                    sound3();
+                    // sound3();
                     setIsBieten(false);
                 }
 
                 if (statusMe === "Am Zug") {
                     if (!playedSoundZug) {
-                        sound1();
+                        // sound1();
                         setPlayedSoundZug(true);
                         setPlayedSoundWaelen(false);
                     }
                 }
                 if (statusMe === "Geboten Antwort") {
                     setHover(false);
-                    sound4();
+                    //sound4();
                     setIsHaltenWindow(true);
                 } else if (statusMe === "Schlagtausch Antwort") {
-                    sound4();
+                    //sound4();
                     setHover(false);
                     setIsSchlagtauschWindow(true);
                 } else if (statusMe === "Schönere Antwort") {
@@ -283,7 +283,7 @@ const Spiel = ({
                 if (statusMe === "Schlag" || statusMe === "Trumpf") {
                     setShowSchlagTrumpf(true);
                     if (!playedSoundWaelen) {
-                        sound1();
+                        // sound1();
                         setPlayedSoundWaelen(true);
                     }
                     setIsSchlagtausch(true);
@@ -309,7 +309,7 @@ const Spiel = ({
 
     useEffect(() => {
         if (kartenTisch !== undefined && kartenTisch.length > 0) {
-            sound2();
+            //sound2();
         }
     }, [kartenTisch]);
 
@@ -478,7 +478,7 @@ const Spiel = ({
                         room={room}
                     />
                 ) : exist ? (
-                    <div className="relative grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-8">
+                    <div className="relative w-1450 max-w-1/9 mx-auto mt-32 pr-80">
                         <div className="xl:col-span-2 relative">
                             {/*Countdown bar */}
                             <div

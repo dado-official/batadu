@@ -561,9 +561,9 @@ nav:hover p {
 
 .dot-flashing {
     position: relative;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
     background-color: #9880ff;
     color: #9880ff;
     animation: dotFlashing 1s infinite linear alternate;
@@ -579,10 +579,10 @@ nav:hover p {
 }
 
 .dot-flashing::before {
-    left: -15px;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
+    left: -12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
     background-color: #9880ff;
     color: #9880ff;
     animation: dotFlashing 1s infinite alternate;
@@ -590,10 +590,10 @@ nav:hover p {
 }
 
 .dot-flashing::after {
-    left: 15px;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
+    left: 12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
     background-color: #9880ff;
     color: #9880ff;
     animation: dotFlashing 1s infinite alternate;

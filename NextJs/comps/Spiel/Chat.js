@@ -166,7 +166,9 @@ const Chat = forwardRef(
                         <p className="text_small flex gap-2">
                             {currentTyping.map((element) => {
                                 return (
-                                    <div className="relative mt-2 h-6 w-6 rounded-full">
+                                    <div
+                                        className={`relative mt-2 h-6 w-6 rounded-full`}
+                                    >
                                         {chatMessages.length > 0 &&
                                         chatMessages[chatMessages.length - 1]
                                             .sender.userPic ===
@@ -181,7 +183,7 @@ const Chat = forwardRef(
                                     </div>
                                 );
                             })}
-                            <div class="flex items-center ml-4">
+                            <div class="flex items-center ml-3">
                                 <div class="dot-flashing"></div>
                             </div>
                         </p>

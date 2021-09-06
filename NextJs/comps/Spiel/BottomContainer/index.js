@@ -88,14 +88,14 @@ function BottomContainer({
             <div className="mr-8 flex-1">
                 <button
                     onClick={bietenHandler}
-                    className={`bg-primary mb-4 py-2.5 text-lg text-white font-medium rounded-full shadow-lg dark:bg-transparent dark:text-white w-full ${
+                    className={`bg-primary mb-4 py-2.5 text-lg text-white font-medium rounded-full shadow-lg dark:bg-transparent dark:text-white w-full hover:shadow-xl transition-all ${
                         !isBieten ||
                         gebotenDavor === (pos % 2 === 0 ? 1 : 2) ||
                         isHaltenWindow ||
                         isSchlagtauschWindow ||
                         isSchönereWindows ||
                         (geboten === 2 && isOneGestrichen())
-                            ? "cursor-default"
+                            ? "cursor-default opacity-50"
                             : null
                     }`}
                 >
@@ -104,13 +104,13 @@ function BottomContainer({
                 <div className="flex gap-4">
                     <button
                         onClick={schönereHandler}
-                        className={`rounded-full text-text text-lg font-medium px-6 py-2.5 shadow-lg bg-f1 w-full ${
+                        className={`rounded-full text-text text-lg font-medium px-6 py-2.5 shadow-lg bg-f1 w-full hover:shadow-xl transition-all ${
                             !isSchönere ||
                             hasSchönere ||
                             isSchlagtauschWindow ||
                             isHaltenWindow ||
                             isSchönereWindows
-                                ? "cursor-not-allowed"
+                                ? "cursor-default opacity-50"
                                 : null
                         }`}
                     >
@@ -118,13 +118,13 @@ function BottomContainer({
                     </button>
                     <button
                         onClick={schlagtauschHandler}
-                        className={`rounded-full text-text text-lg font-medium px-6 py-2.5 shadow-lg bg-f1 w-full ${
+                        className={`rounded-full text-text text-lg font-medium px-6 py-2.5 shadow-lg bg-f1 w-full hover:shadow-xl transition-all ${
                             !isSchlagtausch ||
                             hasSchlagtausch ||
                             isSchlagtauschWindow ||
                             isHaltenWindow ||
                             isSchönereWindows
-                                ? "cursor-not-allowed"
+                                ? "cursor-default opacity-50"
                                 : null
                         }`}
                     >

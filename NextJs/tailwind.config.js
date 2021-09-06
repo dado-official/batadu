@@ -7,7 +7,7 @@ module.exports = {
         extend: {
             colors: {
                 primary: "#9088e6",
-                primaryDark: "#F56B8B",
+                primaryDark: "#4B42A8",
                 bgWhite: "#eeeff2",
                 bgWhiteDark: "##E2E2E2",
                 bgDark: "#121212",
@@ -19,6 +19,7 @@ module.exports = {
                 borderGray: "#858585",
                 borderGray2: "#E1E1E1",
                 primaryLight: "#dad7f7",
+                primaryLight2: "#CAC6EE",
                 primaryLightDark: "#7E3A4A",
                 spielGray: "#E6E6E6",
                 whiteDark: "#2E2E2E",
@@ -34,6 +35,8 @@ module.exports = {
                 buttonGray: "#E2E2E2",
                 text: "#515362",
                 f1: "#F1F1F1",
+                ring: "#6D6D6D",
+                bord: "#B9B9B9",
             },
             spacing: {
                 1450: "1400px",

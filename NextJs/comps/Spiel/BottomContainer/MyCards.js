@@ -23,10 +23,10 @@ function MyCards({
             <Droppable droppableId="cards" direction="horizontal">
                 {(provided) => (
                     <div
-                        className="flex justify-center"
+                        className="flex justify-center myCards"
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        style={{ width: "40rem" }}
+                        style={{ width: "35rem" }}
                     >
                         {seeCards
                             ? karten.map((element, index) => {
@@ -42,7 +42,9 @@ function MyCards({
                                                   {...provided.draggableProps}
                                                   ref={provided.innerRef}
                                                   key={element.name}
-                                                  className="focus:outline-none mx-2 rounded focus:ring-4 focus:ring-primary h-6.73625 shadow-md md:h-8.421875 w-4.275rem md:w-4.75rem relative"
+                                                  className={`focus:outline-none mx-2 rounded focus:ring-4 focus:ring-primary h-6.73625 shadow-md md:h-8.421875 w-4.275rem md:w-4.75rem relative ${
+                                                      hover && ""
+                                                  }`}
                                               >
                                                   <Image
                                                       src={

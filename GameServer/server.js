@@ -503,7 +503,7 @@ io.on("connection", (socket) => {
                 }
 
                 rooms[room].userStatus = [];
-                rooms[room].userStatus[gewonnenPos] = "🏆Gestochen🏆";
+                rooms[room].userStatus[gewonnenPos] = "Gestochen🏆";
                 io.to(room).emit("status", rooms[room].userStatus);
                 rooms[room].stich += 1;
                 rooms[room].addStichToTeam(gewonnenPos);

@@ -112,48 +112,55 @@ const Tisch = ({
             {/*AccountLevels */}
             {users[calcPos(2 + pos)] !== undefined &&
             users[calcPos(2 + pos)] !== null ? (
-                <div className="absolute -top-10 left-1/2 topBadge">
+                <div className={`absolute -top-10 left-1/2 topBadge`}>
                     <ProfilePicture
                         level={users[calcPos(2 + pos)].level}
                         size={70}
                         imgSrc={users[calcPos(2 + pos)].userPic}
+                        selected={status[calcPos(2 + pos)]}
                     />
                 </div>
             ) : null}
             {users[calcPos(3 + pos)] !== undefined &&
             users[calcPos(3 + pos)] !== null ? (
-                <div className="absolute top-1/2 -left-10 leftBadge">
+                <div className={`absolute top-1/2 -left-10 leftBadge`}>
                     <ProfilePicture
                         level={users[calcPos(3 + pos)].level}
                         size={70}
                         imgSrc={users[calcPos(3 + pos)].userPic}
+                        selected={status[calcPos(3 + pos)]}
                     />
                 </div>
             ) : null}
             {users[calcPos(1 + pos)] !== undefined &&
             users[calcPos(1 + pos)] !== null ? (
-                <div className="absolute top-1/2 -right-10 rightBadge">
+                <div className={`absolute top-1/2 -right-10 rightBadge`}>
                     <ProfilePicture
                         level={users[calcPos(1 + pos)].level}
                         size={70}
                         imgSrc={users[calcPos(1 + pos)].userPic}
+                        selected={status[calcPos(1 + pos)]}
                     />
                 </div>
             ) : null}
             {users[calcPos(0 + pos)] !== undefined &&
             users[calcPos(0 + pos)] !== null ? (
-                <div className="absolute -bottom-10 left-1/2 bottomBadge">
+                <div className={`absolute -bottom-10 left-1/2 bottomBadge`}>
                     <ProfilePicture
                         level={users[calcPos(0 + pos)].level}
                         size={70}
                         imgSrc={users[calcPos(0 + pos)].userPic}
+                        selected={status[calcPos(0 + pos)]}
                     />
                 </div>
             ) : null}
             {/*AccountsInformations */}
             {users[calcPos(2 + pos)] !== undefined &&
             users[calcPos(2 + pos)] !== null ? (
-                <div className="absolute -top-10 top md:left-1/2 -ml-2 bg-bgWhite py-3 px-4 rounded-st bg-opacity-50 shadow-sm text-right -mt-3 transition-all hover:shadow-md hover:bg-opacity-70">
+                <div
+                    className={`absolute -top-10 top md:left-1/2 -ml-2 bg-bgWhite py-3 px-4 rounded-st bg-opacity-50 shadow-sm -mt-3 transition-all hover:shadow-md hover:bg-opacity-70
+                `}
+                >
                     <NameContainer name={users[calcPos(2 + pos)].username} />
                     <UserGameInfo
                         stiche={stiche[calcPos(2 + pos)]}
@@ -167,7 +174,10 @@ const Tisch = ({
 
             {users[calcPos(3 + pos)] !== undefined &&
             users[calcPos(3 + pos)] !== null ? (
-                <div className="absolute top-1/2 left -left-4 bg-bgWhite bg-opacity-90 hover:bg-opacity-100 shadow-sm rounded-st py-3 px-4 -mt-5 -ml-1 transition-all hover:shadow-md">
+                <div
+                    className={`absolute top-1/2 left -left-4 bg-bgWhite bg-opacity-90 hover:bg-opacity-100 shadow-sm rounded-st py-3 px-4 -mt-5 -ml-1 transition-all hover:shadow-md 
+                `}
+                >
                     <NameContainer name={users[calcPos(3 + pos)].username} />
                     <UserGameInfo
                         stiche={stiche[calcPos(3 + pos)]}
@@ -181,7 +191,10 @@ const Tisch = ({
 
             {users[calcPos(1 + pos)] !== undefined &&
             users[calcPos(1 + pos)] !== null ? (
-                <div className="absolute top-1/2 -right-7 -mt-5 mr-1 right shadow-sm py-3 px-4 rounded-st hover:shadow-md transition-all">
+                <div
+                    className={`absolute top-1/2 -right-7 -mt-5 mr-1 right shadow-sm py-3 px-4 rounded-st hover:shadow-md transition-all
+                `}
+                >
                     <NameContainer name={users[calcPos(1 + pos)].username} />
                     <UserGameInfo
                         stiche={stiche[calcPos(1 + pos)]}
@@ -195,7 +208,10 @@ const Tisch = ({
 
             {users[calcPos(0 + pos)] !== undefined &&
             users[calcPos(0 + pos)] !== null ? (
-                <div className="absolute -bottom-5 bottom left-1/2 bg-bgWhite bg-opacity-50 ml-2 shadow-sm py-3 px-4 rounded-st transition-all hover:shadow-md hover:bg-opacity-70">
+                <div
+                    className={`absolute -bottom-5 bottom left-1/2 bg-bgWhite bg-opacity-50 ml-2 shadow-sm py-3 px-4 rounded-st transition-all hover:shadow-md hover:bg-opacity-70
+                `}
+                >
                     <NameContainer name={users[calcPos(0 + pos)].username} />
                     <UserGameInfo
                         stiche={stiche[calcPos(0 + pos)]}

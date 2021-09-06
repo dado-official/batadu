@@ -10,6 +10,7 @@ import Chat from "../../../comps/Spiel/Chat";
 import Layout from "../../../comps/Layout";
 import SpectatorElement from "../../../comps/Spiel/SpectatorElement";
 import BottomContainer from "../../../comps/Spiel/BottomContainer";
+import TopLeftInformations from "../../../comps/Spiel/TopLeftInformations";
 
 const Spiel = ({
     isDarkmode,
@@ -478,235 +479,232 @@ const Spiel = ({
                         room={room}
                     />
                 ) : exist ? (
-                    <div className="relative w-1450 max-w-1/9 mx-auto mt-32 pr-80">
-                        <div className="xl:col-span-2 relative">
-                            {/*Countdown bar */}
-                            <div
-                                className={`${
-                                    showTimer ? "countdown" : "hidden"
-                                } h-2 bg-secondary z-30 dark:bg-secondaryDark absolute rounded-st bottom-0 mb-16`}
-                            ></div>
-                            <div
-                                className={`flex relative justify-center mt-8 ${
-                                    isOver ? "h-32" : null
-                                }`}
-                            >
-                                {!isOver ? (
-                                    <Fragment>
-                                        <div className="absolute left-0 -top-8">
-                                            {spectators &&
-                                                spectators.length > 0 && (
-                                                    <p>
-                                                        Zuschauer:{" "}
-                                                        {spectators.length}
-                                                    </p>
-                                                )}
-                                            {spectators.map((element) => (
-                                                <SpectatorElement
-                                                    data={element}
-                                                    key={element.key}
-                                                />
-                                            ))}
-                                        </div>
-                                        <Tisch
-                                            geboten={geboten}
-                                            isDarkmode={isDarkmode}
-                                            users={users}
-                                            pos={pos}
-                                            teams={teams}
-                                            stiche={stiche}
-                                            status={status}
-                                            calcPos={calcPos}
-                                            karten={kartenTisch}
-                                            cardPhotos={cardPhotos}
-                                        />
-                                    </Fragment>
-                                ) : (
-                                    <div className="bg-white h-bottomSpiel dark:bg-whiteDark absolute w-full top-0 left-0 z-20 rounded-st flex justify-center items-center">
-                                        <div className="flex justify-center items-center flex-col w-96 max-w-1/9">
-                                            <h3 className="dark:text-white text-4xl text-center font-bold">
-                                                {won
-                                                    ? "Gratulation!"
-                                                    : "Schade!"}
-                                                <br />
-                                                {won
-                                                    ? "Sie haben gewonnen"
-                                                    : "Sie haben verloren"}
-                                            </h3>
-                                            <h6 className="text-center text-xl text-gray-500 dark:text-gray-400 mt-4">
-                                                Sie können jetzt das Spiel
-                                                verlassen oder Sie spielen
-                                                nochmal
-                                            </h6>
-                                            <button
-                                                onClick={playAgainHandler}
-                                                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st cursor-pointer mt-8 xl:mt-20"
-                                            >
-                                                Nochmal Spielen
-                                            </button>
-                                            <Link
-                                                to="/spielen"
-                                                className="w-full"
-                                            >
-                                                <button className=" bg-bgWhite dark:bg-bgDark  dark:text-white font-medium w-full py-2 rounded-st cursor-pointer mt-4">
-                                                    Verlassen
+                    <Fragment>
+                        <TopLeftInformations
+                            room={room}
+                            spectators={spectators}
+                        />
+                        <div className="relative w-1450 max-w-1/9 mx-auto mt-32 pr-80">
+                            <div className="xl:col-span-2 relative">
+                                {/*Countdown bar */}
+                                <div
+                                    className={`${
+                                        showTimer ? "countdown" : "hidden"
+                                    } h-2 bg-secondary z-30 dark:bg-secondaryDark absolute rounded-st bottom-0 mb-16`}
+                                ></div>
+                                <div
+                                    className={`flex relative justify-center mt-8 ${
+                                        isOver ? "h-32" : null
+                                    }`}
+                                >
+                                    {!isOver ? (
+                                        <Fragment>
+                                            <Tisch
+                                                geboten={geboten}
+                                                isDarkmode={isDarkmode}
+                                                users={users}
+                                                pos={pos}
+                                                teams={teams}
+                                                stiche={stiche}
+                                                status={status}
+                                                calcPos={calcPos}
+                                                karten={kartenTisch}
+                                                cardPhotos={cardPhotos}
+                                            />
+                                        </Fragment>
+                                    ) : (
+                                        <div className="bg-white h-bottomSpiel dark:bg-whiteDark absolute w-full top-0 left-0 z-20 rounded-st flex justify-center items-center">
+                                            <div className="flex justify-center items-center flex-col w-96 max-w-1/9">
+                                                <h3 className="dark:text-white text-4xl text-center font-bold">
+                                                    {won
+                                                        ? "Gratulation!"
+                                                        : "Schade!"}
+                                                    <br />
+                                                    {won
+                                                        ? "Sie haben gewonnen"
+                                                        : "Sie haben verloren"}
+                                                </h3>
+                                                <h6 className="text-center text-xl text-gray-500 dark:text-gray-400 mt-4">
+                                                    Sie können jetzt das Spiel
+                                                    verlassen oder Sie spielen
+                                                    nochmal
+                                                </h6>
+                                                <button
+                                                    onClick={playAgainHandler}
+                                                    className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st cursor-pointer mt-8 xl:mt-20"
+                                                >
+                                                    Nochmal Spielen
                                                 </button>
-                                            </Link>
+                                                <Link
+                                                    to="/spielen"
+                                                    className="w-full"
+                                                >
+                                                    <button className=" bg-bgWhite dark:bg-bgDark  dark:text-white font-medium w-full py-2 rounded-st cursor-pointer mt-4">
+                                                        Verlassen
+                                                    </button>
+                                                </Link>
+                                            </div>
                                         </div>
+                                    )}
+                                </div>
+                                {/*fenster wenn man gewinnt*/}
+                                {/*fenster wenn geboten wird */}
+                                <div
+                                    className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                                        isHaltenWindow ? "fadein" : "fadeout"
+                                    }`}
+                                >
+                                    <p className="font-medium text-center text-2xl text-white dark:text-black">
+                                        {is4erle && geboten === 2
+                                            ? geboten + 2
+                                            : geboten + 1}{" "}
+                                        halten?
+                                    </p>
+                                    <div className="flex gap-4">
+                                        <p
+                                            onClick={haltenHandler}
+                                            className="cursor-pointer"
+                                        >
+                                            Ja
+                                        </p>
+                                        <p
+                                            onClick={ablehnenHandler}
+                                            className="cursor-pointer"
+                                        >
+                                            Nein
+                                        </p>
                                     </div>
+                                </div>
+                                {/*fenster für schlagtausch */}
+                                <div
+                                    className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                                        isSchlagtauschWindow
+                                            ? "fadein"
+                                            : "fadeout"
+                                    }`}
+                                >
+                                    <p className="font-medium text-center text-2xl text-white dark:text-black">
+                                        Schlagtausch?
+                                    </p>
+                                    <div className="flex gap-4">
+                                        <p
+                                            onClick={schlagTauschJaHandler}
+                                            className="cursor-pointer"
+                                        >
+                                            Ja
+                                        </p>
+                                        <p
+                                            onClick={schlagTauschNeinHandler}
+                                            className="cursor-pointer"
+                                        >
+                                            Nein
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/*fenster für  schönere*/}
+                                <div
+                                    className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
+                                        isSchönereWindows ? "fadein" : "fadeout"
+                                    }`}
+                                >
+                                    <p className="font-medium text-center text-2xl text-white dark:text-black">
+                                        Schönere?
+                                    </p>
+                                    <div className="flex gap-4">
+                                        <p
+                                            onClick={schönereJaHandler}
+                                            className="cursor-pointer"
+                                        >
+                                            Ja
+                                        </p>
+                                        <p
+                                            onClick={schönereNeinHandler}
+                                            className="cursor-pointer"
+                                        >
+                                            Nein
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {mode !== "spectate" && (
+                                    <BottomContainer
+                                        bietenHandler={bietenHandler}
+                                        isBieten={isBieten}
+                                        gebotenDavor={gebotenDavor}
+                                        pos={pos}
+                                        isHaltenWindow={isHaltenWindow}
+                                        isSchlagtauschWindow={
+                                            isSchlagtauschWindow
+                                        }
+                                        geboten={geboten}
+                                        isOneGestrichen={isOneGestrichen}
+                                        schönereHandler={schönereHandler}
+                                        isSchönere={isSchönere}
+                                        hasSchönere={hasSchönere}
+                                        isSchönereWindows={isSchönereWindows}
+                                        schlagtauschHandler={
+                                            schlagtauschHandler
+                                        }
+                                        isSchlagtausch={isSchlagtausch}
+                                        hasSchlagtausch={hasSchlagtausch}
+                                        seeCards={seeCards}
+                                        karten={karten}
+                                        setKarten={setKarten}
+                                        hover={hover}
+                                        cardPhotos={cardPhotos}
+                                        selectCardHandler={selectCardHandler}
+                                        showSchlagTrumpf={showSchlagTrumpf}
+                                        schlag={schlag}
+                                        trumpf={trumpf}
+                                    />
                                 )}
                             </div>
-                            {/*fenster wenn man gewinnt*/}
-                            {/*fenster wenn geboten wird */}
-                            <div
-                                className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
-                                    isHaltenWindow ? "fadein" : "fadeout"
-                                }`}
-                            >
-                                <p className="font-medium text-center text-2xl text-white dark:text-black">
-                                    {is4erle && geboten === 2
-                                        ? geboten + 2
-                                        : geboten + 1}{" "}
-                                    halten?
-                                </p>
-                                <div className="flex gap-4">
-                                    <p
-                                        onClick={haltenHandler}
-                                        className="cursor-pointer"
-                                    >
-                                        Ja
-                                    </p>
-                                    <p
-                                        onClick={ablehnenHandler}
-                                        className="cursor-pointer"
-                                    >
-                                        Nein
-                                    </p>
-                                </div>
-                            </div>
-                            {/*fenster für schlagtausch */}
-                            <div
-                                className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
-                                    isSchlagtauschWindow ? "fadein" : "fadeout"
-                                }`}
-                            >
-                                <p className="font-medium text-center text-2xl text-white dark:text-black">
-                                    Schlagtausch?
-                                </p>
-                                <div className="flex gap-4">
-                                    <p
-                                        onClick={schlagTauschJaHandler}
-                                        className="cursor-pointer"
-                                    >
-                                        Ja
-                                    </p>
-                                    <p
-                                        onClick={schlagTauschNeinHandler}
-                                        className="cursor-pointer"
-                                    >
-                                        Nein
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/*fenster für  schönere*/}
-                            <div
-                                className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
-                                    isSchönereWindows ? "fadein" : "fadeout"
-                                }`}
-                            >
-                                <p className="font-medium text-center text-2xl text-white dark:text-black">
-                                    Schönere?
-                                </p>
-                                <div className="flex gap-4">
-                                    <p
-                                        onClick={schönereJaHandler}
-                                        className="cursor-pointer"
-                                    >
-                                        Ja
-                                    </p>
-                                    <p
-                                        onClick={schönereNeinHandler}
-                                        className="cursor-pointer"
-                                    >
-                                        Nein
-                                    </p>
-                                </div>
-                            </div>
-
-                            {mode !== "spectate" && (
-                                <BottomContainer
-                                    bietenHandler={bietenHandler}
-                                    isBieten={isBieten}
-                                    gebotenDavor={gebotenDavor}
+                            {/*Rechte Seite */}
+                            <div className="fixed right-0 top-0 flex flex-col h-screen w-80">
+                                <SpielInformations
+                                    ref={infosRef}
+                                    isDarkmode={isDarkmode}
+                                    selected={selectedInfo}
+                                    setSelected={setSelectedInfo}
+                                    karten={kartenStich}
+                                    seeStiche={seeStiche}
+                                    calcPos={calcPos}
+                                    gewinner={stich}
                                     pos={pos}
-                                    isHaltenWindow={isHaltenWindow}
-                                    isSchlagtauschWindow={isSchlagtauschWindow}
-                                    geboten={geboten}
-                                    isOneGestrichen={isOneGestrichen}
-                                    schönereHandler={schönereHandler}
-                                    isSchönere={isSchönere}
-                                    hasSchönere={hasSchönere}
-                                    isSchönereWindows={isSchönereWindows}
-                                    schlagtauschHandler={schlagtauschHandler}
-                                    isSchlagtausch={isSchlagtausch}
-                                    hasSchlagtausch={hasSchlagtausch}
-                                    seeCards={seeCards}
-                                    karten={karten}
-                                    setKarten={setKarten}
-                                    hover={hover}
+                                    punkte={punkte}
+                                    isTeam1Gestrichen={isTeam1Gestrichen}
+                                    isTeam2Gestrichen={isTeam2Gestrichen}
                                     cardPhotos={cardPhotos}
-                                    selectCardHandler={selectCardHandler}
-                                    showSchlagTrumpf={showSchlagTrumpf}
-                                    schlag={schlag}
-                                    trumpf={trumpf}
                                 />
-                            )}
-                        </div>
-                        {/*Rechte Seite */}
-                        <div className="fixed right-0 top-0 flex flex-col h-screen w-80">
-                            <SpielInformations
-                                ref={infosRef}
-                                isDarkmode={isDarkmode}
-                                selected={selectedInfo}
-                                setSelected={setSelectedInfo}
-                                karten={kartenStich}
-                                seeStiche={seeStiche}
-                                calcPos={calcPos}
-                                gewinner={stich}
-                                pos={pos}
-                                punkte={punkte}
-                                isTeam1Gestrichen={isTeam1Gestrichen}
-                                isTeam2Gestrichen={isTeam2Gestrichen}
-                                cardPhotos={cardPhotos}
-                            />
-                            <Chat
-                                socket={socket}
-                                ref={chatRef}
-                                isDarkmode={isDarkmode}
-                                username={username}
-                                userPic={session.user.image}
-                                userId={userId}
-                            />
-                        </div>
-                        <div
-                            ref={spielRef}
-                            className="flex justify-between gap-16 absolute top-0 w-full xl:hidden -mt-96 pt-96"
-                        >
-                            <button
-                                className="btn bg-white border-4 border-secondary w-28 font-bold"
-                                onClick={scrollToChatHandler}
+                                <Chat
+                                    socket={socket}
+                                    ref={chatRef}
+                                    isDarkmode={isDarkmode}
+                                    username={username}
+                                    userPic={session.user.image}
+                                    userId={userId}
+                                />
+                            </div>
+                            <div
+                                ref={spielRef}
+                                className="flex justify-between gap-16 absolute top-0 w-full xl:hidden -mt-96 pt-96"
                             >
-                                Chat
-                            </button>
-                            <button
-                                className="btn bg-white border-4 border-secondary w-28 font-bold text-black xl:hidden"
-                                onClick={scrollToInfosHandler}
-                            >
-                                Infos
-                            </button>
-                        </div>
-                    </div>
+                                <button
+                                    className="btn bg-white border-4 border-secondary w-28 font-bold"
+                                    onClick={scrollToChatHandler}
+                                >
+                                    Chat
+                                </button>
+                                <button
+                                    className="btn bg-white border-4 border-secondary w-28 font-bold text-black xl:hidden"
+                                    onClick={scrollToInfosHandler}
+                                >
+                                    Infos
+                                </button>
+                            </div>
+                        </div>{" "}
+                    </Fragment>
                 ) : exist === false ? (
                     <div>
                         <h2 className="dark:text-white text-4xl text-center mt-16">

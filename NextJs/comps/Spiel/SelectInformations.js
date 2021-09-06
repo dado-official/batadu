@@ -4,7 +4,7 @@ const SelectInformations = ({ selectHandler, selected, name }) => {
     return (
         <div className="flex-1 relative">
             <p
-                className={` text-center py-3 cursor-pointer ${
+                className={`transition-all text-center py-3 cursor-pointer ${
                     selected === name
                         ? "text-primary shadow font-medium dark:text-primaryDark bg-white"
                         : "text-gray hover:text-logoGray"

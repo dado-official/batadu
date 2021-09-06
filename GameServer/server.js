@@ -97,6 +97,19 @@ io.on("connection", (socket) => {
         socket.emit("roomExist");
         socket.join(room); //joinig a room
         rooms[room]?.spectators.push(user);
+        socket.emit("players", {
+            userPos: rooms[room].userPos,
+            userTeam: rooms[room].userTeam,
+            userStiche: rooms[room].userStiche,
+            userStatus: rooms[room].userStatus,
+        });
+
+        if (rooms[room].team1Punkte !== 0 || rooms[room].team2Punkte !== 0) {
+            socket.emit("punkte", {
+                team1: rooms[room].team1Punkte,
+                team2: rooms[room].team2Punkte,
+            });
+        }
         io.to(room).emit("spectators", {
             spectators: rooms[room].spectators,
         });

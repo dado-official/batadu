@@ -609,3 +609,7 @@ nav:hover p {
         background-color: #ebe6ff;
     }
 }
+
+.click {
+    cursor: pointer;
+}

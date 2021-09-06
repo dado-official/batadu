@@ -112,6 +112,8 @@ module.exports = {
             boxShadow: ["dark"],
             width: ["hover"],
             display: ["hover", "group-hover"],
+            ringWidth: ["hover"],
+            ringColor: ["hover"],
         },
     },
     plugins: [],

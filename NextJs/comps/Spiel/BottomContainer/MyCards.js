@@ -43,7 +43,8 @@ function MyCards({
                                                   ref={provided.innerRef}
                                                   key={element.name}
                                                   className={`focus:outline-none mx-2 rounded focus:ring-4 focus:ring-primary h-6.73625 shadow-md md:h-8.421875 w-4.275rem md:w-4.75rem relative ${
-                                                      hover && ""
+                                                      hover &&
+                                                      "hover:ring-4 hover:ring-primary"
                                                   }`}
                                               >
                                                   <Image
@@ -64,6 +65,9 @@ function MyCards({
                                                               element.name
                                                           ]
                                                       }
+                                                      className={`${
+                                                          hover && "click"
+                                                      }`}
                                                   />
                                               </div>
                                           )}

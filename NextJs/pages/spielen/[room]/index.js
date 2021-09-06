@@ -11,6 +11,7 @@ import Layout from "../../../comps/Layout";
 import SpectatorElement from "../../../comps/Spiel/SpectatorElement";
 import BottomContainer from "../../../comps/Spiel/BottomContainer";
 import TopLeftInformations from "../../../comps/Spiel/TopLeftInformations";
+import CurrentUserStatus from "../../../comps/Spiel/CurrentUserStatus";
 
 const Spiel = ({
     isDarkmode,
@@ -141,6 +142,7 @@ const Spiel = ({
         });
         if (mode !== "spectate") {
             socket.on("karten", (data) => {
+                setKartenTisch([]);
                 setAlleKarten(data);
             });
             socket.on("karten sehen", () => {
@@ -510,6 +512,11 @@ const Spiel = ({
                                                 calcPos={calcPos}
                                                 karten={kartenTisch}
                                                 cardPhotos={cardPhotos}
+                                            />
+                                            <CurrentUserStatus
+                                                users={users}
+                                                status={status}
+                                                pos={pos}
                                             />
                                         </Fragment>
                                     ) : (

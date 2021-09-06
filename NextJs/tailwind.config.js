@@ -69,6 +69,7 @@ module.exports = {
                 bottomSpiel: "calc(100% - 4rem)",
                 8.421875: "8.421875rem",
                 6.73625: "6.73625rem",
+                5.0975: "5.0975rem",
             },
             maxWidth: {
                 "1/9": "90%",

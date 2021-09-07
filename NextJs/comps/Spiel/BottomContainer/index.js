@@ -32,7 +32,7 @@ function BottomContainer({
             <div className="ml-8 flex gap-4 flex-1 flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static text-sm text-center justify-between md:justify-start md:mt-0">
                 {showSchlagTrumpf && schlag !== "?" ? (
                     <div className="w-3.625rem">
-                        <p className="dark:text-white mb-1">Schlag</p>
+                        <p className="dark:text-white mb-1 text-text">Schlag</p>
                         {showSchlagTrumpf ? (
                             <div
                                 className="relative w-3.625rem shadow"
@@ -53,7 +53,7 @@ function BottomContainer({
                 ) : null}
                 {showSchlagTrumpf && trumpf !== "?" ? (
                     <div className="w-3.625rem">
-                        <p className="dark:text-white mb-1">Trumpf</p>
+                        <p className="dark:text-white mb-1 text-text">Trumpf</p>
                         {showSchlagTrumpf ? (
                             <div
                                 className="relative w-3.625rem shadow"

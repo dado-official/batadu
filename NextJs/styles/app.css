@@ -60,6 +60,11 @@ small,
     transform: translateY(-50%);
 }
 
+.centerX {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .btn {
     @apply py-1.5 px-4 rounded-st focus:outline-none cursor-pointer;
 }

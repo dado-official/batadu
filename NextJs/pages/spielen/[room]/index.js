@@ -12,6 +12,7 @@ import SpectatorElement from "../../../comps/Spiel/SpectatorElement";
 import BottomContainer from "../../../comps/Spiel/BottomContainer";
 import TopLeftInformations from "../../../comps/Spiel/TopLeftInformations";
 import CurrentUserStatus from "../../../comps/Spiel/CurrentUserStatus";
+import AntwortPopover from "../../../comps/Spiel/AntwortPopover.js";
 
 const Spiel = ({
     isDarkmode,
@@ -554,86 +555,23 @@ const Spiel = ({
                                         </div>
                                     )}
                                 </div>
-                                {/*fenster wenn man gewinnt*/}
-                                {/*fenster wenn geboten wird */}
-                                <div
-                                    className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
-                                        isHaltenWindow ? "fadein" : "fadeout"
-                                    }`}
-                                >
-                                    <p className="font-medium text-center text-2xl text-white dark:text-black">
-                                        {is4erle && geboten === 2
-                                            ? geboten + 2
-                                            : geboten + 1}{" "}
-                                        halten?
-                                    </p>
-                                    <div className="flex gap-4">
-                                        <p
-                                            onClick={haltenHandler}
-                                            className="cursor-pointer"
-                                        >
-                                            Ja
-                                        </p>
-                                        <p
-                                            onClick={ablehnenHandler}
-                                            className="cursor-pointer"
-                                        >
-                                            Nein
-                                        </p>
-                                    </div>
-                                </div>
-                                {/*fenster für schlagtausch */}
-                                <div
-                                    className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
-                                        isSchlagtauschWindow
-                                            ? "fadein"
-                                            : "fadeout"
-                                    }`}
-                                >
-                                    <p className="font-medium text-center text-2xl text-white dark:text-black">
-                                        Schlagtausch?
-                                    </p>
-                                    <div className="flex gap-4">
-                                        <p
-                                            onClick={schlagTauschJaHandler}
-                                            className="cursor-pointer"
-                                        >
-                                            Ja
-                                        </p>
-                                        <p
-                                            onClick={schlagTauschNeinHandler}
-                                            className="cursor-pointer"
-                                        >
-                                            Nein
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/*fenster für  schönere*/}
-                                <div
-                                    className={`fixed mt-4.25rem lg:mt-4.5rem w-full top-0 left-0 flex justify-center items-center gap-10 bg-secondary dark:bg-secondaryDark p-3 rounded-b-st z-10 ${
-                                        isSchönereWindows ? "fadein" : "fadeout"
-                                    }`}
-                                >
-                                    <p className="font-medium text-center text-2xl text-white dark:text-black">
-                                        Schönere?
-                                    </p>
-                                    <div className="flex gap-4">
-                                        <p
-                                            onClick={schönereJaHandler}
-                                            className="cursor-pointer"
-                                        >
-                                            Ja
-                                        </p>
-                                        <p
-                                            onClick={schönereNeinHandler}
-                                            className="cursor-pointer"
-                                        >
-                                            Nein
-                                        </p>
-                                    </div>
-                                </div>
-
+                                <AntwortPopover
+                                    isHaltenWindow={isHaltenWindow}
+                                    is4erle={is4erle}
+                                    geboten={geboten}
+                                    haltenHandler={haltenHandler}
+                                    ablehnenHandler={ablehnenHandler}
+                                    isSchlagtauschWindow={isSchlagtauschWindow}
+                                    schlagTauschJaHandler={
+                                        schlagTauschJaHandler
+                                    }
+                                    schönereNeinHandler={
+                                        schlagTauschNeinHandler
+                                    }
+                                    isSchönereWindows={isSchönereWindows}
+                                    schönereJaHandler={schönereJaHandler}
+                                    schönereNeinHandler={schönereNeinHandler}
+                                />
                                 {mode !== "spectate" && (
                                     <BottomContainer
                                         bietenHandler={bietenHandler}

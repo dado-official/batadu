@@ -19,8 +19,16 @@ function ProfilePicture({ imgSrc, level, size, selected }) {
             ></div>
             <div className="w-7 h-7 shadow-lg rounded-full absolute right-0 bottom-0 bg-text">
                 <div className="relative w-full h-full">
-                    <p className="centerAbsolute absolute text-white font-medium">
-                        5
+                    <p
+                        className={`centerAbsolute absolute text-white font-medium ${
+                            { level } >= 100
+                                ? " text-xs"
+                                : { level } >= 10
+                                ? "text-sm"
+                                : ""
+                        }`}
+                    >
+                        {level}
                     </p>
                 </div>
             </div>

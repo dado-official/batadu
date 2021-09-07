@@ -32,13 +32,7 @@ const Spiel = ({
     const [exist, setExist] = useState("");
     const [users, setUsers] = useState("");
     const [pos, setPos] = useState(undefined);
-    const [karten, setKarten] = useState([
-        { name: "Achter Eichel" },
-        { name: "Neuner Eichel" },
-        { name: "Ass Shell" },
-        { name: "Ass Herz" },
-        { name: "Ass Laub" },
-    ]);
+    const [karten, setKarten] = useState([]);
     const [alleKarten, setAlleKarten] = useState([]);
     const [hover, setHover] = useState(false);
     const [teams, setTeams] = useState([]);
@@ -73,7 +67,6 @@ const Spiel = ({
     const [playedSoundZug, setPlayedSoundZug] = useState(false);
     const [showSchlagTrumpf, setShowSchlagTrumpf] = useState(false);
 
-    const chatRef = useRef();
     const infosRef = useRef();
     const spielRef = useRef();
 
@@ -384,10 +377,6 @@ const Spiel = ({
         }
     }
 
-    function scrollToChatHandler() {
-        chatRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-
     function scrollToInfosHandler() {
         infosRef.current.scrollIntoView({ behavior: "smooth" });
     }
@@ -640,7 +629,6 @@ const Spiel = ({
                                 />
                                 <Chat
                                     socket={socket}
-                                    ref={chatRef}
                                     isDarkmode={isDarkmode}
                                     username={username}
                                     userPic={session.user.image}
@@ -651,10 +639,7 @@ const Spiel = ({
                                 ref={spielRef}
                                 className="flex justify-between gap-16 absolute top-0 w-full xl:hidden -mt-96 pt-96"
                             >
-                                <button
-                                    className="btn bg-white border-4 border-secondary w-28 font-bold"
-                                    onClick={scrollToChatHandler}
-                                >
+                                <button className="btn bg-white border-4 border-secondary w-28 font-bold">
                                     Chat
                                 </button>
                                 <button

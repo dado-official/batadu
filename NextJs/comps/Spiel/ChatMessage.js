@@ -33,4 +33,4 @@ const ChatMessage = ({ message, user, hideUsername }) => {
     );
 };
 
-export default ChatMessage;
+export default React.memo(ChatMessage);

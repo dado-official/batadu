@@ -28,7 +28,7 @@ function BottomContainer({
     trumpf,
 }) {
     return (
-        <div className="flex gap-4 justify-between fixed bottom-0 left-0 pl-20 bg-bgWhite shadow-2xl w-full pr-80 py-4">
+        <div className="flex gap-4 justify-between fixed bottom-0 left-0 pl-20 bg-bgWhite shadow-2xl w-full pr-80 py-4 items-center">
             <div className="ml-8 flex gap-4 flex-1 flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static text-sm text-center justify-between md:justify-start md:mt-0">
                 {showSchlagTrumpf && schlag !== "?" ? (
                     <div className="w-3.625rem">
@@ -86,6 +86,12 @@ function BottomContainer({
                 seeCards={seeCards}
             />
             <div className="mr-8 flex-1">
+                <p className="text-gray text-center mb-2">
+                    Geboten:{" "}
+                    <span className="font-medium text-text text-lg">
+                        {geboten}
+                    </span>
+                </p>
                 <button
                     onClick={bietenHandler}
                     className={`bg-primary mb-4 py-2.5 text-lg text-white font-medium rounded-full shadow-lg dark:bg-transparent dark:text-white w-full hover:shadow-xl transition-all ${

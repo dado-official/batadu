@@ -11,7 +11,7 @@ function UserStatus({ imgUrl, name, status, isMe }) {
         } else if (status === "Geboten Antwort") {
             return `${isMe ? "musst" : "muss"} halten oder gehen.`;
         } else if (status === "Gestochen🏆") {
-            return `${isMe ? "hast" : "hat"} gestochen.`;
+            return `${isMe ? "hast" : "hat"} gestochen 🐝.`;
         } else if (status === "Schönere Antwort") {
             return `${isMe ? "wurdest" : "wurde"} nach Schönere gefragt.`;
         } else if (status === "Schlagtausch Antwort") {

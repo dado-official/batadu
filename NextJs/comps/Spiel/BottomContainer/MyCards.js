@@ -23,7 +23,7 @@ function MyCards({
             <Droppable droppableId="cards" direction="horizontal">
                 {(provided) => (
                     <div
-                        className="flex justify-center myCards"
+                        className="flex justify-center myCards noselect"
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         style={{ width: "35rem" }}

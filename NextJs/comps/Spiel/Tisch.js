@@ -106,9 +106,9 @@ const Tisch = ({
                 </div>
             ) : null}
 
-            <p className="hidden sm:block dark:text-white">
+            {/*<p className="hidden sm:block dark:text-white">
                 Geboten: <span className="font-bold">{geboten}</span>
-            </p>
+            </p>*/}
             {/*AccountLevels */}
             {users[calcPos(2 + pos)] !== undefined &&
             users[calcPos(2 + pos)] !== null ? (

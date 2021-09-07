@@ -111,6 +111,11 @@ const Spiel = ({
         }
     }
 
+    function handleWindowBeforeUnload(e) {
+        e.preventDefault();
+        e.returnValue = "";
+    }
+
     useEffect(() => {
         if (room === "undefined") {
             router.push("/spielen");
@@ -236,6 +241,17 @@ const Spiel = ({
         socket.on("spectators", (data) => {
             setSpectators(data.spectators);
         });
+        if (mode !== "spectate") {
+            window.addEventListener("beforeunload", handleWindowBeforeUnload);
+        }
+        return () => {
+            if (mode !== "spectate") {
+                window.removeEventListener(
+                    "beforeunload",
+                    handleWindowBeforeUnload
+                );
+            }
+        };
     }, []);
 
     useEffect(() => {

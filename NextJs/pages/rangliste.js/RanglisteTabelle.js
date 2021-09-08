@@ -2,7 +2,7 @@ import RanglisteTabelleData from "./RanglisteTabelleData";
 
 const RanglisteTabelle = ({ data }) => {
     return (
-        <table className="rangliste mt-2 border-separate mb-16">
+        <table className="rangliste mt-8 border-separate mb-16 relative">
             <tbody>
                 {data.map((element, index) => {
                     return (
@@ -19,6 +19,9 @@ const RanglisteTabelle = ({ data }) => {
                     );
                 })}
             </tbody>
+            <button className="mt-4 border-1 border-grayLight2 rounded-md py-2.5 w-full absolute text-text shadow hover:shadow-md transition-all">
+                Mehr Laden
+            </button>
         </table>
     );
 };

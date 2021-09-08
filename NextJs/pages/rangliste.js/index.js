@@ -78,6 +78,7 @@ function Rangliste({ isDarkmode, setIsDarkmode, session }) {
             id: 2,
         },
     ]);
+    const [filter, setFilter] = useState("Gesamt");
 
     return (
         <Layout
@@ -89,6 +90,30 @@ function Rangliste({ isDarkmode, setIsDarkmode, session }) {
         >
             <div className="flex flex-col justify-center items-center mt-12 w-1450 max-w-1/9 mx-auto">
                 <h4>Rangliste</h4>
+                {/*Small filter*/}
+                <div className="mt-8">
+                    <button
+                        onClick={() => setFilter("Gesamt")}
+                        className={`w-28 rounded-l-md py-2 text-center transition-all border-1 border-grayLight2 ${
+                            filter === "Gesamt"
+                                ? "bg-primary text-white shadow-lg border-r-0"
+                                : "text-gray hover:text-text hover:shadow"
+                        } `}
+                    >
+                        Gesamt
+                    </button>
+                    <button
+                        onClick={() => setFilter("Woche")}
+                        className={`w-28 rounded-r-md py-2 text-center transition-all border-1 border-grayLight2 ${
+                            filter === "Woche"
+                                ? "bg-primary text-white shadow-lg border-l-0"
+                                : "text-gray hover:text-text hover:shadow"
+                        } `}
+                    >
+                        Woche
+                    </button>
+                </div>
+
                 <RanglisteTabelle data={userList} />
             </div>
         </Layout>

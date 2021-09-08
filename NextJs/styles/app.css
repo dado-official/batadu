@@ -645,3 +645,39 @@ nav:hover p {
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
+
+.progress {
+    animation: progressBar 1s ease-in-out;
+    animation-fill-mode: both;
+    -webkit-animation: progressBar 1s ease-in-out;
+    -webkit-animation-fill-mode: both;
+    -moz-animation: progressBar 1s ease-in-out;
+    -moz-animation-fill-mode: both;
+}
+
+@keyframes progressBar {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@-webkit-keyframes progressBar {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@-moz-keyframes progressBar {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}

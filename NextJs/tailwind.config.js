@@ -37,6 +37,7 @@ module.exports = {
                 f1: "#F1F1F1",
                 ring: "#6D6D6D",
                 bord: "#B9B9B9",
+                red: "#FF5A5C",
             },
             spacing: {
                 1450: "1400px",

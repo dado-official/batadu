@@ -191,30 +191,47 @@ body {
 }
 
 .rangliste {
-    width: 100%;
+    width: auto;
 }
 
-.rangliste th {
+.rangliste .rangliste th,
+td {
     text-align: left;
+    white-space: nowrap;
 }
 
 .rangliste td,
 .rangliste th {
-    padding: 0.5rem 1rem;
+    padding: 0.9rem 3rem;
+}
+
+.rangliste td:first-child {
+    padding-left: 2rem;
+}
+
+.rangliste td:last-child {
+    padding-right: 2rem;
+}
+
+.select td {
+    background-color: rgb(144, 136, 230);
+}
+
+.rangliste td {
+    border-bottom: #d4d4d4 1px solid;
+}
+
+.rangliste tr:last-child td {
+    border-bottom: none;
 }
 
 .rangliste tr,
 .rangliste th {
-    margin-bottom: 2rem;
     text-align: center;
 }
 
 .rangliste {
-    border-spacing: 0 1rem;
-}
-
-.rangliste td {
-    @apply bg-white dark:bg-whiteDark dark:text-white;
+    border-spacing: 0 0rem;
 }
 
 @media (max-width: 768px) {

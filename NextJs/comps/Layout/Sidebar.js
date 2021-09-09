@@ -1,20 +1,14 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
-import {
-    HeartIcon,
-    LoginIcon,
-    LogoutIcon,
-    MoonIcon,
-    SunIcon,
-} from "@heroicons/react/solid";
+import { LoginIcon, LogoutIcon } from "@heroicons/react/solid";
 import { UserIcon } from "@heroicons/react/outline";
 import { signIn, signOut } from "next-auth/client";
 import SidebarElement from "./SidebarElement";
 import { BiDice5 } from "@react-icons/all-files/bi/BiDice5";
-import { CgCardHearts } from "@react-icons/all-files/cg/CgCardHearts";
 import { RiTrophyLine } from "@react-icons/all-files/ri/RiTrophyLine";
 import ProfileElement from "./ProfileElement";
+import Link from "next/link";
 
 function Sidebar({
     isDarkmode,
@@ -46,6 +40,21 @@ function Sidebar({
                     <ul
                         className={`bg-white h-full dark:bg-whiteDark flex flex-col`}
                     >
+                        <li
+                            className={`flex h-20 border-grayLight2 border-b-1 relative cursor-pointer transition-all`}
+                        >
+                            <Link href={"/spielen"}>
+                                <div className="flex justify-center items-center w-full">
+                                    <div className="relative h-8 w-8">
+                                        <Image
+                                            src="/logo.svg"
+                                            layout="fill"
+                                            objectFit="contain"
+                                        />
+                                    </div>
+                                </div>
+                            </Link>
+                        </li>
                         <SidebarElement
                             href="/spielen"
                             title="Spielen"
@@ -61,7 +70,7 @@ function Sidebar({
                             <RiTrophyLine className="mx-6" size="32" />
                         </SidebarElement>
                         <SidebarElement
-                            href="/profil"
+                            href={`/profil/${session.userId}`}
                             title="Profil"
                             active={profil}
                         >

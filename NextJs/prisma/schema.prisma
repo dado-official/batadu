@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model accounts {
+  id                   Int       @id @default(autoincrement())
+  compound_id          String    @unique(map: "compound_id") @db.VarChar(255)
+  user_id              Int
+  provider_type        String    @db.VarChar(255)
+  provider_id          String    @db.VarChar(255)
+  provider_account_id  String    @db.VarChar(255)
+  refresh_token        String?
+  access_token         String?
+  access_token_expires DateTime? @db.Timestamptz(6)
+  created_at           DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at           DateTime  @default(now()) @db.Timestamptz(6)
+
+  @@index([provider_account_id], map: "provider_account_id")
+  @@index([provider_id], map: "provider_id")
+  @@index([user_id], map: "user_id")
+}
+
+model game {
+  id    Int      @id @default(autoincrement())
+  datum DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
+  plays plays[]
+  team  team[]
+}
+
+model level {
+  nr    Int @id
+  xpreq Int
+}
+
+model plays {
+  teamid Int
+  gameid Int
+  won    Boolean
+  game   game    @relation(fields: [gameid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  team   team    @relation(fields: [teamid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([teamid, gameid])
+}
+
+model sessions {
+  id            Int      @id @default(autoincrement())
+  user_id       Int
+  expires       DateTime @db.Timestamptz(6)
+  session_token String   @unique(map: "session_token") @db.VarChar(255)
+  access_token  String   @unique(map: "access_token") @db.VarChar(255)
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model team {
+  id      Int     @id @default(autoincrement())
+  points  Int
+  stiche1 Int
+  stiche2 Int
+  gameid  Int
+  game    game    @relation(fields: [gameid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  plays   plays[]
+}
+
+model users {
+  id             Int       @id @default(autoincrement())
+  name           String?   @db.VarChar(255)
+  cash           Int?
+  xp             Int?
+  email          String?   @unique(map: "email") @db.VarChar(255)
+  email_verified DateTime? @db.Timestamptz(6)
+  image          String?
+  created_at     DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime  @default(now()) @db.Timestamptz(6)
+}
+
+model verification_requests {
+  id         Int      @id @default(autoincrement())
+  identifier String   @db.VarChar(255)
+  token      String   @unique(map: "token") @db.VarChar(255)
+  expires    DateTime @db.Timestamptz(6)
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+}

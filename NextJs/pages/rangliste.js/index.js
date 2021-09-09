@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getSession } from "next-auth/client";
 import Layout from "../../comps/Layout";
-import RanglisteTabelle from "./RanglisteTabelle";
+import RanglisteTabelle from "../../comps/RanglisteTabelle/RanglisteTabelle";
 
 function Rangliste({ isDarkmode, setIsDarkmode, session }) {
     const [userList, setUserList] = useState([
@@ -89,7 +89,7 @@ function Rangliste({ isDarkmode, setIsDarkmode, session }) {
             rank={true}
         >
             <div className="flex flex-col justify-center items-center mt-12 w-1450 max-w-1/9 mx-auto">
-                <h4>Rangliste</h4>
+                <h3>Rangliste</h3>
                 {/*Small filter*/}
                 <div className="mt-8">
                     <button

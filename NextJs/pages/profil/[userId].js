@@ -82,7 +82,7 @@ export async function getServerSideProps(context) {
                     userId: 5,
                     username: "Elon Musk",
                     userPic:
-                        "https://static-cdn.jtvnw.net/user-default-pictures-uv/ce57700a-def9-11e9-842d-784f43822e80-profile_image-300x300.png",
+                        "https://static-cdn.jtvnw.net/jtv_user_pictures/1dc45a93-ba3d-4f32-b711-f31d3c6ba601-profile_image-300x300.png",
                     level: 2,
                 },
                 level: {

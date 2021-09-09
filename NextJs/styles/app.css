@@ -214,7 +214,7 @@ td {
 }
 
 .select td {
-    background-color: rgb(144, 136, 230);
+    background-color: #ff0c4c;
 }
 
 .rangliste td {
@@ -586,8 +586,8 @@ nav:hover p {
     width: 8px;
     height: 8px;
     border-radius: 4px;
-    background-color: #9880ff;
-    color: #9880ff;
+    background-color: #ff0c4c;
+    color: #ff0c4c;
     animation: dotFlashing 1s infinite linear alternate;
     animation-delay: 0.5s;
 }
@@ -605,8 +605,8 @@ nav:hover p {
     width: 8px;
     height: 8px;
     border-radius: 4px;
-    background-color: #9880ff;
-    color: #9880ff;
+    background-color: #ff0c4c;
+    color: #ff0c4c;
     animation: dotFlashing 1s infinite alternate;
     animation-delay: 0s;
 }
@@ -616,15 +616,15 @@ nav:hover p {
     width: 8px;
     height: 8px;
     border-radius: 4px;
-    background-color: #9880ff;
-    color: #9880ff;
+    background-color: #ff0c4c;
+    color: #ff0c4c;
     animation: dotFlashing 1s infinite alternate;
     animation-delay: 1s;
 }
 
 @keyframes dotFlashing {
     0% {
-        background-color: #9880ff;
+        background-color: #ff0c4c;
     }
     50%,
     100% {

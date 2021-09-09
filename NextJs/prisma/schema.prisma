@@ -29,7 +29,6 @@ model game {
   id    Int      @id @default(autoincrement())
   datum DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
   plays plays[]
-  team  team[]
 }
 
 model level {
@@ -58,13 +57,12 @@ model sessions {
 }
 
 model team {
-  id      Int     @id @default(autoincrement())
+  id      Int       @id @default(autoincrement())
   points  Int
   stiche1 Int
   stiche2 Int
-  gameid  Int
-  game    game    @relation(fields: [gameid], references: [id], onDelete: Cascade, onUpdate: NoAction)
   plays   plays[]
+  playsin playsin[]
 }
 
 model users {
@@ -77,6 +75,7 @@ model users {
   image          String?
   created_at     DateTime  @default(now()) @db.Timestamptz(6)
   updated_at     DateTime  @default(now()) @db.Timestamptz(6)
+  playsin        playsin[]
 }
 
 model verification_requests {
@@ -86,4 +85,13 @@ model verification_requests {
   expires    DateTime @db.Timestamptz(6)
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model playsin {
+  userid Int
+  teamid Int
+  team   team  @relation(fields: [teamid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users  users @relation(fields: [userid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([userid, teamid])
 }

@@ -6,7 +6,7 @@ module.exports = {
         },
         extend: {
             colors: {
-                primary: "#9088e6",
+                primary: "#FF0C4C",
                 primaryDark: "#4B42A8",
                 bgWhite: "#eeeff2",
                 bgWhiteDark: "##E2E2E2",
@@ -18,8 +18,8 @@ module.exports = {
                 tableGray: "#CECECE",
                 borderGray: "#858585",
                 borderGray2: "#E1E1E1",
-                primaryLight: "#dad7f7",
-                primaryLight2: "#CAC6EE",
+                primaryLight: "#fad9e2",
+                primaryLight2: "#facad7",
                 primaryLightDark: "#7E3A4A",
                 spielGray: "#E6E6E6",
                 whiteDark: "#2E2E2E",

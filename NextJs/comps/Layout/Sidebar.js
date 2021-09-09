@@ -70,7 +70,7 @@ function Sidebar({
                             <RiTrophyLine className="mx-6" size="32" />
                         </SidebarElement>
                         <SidebarElement
-                            href={`/profil/${session.userId}`}
+                            href={`/profil/${session?.userId}`}
                             title="Profil"
                             active={profil}
                         >

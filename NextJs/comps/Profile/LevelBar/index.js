@@ -4,7 +4,7 @@ function LevelBar({ xp, xpReq, xpReqBefore, level }) {
             <p className="text-center">
                 {xp}/{xpReq} XP
             </p>
-            <div className="relative mt-2 w-full bg-primaryLight h-7 rounded-full">
+            <div className="relative mt-2 w-full bg-primaryLight h-7 rounded-full shadow">
                 <div
                     className="absolute h-full left-0 top-0 transition-all"
                     style={{
@@ -13,7 +13,7 @@ function LevelBar({ xp, xpReq, xpReqBefore, level }) {
                         }%`,
                     }}
                 >
-                    <div className="progress bg-primary h-full rounded-l-full"></div>
+                    <div className="progress bg-primary h-full rounded-l-full "></div>
                 </div>
                 <p className="absolute text-white centerY left-6">{level}</p>
                 <p className="absolute text-text centerY right-6">

@@ -5,6 +5,9 @@ import Image from "next/image";
 import Stats from "../../comps/Profile/Stats";
 import LevelBar from "../../comps/Profile/LevelBar";
 import GameHistory from "../../comps/Profile/GameHistory";
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
 
 function Profil({
     isDarkmode,
@@ -58,6 +61,7 @@ function Profil({
                             win={element.win}
                             date={element.date}
                             border={index !== gameHistory.length - 1}
+                            key={element.gameId}
                         />
                     ))}
                     <button className="mt-4 border-1 border-grayLight2 rounded-md py-2.5 w-full text-text shadow hover:shadow-md transition-all">
@@ -75,6 +79,17 @@ export async function getServerSideProps(context) {
     const session = await getSession(context);
 
     if (session && session.accessToken) {
+        const { userId } = context.query;
+        console.log(userId);
+
+        console.log(
+            `Select game.id AS "gameId", game.datum as "date", plays.won AS "win", team.points AS "team1", otherteam.points AS "team2" from game JOIN plays ON plays.gameId = game.id JOIN team ON team.id = plays.teamId JOIN playsIn ON team.id = playsIn.teamId JOIN plays otherplays ON otherplays.gameId = game.id AND otherplays.teamId <> team.id JOIN team otherteam ON otherteam.id = otherplays.teamId WHERE playsIn.userId = ${userId}`
+        );
+        const gameHistory =
+            await prisma.$queryRaw`Select game.id AS "gameId", game.datum as "date", plays.won AS "win", team.points AS "team1", otherteam.points AS "team2" from game JOIN plays ON plays.gameId = game.id JOIN team ON team.id = plays.teamId JOIN playsIn ON team.id = playsIn.teamId JOIN plays otherplays ON otherplays.gameId = game.id AND otherplays.teamId <> team.id JOIN team otherteam ON otherteam.id = otherplays.teamId WHERE playsIn.userId = ${parseInt(
+                userId
+            )}::int;`;
+        console.log(gameHistory);
         return {
             props: {
                 session: session,
@@ -95,26 +110,7 @@ export async function getServerSideProps(context) {
                     rank: 3,
                     winrate: 62,
                 },
-                gameHistory: [
-                    {
-                        team1: 18,
-                        team2: 14,
-                        date: "10.10.10",
-                        win: true,
-                    },
-                    {
-                        team1: 18,
-                        team2: 14,
-                        date: "10.10.10",
-                        win: false,
-                    },
-                    {
-                        team1: 18,
-                        team2: 14,
-                        date: "10.10.10",
-                        win: true,
-                    },
-                ],
+                gameHistory: gameHistory,
             },
         };
     }

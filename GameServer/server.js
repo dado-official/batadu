@@ -494,6 +494,12 @@ io.on("connection", (socket) => {
 
                 rooms[room].userStatus = [];
                 rooms[room].userStatus[gewonnenPos] = "Gestochen🏆";
+
+                databaseFunction.addXp(
+                    2,
+                    rooms[room]?.userPos[gewonnenPos].userId
+                );
+
                 io.to(room).emit("status", rooms[room].userStatus);
                 rooms[room].stich += 1;
                 rooms[room].addStichToTeam(gewonnenPos);

@@ -47,54 +47,61 @@ module.exports = {
 
         console.log(incrementXp);
         console.log(incrementXp2);
+    },
+    addXp: async function (amount, userId) {
+        const updateXp = await prisma.users.update({
+            where: {
+                id: userId,
+            },
+            data: {
+                xp: {
+                    increment: amount,
+                },
+            },
+        });
+        console.log(updateXp);
+    },
+};
 
-        function createIncrementObj(
-            myPoints,
-            otherPoints,
-            user1,
-            user2,
-            maxPoints
-        ) {
-            return {
-                where: {
-                    OR: [
+function createIncrementObj(myPoints, otherPoints, user1, user2, maxPoints) {
+    return {
+        where: {
+            OR: [
+                {
+                    id: user1,
+                },
+                {
+                    id: user2,
+                },
+            ],
+        },
+        data: {
+            xp: {
+                increment: maxPoints * (myPoints > otherPoints ? 2 : 1),
+            },
+        },
+    };
+}
+
+function createTeamObj(myPoints, otherPoints, user1, user2) {
+    return {
+        team: {
+            create: {
+                points: myPoints,
+                stiche1: 0,
+                stiche2: 0,
+                playsin: {
+                    create: [
                         {
-                            id: user1,
+                            userid: user1,
                         },
                         {
-                            id: user2,
+                            userid: user2,
                         },
                     ],
                 },
-                data: {
-                    xp: {
-                        increment: maxPoints * (myPoints > otherPoints ? 2 : 1),
-                    },
-                },
-            };
-        }
-
-        function createTeamObj(myPoints, otherPoints, user1, user2) {
-            return {
-                team: {
-                    create: {
-                        points: myPoints,
-                        stiche1: 0,
-                        stiche2: 0,
-                        playsin: {
-                            create: [
-                                {
-                                    userid: user1,
-                                },
-                                {
-                                    userid: user2,
-                                },
-                            ],
-                        },
-                    },
-                },
-                won: myPoints > otherPoints,
-            };
-        }
-    },
-};
+            },
+        },
+        won: myPoints > otherPoints,
+    };
+}

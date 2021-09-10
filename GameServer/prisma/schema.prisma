@@ -46,6 +46,15 @@ model plays {
   @@id([teamid, gameid])
 }
 
+model playsin {
+  userid Int
+  teamid Int
+  team   team  @relation(fields: [teamid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users  users @relation(fields: [userid], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([userid, teamid])
+}
+
 model sessions {
   id            Int      @id @default(autoincrement())
   user_id       Int
@@ -85,13 +94,4 @@ model verification_requests {
   expires    DateTime @db.Timestamptz(6)
   created_at DateTime @default(now()) @db.Timestamptz(6)
   updated_at DateTime @default(now()) @db.Timestamptz(6)
-}
-
-model playsin {
-  userid Int
-  teamid Int
-  team   team  @relation(fields: [teamid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  users  users @relation(fields: [userid], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@id([userid, teamid])
 }

@@ -15,7 +15,9 @@ function GameHistory({
             } border-grayLight2 py-4 flex justify-between`}
         >
             <div
-                className={`font-medium ${win ? " text-primary" : "text-red"}`}
+                className={`font-medium ${
+                    win ? " text-black" : "text-primary"
+                }`}
             >
                 {win ? "Gewonnen" : "Verloren"}
             </div>
@@ -23,8 +25,8 @@ function GameHistory({
             <div className="flex items-end gap-3 m-auto absolute centerX">
                 {" "}
                 <p className="font-medium">
-                    <span className="text-primary">{team1} </span>:{" "}
-                    <span className="text-red dark:text-primaryDark">
+                    <span className="text-black">{team1} </span>:{" "}
+                    <span className="text-primary dark:text-primaryDark">
                         {team2}
                     </span>
                 </p>

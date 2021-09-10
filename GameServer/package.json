@@ -5,6 +5,7 @@
   "author": "Daniel Nagler",
   "private": true,
   "dependencies": {
+    "@prisma/client": "^3.0.2",
     "arraylist": "^0.1.0",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "cors": "^2.8.5",
+    "prisma": "^3.0.2",
     "socket.io": "^4.0.0"
   }
 }

@@ -30,8 +30,8 @@ CREATE TABLE users
   (
     id             SERIAL,
     name           VARCHAR(255),
-    cash           INTEGER,
-    xp             INTEGER, 
+    cash           INTEGER DEFAULT 0,
+    xp             INTEGER DEFAULT 0, 
     email          VARCHAR(255),
     email_verified TIMESTAMPTZ,
     image          TEXT,
@@ -83,8 +83,8 @@ CREATE TABLE IF NOT EXISTS game(
 CREATE TABLE IF NOT EXISTS team(
     id SERIAL PRIMARY KEY,
     points INT NOT NULL,
-    stiche1 INT NOT NULL,
-    stiche2 INT NOT NULL
+    stiche1 INT DEFAULT 0,
+    stiche2 INT DEFAULT 0
 );
 
 

@@ -7,6 +7,7 @@ const io = require("socket.io")(http, {
 });
 const Room = require("./GameElements/Room");
 const axios = require("axios");
+const databaseFunction = require("./databaseFunctions");
 
 let rooms = []; //array for all rooms
 
@@ -325,36 +326,12 @@ io.on("connection", (socket) => {
             let winningTeam = rooms[room].checkWin();
             if (winningTeam !== 0) {
                 io.to(room).emit("win", winningTeam);
-                let axiosConfig = {
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8",
-                        "Access-Control-Allow-Origin": "*",
-                    },
-                };
-                axios
-                    .post(
-                        "http://82.165.104.152:42069/game/results",
-                        {
-                            spielname: rooms[room].name,
-                            team1punkte: rooms[room].team1Punkte,
-                            team1stichespieler1:
-                                rooms[room].userSticheGesamt[0],
-                            team1stichespieler2:
-                                rooms[room].userSticheGesamt[2],
-                            team2punkte: rooms[room].team2Punkte,
-                            team2stichespieler1:
-                                rooms[room].userSticheGesamt[1],
-                            team2stichespieler2:
-                                rooms[room].userSticheGesamt[3],
-                            gewinnerteam: winningTeam,
-                            team1user1: rooms[room].userPos[0],
-                            team1user2: rooms[room].userPos[2],
-                            team2user1: rooms[room].userPos[1],
-                            team2user2: rooms[room].userPos[3],
-                        },
-                        axiosConfig
-                    )
-                    .then((data) => {});
+                databaseFunction.addGame(
+                    rooms[room]?.userPos.map((e) => e.userId),
+                    rooms[room]?.team1Punkte,
+                    rooms[room]?.team2Punkte,
+                    rooms[room]?.maxPoints
+                );
                 setTimeout(() => {
                     if (rooms[room] !== undefined) {
                         if (rooms[room].freePos.length === 0) {
@@ -544,39 +521,14 @@ io.on("connection", (socket) => {
                             let winningTeam = rooms[room].checkWin();
                             if (winningTeam !== 0) {
                                 io.to(room).emit("win", winningTeam);
-                                let axiosConfig = {
-                                    headers: {
-                                        "Content-Type":
-                                            "application/json;charset=UTF-8",
-                                        "Access-Control-Allow-Origin": "*",
-                                    },
-                                };
-                                axios
-                                    .post(
-                                        "http://82.165.104.152:42069/game/results",
-                                        {
-                                            spielname: rooms[room].name,
-                                            team1punkte:
-                                                rooms[room].team1Punkte,
-                                            team1stichespieler1:
-                                                rooms[room].userSticheGesamt[0],
-                                            team1stichespieler2:
-                                                rooms[room].userSticheGesamt[2],
-                                            team2punkte:
-                                                rooms[room].team2Punkte,
-                                            team2stichespieler1:
-                                                rooms[room].userSticheGesamt[1],
-                                            team2stichespieler2:
-                                                rooms[room].userSticheGesamt[3],
-                                            gewinnerteam: winningTeam,
-                                            team1user1: rooms[room].userPos[0],
-                                            team1user2: rooms[room].userPos[2],
-                                            team2user1: rooms[room].userPos[1],
-                                            team2user2: rooms[room].userPos[3],
-                                        },
-                                        axiosConfig
-                                    )
-                                    .then((data) => {});
+
+                                databaseFunction.addGame(
+                                    rooms[room]?.userPos.map((e) => e.userId),
+                                    rooms[room]?.team1Punkte,
+                                    rooms[room]?.team2Punkte,
+                                    rooms[room]?.maxPoints
+                                );
+
                                 setTimeout(() => {
                                     if (
                                         rooms[room] !== undefined &&

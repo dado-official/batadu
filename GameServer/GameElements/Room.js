@@ -12,8 +12,8 @@ class Room {
             this.password = config.password;
         }
         this.spectators = [];
-        this.team1Punkte = 0;
-        this.team2Punkte = 0;
+        this.team1Punkte = 17;
+        this.team2Punkte = 17;
         this.freePos = [0, 1, 2, 3];
         this.userPos = [];
         this.userTeam = [1, 2, 1, 2];

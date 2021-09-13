@@ -15,7 +15,13 @@ function LevelBar({ xp, xpReq, xpReqBefore, level }) {
                 >
                     <div className="progress bg-primary h-full rounded-l-full "></div>
                 </div>
-                <p className="absolute text-white centerY left-6">{level}</p>
+                <p
+                    className={`absolute ${
+                        xp === xpReqBefore ? "text-text" : "text-white"
+                    } centerY left-6`}
+                >
+                    {level}
+                </p>
                 <p className="absolute text-text centerY right-6">
                     {level + 1}
                 </p>

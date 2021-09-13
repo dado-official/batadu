@@ -61,21 +61,26 @@ function Profil({
                 </div>
                 <h3 className="mt-4">{user.username}</h3>
                 <h5 className="text-gray mt-2">Level {user.level}</h5>
-                <Stats
-                    rank={stats.rank}
-                    winrate={stats.winrate}
-                    gameW={stats.gameW}
-                />
+                {!stats && (
+                    <Stats
+                        rank={stats.rank}
+                        winrate={stats.winrate}
+                        gameW={stats.gameW}
+                    />
+                )}
                 <LevelBar
                     xp={level.xp}
                     xpReq={level.xpReq}
                     xpReqBefore={level.xpReqBefore}
                     level={user.level}
                 />
-                <h4 className="mt-10">Skins</h4>
-                <p className="text-gray mt-2">Kommt bald...</p>
                 <div className="w-full mb-16">
                     <h4 className="mt-10 text-center mb-4">Verlauf</h4>
+                    {pagination.data.length === 0 && (
+                        <p className="text-center text-gray">
+                            Dieser Spieler hat noch keine Spiele gespielt.
+                        </p>
+                    )}
                     {pagination.data.map((element, index) => (
                         <GameHistory
                             team1={element.team1}
@@ -107,36 +112,51 @@ export async function getServerSideProps(context) {
 
     if (session && session.accessToken) {
         const { userId } = context.query;
-        console.log(userId);
 
-        console.log(
-            `Select game.id AS "gameId", game.datum as "date", plays.won AS "win", team.points AS "team1", otherteam.points AS "team2" from game JOIN plays ON plays.gameId = game.id JOIN team ON team.id = plays.teamId JOIN playsIn ON team.id = playsIn.teamId JOIN plays otherplays ON otherplays.gameId = game.id AND otherplays.teamId <> team.id JOIN team otherteam ON otherteam.id = otherplays.teamId WHERE playsIn.userId = ${userId}`
-        );
+        const user =
+            await prisma.$queryRaw`Select users.id AS "userId", users.name AS "username", users.image AS "userPic", users.xp, (Select level.nr FROM level WHERE xpreq <= users.xp ORDER BY xpreq DESC LIMIT 1) AS "level", (Select level.xpReq FROM level WHERE xpreq <= users.xp ORDER BY xpreq DESC LIMIT 1) AS "xpReqBefore", (Select level.xpReq FROM level WHERE xpreq > users.xp ORDER BY xpreq ASC LIMIT 1) AS "xpReq" FROM users Where id = ${parseInt(
+                userId
+            )}`;
+
         const gameHistory =
             await prisma.$queryRaw`Select game.id AS "gameId", game.datum as "date", plays.won AS "win", team.points AS "team1", otherteam.points AS "team2" from game JOIN plays ON plays.gameId = game.id JOIN team ON team.id = plays.teamId JOIN playsIn ON team.id = playsIn.teamId JOIN plays otherplays ON otherplays.gameId = game.id AND otherplays.teamId <> team.id JOIN team otherteam ON otherteam.id = otherplays.teamId WHERE playsIn.userId = ${parseInt(
                 userId
             )} ORDER BY game.datum ASC LIMIT 10`;
-        console.log(gameHistory);
+
+        const stats =
+            await prisma.$queryRaw`Select r.* from (SELECT users.id,rank() OVER(ORDER BY COUNT(CASE WHEN plays.won THEN 1 END) DESC) AS rank,  COUNT(CASE WHEN plays.won THEN 1 END) AS "gameW", COUNT(plays.won) AS "played"
+FROM users JOIN playsin ON playsin.userId = users.id JOIN team ON team.id = playsin.teamId JOIN plays ON plays.teamId = team.id GROUP BY users.id
+) r WHERE r.id = ${parseInt(userId)}`;
+        console.table(stats);
+
+        let statsProps;
+        if (stats[0]) {
+            statsProps = {
+                gameW: stats[0]?.gameW,
+                rank: stats[0]?.rank,
+                winrate: ((100 / stats[0]?.played) * stats[0]?.gameW).toFixed(
+                    2
+                ),
+            };
+        } else {
+            statsProps = null;
+        }
+
         return {
             props: {
                 session: session,
                 user: {
-                    userId: 5,
-                    username: "Elon Musk",
-                    userPic:
-                        "https://static-cdn.jtvnw.net/jtv_user_pictures/1dc45a93-ba3d-4f32-b711-f31d3c6ba601-profile_image-300x300.png",
-                    level: 2,
+                    userId: userId,
+                    username: user[0]?.username,
+                    userPic: user[0]?.userPic,
+                    level: user[0].level,
                 },
                 level: {
-                    xp: 140,
-                    xpReq: 160,
-                    xpReqBefore: 100,
+                    xp: user[0]?.xp,
+                    xpReq: user[0]?.xpReq,
+                    xpReqBefore: user[0]?.xpReqBefore,
                 },
-                stats: {
-                    gameW: 76,
-                    rank: 3,
-                    winrate: 62,
-                },
+                stats: { statsProps },
                 gameHistory: gameHistory,
                 userId: userId,
             },

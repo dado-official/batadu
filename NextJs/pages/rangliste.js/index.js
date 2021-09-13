@@ -2,83 +2,33 @@ import { useState } from "react";
 import { getSession } from "next-auth/client";
 import Layout from "../../comps/Layout";
 import RanglisteTabelle from "../../comps/RanglisteTabelle/RanglisteTabelle";
+const { PrismaClient } = require("@prisma/client");
+import axios from "axios";
 
-function Rangliste({ isDarkmode, setIsDarkmode, session }) {
-    const [userList, setUserList] = useState([
-        {
-            username: "Legenbenni",
-            userPic: "https://avatars.githubusercontent.com/u/63723690?v=4",
-            winrate: "58",
-            points: "5689",
-            gamesW: "57",
-            id: 2,
-        },
-        {
-            username: "Legenbenni",
-            userPic: "https://avatars.githubusercontent.com/u/63723690?v=4",
-            winrate: "58",
-            points: "5685",
-            gamesW: "57",
-            id: 2,
-        },
-        {
-            username: "Legenbenni",
-            userPic: "https://avatars.githubusercontent.com/u/63723690?v=4",
-            winrate: "58",
-            points: "4685",
-            gamesW: "57",
-            id: 2,
-        },
-        {
-            username: "Legenbenni",
-            userPic: "https://avatars.githubusercontent.com/u/63723690?v=4",
-            winrate: "58",
-            points: "585",
-            gamesW: "57",
-            id: 2,
-        },
-        {
-            username: "Legenbenni",
-            userPic: "https://avatars.githubusercontent.com/u/63723690?v=4",
-            winrate: "61.2",
-            points: "5685",
-            gamesW: "57",
-            id: 2,
-        },
-        {
-            username: "Legenbenni",
-            userPic: "https://avatars.githubusercontent.com/u/63723690?v=4",
-            winrate: "58",
-            points: "5685",
-            gamesW: "57",
-            id: 2,
-        },
-        {
-            username: "Legenbenni",
-            userPic: "https://avatars.githubusercontent.com/u/63723690?v=4",
-            winrate: "58",
-            points: "5685",
-            gamesW: "57",
-            id: 2,
-        },
-        {
-            username: "Legenbenni",
-            userPic: "https://avatars.githubusercontent.com/u/63723690?v=4",
-            winrate: "58",
-            points: "5685",
-            gamesW: "57",
-            id: 2,
-        },
-        {
-            username: "Legenbenni",
-            userPic: "https://avatars.githubusercontent.com/u/63723690?v=4",
-            winrate: "58",
-            points: "5685",
-            gamesW: "57",
-            id: 2,
-        },
-    ]);
+const prisma = new PrismaClient();
+const contentPerPage = 20;
+
+function Rangliste({ isDarkmode, setIsDarkmode, session, rankList }) {
     const [filter, setFilter] = useState("Gesamt");
+
+    const [pagination, setPagination] = useState({
+        page: 0,
+        data: rankList,
+        lastPage: rankList.length < contentPerPage,
+    });
+
+    async function loadMore() {
+        const res = await axios.get(`/api/ranklist`, {
+            params: { page: pagination.page + 1 },
+        });
+        console.log(res.data);
+
+        setPagination((prev) => ({
+            page: prev.page + 1,
+            data: [...prev.data, ...res.data.getGames],
+            lastPage: res.data.getGames.length < contentPerPage,
+        }));
+    }
 
     return (
         <Layout
@@ -114,7 +64,12 @@ function Rangliste({ isDarkmode, setIsDarkmode, session }) {
                     </button>
                 </div>
 
-                <RanglisteTabelle data={userList} />
+                <RanglisteTabelle
+                    data={pagination.data}
+                    userId={session.userId}
+                    loadMore={loadMore}
+                    lastPage={pagination.lastPage}
+                />
             </div>
         </Layout>
     );
@@ -126,9 +81,15 @@ export async function getServerSideProps(context) {
     const session = await getSession(context);
 
     if (session && session.accessToken) {
+        const rankList =
+            await prisma.$queryRaw`SELECT users.id, users.name AS "username", users.image AS "userPic", users.xp AS points, COUNT(CASE WHEN plays.won THEN 1 END) AS "gamesW", COUNT(plays.won) AS "games", rank() OVER(ORDER BY users.xp DESC) AS rank
+FROM users JOIN playsin ON playsin.userId = users.id JOIN team ON team.id = playsin.teamId JOIN plays ON plays.teamId = team.id GROUP BY users.id LIMIT ${contentPerPage}`;
+        console.log(rankList);
+
         return {
             props: {
                 session: session,
+                rankList: rankList,
             },
         };
     }

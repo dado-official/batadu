@@ -36,7 +36,7 @@ function Profil({
         setPagination((prev) => ({
             page: prev.page + 1,
             data: [...prev.data, ...res.data.getGames],
-            lastPage: res.data.getGames.length < contentPerPage,
+            lastPage: false,
         }));
     }
 
@@ -121,7 +121,7 @@ export async function getServerSideProps(context) {
         const gameHistory =
             await prisma.$queryRaw`Select game.id AS "gameId", game.datum as "date", plays.won AS "win", team.points AS "team1", otherteam.points AS "team2" from game JOIN plays ON plays.gameId = game.id JOIN team ON team.id = plays.teamId JOIN playsIn ON team.id = playsIn.teamId JOIN plays otherplays ON otherplays.gameId = game.id AND otherplays.teamId <> team.id JOIN team otherteam ON otherteam.id = otherplays.teamId WHERE playsIn.userId = ${parseInt(
                 userId
-            )} ORDER BY game.datum ASC LIMIT 10`;
+            )} ORDER BY game.id DESC LIMIT 10`;
 
         const stats =
             await prisma.$queryRaw`Select r.* from (SELECT users.id,rank() OVER(ORDER BY users.xp DESC) AS rank,  COUNT(CASE WHEN plays.won THEN 1 END) AS "gameW", COUNT(plays.won) AS "played"

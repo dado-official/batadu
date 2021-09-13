@@ -2,7 +2,7 @@ import { getSession } from "next-auth/client";
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
-const pageContent = 1;
+const pageContent = 10;
 
 export default async (req, res) => {
     if (req.method !== "GET") {
@@ -28,7 +28,7 @@ export default async (req, res) => {
             const getGames =
                 await prisma.$queryRaw`Select game.id AS "gameId", game.datum as "date", plays.won AS "win", team.points AS "team1", otherteam.points AS "team2" from game JOIN plays ON plays.gameId = game.id JOIN team ON team.id = plays.teamId JOIN playsIn ON team.id = playsIn.teamId JOIN plays otherplays ON otherplays.gameId = game.id AND otherplays.teamId <> team.id JOIN team otherteam ON otherteam.id = otherplays.teamId WHERE playsIn.userId = ${parseInt(
                     userId
-                )} ORDER BY game.datum ASC LIMIT ${pageContent} OFFSET ${
+                )} ORDER BY game.id DESC LIMIT ${pageContent} OFFSET ${
                     pageContent * page
                 }`;
             console.log(getGames);

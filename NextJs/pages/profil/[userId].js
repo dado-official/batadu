@@ -61,7 +61,7 @@ function Profil({
                 </div>
                 <h3 className="mt-4">{user.username}</h3>
                 <h5 className="text-gray mt-2">Level {user.level}</h5>
-                {!stats && (
+                {stats.rank && (
                     <Stats
                         rank={stats.rank}
                         winrate={stats.winrate}
@@ -124,7 +124,7 @@ export async function getServerSideProps(context) {
             )} ORDER BY game.datum ASC LIMIT 10`;
 
         const stats =
-            await prisma.$queryRaw`Select r.* from (SELECT users.id,rank() OVER(ORDER BY COUNT(CASE WHEN plays.won THEN 1 END) DESC) AS rank,  COUNT(CASE WHEN plays.won THEN 1 END) AS "gameW", COUNT(plays.won) AS "played"
+            await prisma.$queryRaw`Select r.* from (SELECT users.id,rank() OVER(ORDER BY users.xp DESC) AS rank,  COUNT(CASE WHEN plays.won THEN 1 END) AS "gameW", COUNT(plays.won) AS "played"
 FROM users JOIN playsin ON playsin.userId = users.id JOIN team ON team.id = playsin.teamId JOIN plays ON plays.teamId = team.id GROUP BY users.id
 ) r WHERE r.id = ${parseInt(userId)}`;
         console.table(stats);
@@ -156,7 +156,7 @@ FROM users JOIN playsin ON playsin.userId = users.id JOIN team ON team.id = play
                     xpReq: user[0]?.xpReq,
                     xpReqBefore: user[0]?.xpReqBefore,
                 },
-                stats: { statsProps },
+                stats: { ...statsProps },
                 gameHistory: gameHistory,
                 userId: userId,
             },

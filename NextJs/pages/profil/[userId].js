@@ -6,8 +6,10 @@ import Stats from "../../comps/Profile/Stats";
 import LevelBar from "../../comps/Profile/LevelBar";
 import GameHistory from "../../comps/Profile/GameHistory";
 const { PrismaClient } = require("@prisma/client");
+import axios from "axios";
 
 const prisma = new PrismaClient();
+const contentPerPage = 10;
 
 function Profil({
     isDarkmode,
@@ -17,7 +19,27 @@ function Profil({
     level,
     stats,
     gameHistory,
+    userId,
 }) {
+    const [pagination, setPagination] = useState({
+        page: 0,
+        data: gameHistory,
+        lastPage: gameHistory.length < contentPerPage,
+    });
+
+    async function loadMore() {
+        const res = await axios.get(`/api/game`, {
+            params: { page: pagination.page + 1, userId: userId },
+        });
+        console.log(res.data);
+
+        setPagination((prev) => ({
+            page: prev.page + 1,
+            data: [...prev.data, ...res.data.getGames],
+            lastPage: res.data.getGames.length < contentPerPage,
+        }));
+    }
+
     return (
         <Layout
             session={session}
@@ -54,19 +76,24 @@ function Profil({
                 <p className="text-gray mt-2">Kommt bald...</p>
                 <div className="w-full mb-16">
                     <h4 className="mt-10 text-center mb-4">Verlauf</h4>
-                    {gameHistory.map((element, index) => (
+                    {pagination.data.map((element, index) => (
                         <GameHistory
                             team1={element.team1}
                             team2={element.team2}
                             win={element.win}
                             date={element.date}
-                            border={index !== gameHistory.length - 1}
+                            border={index !== pagination.data.length - 1}
                             key={element.gameId}
                         />
                     ))}
-                    <button className="mt-4 border-1 border-grayLight2 rounded-md py-2.5 w-full text-text shadow hover:shadow-md transition-all">
-                        Mehr Laden
-                    </button>
+                    {!pagination.lastPage && (
+                        <button
+                            onClick={loadMore}
+                            className="mt-4 border-1 border-grayLight2 rounded-md py-2.5 w-full text-text shadow hover:shadow-md transition-all"
+                        >
+                            Mehr Laden
+                        </button>
+                    )}
                 </div>
             </div>
         </Layout>
@@ -88,7 +115,7 @@ export async function getServerSideProps(context) {
         const gameHistory =
             await prisma.$queryRaw`Select game.id AS "gameId", game.datum as "date", plays.won AS "win", team.points AS "team1", otherteam.points AS "team2" from game JOIN plays ON plays.gameId = game.id JOIN team ON team.id = plays.teamId JOIN playsIn ON team.id = playsIn.teamId JOIN plays otherplays ON otherplays.gameId = game.id AND otherplays.teamId <> team.id JOIN team otherteam ON otherteam.id = otherplays.teamId WHERE playsIn.userId = ${parseInt(
                 userId
-            )}::int;`;
+            )} ORDER BY game.datum ASC LIMIT 10`;
         console.log(gameHistory);
         return {
             props: {
@@ -111,6 +138,7 @@ export async function getServerSideProps(context) {
                     winrate: 62,
                 },
                 gameHistory: gameHistory,
+                userId: userId,
             },
         };
     }

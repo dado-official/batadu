@@ -2,6 +2,7 @@ import { getSession } from "next-auth/client";
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
+const pageContent = 10;
 
 export default async (req, res) => {
     if (req.method !== "GET") {
@@ -21,55 +22,18 @@ export default async (req, res) => {
                 message: "You are not allowed to use this method!",
             });
         } else {
-            const { userIds, team1Points, team2Points } = req.body;
-            const { user_id } = hasSession;
+            console.table(req.query);
+            const { page, userId } = req.query;
 
-            const create = await prisma.game.create({
-                data: {
-                    plays: {
-                        create: [
-                            createTeam(
-                                team1Points,
-                                team2Points,
-                                userIds[0],
-                                userIds[2]
-                            ),
-                            createTeam(
-                                team2Points,
-                                team1Points,
-                                userIds[1],
-                                userIds[3]
-                            ),
-                        ],
-                    },
-                },
-            });
+            const getGames =
+                await prisma.$queryRaw`Select game.id AS "gameId", game.datum as "date", plays.won AS "win", team.points AS "team1", otherteam.points AS "team2" from game JOIN plays ON plays.gameId = game.id JOIN team ON team.id = plays.teamId JOIN playsIn ON team.id = playsIn.teamId JOIN plays otherplays ON otherplays.gameId = game.id AND otherplays.teamId <> team.id JOIN team otherteam ON otherteam.id = otherplays.teamId WHERE playsIn.userId = ${parseInt(
+                    userId
+                )} ORDER BY game.datum ASC LIMIT ${pageContent} OFFSET ${
+                    pageContent * page
+                }`;
+            console.log(getGames);
 
-            function createTeam(myPoints, otherPoints, user1, user2) {
-                return {
-                    team: {
-                        create: {
-                            points: myPoints,
-                            stiche1: 0,
-                            stiche2: 0,
-                            playsin: {
-                                create: [
-                                    {
-                                        userid: user1,
-                                    },
-                                    {
-                                        userid: user2,
-                                    },
-                                ],
-                            },
-                        },
-                    },
-                    won: myPoints > otherPoints,
-                };
-            }
-
-            console.log(create);
-            res.status(200).json({ massage: "Yes" });
+            res.status(200).json({ getGames });
             return;
         }
     } catch (e) {

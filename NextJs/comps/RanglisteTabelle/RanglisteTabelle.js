@@ -8,6 +8,7 @@ const RanglisteTabelle = ({ data, userId, loadMore, lastPage }) => {
                     return (
                         <RanglisteTabelleData
                             pos={index + 1}
+                            userId={element.id}
                             username={element.username}
                             userPic={element.userPic}
                             points={element.points}

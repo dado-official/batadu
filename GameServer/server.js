@@ -8,9 +8,6 @@ const io = require("socket.io")(http, {
 const Room = require("./GameElements/Room");
 const axios = require("axios");
 const databaseFunction = require("./databaseFunctions");
-for (let i = 0; i < 40; i++) {
-    databaseFunction.addGame([2, 3, 4, 5], i + 1, i, i);
-}
 
 let rooms = []; //array for all rooms
 

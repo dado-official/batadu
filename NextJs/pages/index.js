@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getSession, providers } from "next-auth/client";
 import YouTube from "react-youtube";
 import Image from "next/image";
+import Container from "../comps/HpContainer";
 
 export default function Home({
     isDarkmode,
@@ -63,29 +64,67 @@ export default function Home({
             </section>
             <section className="relative flex items-center bg-white">
                 <div
-                    className="absolute w-full h-full top-0 left-0 z-10  backdrop-filter backdrop-blur-lg"
-                    style={{ backgroundColor: "rgba(255, 255, 255, 0.6)" }}
+                    className="absolute w-full h-full top-0 left-0 z-10  backdrop-filter backdrop-blur-2xl"
+                    style={{ backgroundColor: "rgba(245, 245, 245, 0.6)" }}
                 ></div>
-                <div className="w-1450 max-w-1/9 mx-auto z-10 py-16">
+                <div className="w-1450 max-w-1/9 mx-auto z-10 py-16 mt-2">
                     <div className="flex justify-between">
                         {Object.values(providers).map((provider) => {
                             return (
-                                <Image
-                                    src={`/${provider.name}.svg`}
-                                    height="54"
-                                    width="54"
-                                    alt={provider.name}
-                                    className={`${
-                                        isDarkmode && provider.name == "GitHub"
-                                            ? "whiteSVG"
-                                            : ""
-                                    }`}
-                                />
+                                <Link href="/anmelden" key={provider.name}>
+                                    <Image
+                                        src={`/${provider.name}.svg`}
+                                        height="54"
+                                        width="54"
+                                        alt={provider.name}
+                                        className={`cursor-pointer ${
+                                            isDarkmode &&
+                                            provider.name == "GitHub"
+                                                ? "whiteSVG"
+                                                : ""
+                                        }`}
+                                    />
+                                </Link>
                             );
                         })}
                     </div>
-                    <div className="mt-40">
-                        <h4>Mehr als nur Watten</h4>
+                    <div className="mt-44 text-center">
+                        <h4 className="text-medium">Mehr als nur Watten</h4>
+                        <div className="mt-12 gap-8 grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                            <Container
+                                img="/xp.svg"
+                                title="XP Sammeln"
+                                describtion="Sammle durchs spielen XP um somit auf einen höheren level zu sein."
+                            />
+                            <Container
+                                img="/tpy.svg"
+                                title="Rangliste"
+                                describtion="Die Rangliste zeigt dir die liste der besten Spiele auf, sichere dir den 1 Platz."
+                            />
+                            <Container
+                                img="/secure.svg"
+                                title="Brutal Sicher"
+                                describtion="Durch die Verwendung von HTTPS und OAuth brauchts du dir keine sorgen um deine Daten zu tun."
+                            />
+                            <Container
+                                img="/discord2.svg"
+                                title="Community Server"
+                                describtion="Trete unserem Community Server bei und lerne neue Watter kennen."
+                                link={{
+                                    link: "https://github.com/dado-official/batadu/pulls",
+                                    title: "Beitreten",
+                                }}
+                            />
+                            <Container
+                                img="/github2.svg"
+                                title="Open Source Projekt"
+                                describtion="Du kannst selber für dieses Projekt etwas beitragen."
+                                link={{
+                                    link: "https://github.com/dado-official/batadu/pulls",
+                                    title: "Repository",
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>

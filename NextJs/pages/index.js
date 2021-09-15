@@ -89,7 +89,7 @@ export default function Home({
                         })}
                     </div>
                     <div className="mt-44 text-center">
-                        <h4 className="text-medium">Mehr als nur Watten</h4>
+                        <h4 className="font-medium">Mehr als nur Watten</h4>
                         <div className="mt-12 gap-8 grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                             <Container
                                 img="/xp.svg"
@@ -125,6 +125,66 @@ export default function Home({
                                 }}
                             />
                         </div>
+                    </div>
+                </div>
+            </section>
+            <section className="bg-white">
+                <div className="w-1450 max-w-1/9 mx-auto z-10 grid grid-flow-row lg:grid-cols-2 grid-cols-1 text-center py-16 gap-16 lg:gap-0">
+                    <div className="lg:mr-8 flex justify-between flex-col">
+                        <div>
+                            <h4 className="font-medium">
+                                Projekt unterstützen
+                            </h4>
+                            <p className="mt-4 text-text">
+                                Sie können sehr gerne dieses Projekt
+                                unterstützen, damit es in den naschten Jahren
+                                leben wird und damit es regelmäßig neue Feature
+                                gibt.
+                            </p>
+                        </div>
+
+                        <a
+                            href={"https://paypal.com"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <button className="w-full shadow hover:shadow-lg transition-all bg-primary rounded text-white py-2 text-xl mt-8 flex items-center justify-center gap-4">
+                                <div className="relative w-6 h-6">
+                                    <Image
+                                        src="/paypal.svg"
+                                        layout="fill"
+                                        objectFit="contain"
+                                    />
+                                </div>
+                                Unterstützen
+                            </button>
+                        </a>
+                    </div>
+                    <div className="lg:ml-8 h-full flex flex-col justify-between">
+                        <div>
+                            <h4 className="font-medium">Sponsor werden</h4>
+                            <p className="mt-4 text-text">
+                                Willst du Sponsor dieses Projektes werden, wenn
+                                ja dann kontaktiere uns an unserer Mail.
+                            </p>
+                        </div>
+
+                        <a
+                            href={"https://paypal.com"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <button className="w-full shadow hover:shadow-lg transition-all bg-primary rounded text-white py-2 text-xl mt-8 flex items-center justify-center gap-4">
+                                <div className="relative w-6 h-6">
+                                    <Image
+                                        src="/mail.svg"
+                                        layout="fill"
+                                        objectFit="contain"
+                                    />
+                                </div>
+                                Kontaktieren
+                            </button>
+                        </a>
                     </div>
                 </div>
             </section>

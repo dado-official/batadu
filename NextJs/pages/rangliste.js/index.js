@@ -8,7 +8,7 @@ import axios from "axios";
 const prisma = new PrismaClient();
 const contentPerPage = 20;
 
-function Rangliste({ isDarkmode, setIsDarkmode, session, rankList }) {
+function Rangliste({ isDarkmode, setIsDarkmode, session, rankList, level }) {
     const [filter, setFilter] = useState("Gesamt");
 
     const [pagination, setPagination] = useState({
@@ -37,6 +37,7 @@ function Rangliste({ isDarkmode, setIsDarkmode, session, rankList }) {
             setIsDarkmode={setIsDarkmode}
             title="Batadu - Rangliste"
             rank={true}
+            level={level}
         >
             <div className="flex flex-col justify-center items-center mt-12 w-1450 max-w-1/9 mx-auto">
                 <h3 className="font-medium">Rangliste</h3>
@@ -86,10 +87,16 @@ export async function getServerSideProps(context) {
 FROM users JOIN playsin ON playsin.userId = users.id JOIN team ON team.id = playsin.teamId JOIN plays ON plays.teamId = team.id GROUP BY users.id LIMIT ${contentPerPage}`;
         console.log(rankList);
 
+        const [{ level }] =
+            await prisma.$queryRaw`Select (Select level.nr FROM level WHERE xpreq <= users.xp ORDER BY xpreq DESC LIMIT 1) AS "level" FROM users Where id = ${parseInt(
+                session.userId
+            )}`;
+
         return {
             props: {
                 session: session,
                 rankList: rankList,
+                level: level,
             },
         };
     }

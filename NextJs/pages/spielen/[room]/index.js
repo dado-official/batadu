@@ -13,6 +13,9 @@ import BottomContainer from "../../../comps/Spiel/BottomContainer";
 import TopLeftInformations from "../../../comps/Spiel/TopLeftInformations";
 import CurrentUserStatus from "../../../comps/Spiel/CurrentUserStatus";
 import AntwortPopover from "../../../comps/Spiel/AntwortPopover.js";
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
 
 const Spiel = ({
     isDarkmode,
@@ -24,6 +27,7 @@ const Spiel = ({
     setIsDarkmode,
     userId,
     mode,
+    level,
 }) => {
     const [isPassword, setIsPassword] = useState(false);
     const [geboten, setGeboten] = useState(2);
@@ -87,7 +91,7 @@ const Spiel = ({
                     userId: userId,
                     username: username,
                     userPic: session.user.image,
-                    level: 2,
+                    level: level,
                 },
             });
         } else {
@@ -97,7 +101,7 @@ const Spiel = ({
                     userId: userId,
                     username: username,
                     userPic: session.user.image,
-                    level: 2,
+                    level: level,
                 },
                 team: team,
             });
@@ -477,6 +481,16 @@ const Spiel = ({
             isDarkmode={isDarkmode}
             setIsDarkmode={setIsDarkmode}
             spielen={true}
+            level={level}
+            title={`Batadù - ${room} ${punkte.reduce(
+                (sum, value) =>
+                    typeof value.team1 == "number" ? sum + value.team1 : sum,
+                0
+            )}:${punkte.reduce(
+                (sum, value) =>
+                    typeof value.team2 == "number" ? sum + value.team2 : sum,
+                0
+            )} `}
         >
             <div className="w-full">
                 {isPassword ? (
@@ -680,6 +694,10 @@ export async function getServerSideProps(context) {
         const { room } = context.query;
         const { mode } = context.query;
         const { userId } = session;
+        const [{ level }] =
+            await prisma.$queryRaw`Select (Select level.nr FROM level WHERE xpreq <= users.xp ORDER BY xpreq DESC LIMIT 1) AS "level" FROM users Where id = ${parseInt(
+                session.userId
+            )}`;
 
         return {
             props: {
@@ -687,6 +705,7 @@ export async function getServerSideProps(context) {
                 room: room,
                 userId: userId,
                 mode: mode ? mode : null,
+                level: level,
             },
         };
     }

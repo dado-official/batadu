@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-function ProfileElement({ session }) {
+function ProfileElement({ session, level }) {
     return (
         <li className="flex h-20 cursor-pointer text-gray mt-auto hover:text-whiteDark transition-all">
             <Link href={`/profil/${session.userId}`}>
@@ -13,9 +13,12 @@ function ProfileElement({ session }) {
                             objectFit="contain"
                         />
                     </div>
-                    <p className="dark:text-white hidden">
-                        {session.user.name}
-                    </p>
+                    <div>
+                        <p className="dark:text-white hidden">
+                            {session.user.name}
+                        </p>
+                        <p className="text_small hidden -mt-1">Level {level}</p>
+                    </div>
                 </div>
             </Link>
         </li>

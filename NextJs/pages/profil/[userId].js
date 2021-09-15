@@ -47,6 +47,7 @@ function Profil({
             setIsDarkmode={setIsDarkmode}
             title={`Batadu - ${user.username} Profil`}
             profil={true}
+            level={user.level}
         >
             <div className="flex flex-col justify-center items-center mt-12 w-1450 max-w-1/9 mx-auto">
                 <div className="relative w-28 h-28 rounded-full border-4 border-white">
@@ -127,7 +128,6 @@ export async function getServerSideProps(context) {
             await prisma.$queryRaw`Select r.* from (SELECT users.id,rank() OVER(ORDER BY users.xp DESC) AS rank,  COUNT(CASE WHEN plays.won THEN 1 END) AS "gameW", COUNT(plays.won) AS "played"
 FROM users JOIN playsin ON playsin.userId = users.id JOIN team ON team.id = playsin.teamId JOIN plays ON plays.teamId = team.id GROUP BY users.id
 ) r WHERE r.id = ${parseInt(userId)}`;
-        console.table(stats);
 
         let statsProps;
         if (stats[0]) {

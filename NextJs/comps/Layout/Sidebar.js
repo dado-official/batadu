@@ -21,6 +21,7 @@ function Sidebar({
     rank,
     profil,
     help,
+    level,
 }) {
     const { asPath } = useRouter();
 
@@ -85,7 +86,9 @@ function Sidebar({
                         >
                             <MdHelpOutline className="mx-6" size="32" />
                         </SidebarElement>
-                        {session && <ProfileElement session={session} />}
+                        {session && (
+                            <ProfileElement session={session} level={level} />
+                        )}
                         <li
                             className={`flex h-20 cursor-pointer text-white bg-primary ${
                                 !session && "mt-auto"

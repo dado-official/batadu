@@ -1,14 +1,18 @@
 import { getSession } from "next-auth/client";
 import HilfeContainer from "../../comps/HilfeContainer";
 import Layout from "../../comps/Layout";
+const { PrismaClient } = require("@prisma/client");
 
-function Hilfe({ session, setIsDarkmode, isDarkmode }) {
+const prisma = new PrismaClient();
+
+function Hilfe({ session, setIsDarkmode, isDarkmode, level }) {
     return (
         <Layout
             session={session}
             isDarkmode={isDarkmode}
             setIsDarkmode={setIsDarkmode}
             help={true}
+            level={level}
         >
             <div className="w-1450 max-w-1/9 mx-auto mt-12 mb-16 text-center">
                 <h3 className="font-medium">Hilfe</h3>
@@ -65,9 +69,16 @@ export async function getServerSideProps(context) {
     const session = await getSession(context);
 
     if (session && session.accessToken) {
+        const [{ level }] =
+            await prisma.$queryRaw`Select (Select level.nr FROM level WHERE xpreq <= users.xp ORDER BY xpreq DESC LIMIT 1) AS "level" FROM users Where id = ${parseInt(
+                session.userId
+            )}`;
+
+        console.log(level);
         return {
             props: {
                 session: session,
+                level: level,
             },
         };
     }

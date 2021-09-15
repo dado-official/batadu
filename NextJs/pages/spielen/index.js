@@ -2,12 +2,13 @@ import Layout from "../../comps/Layout";
 import { getSession } from "next-auth/client";
 import SearchInput from "../../comps/SearchInput";
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { PlusIcon } from "@heroicons/react/solid";
 import Room from "../../comps/Room";
 import SpielErstellen from "../../comps/Spiel Erstellen";
-import SelectElement from "../../comps/SelectElement";
 import SelectTeam from "../../comps/SelectTeam";
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
 
 function Spielen({
     session,
@@ -16,6 +17,7 @@ function Spielen({
     socket,
     setTeam,
     team,
+    level,
 }) {
     const [search, setSearch] = useState("");
     const [rooms, setRooms] = useState([]);
@@ -49,6 +51,8 @@ function Spielen({
             isDarkmode={isDarkmode}
             setIsDarkmode={setIsDarkmode}
             spielen={true}
+            title={`Batadù - ${rooms.length} Spiele`}
+            level={level}
         >
             <div className="w-1450 max-w-1/9 mx-auto mt-8 mb-16">
                 <div className="flex justify-between md:mt-8 flex-col-reverse md:flex-row">
@@ -61,7 +65,7 @@ function Spielen({
                         />
                     </div>
                     <button
-                        className="w-full md:w-max py-1.5 gap-2 rounded-st bg-primary dark:bg-primaryDark text-white dark:text-black mb-6 flex justify-center items-center px-8"
+                        className="w-full md:w-max py-1.5 gap-2 rounded bg-primary dark:bg-primaryDark text-white dark:text-black mb-6 flex justify-center items-center px-8"
                         onClick={() => setShowSpielErstellen(true)}
                     >
                         <PlusIcon className="h-5" />
@@ -117,9 +121,14 @@ export async function getServerSideProps(context) {
     const session = await getSession(context);
 
     if (session && session.accessToken) {
+        const [{ level }] =
+            await prisma.$queryRaw`Select (Select level.nr FROM level WHERE xpreq <= users.xp ORDER BY xpreq DESC LIMIT 1) AS "level" FROM users Where id = ${parseInt(
+                session.userId
+            )}`;
         return {
             props: {
                 session: session,
+                level: level,
             },
         };
     }

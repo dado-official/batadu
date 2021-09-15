@@ -13,6 +13,7 @@ function Layout({
     rank,
     profil,
     help,
+    level,
 }) {
     return (
         <Fragment>
@@ -32,6 +33,7 @@ function Layout({
                 rank={rank}
                 profil={profil}
                 help={help}
+                level={level}
             />
             <main className="ml-20">{children}</main>
             <Footer />

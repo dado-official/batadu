@@ -7,6 +7,7 @@ import { signIn, signOut } from "next-auth/client";
 import SidebarElement from "./SidebarElement";
 import { BiDice5 } from "@react-icons/all-files/bi/BiDice5";
 import { RiTrophyLine } from "@react-icons/all-files/ri/RiTrophyLine";
+import { MdHelpOutline } from "@react-icons/all-files/md/MdHelpOutline";
 import ProfileElement from "./ProfileElement";
 import Link from "next/link";
 
@@ -19,6 +20,7 @@ function Sidebar({
     spielen,
     rank,
     profil,
+    help,
 }) {
     const { asPath } = useRouter();
 
@@ -75,6 +77,13 @@ function Sidebar({
                             active={profil}
                         >
                             <UserIcon className="h-8 mx-6" />
+                        </SidebarElement>
+                        <SidebarElement
+                            href={`/hilfe`}
+                            title="Hilfe"
+                            active={help}
+                        >
+                            <MdHelpOutline className="mx-6" size="32" />
                         </SidebarElement>
                         {session && <ProfileElement session={session} />}
                         <li

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 function Container({ img, title, describtion, link }) {
     return (
-        <div className="bg-white h-full mt-0 mb-auto hover:shadow-lg transition-all flex items-center flex-col w-full rounded shadow pt-8">
+        <div className="bg-white hover:ring-2 hover:ring-primary h-full mt-0 mb-auto hover:shadow-lg transition-all flex items-center flex-col w-full rounded shadow pt-8">
             <div className="rounded-full p-4 bg-primaryLight">
                 <div className="relative h-10 w-10">
                     <Image src={img} layout="fill" objectFit="contain" />

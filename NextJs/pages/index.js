@@ -43,7 +43,7 @@ export default function Home({
                     </p>
                     <div className="flex gap-4 mt-16 font-bold">
                         <button className="py-3 hover:shadow-lg transition-all shadow font-medium bg-primary dark:bg-primaryDark w-12ch text-white dark:text-black text-xl rounded focus:outline-none">
-                            <Link href="/registrieren">Jetzt spielen</Link>
+                            <Link href="/anmelden">Jetzt spielen</Link>
                         </button>
                         <button className="py-3 w-12ch font-medium text-text hover:shadow-lg transition-all shadow bg-white dark:border-white dark:text-white text-xl rounded focus:outline-none">
                             Mehr erfahren
@@ -67,7 +67,7 @@ export default function Home({
                     className="absolute w-full h-full top-0 left-0 z-10  backdrop-filter backdrop-blur-2xl"
                     style={{ backgroundColor: "rgba(245, 245, 245, 0.6)" }}
                 ></div>
-                <div className="w-1450 max-w-1/9 mx-auto z-10 py-16 mt-2">
+                <div className="w-1450 max-w-1/9 mx-auto z-10 py-16 mt-2 pb-20">
                     <div className="flex justify-between">
                         {Object.values(providers).map((provider) => {
                             return (
@@ -129,7 +129,7 @@ export default function Home({
                 </div>
             </section>
             <section className="bg-white">
-                <div className="w-1450 max-w-1/9 mx-auto z-10 grid grid-flow-row lg:grid-cols-2 grid-cols-1 text-center py-16 gap-16 lg:gap-0">
+                <div className="w-1450 max-w-1/9 mx-auto z-10 grid grid-flow-row lg:grid-cols-2 grid-cols-1 text-center py-20 gap-16 lg:gap-0">
                     <div className="lg:mr-8 flex justify-between flex-col">
                         <div>
                             <h4 className="font-medium">
@@ -207,7 +207,6 @@ export async function getServerSideProps(context) {
     return {
         props: {
             session: null,
-
             providers: await providers(context),
         },
     };

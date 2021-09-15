@@ -39,7 +39,7 @@ function Rangliste({ isDarkmode, setIsDarkmode, session, rankList }) {
             rank={true}
         >
             <div className="flex flex-col justify-center items-center mt-12 w-1450 max-w-1/9 mx-auto">
-                <h3>Rangliste</h3>
+                <h3 className="font-medium">Rangliste</h3>
                 {/*Small filter*/}
                 <div className="mt-8">
                     <button

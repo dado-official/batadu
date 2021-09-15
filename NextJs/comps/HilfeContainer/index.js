@@ -2,7 +2,7 @@ import Image from "next/image";
 
 function HilfeContainer({ title, description, img, link, buttonName }) {
     return (
-        <div className="h-full flex flex-col justify-between bg-white border-2 border-transparent hover:border-primary hover:ring-4 hover:ring-primaryLight p-8 rounded shadow hover:shadow-md transition-all">
+        <div className="h-full flex flex-col justify-between bg-white border-2 border-transparent hover:border-primary p-8 rounded shadow hover:shadow-md transition-all">
             <div>
                 <h4 className="font-medium">{title}</h4>
                 <p className="mt-4 text-text">{description}</p>

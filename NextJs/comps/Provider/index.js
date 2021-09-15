@@ -4,7 +4,7 @@ import Image from "next/image";
 function Provider({ provider, isDarkmode }) {
     return (
         <button
-            className={`border relative py-1.5 border-black dark:border-spielGray dark:text-white rounded-st hover:bg-white dark:hover:bg-black hover:shadow-xl
+            className={`border relative py-1.5 border-grayLight2 dark:border-spielGray dark:text-white rounded hover:bg-white dark:hover:bg-black hover:shadow-xl
              shadow-md dark:shadow-mdDark dark:hover:shadow-xlDark transition-all`}
             onClick={() => signIn(provider.id)}
         >

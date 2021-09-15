@@ -165,12 +165,15 @@ export default function Home({
                             <h4 className="font-medium">Sponsor werden</h4>
                             <p className="mt-4 text-text">
                                 Willst du Sponsor dieses Projektes werden, wenn
-                                ja dann kontaktiere uns an unserer Mail.
+                                ja dann kontaktiere uns an unserer Mail
+                                (business@batadu.com).
                             </p>
                         </div>
 
                         <a
-                            href={"https://paypal.com"}
+                            href={
+                                "mailto:business@batadu.com?subject = Sponsor"
+                            }
                             target="_blank"
                             rel="noopener noreferrer"
                         >

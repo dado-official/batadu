@@ -14,6 +14,20 @@ function Hilfe({ session, setIsDarkmode, isDarkmode }) {
                 <h3 className="font-medium">Hilfe</h3>
                 <div className="mt-8 grid grid-cols-2 grid-flow-row gap-8">
                     <HilfeContainer
+                        title="Bugs Melden"
+                        description="Haben Sie Bugs(Fehler) auf dieser Webseite gefunden? Wenn ja dann können sie diese auf unserer Repo melden."
+                        buttonName="Melden"
+                        img="/githubWhite.svg"
+                        link="https://github.com/dado-official/batadu/issues"
+                    />
+                    <HilfeContainer
+                        title="Feedback"
+                        description="Wir würden uns sehr über Ihr Feedback freuen, damit wir uns verbessern können."
+                        buttonName="Feedback geben"
+                        img="/mail.svg"
+                        link="mailto: support@batadu.com? subject = Feedback"
+                    />
+                    <HilfeContainer
                         img="/paypal.svg"
                         title="Projekt unterstützen"
                         description="Sie können sehr gerne dieses Projekt unterstützen, damit es in den naschten Jahren leben wird und damit es regelmäßig neue Feature gibt."
@@ -22,9 +36,9 @@ function Hilfe({ session, setIsDarkmode, isDarkmode }) {
                     <HilfeContainer
                         img="/mail.svg"
                         title="Sponser werden"
-                        description="Willst du Sponsor dieses Projektes werden, wenn ja dann kontaktiere uns an unserer Mail. "
+                        description="Willst du Sponsor dieses Projektes werden, wenn ja dann kontaktiere uns an unserer Mail (business@batadu.com). "
                         buttonName="Kontakieren"
-                        link="mailto: support@info.batadu"
+                        link="mailto: business@batadu.com? subject = Sponsor"
                     />
                     <HilfeContainer
                         img="/discordWhite.svg"

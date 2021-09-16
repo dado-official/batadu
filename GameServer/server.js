@@ -532,6 +532,7 @@ io.on("connection", (socket) => {
                 io.to(room).emit("status", rooms[room].userStatus);
                 rooms[room].stich += 1;
                 rooms[room].addStichToTeam(gewonnenPos);
+                io.to(room).emit("stiche", rooms[room].userSticheGesamt);
                 if (rooms[room].stich === 2) {
                     io.to(room).emit("hide Stich");
                 }

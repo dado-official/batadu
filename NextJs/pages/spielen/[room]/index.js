@@ -238,6 +238,9 @@ const Spiel = ({
         socket.on("spectators", (data) => {
             setSpectators(data.spectators);
         });
+        socket.on("stiche", (data) => {
+            setStiche(data);
+        });
         return () => {
             socket.emit("end");
         };

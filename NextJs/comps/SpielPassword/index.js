@@ -74,7 +74,7 @@ function SpielErstellen({ setShow, socket }) {
                     }}
                 >
                     <div
-                        className="flex relative rounded p-10 bg-white  justify-center items-center flex-col m-auto max-w-1/9"
+                        className="flex relative rounded-st p-10 bg-white  justify-center items-center flex-col m-auto max-w-1/9"
                         style={{ width: "50rem" }}
                     >
                         <h3 className="mb-8 dark:text-white ">

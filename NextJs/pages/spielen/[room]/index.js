@@ -248,6 +248,7 @@ const Spiel = ({
                     handleWindowBeforeUnload
                 );
             }
+            socket.emit("end");
         };
     }, []);
 

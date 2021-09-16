@@ -15,7 +15,7 @@ const Team = ({ spieler1, spieler2, punkte, team, selected, setSelected }) => {
             }`}
             onClick={selectHandler}
         >
-            <div className="flex w-full items-center justify-center">
+            <div className="flex w-full items-center justify-center pl-2">
                 {spieler1 && (
                     <div className="relative rounded-full w-8 h-8">
                         <Image
@@ -39,7 +39,7 @@ const Team = ({ spieler1, spieler2, punkte, team, selected, setSelected }) => {
                         : spieler1.username}
                 </p>
             </div>
-            <div className="flex w-full items-center justify-center">
+            <div className="flex w-full items-center justify-center pr-2">
                 {spieler2 && (
                     <div className="relative rounded-full w-8 h-8">
                         <Image

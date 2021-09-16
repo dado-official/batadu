@@ -621,6 +621,11 @@ io.on("connection", (socket) => {
             disconnectUser();
         });
 
+        socket.on("end", () => {
+            socket.disconnect(0);
+            disconnectUser();
+        });
+
         function disconnectUser() {
             try {
                 if (rooms[room] !== undefined) {

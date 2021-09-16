@@ -115,6 +115,11 @@ io.on("connection", (socket) => {
             spectators: rooms[room].spectators,
         });
 
+        socket.on("end", () => {
+            socket.disconnect(0);
+            disconnectUser();
+        });
+
         socket.on("disconnect", () => {
             disconnectUser();
         });
@@ -189,12 +194,23 @@ io.on("connection", (socket) => {
                 type: "text",
             });
 
-            rooms[room].kartenMaster.kartenMischen();
-            rooms[room].kartenMaster.kartenAusteilen();
-            io.to(room).emit("karten", rooms[room].userCards);
-            rooms[room].userStatus[rooms[room].schlagPos] = "Schlag";
-            rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
-            io.to(room).emit("status", rooms[room].userStatus);
+            if (rooms[room].pausiert) {
+                //do something
+                io.to(room).emit("karten", rooms[room].userCards);
+                io.to(room).emit("status", rooms[room].userStatus);
+                io.to(room).emit("tischkarten", rooms[room].tischCards);
+                rooms[room].pausiert = false;
+                if (rooms[room].seeCards) {
+                    io.to(room).emit("karten sehen");
+                }
+            } else {
+                rooms[room].kartenMaster.kartenMischen();
+                rooms[room].kartenMaster.kartenAusteilen();
+                io.to(room).emit("karten", rooms[room].userCards);
+                rooms[room].userStatus[rooms[room].schlagPos] = "Schlag";
+                rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
+                io.to(room).emit("status", rooms[room].userStatus);
+            }
         }
 
         socket.on("chat", (message) => {
@@ -219,6 +235,7 @@ io.on("connection", (socket) => {
             rooms[room].schlag = card;
             if (rooms[room].trumpfGewaelt) {
                 io.to(room).emit("karten sehen");
+                rooms[room].seeCards = true;
                 io.to(room).emit("schlag trumpf", {
                     schlag: rooms[room].schlag.name,
                     trumpf: rooms[room].trumpf.name,
@@ -245,6 +262,7 @@ io.on("connection", (socket) => {
 
             if (rooms[room].schlagGewaelt) {
                 io.to(room).emit("karten sehen");
+                rooms[room].seeCards = true;
                 io.to(room).emit("schlag trumpf", {
                     schlag: rooms[room].schlag.name,
                     trumpf: rooms[room].trumpf.name,
@@ -453,7 +471,7 @@ io.on("connection", (socket) => {
                 type: "text",
             });
         });
-        socket.on("Am Zug", (card) => {
+        socket.on("Am Zug", ({ card, pos }) => {
             rooms[room].createCheckObject();
             rooms[room].tischCardsObject.push({
                 ...card,
@@ -462,6 +480,17 @@ io.on("connection", (socket) => {
             rooms[room].gelegt += 1;
             rooms[room].tischCards[rooms[room].amZug] = card.name;
             io.to(room).emit("tischkarten", rooms[room].tischCards);
+
+            if (rooms[room]?.rundeDisc === "Pausieren") {
+                const index = rooms[room]?.userCards[pos]
+                    ?.map((e) => e.name)
+                    .indexOf(card.name);
+                console.log(index);
+                if (index > -1) {
+                    rooms[room]?.userCards[pos].splice(index, 1);
+                }
+                console.log(rooms[room]?.userCards[pos]);
+            }
 
             //Wenn jeder am zug war oder nicht
             if (rooms[room].gelegt < 4) {
@@ -637,6 +666,10 @@ io.on("connection", (socket) => {
                         userStatus: rooms[room].userStatus,
                     });
                     let reset = rooms[room].tryNeueRunde();
+                    if (rooms[room].pausiert) {
+                        socket.to(room).emit("reset status");
+                    }
+
                     if (reset) {
                         socket.to(room).emit("neue Runde");
                         socket.to(room).emit("reset status");

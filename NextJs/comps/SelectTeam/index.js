@@ -45,7 +45,7 @@ const SelectTeam = ({ selectTeam, setSelectTeam, team, setTeam }) => {
                 >
                     <div
                         className="flex relative bg-white p-10 rounded justify-center items-center flex-col m-auto max-w-1/9"
-                        style={{ width: "45rem" }}
+                        style={{ width: "40rem" }}
                     >
                         <h3 className="dark:text-white">Team aussuchen</h3>
                         <XIcon

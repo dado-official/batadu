@@ -33,7 +33,7 @@ const Room = ({ roomName, score1, score2, users, setSelectTeam, config }) => {
     };
 
     return (
-        <div className="w-full bg-white shadow hover:shadow-lg transition-all p-6 rounded flex gap-16 border-2 border-transparent hover:border-grayLight2">
+        <div className="w-full bg-white shadow hover:shadow-lg transition-all p-5 rounded flex gap-16 border-2 border-transparent hover:border-grayLight2">
             <div className="flex-1">
                 <div className="mb-1 flex gap-6 text_small text-borderGray">
                     <p>

@@ -111,7 +111,7 @@ export default function Home({
                                 title="Community Server"
                                 describtion="Trete unserem Community Server bei und lerne neue Watter kennen."
                                 link={{
-                                    link: "https://github.com/dado-official/batadu/pulls",
+                                    link: "https://discord.gg/4RX68WRXwg",
                                     title: "Beitreten",
                                 }}
                             />

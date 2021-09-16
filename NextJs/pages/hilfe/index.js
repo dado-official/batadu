@@ -49,6 +49,7 @@ function Hilfe({ session, setIsDarkmode, isDarkmode, level }) {
                         title="Community Server"
                         description="Trete unserem Community Server bei und lerne neue leidenschaftliche Watter kennen."
                         buttonName="Beitreten"
+                        link="https://discord.gg/4RX68WRXwg"
                     />
                     <HilfeContainer
                         img="/githubWhite.svg"
@@ -73,6 +74,7 @@ export async function getServerSideProps(context) {
             await prisma.$queryRaw`Select (Select level.nr FROM level WHERE xpreq <= users.xp ORDER BY xpreq DESC LIMIT 1) AS "level" FROM users Where id = ${parseInt(
                 session.userId
             )}`;
+        prisma.$disconnect();
 
         console.log(level);
         return {

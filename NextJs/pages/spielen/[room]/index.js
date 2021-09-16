@@ -238,16 +238,7 @@ const Spiel = ({
         socket.on("spectators", (data) => {
             setSpectators(data.spectators);
         });
-        if (mode !== "spectate") {
-            window.addEventListener("beforeunload", handleWindowBeforeUnload);
-        }
         return () => {
-            if (mode !== "spectate") {
-                window.removeEventListener(
-                    "beforeunload",
-                    handleWindowBeforeUnload
-                );
-            }
             socket.emit("end");
         };
     }, []);
@@ -365,11 +356,14 @@ const Spiel = ({
             if (myStatus === "Am Zug") {
                 //delete
                 removeCard(e);
+                socket.emit("Am Zug", { card: cardObject, pos: pos });
+                setMyStatus(null);
+                setHover(false);
+            } else {
+                socket.emit(myStatus, cardObject);
+                setMyStatus(null);
+                setHover(false);
             }
-
-            socket.emit(myStatus, cardObject);
-            setMyStatus(null);
-            setHover(false);
         }
     }
 
@@ -699,6 +693,8 @@ export async function getServerSideProps(context) {
             await prisma.$queryRaw`Select (Select level.nr FROM level WHERE xpreq <= users.xp ORDER BY xpreq DESC LIMIT 1) AS "level" FROM users Where id = ${parseInt(
                 session.userId
             )}`;
+
+        prisma.$disconnect();
 
         return {
             props: {

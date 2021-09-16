@@ -129,6 +129,8 @@ export async function getServerSideProps(context) {
 FROM users JOIN playsin ON playsin.userId = users.id JOIN team ON team.id = playsin.teamId JOIN plays ON plays.teamId = team.id GROUP BY users.id
 ) r WHERE r.id = ${parseInt(userId)}`;
 
+        prisma.$disconnect();
+
         let statsProps;
         if (stats[0]) {
             statsProps = {

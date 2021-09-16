@@ -6,6 +6,7 @@ import { PlusIcon } from "@heroicons/react/solid";
 import Room from "../../comps/Room";
 import SpielErstellen from "../../comps/Spiel Erstellen";
 import SelectTeam from "../../comps/SelectTeam";
+import HilfeContainer from "../../comps/HilfeContainer";
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
@@ -56,7 +57,7 @@ function Spielen({
         >
             <div className="w-1450 max-w-1/9 mx-auto mt-8 mb-16">
                 <div className="flex justify-between md:mt-8 flex-col-reverse md:flex-row">
-                    <h3 className="mb-6 dark:text-white">Spiele</h3>
+                    <h3 className="mb-6 dark:text-white font-medium">Spiele</h3>
                     <div className="mb-6 w-full md:w-max ">
                         <SearchInput
                             search={search}
@@ -96,6 +97,22 @@ function Spielen({
                         drücken
                     </p>
                 ) : null}
+                <div className="mt-8 grid grid-cols-2 grid-flow-row gap-8 text-center flex-1">
+                    <HilfeContainer
+                        title="Feedback"
+                        description="Wir würden uns sehr über Ihr Feedback freuen, damit wir uns verbessern können."
+                        buttonName="Feedback geben"
+                        img="/mail.svg"
+                        link="mailto: support@batadu.com? subject = Feedback"
+                    />
+                    <HilfeContainer
+                        img="/discordWhite.svg"
+                        title="Community Server"
+                        description="Trete unserem Community Server bei und lerne neue leidenschaftliche Watter kennen."
+                        buttonName="Beitreten"
+                        link="https://discord.gg/4RX68WRXwg"
+                    />
+                </div>
             </div>
             {showSpielErstellen && (
                 <SpielErstellen
@@ -125,6 +142,7 @@ export async function getServerSideProps(context) {
             await prisma.$queryRaw`Select (Select level.nr FROM level WHERE xpreq <= users.xp ORDER BY xpreq DESC LIMIT 1) AS "level" FROM users Where id = ${parseInt(
                 session.userId
             )}`;
+        prisma.$disconnect();
         return {
             props: {
                 session: session,

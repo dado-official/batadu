@@ -91,7 +91,7 @@ FROM users JOIN playsin ON playsin.userId = users.id JOIN team ON team.id = play
             await prisma.$queryRaw`Select (Select level.nr FROM level WHERE xpreq <= users.xp ORDER BY xpreq DESC LIMIT 1) AS "level" FROM users Where id = ${parseInt(
                 session.userId
             )}`;
-
+        prisma.$disconnect();
         return {
             props: {
                 session: session,

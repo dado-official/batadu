@@ -6,11 +6,11 @@ const SearchInput = ({ search, setSearch, isDarkmode }) => {
     }
 
     return (
-        <div className="bg-white dark:bg-whiteDark rounded-st relative py-2 flex items-center">
+        <div className="bg border-1 border-gray bg-none dark:bg-whiteDark rounded relative py-2 flex items-center">
             <SearchIcon className="h-5 mx-4 dark:text-white" />
             <input
                 type="text"
-                className="focus:outline-none flex-1 mr-4 dark:bg-whiteDark dark:text-white"
+                className="focus:outline-none bg-bgWhite flex-1 mr-4  dark:text-white"
                 value={search}
                 onChange={searchHandler}
                 placeholder="Suchen"

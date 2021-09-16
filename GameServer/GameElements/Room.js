@@ -4,6 +4,8 @@ class Room {
     constructor(config) {
         this.configRoom = config;
         this.name = config.name;
+        this.rundeDisc = config.runde;
+        this.pausiert = false;
         this.waitingTime = parseInt(config.warten);
         this.maxPoints = config.punkte;
         this.isPassword = config.isPassword;
@@ -28,6 +30,7 @@ class Room {
         this.schlagPos = 0;
         this.trumpfPos = 1;
         this.userAnzahl = config.userAnzahl;
+        this.seeCards = false;
         this.schlagGewaelt = false;
         this.trumpfGewaelt = false;
         this.schlag;
@@ -102,9 +105,14 @@ class Room {
         this.geboten = 2;
         this.gebotenDavor = 0;
         this.schlagtausch = false;
+        this.seeCards = false;
     }
 
     tryNeueRunde() {
+        if (this.rundeDisc === "Pausieren") {
+            this.pausiert = true;
+            return false;
+        }
         if (this.tischCards !== []) {
             this.neueRunde();
             return true;

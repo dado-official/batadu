@@ -70,7 +70,7 @@ small,
 }
 
 .input {
-    @apply focus:outline-none dark:bg-whiteDark dark:text-white bg-bgWhite w-full py-2 px-4 rounded-st border-2 border-gray focus:ring-4 ring-primaryLight focus:border-primary transition-all text-black;
+    @apply focus:outline-none dark:bg-whiteDark dark:text-white outline-none w-full py-1.5 px-4 rounded border-1 border-gray focus:ring-2 ring-primaryLight focus:border-primary transition-all text-black;
 }
 
 .primaryDarkSVG {
@@ -269,92 +269,10 @@ td {
     }
 }
 
-.card-container {
-    transform-style: preserve-3d;
-    perspective: 1000px;
-}
-
-.card {
-    position: relative;
-    background-position: top center;
-    transform-style: preserve-3d;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-position: top center;
-}
-
-.card::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 0.5rem;
-    border-radius: 50%;
-    left: 0;
-    bottom: 0;
-}
-
-.cardWhite::after {
-    box-shadow: 0 3rem 20px rgba(0, 0, 0, 0.473);
-}
-
-.cardDark::after {
-    box-shadow: 0 3rem 20px rgba(255, 255, 255, 0.473);
-}
-.card .card-content {
-    transform-style: preserve-3d;
-    text-align: center;
-    display: flex;
-    gap: 6rem;
-    flex-direction: column;
-}
-
-.card-content h4 {
-    transform: translateZ(100px);
-    padding: 0 1.5rem;
-}
-.card-content img {
-    transform: translateZ(50px);
-}
-
 .container {
     height: 2rem;
     width: min-content;
     text-align: left;
-}
-
-/** Switch
- -------------------------------------*/
-
-.switch input {
-    position: absolute;
-    opacity: 0;
-}
-
-.switch {
-    display: inline-block;
-    font-size: 2rem; /* 1 */
-    height: 1em;
-    width: 2em;
-    background: #bdb9a6;
-    border-radius: 1em;
-    cursor: pointer;
-}
-
-.switch div {
-    height: 1em;
-    width: 1em;
-    border-radius: 1em;
-    background: #fff;
-    -webkit-transition: all 300ms;
-    -moz-transition: all 300ms;
-    transition: all 300ms;
-}
-
-.switch input:checked + div {
-    -webkit-transform: translate3d(100%, 0, 0);
-    -moz-transform: translate3d(100%, 0, 0);
-    transform: translate3d(100%, 0, 0);
 }
 
 .top {

@@ -88,7 +88,7 @@ function SpielErstellen({ setShow, socket }) {
                         />
                         {/*Input fields */}
                         <div className="flex gap-8 w-full">
-                            <div className="w-full flex flex-col gap-6 dark:text-white text-gray">
+                            <div className="w-full flex flex-col gap-6 dark:text-white text-text">
                                 <div className="w-full">
                                     <p className="text-left mb-1">Spielname*</p>
                                     <input
@@ -157,7 +157,7 @@ function SpielErstellen({ setShow, socket }) {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full flex flex-col gap-6 dark:text-white text-gray">
+                            <div className="w-full flex flex-col gap-6 dark:text-white text-text">
                                 <div className="w-full">
                                     <p className="text-left mb-1">
                                         Bei Spieler Disconnect, Runde:
@@ -249,18 +249,10 @@ function SpielErstellen({ setShow, socket }) {
                         {/*Button + Zurück Link*/}
                         <button
                             onClick={erstellenSpielHandler}
-                            className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
+                            className="bg-primary shadow hover:shadow-md transition-all dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded flex justify-center gap-2 cursor-pointer mt-4"
                         >
                             <p>Erstellen</p>
                         </button>
-                        <p className="text-sm pt-8 text-gray-600 dark:text-gray-400">
-                            Möchten Sie ein Spiel beitreten?{" "}
-                            <Link href="/spielen">
-                                <span className="font-bold underline text-black dark:text-white">
-                                    Zurück
-                                </span>
-                            </Link>
-                        </p>
                     </div>
                 </OutsideClickHandler>
             </div>

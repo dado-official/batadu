@@ -76,18 +76,10 @@ const SelectTeam = ({ selectTeam, setSelectTeam, team, setTeam }) => {
                         />
                         <div
                             onClick={handlenOnClick}
-                            className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
+                            className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded flex justify-center gap-2 cursor-pointer mt-4"
                         >
                             <p>Beitreten</p>
                         </div>
-                        <p className="text_small pt-8 text-gray dark:text-gray-400">
-                            Möchten Sie ein anderes Spiel beitreten?{" "}
-                            <Link href="/spielen">
-                                <span className="font-bold underline text-black dark:text-white">
-                                    Zurück
-                                </span>
-                            </Link>
-                        </p>
                     </div>
                 </OutsideClickHandler>
             </div>

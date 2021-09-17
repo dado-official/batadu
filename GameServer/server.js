@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const http = require("http").createServer();
+const http = require("http").createServer(app);
 const io = require("socket.io")(http, {
     cors: { origin: "*" },
 });
@@ -64,8 +64,6 @@ app.get("/room/:name", (req, res) => {
         res.send(false);
     }
 });
-
-app.listen(3003, () => console.log("Listening on Port 3003"));
 
 io.on("connection", (socket) => {
     socket.on("createRoom", (config) => {

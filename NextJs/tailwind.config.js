@@ -11,7 +11,7 @@ module.exports = {
                 bgWhite: "#eeeff2",
                 bgWhiteDark: "##E2E2E2",
                 bgDark: "#121212",
-                secondary: "#54B9CA",
+                secondary: "#0084E9",
                 secondaryDark: "#06D6A0",
                 logoGray: "#545454",
                 roomGray: "#d9d9d9",

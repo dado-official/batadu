@@ -47,8 +47,8 @@ function Sidebar({
                             className={`flex h-20 border-grayLight2 border-b-1 relative cursor-pointer transition-all`}
                         >
                             <Link href={"/spielen"}>
-                                <div className="flex justify-center items-center w-full">
-                                    <div className="relative h-8 w-8">
+                                <div className="flex items-center w-full">
+                                    <div className="relative h-8 w-8 mx-6">
                                         <Image
                                             src="/favicon.svg"
                                             layout="fill"

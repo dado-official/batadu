@@ -26,14 +26,26 @@ function BottomContainer({
     showSchlagTrumpf,
     schlag,
     trumpf,
+    modus,
 }) {
+    function getSchlag(schlag) {
+        if (schlag === "Weli") return schlag;
+        return schlag.split(" ")[0];
+    }
+
+    function getTrumpf(trumpf) {
+        if (trumpf === "Weli") return "Schell";
+        if (trumpf === "?") return "?";
+        return trumpf.split(" ")[1];
+    }
+
     return (
         <div className="flex gap-4 justify-between fixed bottom-0 left-0 pl-20 bg-bgWhite shadow-2xl w-full pr-80 py-4 items-center">
             <div className="ml-8 flex gap-4 flex-1 flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static text-sm text-center justify-between md:justify-start md:mt-0">
-                {showSchlagTrumpf && schlag !== "?" ? (
+                {showSchlagTrumpf && schlag !== "?" && modus !== "Offen" ? (
                     <div className="w-3.625rem">
                         <p className="dark:text-white mb-1 text-text">Schlag</p>
-                        {showSchlagTrumpf ? (
+                        {showSchlagTrumpf && schlag ? (
                             <div
                                 className="relative w-3.625rem shadow"
                                 style={{ height: "6.4273rem" }}
@@ -51,10 +63,10 @@ function BottomContainer({
                         ) : null}
                     </div>
                 ) : null}
-                {showSchlagTrumpf && trumpf !== "?" ? (
+                {showSchlagTrumpf && trumpf !== "?" && modus !== "Offen" ? (
                     <div className="w-3.625rem">
                         <p className="dark:text-white mb-1 text-text">Trumpf</p>
-                        {showSchlagTrumpf ? (
+                        {showSchlagTrumpf && trumpf ? (
                             <div
                                 className="relative w-3.625rem shadow"
                                 style={{ height: "6.4273rem" }}
@@ -72,6 +84,27 @@ function BottomContainer({
                         ) : null}
                     </div>
                 ) : null}
+                {modus === "Offen" && (
+                    <div className="flex gap-4">
+                        {schlag && schlag !== "?" && (
+                            <div>
+                                <p className="text-text">Schlag:</p>
+                                <p className="mt-2 text-primary font-medium text-base">
+                                    {getSchlag(schlag)}
+                                </p>
+                            </div>
+                        )}
+                        {trumpf && trumpf !== "?" && (
+                            <div>
+                                <p className="text-text">Trumpf:</p>
+                                <p className="mt-2 text-primary font-medium text-base">
+                                    {getTrumpf(trumpf)}
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                )}
+
                 <p className="block sm:hidden dark:text-white">
                     Geboten: <span className={`font-bold`}>{geboten}</span>
                 </p>

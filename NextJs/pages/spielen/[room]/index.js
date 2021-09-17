@@ -70,6 +70,7 @@ const Spiel = ({
     const [playedSoundWaelen, setPlayedSoundWaelen] = useState(false);
     const [playedSoundZug, setPlayedSoundZug] = useState(false);
     const [showSchlagTrumpf, setShowSchlagTrumpf] = useState(false);
+    const [modus, setModus] = useState("Offen");
 
     const infosRef = useRef();
     const spielRef = useRef();
@@ -118,16 +119,13 @@ const Spiel = ({
             router.push("/spielen");
         }
         setReconnect(false);
-        axios
-            .get(`${process.env.GAMEAPI_URL}/room/isPassword/${room}`)
-            .then((res) => {
-                if (res.data) {
-                    setIsPassword(true);
-                } else {
-                    console.log("Hallo");
-                    joinGame();
-                }
-            });
+
+        axios.get(`${process.env.GAMEAPI_URL}/room/${room}`).then((res) => {
+            console.log(res.data.config?.modus);
+            setModus(res.data.config?.modus);
+            joinGame();
+        });
+
         socket.on("roomExist", () => setExist(true));
         socket.on("roomNotExist", () => setExist(false));
         socket.on("players", (users) => {
@@ -619,6 +617,7 @@ const Spiel = ({
                                         showSchlagTrumpf={showSchlagTrumpf}
                                         schlag={schlag}
                                         trumpf={trumpf}
+                                        modus={modus}
                                     />
                                 )}
                             </div>

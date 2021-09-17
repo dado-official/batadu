@@ -6,6 +6,7 @@ class Room {
         this.name = config.name;
         this.rundeDisc = config.runde;
         this.pausiert = false;
+        this.modus = config.modus;
         this.waitingTime = parseInt(config.warten);
         this.maxPoints = config.punkte;
         this.isPassword = config.isPassword;

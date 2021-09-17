@@ -56,8 +56,13 @@ app.get("/room/available/:name", (req, res) => {
 });
 
 app.get("/room/:name", (req, res) => {
+    console.log("sepp");
     let name = req.params.name;
-    res.send(rooms[name].getNecessary());
+    if (rooms[name]) {
+        res.send(rooms[name].getNecessary());
+    } else {
+        res.send(false);
+    }
 });
 
 app.listen(3003, () => console.log("Listening on Port 3003"));
@@ -203,12 +208,34 @@ io.on("connection", (socket) => {
                 if (rooms[room].seeCards) {
                     io.to(room).emit("karten sehen");
                 }
+                if (rooms[room].modus === "Offen") {
+                    if (rooms[room].trumpfGewaelt) {
+                        if (rooms[room].schlagGewaelt) {
+                            io.to(room).emit("schlag trumpf", {
+                                schlag: rooms[room].schlag.name,
+                                trumpf: rooms[room].trumpf.name,
+                            });
+                        } else {
+                            io.to(room).emit("schlag trumpf", {
+                                schlag: null,
+                                trumpf: rooms[room].trumpf.name,
+                            });
+                        }
+                    } else if (rooms[room].schlagGewaelt) {
+                        io.to(room).emit("schlag trumpf", {
+                            schlag: rooms[room].schlag.name,
+                            trumpf: null,
+                        });
+                    }
+                }
             } else {
                 rooms[room].kartenMaster.kartenMischen();
                 rooms[room].kartenMaster.kartenAusteilen();
                 io.to(room).emit("karten", rooms[room].userCards);
                 rooms[room].userStatus[rooms[room].schlagPos] = "Schlag";
-                rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
+                if (rooms[room].modus === "Blind") {
+                    rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
+                }
                 io.to(room).emit("status", rooms[room].userStatus);
             }
         }
@@ -252,6 +279,11 @@ io.on("connection", (socket) => {
                 }
             } else {
                 rooms[room].userStatus[rooms[room].schlagPos] = null;
+                rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
+                io.to(room).emit("schlag trumpf", {
+                    schlag: rooms[room].schlag.name,
+                    trumpf: null,
+                });
                 io.to(room).emit("status", rooms[room].userStatus);
             }
             rooms[room].schlagGewaelt = true;

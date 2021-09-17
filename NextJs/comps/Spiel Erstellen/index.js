@@ -129,7 +129,7 @@ function SpielErstellen({ setShow, socket }) {
                                 </div>
 
                                 <div className="w-full">
-                                    <p className="text-left mb-1">Spieler</p>
+                                    <p className="text-left mb-1">Spieler 🚧</p>
                                     <div className="flex justify-between gap-4">
                                         <SelectElement
                                             value="2"
@@ -145,7 +145,9 @@ function SpielErstellen({ setShow, socket }) {
                                 </div>
 
                                 <div className="w-full mb-8">
-                                    <p className="text-left mb-1">Password</p>
+                                    <p className="text-left mb-1">
+                                        Password 🚧
+                                    </p>
                                     <div className="relative flex items-center w-full gap-8">
                                         <input
                                             type="Password"
@@ -194,7 +196,7 @@ function SpielErstellen({ setShow, socket }) {
 
                                 <div className="w-full">
                                     <p className="text-left mb-1">
-                                        Welli hat einen Guten
+                                        Welli hat einen Guten 🚧
                                     </p>
                                     <div className="flex justify-between gap-4">
                                         <SelectElement

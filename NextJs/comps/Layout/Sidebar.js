@@ -50,7 +50,7 @@ function Sidebar({
                                 <div className="flex justify-center items-center w-full">
                                     <div className="relative h-8 w-8">
                                         <Image
-                                            src="/logo.svg"
+                                            src="/favicon.svg"
                                             layout="fill"
                                             objectFit="contain"
                                         />

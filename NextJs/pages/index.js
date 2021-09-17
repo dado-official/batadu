@@ -3,6 +3,8 @@ import { getSession, providers } from "next-auth/client";
 import YouTube from "react-youtube";
 import Image from "next/image";
 import Container from "../comps/HpContainer";
+import Head from "next/head";
+import { useRef } from "react";
 
 export default function Home({
     isDarkmode,
@@ -10,8 +12,17 @@ export default function Home({
     session,
     providers,
 }) {
+    const ref = useRef();
     return (
         <main className="w-full">
+            <Head>
+                <title>Batadù - Online Watten</title>
+                <meta
+                    name="description"
+                    content="Multiplayer Online watten mit Freunden"
+                />
+                <link rel="icon" href="/favicon.svg" />
+            </Head>
             <Image
                 src="/2844246.jpg"
                 layout="fill"
@@ -45,7 +56,14 @@ export default function Home({
                         <button className="py-3 hover:shadow-lg transition-all shadow font-medium bg-primary dark:bg-primaryDark w-12ch text-white dark:text-black text-xl rounded focus:outline-none">
                             <Link href="/anmelden">Jetzt spielen</Link>
                         </button>
-                        <button className="py-3 w-12ch font-medium text-text hover:shadow-lg transition-all shadow bg-white dark:border-white dark:text-white text-xl rounded focus:outline-none">
+                        <button
+                            onClick={() =>
+                                ref.current.scrollIntoView({
+                                    behavior: "smooth",
+                                })
+                            }
+                            className="py-3 w-12ch font-medium text-text hover:shadow-lg transition-all shadow bg-white dark:border-white dark:text-white text-xl rounded focus:outline-none"
+                        >
                             Mehr erfahren
                         </button>
                     </div>
@@ -88,7 +106,7 @@ export default function Home({
                             );
                         })}
                     </div>
-                    <div className="mt-44 text-center">
+                    <div className="mt-44 text-center" ref={ref}>
                         <h4 className="font-medium">Mehr als nur Watten</h4>
                         <div className="mt-12 gap-8 grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                             <Container

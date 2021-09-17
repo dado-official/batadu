@@ -11,7 +11,7 @@ function index({ providers, isDarkmode }) {
                     name="description"
                     content="Multiplayer Online watten mit Freunden"
                 />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/favicon.svg" />
             </Head>
 
             {/*signin Container*/}

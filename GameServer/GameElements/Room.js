@@ -15,8 +15,8 @@ class Room {
             this.password = config.password;
         }
         this.spectators = [];
-        this.team1Punkte = 17;
-        this.team2Punkte = 17;
+        this.team1Punkte = 0;
+        this.team2Punkte = 0;
         this.freePos = [0, 1, 2, 3];
         this.userPos = [];
         this.userTeam = [1, 2, 1, 2];
@@ -44,6 +44,7 @@ class Room {
         this.gebotenDavor = 0;
         this.schlagtausch = false;
         this.kartenMaster = new KartenMaster(this);
+        this.started = false;
 
         return 0;
     }
@@ -110,7 +111,7 @@ class Room {
     }
 
     tryNeueRunde() {
-        if (this.rundeDisc === "Pausieren") {
+        if (this.rundeDisc === "Pausieren" && this.started) {
             this.pausiert = true;
             return false;
         }

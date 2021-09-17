@@ -71,6 +71,7 @@ const Spiel = ({
     const [playedSoundZug, setPlayedSoundZug] = useState(false);
     const [showSchlagTrumpf, setShowSchlagTrumpf] = useState(false);
     const [modus, setModus] = useState("Offen");
+    const [sTPos, setSTPos] = useState({ schlagPos: -1, trumpfPos: -1 });
 
     const infosRef = useRef();
     const spielRef = useRef();
@@ -239,10 +240,31 @@ const Spiel = ({
         socket.on("stiche", (data) => {
             setStiche(data);
         });
+        socket.on("canSee", ({ schlag, trumpf, schlagPos, trumpfPos }) => {
+            setSchlag(schlag);
+            setTrumpf(trumpf);
+            console.log("Pos: " + pos);
+            setSTPos({ schlagPos: schlagPos, trumpfPos: trumpfPos });
+        });
+
         return () => {
             socket.emit("end");
         };
     }, []);
+
+    useEffect(() => {
+        console.log(pos);
+        console.table(sTPos);
+        if (pos !== undefined) {
+            console.log("Okk");
+            if (sTPos.schlagPos === pos || sTPos.trumpfPos === pos) {
+                console.log("Al va ite");
+                setShowSchlagTrumpf(true);
+            } else {
+                console.log("al n va nia ite");
+            }
+        }
+    }, [sTPos]);
 
     useEffect(() => {
         if (!seeStiche) {
@@ -559,7 +581,7 @@ const Spiel = ({
                                                     Nochmal Spielen
                                                 </button>
                                                 <Link
-                                                    to="/spielen"
+                                                    href="/spielen"
                                                     className="w-full"
                                                 >
                                                     <button className=" bg-bgWhite dark:bg-bgDark  dark:text-white font-medium w-full py-2 rounded-st cursor-pointer mt-4">

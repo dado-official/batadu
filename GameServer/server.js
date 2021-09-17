@@ -227,6 +227,18 @@ io.on("connection", (socket) => {
                             trumpf: null,
                         });
                     }
+                } else {
+                    if (
+                        rooms[room].trumpfGewaelt &&
+                        rooms[room].schlagGewaelt
+                    ) {
+                        io.to(room).emit("canSee", {
+                            schlag: rooms[room].schlag.name,
+                            trumpf: rooms[room].trumpf.name,
+                            schlagPos: rooms[room].schlagPos,
+                            trumpfPos: rooms[room].trumpfPos,
+                        });
+                    }
                 }
             } else {
                 rooms[room].kartenMaster.kartenMischen();
@@ -237,6 +249,7 @@ io.on("connection", (socket) => {
                     rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
                 }
                 io.to(room).emit("status", rooms[room].userStatus);
+                rooms[room].started = true;
             }
         }
 
@@ -280,10 +293,12 @@ io.on("connection", (socket) => {
             } else {
                 rooms[room].userStatus[rooms[room].schlagPos] = null;
                 rooms[room].userStatus[rooms[room].trumpfPos] = "Trumpf";
-                io.to(room).emit("schlag trumpf", {
-                    schlag: rooms[room].schlag.name,
-                    trumpf: null,
-                });
+                if (rooms[room].modus === "Offen") {
+                    io.to(room).emit("schlag trumpf", {
+                        schlag: rooms[room].schlag.name,
+                        trumpf: null,
+                    });
+                }
                 io.to(room).emit("status", rooms[room].userStatus);
             }
             rooms[room].schlagGewaelt = true;

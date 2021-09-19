@@ -93,7 +93,7 @@ const Spiel = ({
                     userId: userId,
                     username: username,
                     userPic: session.user.image,
-                    level: level,
+                    level: level === null ? 0 : level,
                 },
             });
         } else {
@@ -103,7 +103,7 @@ const Spiel = ({
                     userId: userId,
                     username: username,
                     userPic: session.user.image,
-                    level: level,
+                    level: level === null ? 0 : level,
                 },
                 team: team,
             });
@@ -511,14 +511,7 @@ const Spiel = ({
             )} `}
         >
             <div className="w-full">
-                {isPassword ? (
-                    <SpielPassword
-                        isDarkmode={isDarkmode}
-                        setIsPassword={setIsPassword}
-                        joinGame={joinGame}
-                        room={room}
-                    />
-                ) : exist ? (
+                {exist ? (
                     <Fragment>
                         <TopLeftInformations
                             room={room}
@@ -607,7 +600,6 @@ const Spiel = ({
                                     }
                                     isSchönereWindows={isSchönereWindows}
                                     schönereJaHandler={schönereJaHandler}
-                                    schönereNeinHandler={schönereNeinHandler}
                                 />
                                 {mode !== "spectate" && (
                                     <BottomContainer

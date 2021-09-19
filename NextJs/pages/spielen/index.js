@@ -55,25 +55,26 @@ function Spielen({
             title={`Batadù - ${rooms.length} Spiele`}
             level={level}
         >
-            <div className="w-1450 max-w-1/9 mx-auto mt-8 mb-16">
-                <div className="flex justify-between md:mt-8 flex-col-reverse md:flex-row">
+            <div className="max-w-1/9 mx-auto mt-8 mb-16">
+                <div className="flex justify-between md:mt-8 flex-col-reverse md:flex-row gap-8">
                     <h3 className="mb-6 dark:text-white font-medium">Spiele</h3>
-                    <div className="mb-6 w-full md:w-max ">
-                        <SearchInput
-                            search={search}
-                            setSearch={setSearch}
-                            isDarkmode={isDarkmode}
-                        />
+                    <div className="flex gap-4">
+                        <div className="mb-6 w-full md:w-80 ">
+                            <SearchInput
+                                search={search}
+                                setSearch={setSearch}
+                                isDarkmode={isDarkmode}
+                            />
+                        </div>
+                        <button
+                            className="hover:shadow-md transition-all py-1.5 gap-2 rounded  text-primary border-1 border-primary dark:text-black mb-6 flex justify-center items-center px-8"
+                            onClick={() => setShowSpielErstellen(true)}
+                        >
+                            Spiel erstellen
+                        </button>
                     </div>
-                    <button
-                        className="w-full md:w-max py-1.5 gap-2 rounded bg-primary dark:bg-primaryDark text-white dark:text-black mb-6 flex justify-center items-center px-8"
-                        onClick={() => setShowSpielErstellen(true)}
-                    >
-                        <PlusIcon className="h-5" />
-                        Spiel erstellen
-                    </button>
                 </div>
-                <div className="flex flex-col gap-4">
+                <div className="grid grid-flow-row grid-cols-3 gap-8">
                     {showRooms.map((element) => {
                         return (
                             <Room
@@ -97,22 +98,6 @@ function Spielen({
                         drücken
                     </p>
                 ) : null}
-                <div className="mt-8 grid grid-cols-2 grid-flow-row gap-8 text-center flex-1">
-                    <HilfeContainer
-                        title="Feedback"
-                        description="Wir würden uns sehr über Ihr Feedback freuen, damit wir uns verbessern können."
-                        buttonName="Feedback geben"
-                        img="/mail.svg"
-                        link="mailto: support@batadu.com? subject = Feedback"
-                    />
-                    <HilfeContainer
-                        img="/discordWhite.svg"
-                        title="Community Server"
-                        description="Trete unserem Community Server bei und lerne neue leidenschaftliche Watter kennen."
-                        buttonName="Beitreten"
-                        link="https://discord.gg/4RX68WRXwg"
-                    />
-                </div>
             </div>
             {showSpielErstellen && (
                 <SpielErstellen

@@ -17,7 +17,9 @@ function ProfileElement({ session, level }) {
                         <p className="dark:text-white hidden">
                             {session.user.name}
                         </p>
-                        <p className="text_small hidden -mt-1">Level {level}</p>
+                        <p className="text_small hidden -mt-1">
+                            Level {level === null ? 0 : level}
+                        </p>
                     </div>
                 </div>
             </Link>

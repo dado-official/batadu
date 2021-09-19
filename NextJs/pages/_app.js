@@ -2,7 +2,7 @@ import "../styles/app.css";
 import { Provider } from "next-auth/client";
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
-let socket = io("http://localhost:8080");
+let socket = io(process.env.GAMESERVER_URL);
 
 function MyApp({ Component, pageProps }) {
     const [isDarkmode, setIsDarkmode] = useState(false);

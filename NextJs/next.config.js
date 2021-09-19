@@ -1,8 +1,8 @@
 module.exports = {
     reactStrictMode: true,
     env: {
-        GAMESERVER_URL: "http://localhost:8080",
-        GAMEAPI_URL: "http://localhost:3003",
+        GAMESERVER_URL: "https://bataduserver.herokuapp.com",
+        GAMEAPI_URL: "https://bataduserver.herokuapp.com",
     },
     images: {
         domains: [

@@ -33,49 +33,22 @@ const Room = ({ roomName, score1, score2, users, setSelectTeam, config }) => {
     };
 
     return (
-        <div className="w-full bg-white shadow hover:shadow-md transition-all p-5 rounded flex gap-16 border-2 border-transparent ">
-            <div className="flex-1">
-                <div className="mb-1 flex gap-6 text_small text-borderGray">
-                    <p>
-                        Bis:{" "}
-                        <span className="text-black font-medium">
-                            {config.punkte}
-                        </span>
-                    </p>
-                    <p>
-                        Bei Spieler Disconnect, Runde:{" "}
-                        <span className="text-black font-medium">
-                            {config.runde}
-                        </span>
-                    </p>
-                    <p>
-                        Welli hat einen Guten:{" "}
-                        <span className="text-black font-medium">
-                            {config.gute}
-                        </span>
-                    </p>
-                    <p>
-                        Wartezeit nach Stich:{" "}
-                        <span className="text-black font-medium">
-                            {config.warten}
-                        </span>{" "}
-                        Sekunden
-                    </p>
-                </div>
-                <div className="flex gap-4 items-center">
-                    <h5 className="font-medium">{roomName}</h5>
-                    {config.password && config.password !== "" && (
-                        <LockClosedIcon className="h-4" />
-                    )}
-                    <p className="flex-1 text-right">
-                        {countPlayers()}/4 Spieler
-                    </p>
-                </div>
-                <div className="flex gap-12 text-black">
-                    <div className="w-full text_small mt-3 flex items-center gap-4">
+        <div className="w-full border-1 border-grayLight2 rounded p-4 transition-all">
+            <p className="text_small font-medium text-text text-center mb-1">
+                <span className="text-gray font-normal">Bis</span>{" "}
+                {config.punkte}
+                <span className="text-gray font-normal">,</span> {config.modus}
+                <span className="text-gray font-normal">,</span>{" "}
+                {countPlayers()}/4{" "}
+                <span className="text-gray font-normal">Spieler</span>
+            </p>
+            <h5 className="text-center">{roomName}</h5>
+            <div className="flex dark:bg-whiteDark justify-center dark:text-white">
+                <div className="flex flex-1 flex-col py-3 px-2">
+                    <div className="flex gap-4 text_small h-6">
                         {users[0] ? (
                             <Fragment>
-                                <div className="h-6 w-6 relative rounded-full -mr-2">
+                                <div className="h-6 w-6 relative rounded-full">
                                     <Image
                                         src={users[0].userPic}
                                         layout="fill"
@@ -83,14 +56,21 @@ const Room = ({ roomName, score1, score2, users, setSelectTeam, config }) => {
                                         className="rounded-full"
                                     />{" "}
                                 </div>
-                                <p>{users[0].username}</p>
+                                <p className="whitespace-nowrap overflow-hidden text-text">
+                                    {users[0].username}
+                                </p>
                             </Fragment>
                         ) : (
                             <p className="text-secondary">offen</p>
                         )}
+                    </div>
+                    <p className="text-right mr-2 text-xl text-black">
+                        {score1}
+                    </p>
+                    <div className="flex gap-4 text_small h-6">
                         {users[2] ? (
                             <Fragment>
-                                <div className="h-6 w-6 relative rounded-full -mr-2">
+                                <div className="h-6 w-6 relative rounded-full">
                                     <Image
                                         src={users[2].userPic}
                                         layout="fill"
@@ -98,20 +78,25 @@ const Room = ({ roomName, score1, score2, users, setSelectTeam, config }) => {
                                         className="rounded-full"
                                     />{" "}
                                 </div>
-                                <p>{users[2].username}</p>
+                                <p className="whitespace-nowrap overflow-hidden text-text">
+                                    {users[2].username}
+                                </p>
                             </Fragment>
                         ) : (
-                            <p className="text-secondary">offen</p>
+                            <p className="text-secondary ml-10 overflow-hidden whitespace-nowrap">
+                                offen
+                            </p>
                         )}
-                        <p className="flex-1 text-right text-base text-black">
-                            {score1}
-                        </p>
                     </div>
-                    <div className="w-full text_small mt-3 flex items-center gap-4">
-                        <p className="flex-1 text-base text-black">{score2}</p>
+                </div>
+                <div className="flex flex-1 flex-col py-3 px-2 text-right">
+                    <div className="flex gap-4 text_small h-6">
                         {users[1] ? (
                             <Fragment>
-                                <div className="h-6 w-6 relative rounded-full -mr-2">
+                                <p className="flex-1 overflow-hidden whitespace-nowrap text-text">
+                                    {users[1].username}
+                                </p>
+                                <div className="h-6 w-6 relative rounded-full">
                                     <Image
                                         src={users[1].userPic}
                                         layout="fill"
@@ -119,14 +104,23 @@ const Room = ({ roomName, score1, score2, users, setSelectTeam, config }) => {
                                         className="rounded-full"
                                     />{" "}
                                 </div>
-                                <p>{users[1].username}</p>
                             </Fragment>
                         ) : (
-                            <p className="text-secondary">offen</p>
+                            <p className="text-secondary mr-10 ml-auto">
+                                offen
+                            </p>
                         )}
+                    </div>
+                    <p className="text-left ml-2 text-xl text-black">
+                        {score2}
+                    </p>
+                    <div className="flex gap-4 text_small h-6">
                         {users[3] ? (
                             <Fragment>
-                                <div className="h-6 w-6 relative rounded-full -mr-2">
+                                <p className="flex-1 overflow-hidden whitespace-nowrap text-text">
+                                    {users[3].username}
+                                </p>
+                                <div className="h-6 w-6 relative rounded-full">
                                     <Image
                                         src={users[3].userPic}
                                         layout="fill"
@@ -134,24 +128,29 @@ const Room = ({ roomName, score1, score2, users, setSelectTeam, config }) => {
                                         className="rounded-full"
                                     />{" "}
                                 </div>
-                                <p>{users[3].username}</p>
                             </Fragment>
                         ) : (
-                            <p className="text-secondary">offen</p>
+                            <p className="text-secondary mr-10 ml-auto">
+                                offen
+                            </p>
                         )}
                     </div>
                 </div>
             </div>
-            <div className="flex flex-col justify-between">
-                <button
-                    onClick={handleOnClick}
-                    className=" bg-bgWhite hover:bg-buttonGray transition-all rounded py-1.5 px-4 w-44 cursor-pointer text-center"
-                >
-                    Beitreten
+            <div className="flex mt-2">
+                {countPlayers() < 4 && (
+                    <button
+                        onClick={handleOnClick}
+                        className="hover:shadow flex-1 hover:ring-4 hover:ring-primaryLight transition-all rounded-l bg-primary text-white py-1.5 px-4 cursor-pointer text-center"
+                    >
+                        Beitreten
+                    </button>
+                )}
+                <button className="flex-1 border-1 transition-all hover:shadow hover:ring-4 hover:ring-light border-grayLight2 rounded-r py-1.5 text-grayLight px-4">
+                    <Link href={`/spielen/${roomName}?mode=spectate`}>
+                        Zuschauen
+                    </Link>
                 </button>
-                <Link href={`/spielen/${roomName}?mode=spectate`}>
-                    <button className="">Zuschauen</button>
-                </Link>
             </div>
         </div>
     );

@@ -61,7 +61,7 @@ const Room = ({ roomName, score1, score2, users, setSelectTeam, config }) => {
                                 </p>
                             </Fragment>
                         ) : (
-                            <p className="text-secondary">offen</p>
+                            <p className="text-secondary ml-10">offen</p>
                         )}
                     </div>
                     <p className="text-right mr-2 text-xl text-black">

@@ -496,7 +496,7 @@ nav:hover p {
 }
 .selectCard:hover {
     transform: scale(1.15);
-    box-shadow: #888888a6 5px 5px 20px;
+    box-shadow: #ececf8 5px 5px 20px;
     transition: 500ms;
 }
 
@@ -505,8 +505,8 @@ nav:hover p {
     width: 8px;
     height: 8px;
     border-radius: 4px;
-    background-color: #ff0c4c;
-    color: #ff0c4c;
+    background-color: #9088e6;
+    color: #9088e6;
     animation: dotFlashing 1s infinite linear alternate;
     animation-delay: 0.5s;
 }
@@ -524,8 +524,8 @@ nav:hover p {
     width: 8px;
     height: 8px;
     border-radius: 4px;
-    background-color: #ff0c4c;
-    color: #ff0c4c;
+    background-color: #9088e6;
+    color: #9088e6;
     animation: dotFlashing 1s infinite alternate;
     animation-delay: 0s;
 }
@@ -535,19 +535,19 @@ nav:hover p {
     width: 8px;
     height: 8px;
     border-radius: 4px;
-    background-color: #ff0c4c;
-    color: #ff0c4c;
+    background-color: #9088e6;
+    color: #9088e6;
     animation: dotFlashing 1s infinite alternate;
     animation-delay: 1s;
 }
 
 @keyframes dotFlashing {
     0% {
-        background-color: #ff0c4c;
+        background-color: #9088e6;
     }
     50%,
     100% {
-        background-color: #ffe6ee;
+        background-color: #ececf8;
     }
 }
 

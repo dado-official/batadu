@@ -15,7 +15,7 @@ const RanglisteTabelleData = ({
         <Link href={`/profil/${userId}`}>
             <tr
                 className={`cursor-pointer hover:shadow transition-all ${
-                    selected && "rounded-md select shadow"
+                    selected && "rounded-md select shadow text-white"
                 }`}
             >
                 <td
@@ -50,7 +50,13 @@ const RanglisteTabelleData = ({
                             />
                         </div>
                     ) : (
-                        <p className={`text-gray`}>{pos}.</p>
+                        <p
+                            className={`${
+                                selected ? "text-white" : "text-gray"
+                            }`}
+                        >
+                            {pos}.
+                        </p>
                     )}
                 </td>
                 <td data-label="Benutzer">
@@ -67,17 +73,32 @@ const RanglisteTabelleData = ({
                     </div>
                 </td>
                 <td data-label="Winrate %">
-                    {winrate}% <span className={`text-gray`}>Winrate</span>
+                    {winrate}%{" "}
+                    <span
+                        className={`${selected ? "text-white" : "text-gray"}`}
+                    >
+                        Winrate
+                    </span>
                 </td>
                 <td data-label="Gewonnene Spiele">
                     {gamesW}
-                    <span className={`text-gray`}> Gewonnene Spiele</span>
+                    <span
+                        className={`${selected ? "text-white" : "text-gray"}`}
+                    >
+                        {" "}
+                        Gewonnene Spiele
+                    </span>
                 </td>
                 <td
                     className={`${selected && "rounded-r-md"}`}
                     data-label="Punkte"
                 >
-                    {points} <span className={`text-gray`}>Punkte</span>
+                    {points}{" "}
+                    <span
+                        className={`${selected ? "text-white" : "text-gray"}`}
+                    >
+                        Punkte
+                    </span>
                 </td>
             </tr>
         </Link>

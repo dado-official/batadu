@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+console.log("connected");
 
 module.exports = {
     addGame: async function (userIds, team1Points, team2Points, maxPoints) {

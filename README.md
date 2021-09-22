@@ -15,8 +15,15 @@
 
 ---
 ## Features
-- Chat supports Gif's
+- Chat supports Gif's 
+<img src="Gifs/Chat%20gif.gif" height="400">
+
 - Play Watten with friends
+<img src="Gifs/play.gif" height="400">
+
+- Change cards position
+<img src="Gifs/swap%20cards.gif" height="100">
+
 - Earn XP to get a higher level
 - Ranklist for the best players
 - Easy login with a lot of different providers

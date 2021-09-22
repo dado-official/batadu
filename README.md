@@ -9,6 +9,8 @@
 
 <h3 align="center">
   <a href="https://batadu.com/">Jetzt Spielen</a>
+  <span> · </span>
+    <a href="https://discord.gg/4RX68WRXwg">Discord Community Server</a>
 </h3>
 
 ---
@@ -20,7 +22,7 @@
 - Easy login with a lot of different providers
 
 
-## Techonoliges used
+## Technoliges used
 - Next.js
 - Prisma
 - PostgreSQL

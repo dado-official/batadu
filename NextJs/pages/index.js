@@ -77,12 +77,16 @@ export default function Home({
                 <div className="w-full flex-1 z-10">
                     <div
                         className="relative"
-                        style={{ paddingBottom: "56.25%" }}
+                        style={{ paddingBottom: "50.41%" }}
                     >
-                        <YouTube
-                            videoId="CEHG_Cfjg34"
-                            className="w-full h-full absolute top-0 left-0 rounded"
-                        />
+                        <iframe
+                            src="https://player.vimeo.com/video/612888761?background=1&autoplay=1&;title=0&;byline=0&;portrait=0&;loop=1&;autopause=0&;muted=1"
+                            frameborder="0"
+                            webkitallowfullscreen=""
+                            mozallowfullscreen=""
+                            allowfullscreen=""
+                            className="h-full w-full absolute"
+                        ></iframe>
                     </div>
                 </div>
             </section>
@@ -123,11 +127,11 @@ export default function Home({
                             <Container
                                 img="/tpy.svg"
                                 title="Rangliste"
-                                describtion="Die Rangliste zeigt dir die liste der besten Spiele auf, sichere dir den 1 Platz."
+                                describtion="Die Rangliste zeigt dei besten Spieler an. Sichere dir den 1. Platz"
                             />
                             <Container
                                 img="/secure.svg"
-                                title="Brutal Sicher"
+                                title="Sehr Sicher"
                                 describtion="Durch die Verwendung von HTTPS und OAuth brauchts du dir keine sorgen um deine Daten zu tun."
                             />
                             <Container

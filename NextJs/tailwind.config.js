@@ -7,6 +7,7 @@ module.exports = {
         extend: {
             colors: {
                 primary: "#9088e6",
+                primaryStrong: "#3F33BB",
                 primaryDark: "#9088e6",
                 bgWhite: "#eeeff2",
                 bgWhiteDark: "##E2E2E2",
@@ -20,6 +21,7 @@ module.exports = {
                 borderGray2: "#E1E1E1",
                 primaryLight: "#dad7f7",
                 primaryLight2: "#CAC6EE",
+                primaryLight3: "#FAF9FF",
                 primaryLightDark: "#7E3A4A",
                 spielGray: "#E6E6E6",
                 whiteDark: "#2E2E2E",

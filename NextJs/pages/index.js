@@ -24,36 +24,36 @@ export default function Home({
                 <link rel="icon" href="/favicon.svg" />
             </Head>
             <Image
-                src="/2844246.jpg"
+                src="/bg.jpg"
                 layout="fill"
                 objectFit="cover"
                 objectPosition="bottom"
                 className="z-10"
-                blurDataURL="/2844246.jpg"
+                blurDataURL="/bg.jpg"
                 placeholder="blur"
             />
             <section className="w-1450 max-w-1/9 mx-auto flex items-center my-44">
                 <div
                     className="absolute w-full h-full top-0 left-0 z-10 backdrop-filter backdrop-blur-md"
-                    style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }}
+                    style={{ backgroundColor: "rgba(0,0, 0, 0.2)" }}
                 ></div>
                 <div className="z-10 w-full lg:w-1/2 flex-1">
-                    <h1 className="font-medium pb-8 break-words dark:text-white">
+                    <h1 className="font-medium text-white pb-8 break-words dark:text-white">
                         Kostenlos <br /> Online
-                        <span className="text-primary dark:text-primaryDark">
+                        <span className=" dark:text-primaryDark">
                             {" "}
                             Watten
                             <br />
                         </span>
                         wie nie zuvor.
                     </h1>
-                    <p className="dark:text-gray-100 mr-24 text-text">
+                    <p className="dark:text-gray-100 mr-24 text-bgWhite">
                         Batadù ist derzeitig die beste Website zum Online
-                        Watten, denn Sie bietet eine wunderschöne Oberfläche und
-                        noch vieles mehr...
+                        Watten, sie bietet eine wunderschöne Oberfläche und noch
+                        vieles mehr an...
                     </p>
                     <div className="flex gap-4 mt-16 font-bold">
-                        <button className="py-3 hover:shadow-lg transition-all shadow font-medium bg-primary dark:bg-primaryDark w-12ch text-white dark:text-black text-xl rounded focus:outline-none">
+                        <button className="py-3 border-2 border-primaryLight px-10 hover:shadow-lg transition-all shadow font-medium bg-primary dark:bg-primaryDark  text-white dark:text-black text-xl rounded focus:outline-none w-max">
                             <Link href="/anmelden">Jetzt spielen</Link>
                         </button>
                         <button
@@ -62,11 +62,17 @@ export default function Home({
                                     behavior: "smooth",
                                 })
                             }
-                            className="py-3 w-12ch font-medium text-text hover:shadow-lg transition-all shadow bg-white dark:border-white dark:text-white text-xl rounded focus:outline-none"
+                            className="py-3 px-10 font-medium text-text hover:shadow-lg transition-all shadow bg-white dark:border-white dark:text-white text-xl rounded focus:outline-none w-max"
                         >
                             Mehr erfahren
                         </button>
                     </div>
+                    <a
+                        href="https://www.freepik.com/vectors/background"
+                        className="absolute centerX top-2 text-xxs text-primary"
+                    >
+                        Background vector created by starline - www.freepik.com
+                    </a>
                 </div>
                 <div className="w-full flex-1 z-10">
                     <div

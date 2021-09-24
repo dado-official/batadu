@@ -595,9 +595,10 @@ const Spiel = ({
                                     schlagTauschJaHandler={
                                         schlagTauschJaHandler
                                     }
-                                    schönereNeinHandler={
+                                    schlagTauschNeinHandler={
                                         schlagTauschNeinHandler
                                     }
+                                    schönereNeinHandler={schönereNeinHandler}
                                     isSchönereWindows={isSchönereWindows}
                                     schönereJaHandler={schönereJaHandler}
                                 />

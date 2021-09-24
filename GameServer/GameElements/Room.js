@@ -142,7 +142,6 @@ class Room {
         }
         this.amZug = gewinnerPos;
         this.zugStart = gewinnerPos;
-        this.userStiche[gewinnerPos] += 1;
         this.tischCards = [];
         this.tischCardsObject = [];
         this.userStatus = [];
@@ -198,6 +197,7 @@ class Room {
 
     addStichToTeam(pos) {
         this.userSticheGesamt[pos] += 1;
+        this.userStiche[pos] += 1;
         if (pos % 2 === 0) {
             this.team1Stiche += 1;
         } else {

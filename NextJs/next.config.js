@@ -1,8 +1,8 @@
 module.exports = {
     reactStrictMode: true,
     env: {
-        GAMESERVER_URL: "https://batadu.com",
-        GAMEAPI_URL: "https://batadu.com",
+        GAMESERVER_URL: "http://localhost:8080",
+        GAMEAPI_URL: "http://localhost:8080",
     },
     images: {
         domains: [

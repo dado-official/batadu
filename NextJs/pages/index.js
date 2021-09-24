@@ -81,10 +81,10 @@ export default function Home({
                     >
                         <iframe
                             src="https://player.vimeo.com/video/612888761?background=1&autoplay=1&;title=0&;byline=0&;portrait=0&;loop=1&;autopause=0&;muted=1"
-                            frameborder="0"
+                            frameBorder="0"
                             webkitallowfullscreen=""
                             mozallowfullscreen=""
-                            allowfullscreen=""
+                            allowFullScreen=""
                             className="h-full w-full absolute"
                         ></iframe>
                     </div>

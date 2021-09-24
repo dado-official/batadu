@@ -577,7 +577,7 @@ io.on("connection", (socket) => {
                 io.to(room).emit("status", rooms[room].userStatus);
                 rooms[room].stich += 1;
                 rooms[room].addStichToTeam(gewonnenPos);
-                io.to(room).emit("stiche", rooms[room].userSticheGesamt);
+                io.to(room).emit("stiche", rooms[room].userStiche);
                 if (rooms[room].stich === 2) {
                     io.to(room).emit("hide Stich");
                 }
@@ -671,6 +671,10 @@ io.on("connection", (socket) => {
                                 io.to(room).emit(
                                     "tischkarten",
                                     rooms[room].tischCards
+                                );
+                                io.to(room).emit(
+                                    "stiche",
+                                    rooms[room].userStiche
                                 );
                             }
                         } else {

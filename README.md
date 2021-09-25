@@ -29,7 +29,7 @@
 - Easy login with a lot of different providers
 
 
-## Technoliges used
+## Technologies used
 - Next.js
 - Prisma
 - PostgreSQL

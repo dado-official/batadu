@@ -19,14 +19,14 @@ function Hilfe({ session, setIsDarkmode, isDarkmode, level }) {
                 <div className="mt-8 grid grid-cols-2 grid-flow-row gap-8">
                     <HilfeContainer
                         title="Bugs Melden"
-                        description="Haben Sie Bugs(Fehler) auf dieser Webseite gefunden? Wenn ja dann können sie diese auf unserer Repo melden."
+                        description="Haben Sie Bugs(Fehler) auf dieser Webseite gefunden? Wenn ja, dann können Sie diese auf unserer Repository melden."
                         buttonName="Melden"
                         img="/githubWhite.svg"
                         link="https://github.com/dado-official/batadu/issues"
                     />
                     <HilfeContainer
                         title="Feedback"
-                        description="Wir würden uns sehr über Ihr Feedback freuen, damit wir uns verbessern können."
+                        description="Wir würden uns über Ihr Feedback freuen, somit können wir die Seite verbessern."
                         buttonName="Feedback geben"
                         img="/mail.svg"
                         link="mailto: support@batadu.com? subject = Feedback"
@@ -34,27 +34,28 @@ function Hilfe({ session, setIsDarkmode, isDarkmode, level }) {
                     <HilfeContainer
                         img="/paypal.svg"
                         title="Projekt unterstützen"
-                        description="Sie können sehr gerne dieses Projekt unterstützen, damit es in den naschten Jahren leben wird und damit es regelmäßig neue Feature gibt."
+                        description="Unterstütze dieses Projekt damit es auch in der Zukunft existiert und regelmäßige Updates bekommt."
                         buttonName="Unterstützen"
+                        link="https://paypal.me/Therealdanjo?locale.x=it_IT"
                     />
                     <HilfeContainer
                         img="/mail.svg"
                         title="Sponser werden"
-                        description="Willst du Sponsor dieses Projektes werden, wenn ja dann kontaktiere uns an unserer Mail (business@batadu.com). "
+                        description="Willst du Sponsor dieses Projektes werden? Wenn ja, dann kontaktiere uns (business@batadu.com)."
                         buttonName="Kontakieren"
                         link="mailto: business@batadu.com? subject = Sponsor"
                     />
                     <HilfeContainer
                         img="/discordWhite.svg"
                         title="Community Server"
-                        description="Trete unserem Community Server bei und lerne neue leidenschaftliche Watter kennen."
+                        description="Trete unserem Community Server bei und lerne neue Watter kennen."
                         buttonName="Beitreten"
                         link="https://discord.gg/4RX68WRXwg"
                     />
                     <HilfeContainer
                         img="/githubWhite.svg"
                         title="Open Source Projekt"
-                        description="Bist du ein Entwickler und hast lust etwas zu diesem Projekt beizutragen? Kontakiere uns auf unserer Repo."
+                        description="Du kannst selber für dieses Projekt etwas beitragen."
                         buttonName="Beitragen"
                         link="https://github.com/dado-official/batadu/pulls"
                     />

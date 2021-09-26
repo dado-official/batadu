@@ -33,10 +33,7 @@ export default function Home({
                 placeholder="blur"
             />
             <section className="w-1450 max-w-1/9 mx-auto flex items-center my-44">
-                <div
-                    className="absolute w-full h-full top-0 left-0 z-10 backdrop-filter backdrop-blur-md"
-                    style={{ backgroundColor: "rgba(0,0, 0, 0.2)" }}
-                ></div>
+                <div className="absolute w-full h-full top-0 left-0 z-10 backdrop-filter backdrop-blur-md"></div>
                 <div className="z-10 w-full lg:w-1/2 flex-1">
                     <h1 className="font-medium text-white pb-8 break-words dark:text-white">
                         Kostenlos <br /> Online
@@ -48,9 +45,7 @@ export default function Home({
                         wie nie zuvor.
                     </h1>
                     <p className="dark:text-gray-100 mr-24 text-bgWhite">
-                        Batadù ist derzeitig die beste Website zum Online
-                        Watten, sie bietet eine wunderschöne Oberfläche und noch
-                        vieles mehr an...
+                        Besser kann man nicht online Watten...
                     </p>
                     <div className="flex gap-4 mt-16 font-bold">
                         <button className="py-3 border-2 border-primaryLight px-10 hover:shadow-lg transition-all shadow font-medium bg-primary dark:bg-primaryDark  text-white dark:text-black text-xl rounded focus:outline-none w-max">
@@ -92,7 +87,7 @@ export default function Home({
             </section>
             <section className="relative flex items-center bg-white">
                 <div
-                    className="absolute w-full h-full top-0 left-0 z-10  backdrop-filter backdrop-blur-2xl"
+                    className="absolute w-full h-full top-0 left-0 z-10 "
                     style={{ backgroundColor: "rgba(245, 245, 245, 0.6)" }}
                 ></div>
                 <div className="w-1450 max-w-1/9 mx-auto z-10 py-16 mt-2 pb-20">
@@ -122,7 +117,7 @@ export default function Home({
                             <Container
                                 img="/xp.svg"
                                 title="XP Sammeln"
-                                describtion="Sammle durchs spielen XP um somit auf einen höheren level zu sein."
+                                describtion="Spiele, sammle XP und erhöhe dein Level"
                             />
                             <Container
                                 img="/tpy.svg"
@@ -132,7 +127,7 @@ export default function Home({
                             <Container
                                 img="/secure.svg"
                                 title="Sehr Sicher"
-                                describtion="Durch die Verwendung von HTTPS und OAuth brauchts du dir keine sorgen um deine Daten zu tun."
+                                describtion="Durch die Verwendung von HTTPS und OAuth brauchst du dir keine sorgen um deine Daten zu machen."
                             />
                             <Container
                                 img="/discord2.svg"
@@ -164,15 +159,14 @@ export default function Home({
                                 Projekt unterstützen
                             </h4>
                             <p className="mt-4 text-text">
-                                Sie können sehr gerne dieses Projekt
-                                unterstützen, damit es in den naschten Jahren
-                                leben wird und damit es regelmäßig neue Feature
-                                gibt.
+                                Unterstütze dieses Projekt damit es auch in der
+                                Zukunft existiert und regelmäßige Updates
+                                bekommt.
                             </p>
                         </div>
 
                         <a
-                            href={"https://paypal.com"}
+                            href="https://paypal.me/Therealdanjo?locale.x=it_IT"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -192,9 +186,8 @@ export default function Home({
                         <div>
                             <h4 className="font-medium">Sponsor werden</h4>
                             <p className="mt-4 text-text">
-                                Willst du Sponsor dieses Projektes werden, wenn
-                                ja dann kontaktiere uns an unserer Mail
-                                (business@batadu.com).
+                                Willst du Sponsor dieses Projektes werden? Wenn
+                                ja, dann kontaktiere uns (business@batadu.com).
                             </p>
                         </div>
 

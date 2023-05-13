@@ -17,7 +17,9 @@ const Room = ({
     const history = useHistory();
     const handleOnClick = () => {
         axios
-            .get(`http://82.165.104.152:3003/room/select/${roomName}`)
+            .get(
+                `${process.env.REACT_APP_GAME_SERVER_API}/room/select/${roomName}`
+            )
             .then((res) => {
                 if (res.data) {
                     history.push(`/team/${roomName}`);
@@ -90,7 +92,7 @@ const Room = ({
             </div>
             <button
                 onClick={handleOnClick}
-                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-b-st flex justify-center gap-2 cursor-pointer"
+                className="bg-primary btnPrimary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-b-st flex justify-center gap-2 cursor-pointer"
             >
                 <img
                     src={Arrow}

@@ -10,7 +10,7 @@ const Team = ({ spieler1, spieler2, punkte, team, selected, setSelected }) => {
             className={`flex w-full items-center bg-white dark:bg-whiteDark rounded-st mb-6 cursor-pointer justify-between ${
                 selected === team
                     ? "ring-4 ring-primary dark:ring-primaryDark"
-                    : "null"
+                    : "hover:bg-gray-200 transition-all"
             }`}
             onClick={selectHandler}
         >

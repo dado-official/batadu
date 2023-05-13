@@ -37,6 +37,8 @@ const Spiel = ({
     const [hover, setHover] = useState(false);
     const [teams, setTeams] = useState([]);
     const [stiche, setStiche] = useState([]);
+    const [spectators, setSpectators] = useState([]);
+
     const [status, setStatus] = useState([]);
     const [myStatus, setMyStatus] = useState("");
     const [seeCards, setSeeCards] = useState(false);
@@ -65,6 +67,8 @@ const Spiel = ({
     const [playedSoundWaelen, setPlayedSoundWaelen] = useState(false);
     const [playedSoundZug, setPlayedSoundZug] = useState(false);
     const [showSchlagTrumpf, setShowSchlagTrumpf] = useState(false);
+    const [modus, setModus] = useState("Offen");
+    const [sTPos, setSTPos] = useState({ schlagPos: -1, trumpfPos: -1 });
 
     const chatRef = useRef();
     const infosRef = useRef();
@@ -73,6 +77,7 @@ const Spiel = ({
     const history = useHistory();
 
     const { room } = useParams();
+    const { mode } = useParams();
 
     const [sound1] = useSound(sound1Mp3, { volume: 0.5 });
     const [sound2] = useSound(sound2Mp3, { volume: 0.2 });
@@ -80,11 +85,18 @@ const Spiel = ({
     const [sound4] = useSound(sound4Mp3, { volume: 0.6 });
 
     function joinGame() {
-        socket.emit("joinRoom", {
-            room: room,
-            user: username,
-            team: team,
-        });
+        if (mode === "spectate") {
+            socket.emit("spectateRoom", {
+                room: room,
+                user: username,
+            });
+        } else {
+            socket.emit("joinRoom", {
+                room: room,
+                user: username,
+                team: team,
+            });
+        }
     }
 
     useEffect(() => {
@@ -92,15 +104,25 @@ const Spiel = ({
             history.push("/");
         }
         setReconnect(false);
-        axios
-            .get(`http://82.165.104.152:3003/room/isPassword/${room}`)
+        /*axios
+            .get(
+                `${process.env.REACT_APP_GAME_SERVER_API}/room/isPassword/${room}`
+            )
             .then((res) => {
                 if (res.data) {
                     setIsPassword(true);
                 } else {
                     joinGame();
                 }
+            });*/
+        axios
+            .get(`${process.env.REACT_APP_GAME_SERVER_API}/room/${room}`)
+            .then((res) => {
+                console.log(res.data.config?.modus);
+                setModus(res.data.config?.modus);
+                joinGame();
             });
+
         socket.on("roomExist", () => setExist(true));
         socket.on("roomNotExist", () => setExist(false));
         socket.on("players", (users) => {
@@ -116,12 +138,15 @@ const Spiel = ({
         socket.on("status", (status) => {
             setStatus(status);
         });
-        socket.on("karten", (data) => {
-            setAlleKarten(data);
-        });
-        socket.on("karten sehen", () => {
-            setSeeCards(true);
-        });
+        if (mode !== "spectate") {
+            socket.on("karten", (data) => {
+                setKartenTisch([]);
+                setAlleKarten(data);
+            });
+            socket.on("karten sehen", () => {
+                setSeeCards(true);
+            });
+        }
         socket.on("tischkarten", (data) => {
             setKartenTisch(data);
         });
@@ -205,10 +230,36 @@ const Spiel = ({
             setSchlag(data.schlag);
             setTrumpf(data.trumpf);
         });
+        socket.on("spectators", (data) => {
+            setSpectators(data.spectators);
+        });
+        socket.on("stiche", (data) => {
+            setStiche(data);
+        });
+        socket.on("canSee", ({ schlag, trumpf, schlagPos, trumpfPos }) => {
+            setSchlag(schlag);
+            setTrumpf(trumpf);
+            console.log("Pos: " + pos);
+            setSTPos({ schlagPos: schlagPos, trumpfPos: trumpfPos });
+        });
         return () => {
             window.location.reload();
         };
     }, []);
+
+    useEffect(() => {
+        console.log(pos);
+        console.table(sTPos);
+        if (pos !== undefined) {
+            console.log("Okk");
+            if (sTPos.schlagPos === pos || sTPos.trumpfPos === pos) {
+                console.log("Al va ite");
+                setShowSchlagTrumpf(true);
+            } else {
+                console.log("al n va nia ite");
+            }
+        }
+    }, [sTPos]);
 
     useEffect(() => {
         if (!seeStiche) {
@@ -327,11 +378,14 @@ const Spiel = ({
             if (myStatus === "Am Zug") {
                 //delete
                 removeCard(e);
+                socket.emit("Am Zug", { card: cardObject, pos: pos });
+                setMyStatus(null);
+                setHover(false);
+            } else {
+                socket.emit(myStatus, cardObject);
+                setMyStatus(null);
+                setHover(false);
             }
-
-            socket.emit(myStatus, cardObject);
-            setMyStatus(null);
-            setHover(false);
         }
     }
 
@@ -342,6 +396,17 @@ const Spiel = ({
             array.splice(index, 1);
             setKarten(array);
         }
+    }
+
+    function getSchlag(schlag) {
+        if (schlag === "Weli") return schlag;
+        return schlag.split(" ")[0];
+    }
+
+    function getTrumpf(trumpf) {
+        if (trumpf === "Weli") return "Schell";
+        if (trumpf === "?") return "?";
+        return trumpf.split(" ")[1];
     }
 
     function scrollToChatHandler() {
@@ -589,7 +654,7 @@ const Spiel = ({
                             <div className="flex justify-between md:flex-col gap-1 sm:gap-8 md:gap-2 w-full md:w-max mb-4 md:mb-0">
                                 <button
                                     onClick={bietenHandler}
-                                    className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
+                                    className={`btn bg-primary dark:bg-primaryDark text-white dark:text-black w-full ${
                                         !isBieten ||
                                         gebotenDavor ===
                                             (pos % 2 === 0 ? 1 : 2) ||
@@ -598,35 +663,35 @@ const Spiel = ({
                                         isSchönereWindows ||
                                         (geboten === 2 && isOneGestrichen())
                                             ? "opacity-20 cursor-not-allowed"
-                                            : null
+                                            : "btnPrimary"
                                     }`}
                                 >
                                     Bieten
                                 </button>
                                 <button
                                     onClick={schönereHandler}
-                                    className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
+                                    className={`btn bg-secondary dark:text-black dark:bg-secondaryDark text-white dark:text-dark w-full ${
                                         !isSchönere ||
                                         hasSchönere ||
                                         isSchlagtauschWindow ||
                                         isHaltenWindow ||
                                         isSchönereWindows
                                             ? "opacity-20 cursor-not-allowed"
-                                            : null
+                                            : "btnSecondary"
                                     }`}
                                 >
                                     Schönere
                                 </button>
                                 <button
                                     onClick={schlagtauschHandler}
-                                    className={`btn bg-white dark:bg-transparent dark:text-white border-2 border-black dark:border-white w-full ${
+                                    className={`btn bg-secondary dark:text-black dark:bg-secondaryDark text-white dark:text-dark w-full ${
                                         !isSchlagtausch ||
                                         hasSchlagtausch ||
                                         isSchlagtauschWindow ||
                                         isHaltenWindow ||
                                         isSchönereWindows
                                             ? "opacity-20 cursor-not-allowed"
-                                            : null
+                                            : "btnSecondary"
                                     }`}
                                 >
                                     Schlagtausch
@@ -653,12 +718,14 @@ const Spiel = ({
                                   })
                                 : null}
                             <div className="flex gap-4 font-bold flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static text-sm text-center justify-between md:justify-start w-full sm:w-min mt-4 md:mt-0">
-                                {showSchlagTrumpf && schlag !== "?" ? (
+                                {showSchlagTrumpf &&
+                                schlag !== "?" &&
+                                modus !== "Offen" ? (
                                     <div className="w-3.625rem">
                                         <p className="dark:text-white mb-1">
                                             Schlag
                                         </p>
-                                        {showSchlagTrumpf ? (
+                                        {showSchlagTrumpf && schlag ? (
                                             <img
                                                 src={cardPhotos[schlag]}
                                                 alt={schlag}
@@ -667,12 +734,14 @@ const Spiel = ({
                                         ) : null}
                                     </div>
                                 ) : null}
-                                {showSchlagTrumpf && schlag !== "?" ? (
+                                {showSchlagTrumpf &&
+                                schlag !== "?" &&
+                                modus !== "Offen" ? (
                                     <div className="w-3.625rem">
                                         <p className="dark:text-white mb-1">
                                             Trumpf
                                         </p>
-                                        {showSchlagTrumpf ? (
+                                        {showSchlagTrumpf && trumpf ? (
                                             <img
                                                 src={cardPhotos[trumpf]}
                                                 alt={trumpf}
@@ -681,6 +750,30 @@ const Spiel = ({
                                         ) : null}
                                     </div>
                                 ) : null}
+                                {modus === "Offen" && (
+                                    <div className="flex gap-4">
+                                        {schlag && schlag !== "?" && (
+                                            <div>
+                                                <p className="text-text dark:text-white">
+                                                    Schlag:
+                                                </p>
+                                                <p className="mt-2 text-primary dark:text-primaryDark font-medium text-base">
+                                                    {getSchlag(schlag)}
+                                                </p>
+                                            </div>
+                                        )}
+                                        {trumpf && trumpf !== "?" && (
+                                            <div>
+                                                <p className="text-text dark:text-white">
+                                                    Trumpf:
+                                                </p>
+                                                <p className="mt-2 text-primary dark:text-primaryDark font-medium text-base">
+                                                    {getTrumpf(trumpf)}
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                                 <p className="block sm:hidden dark:text-white">
                                     Geboten:{" "}
                                     <span className={`font-bold`}>

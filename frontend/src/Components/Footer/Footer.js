@@ -14,7 +14,7 @@ const Footer = ({ isDarkmode }) => {
                         alt="Copyright"
                         className={`h-1.25 ${isDarkmode ? "whiteSVG" : null}`}
                     />
-                    <p>2021, California, Batadú</p>
+                    <p>{new Date().getFullYear()}, California, Batadú</p>
                 </div>
                 {/*
                 <div className="flex py-6 items-center gap-3 m-auto">

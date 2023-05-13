@@ -29,9 +29,12 @@ const Tisch = ({
             if (users[i] !== undefined && users[i] !== null) {
                 if (level[i].user === undefined && level[i].user !== users[i]) {
                     axios
-                        .get("http://82.165.104.152:42069/user/level", {
-                            params: { username: users[i] },
-                        })
+                        .get(
+                            `${process.env.REACT_APP_REST_SERVER}/user/level`,
+                            {
+                                params: { username: users[i] },
+                            }
+                        )
                         .then((data) => {
                             const newLevels = level.slice();
                             newLevels[i].level = data.data.currentlevel.nr;

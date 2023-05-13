@@ -19,9 +19,11 @@ const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
         if (room === "undefined") {
             history.push("/");
         }
-        axios.get(`http://82.165.104.152:3003/room/${room}`).then((res) => {
-            setData(res.data);
-        });
+        axios
+            .get(`${process.env.REACT_APP_GAME_SERVER_API}/room/${room}`)
+            .then((res) => {
+                setData(res.data);
+            });
     }, []);
 
     const handlenOnClick = () => {
@@ -67,7 +69,7 @@ const SelectTeam = ({ setUrl, isDarkmode, setTeam, team }) => {
             />
             <div
                 onClick={handlenOnClick}
-                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
+                className="bg-primary btnPrimary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
             >
                 <img
                     src={Arrow}

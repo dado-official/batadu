@@ -14,10 +14,12 @@ const Rangliste = ({ setUrl, isDarkmode }) => {
     }, []);
 
     useEffect(() => {
-        axios.get("http://82.165.104.152:42069/rankings").then((res) => {
-            setData(res.data);
-            setLoaded(true);
-        });
+        axios
+            .get(`${process.env.REACT_APP_REST_SERVER}/rankings`)
+            .then((res) => {
+                setData(res.data);
+                setLoaded(true);
+            });
     }, []);
 
     return (

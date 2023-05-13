@@ -24,7 +24,7 @@ const Profil = ({ setUrl, isDarkmode }) => {
         setUrl("/profile");
 
         axios
-            .get("http://82.165.104.152:42069/user/level", {
+            .get(`${process.env.REACT_APP_REST_SERVER}/user/level`, {
                 params: {
                     username: username,
                 },
@@ -39,7 +39,7 @@ const Profil = ({ setUrl, isDarkmode }) => {
                 setNextPunkte(data.nextlevel.erforderlichepunkte);
             });
         axios
-            .get("http://82.165.104.152:42069/user/games", {
+            .get(`${process.env.REACT_APP_REST_SERVER}/user/games`, {
                 params: {
                     username: username,
                 },
@@ -48,7 +48,7 @@ const Profil = ({ setUrl, isDarkmode }) => {
                 setGames(res.data);
             });
         axios
-            .get("http://82.165.104.152:42069/user/stats", {
+            .get(`${process.env.REACT_APP_REST_SERVER}/user/stats`, {
                 params: {
                     username: username,
                 },
@@ -62,9 +62,13 @@ const Profil = ({ setUrl, isDarkmode }) => {
                 setSticheSpiel(res.data.sticheprospiel);
             });
 
-        axios.get("http://82.165.104.152:42069/rankings").then((res) => {
-            setPosition(res.data.findIndex((a) => a.username === username) + 1);
-        });
+        axios
+            .get(`${process.env.REACT_APP_REST_SERVER}/rankings`)
+            .then((res) => {
+                setPosition(
+                    res.data.findIndex((a) => a.username === username) + 1
+                );
+            });
     }, [username]);
 
     return (

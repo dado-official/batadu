@@ -19,6 +19,8 @@ const Registrieren = ({
     const [error, setError] = useState("");
     const history = useHistory();
 
+    axios.defaults.withCredentials = true;
+
     function usernameHandler(e) {
         setUsername(e.target.value);
     }
@@ -44,10 +46,6 @@ const Registrieren = ({
             setError("Die Passwörter stimmen nicht überein");
         } else if (username.length > 15) {
             setError("Der Benutzername ist zu groß");
-        } else if (username.search(/^[a-zA-Z0-9]+$/) < 0) {
-            setError(
-                "Der Benutzername ist kann Buchstaben und Zahlen beiinhalten"
-            );
         } else if (password.length < 8) {
             setError("Ihr Password muss mindestens 8 Zeichen groß sein");
         } else if (password.search(/[a-z]/i) < 0) {
@@ -73,19 +71,19 @@ const Registrieren = ({
             };
             axios
                 .get(
-                    `http://82.165.104.152:42069/user/check`,
+                    `${process.env.REACT_APP_REST_SERVER}/user/check`,
                     data,
                     axiosConfig
                 )
                 .then((response) => {
                     let data = {
                         username: username,
-                        password: md6(password),
+                        password: password,
                         email: email,
                     };
                     axios
                         .post(
-                            "http://82.165.104.152:42069/register",
+                            `${process.env.REACT_APP_REST_SERVER}/register`,
                             data,
                             axiosConfig
                         )
@@ -200,7 +198,7 @@ const Registrieren = ({
             {/*Button + Anmelde Link*/}
             <button
                 onClick={register}
-                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
+                className="bg-primary btnPrimary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
             >
                 Registrieren
             </button>

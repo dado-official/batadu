@@ -35,10 +35,10 @@ const Homepage = ({ setUrl, isDarkmode }) => {
                     Watten mit einer modernen Grafischen Oberfläche
                 </h5>
                 <div className="flex gap-4 mt-16">
-                    <button className="py-2 bg-primary dark:bg-primaryDark w-12ch text-white dark:text-black text-2xl rounded-st focus:outline-none">
+                    <button className="py-2 btnPrimary bg-primary dark:bg-primaryDark w-12ch text-white dark:text-black text-2xl rounded-st focus:outline-none">
                         <Link to="/registrieren">Registrieren</Link>
                     </button>
-                    <button className="py-2 border-4 w-12ch border-black dark:border-white dark:text-white text-2xl rounded-st focus:outline-none">
+                    <button className="py-2 transition-all dark:hover:text-primaryDark dark:hover:border-primaryDark hover:text-primary border-4 hover:border-primary  w-12ch border-black dark:border-white dark:text-white text-2xl rounded-st focus:outline-none">
                         <Link to="/anmelden">Anmelden</Link>
                     </button>
                 </div>
@@ -57,7 +57,7 @@ const Homepage = ({ setUrl, isDarkmode }) => {
                             <img src={Herz} alt="herz" className="h-16" />
                         </div>
                         <h4
-                            className=" text-logoGray text-6xl tran text-center font-abril font-normal"
+                            className=" text-primary text-6xl tran text-center font-abril font-normal"
                             style={{
                                 transform: "translateZ(100px)",
                             }}
@@ -65,7 +65,7 @@ const Homepage = ({ setUrl, isDarkmode }) => {
                             Batadú
                         </h4>
                         <div className="flex justify-end">
-                            <img src={Laub} alt="laub" className="h-20" />
+                            <img src={Laub} alt="laub" className="h-16" />
                         </div>
                     </div>
                 </div>

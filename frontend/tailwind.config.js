@@ -9,11 +9,15 @@ module.exports = {
         extend: {
             colors: {
                 primary: "#B2163A",
+                primaryHover: "#800008",
                 primaryDark: "#F56B8B",
+                primaryDarkHover: "#FFB6CC",
                 bgWhite: "#eeeff2",
                 bgDark: "#121212",
                 secondary: "#03A57A",
+                secondaryHover: "#007D52",
                 secondaryDark: "#06D6A0",
+                secondaryDarkHover: "#88F5DA",
                 logoGray: "#545454",
                 roomGray: "#d9d9d9",
                 tableGray: "#CECECE",
@@ -22,11 +26,15 @@ module.exports = {
                 primaryLightDark: "#7E3A4A",
                 spielGray: "#E6E6E6",
                 whiteDark: "#2E2E2E",
+                whiteDarkHover: "#4D4D4D",
                 grayBlack: "#121212",
                 statistikGray: "#383838",
                 roomBlack: "#1E1E1E",
                 borderBlack: "#535353",
                 chatBlack: "#4B4B4B",
+            },
+            zIndex: {
+                10000: "10000",
             },
             spacing: {
                 1450: "1400px",

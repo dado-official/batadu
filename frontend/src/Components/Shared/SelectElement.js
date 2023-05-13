@@ -6,7 +6,7 @@ const SelectElement = ({ value, setSelectValue, selectValue }) => {
     }
     return (
         <p
-            className={`text-center py-2 bg-white dark:bg-whiteDark dark:text-white rounded-st flex-1 cursor-pointer ${
+            className={`text-center hover:bg-gray-200 dark:hover:bg-whiteDarkHover transition-all py-2 bg-white dark:bg-whiteDark dark:text-white rounded-st flex-1 cursor-pointer ${
                 selectValue === value
                     ? "font-bold text-primary dark:text-primaryDark ring-4 ring-primary dark:ring-primaryDark"
                     : null

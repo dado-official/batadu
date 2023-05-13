@@ -20,7 +20,7 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
-let socket = io("http://82.165.104.152:8080");
+let socket = io(process.env.REACT_APP_GAME_SERVER);
 
 function App() {
     const [url, setUrl] = useState("");
@@ -34,7 +34,10 @@ function App() {
     const [userLevel, setUserLevel] = useState(0);
     const [reconnect, setReconnect] = useState(false);
 
+    axios.defaults.withCredentials = true;
+
     useEffect(() => {
+        console.log(process.env);
         socket.on("connect_failed", () => {
             console.log("Network error");
         });
@@ -44,7 +47,7 @@ function App() {
 
     useEffect(() => {
         if (reconnect) {
-            socket = io("http://82.165.104.152:8080");
+            socket = io(process.env.REACT_APP_GAME_SERVER);
         }
     }, [reconnect]);
 
@@ -72,56 +75,43 @@ function App() {
         }
     }
     function loadUser() {
-        let user = localStorage.getItem("username");
-        if (user === undefined || user === "") {
+        const token = localStorage.getItem("token");
+        const refreshToken = localStorage.getItem("refresh_token");
+        if (token && refreshToken) {
+            axios
+                .get(`${process.env.REACT_APP_REST_SERVER}/user/login`)
+                .then((response) => {
+                    console.log(response.data);
+                    setUsername(response.data.user);
+                    setIsLoggedIn(true);
+                    getUserLevel(response.data.user);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setLoaded(true);
+                });
+        } else {
             setLoaded(true);
-            return;
         }
+    }
 
-        let password = localStorage.getItem("password");
-        if (password === undefined || password === "") {
-            setLoaded(true);
-            return;
-        }
-
-        let axiosConfig = {
-            headers: {
-                "Content-Type": "application/json;charset=UTF-8",
-                "Access-Control-Allow-Origin": "*",
-            },
-        };
-        let data = {
-            params: {
-                username: user,
-                password: password,
-            },
-        };
+    function getUserLevel(username) {
         axios
-            .get("http://82.165.104.152:42069/user/login", data, axiosConfig)
-            .then((response) => {
-                setUsername(user);
-                setIsLoggedIn(true);
-                axios
-                    .get(
-                        "http://82.165.104.152:42069/user/level",
-                        { params: { username: user } },
-                        axiosConfig
-                    )
-                    .then((res) => {
-                        setUserLevel(res.data.currentlevel.nr);
-                        setLoaded(true);
-                    });
+            .get(`${process.env.REACT_APP_REST_SERVER}/user/level`, {
+                params: { username: username },
             })
-            .catch(() => {
+            .then((res) => {
+                setUserLevel(res.data.currentlevel.nr);
                 setLoaded(true);
             });
     }
 
     function logout(history) {
         setUsername("");
-        localStorage.setItem("username", "");
-        localStorage.setItem("password", "");
         setIsLoggedIn(false);
+        axios.delete("/user/login", (res) => {
+            console.log(res.data);
+        });
         history.push("/anmelden");
     }
 
@@ -177,7 +167,7 @@ function App() {
                             <Redirect to="/anmelden" />
                         )}
                     </Route>
-                    <Route path="/spielen/:room">
+                    <Route path="/spielen/:room/:mode?">
                         {isLoggedIn ? (
                             <Spiel
                                 setUrl={setUrl}

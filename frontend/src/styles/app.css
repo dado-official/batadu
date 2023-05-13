@@ -6,7 +6,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 .btn {
-    @apply py-1.5 px-4 rounded-st focus:outline-none;
+    @apply py-1.5 px-4 rounded-st focus:outline-none transition-all;
+}
+
+.btnPrimary {
+    @apply hover:bg-primaryHover dark:hover:bg-primaryDarkHover transition-all;
+}
+
+.btnSecondary {
+    @apply hover:bg-secondaryHover dark:hover:bg-secondaryDarkHover transition-all;
 }
 
 .primaryDarkSVG {
@@ -477,10 +485,9 @@ body {
 }
 
 .selectCard {
-    transition: 500ms;
+    transition: 200ms;
 }
 .selectCard:hover {
-    transform: scale(1.15);
-    box-shadow: #888888a6 5px 5px 20px;
-    transition: 500ms;
+    transform: scale(1.08);
+    transition: 200ms;
 }

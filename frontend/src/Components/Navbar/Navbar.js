@@ -38,17 +38,23 @@ const Navbar = ({
         <header className="bg-white dark:bg-whiteDark z-50 fixed top-0 left-0 w-full">
             <div className="bg-white dark:bg-whiteDark flex justify-between items-center lg:w-1450 mx-auto max-w-1/9 h-auto">
                 <Link to="/">
-                    <div className="flex gap-2">
-                        <img src={logo} alt="4 Wattkarten" />
-                        <h4 className=" text-logoGray dark:text-gray-100 text-7.5 font-abril font-normal">
+                    <div className="flex gap-4">
+                        <div className="flex items-center">
+                            <img
+                                src={logo}
+                                alt="4 Wattkarten"
+                                className="max-h-9"
+                            />
+                        </div>
+                        <h4 className=" text-primary dark:text-primaryDark text-7.5 font-abril font-normal">
                             Batadú
                         </h4>
                     </div>
                 </Link>
                 {url === "Anmelden" || url === "Registrieren" ? null : (
-                    <div className="hidden lg:flex lg:gap-12">
+                    <div className="hidden lg:flex lg:gap-10">
                         <Link to="/">
-                            <div className="flex gap-3 items-center relative py-6">
+                            <div className="flex gap-3 items-center relative px-4 py-6 hover:bg-bgWhite dark:hover:bg-bgDark">
                                 <img
                                     src={casinoIcon}
                                     alt="Würfel"
@@ -79,7 +85,7 @@ const Navbar = ({
                             </div>
                         </Link>
                         <Link to="/rangliste">
-                            <div className="flex gap-3 items-center relative py-6">
+                            <div className="flex gap-3 items-center relative px-4 py-6 hover:bg-bgWhite dark:hover:bg-bgDark transition-all">
                                 <img
                                     src={rankIcon}
                                     alt="Ranglist"
@@ -99,7 +105,7 @@ const Navbar = ({
                                     className={`text-base dark:text-white ${
                                         url === "/rangliste"
                                             ? "text-primary dark:text-primaryDark font-bold"
-                                            : "dark:text-white"
+                                            : "dark:text-white "
                                     }`}
                                 >
                                     Rangliste
@@ -110,7 +116,7 @@ const Navbar = ({
                             </div>
                         </Link>
                         <Link to={`/profile/${username}`}>
-                            <div className="flex gap-3 items-center relative py-6">
+                            <div className="flex gap-3 items-center relative px-4 py-6 hover:bg-bgWhite dark:hover:bg-bgDark">
                                 <img
                                     src={profileIcon}
                                     alt="Profil"
@@ -159,10 +165,10 @@ const Navbar = ({
                             }`}
                         >
                             <h6
-                                className={`text-base ${
+                                className={`text-base  ${
                                     url === "Registrieren"
-                                        ? "btn text-white dark:text-black bg-primary dark:bg-primaryDark"
-                                        : "dark:text-white"
+                                        ? "btn btnPrimary text-white dark:text-black bg-primary dark:bg-primaryDark"
+                                        : "dark:text-white hover:text-primary dark:hover:text-primaryDark transition-all duration-300"
                                 }`}
                             >
                                 Anmelden
@@ -171,7 +177,7 @@ const Navbar = ({
                     ) : null}
                     {url !== "Registrieren" && username === "" ? (
                         <Link to="/registrieren" className="py-4.5">
-                            <button className="btn text-base text-white dark:text-black bg-primary dark:bg-primaryDark">
+                            <button className="btn btnPrimary text-base text-white dark:text-black bg-primary dark:bg-primaryDark">
                                 Registrieren
                             </button>
                         </Link>
@@ -188,7 +194,7 @@ const Navbar = ({
                             </p>
                             <button
                                 onClick={logoutHandler}
-                                className="btn text-base ml-4 text-white dark:text-black bg-primary dark:bg-primaryDark"
+                                className="btn btnPrimary text-base ml-4 text-white dark:text-black bg-primary dark:bg-primaryDark"
                             >
                                 Abmelden
                             </button>

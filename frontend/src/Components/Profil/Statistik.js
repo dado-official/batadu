@@ -6,7 +6,9 @@ const Statistik = ({ typ, data, percentage, extra }) => {
             <div>
                 <p className="text-sm">{typ}</p>
                 <div className="flex items-end">
-                    <h6 className="text-2xl font-bold">{data}</h6>
+                    <h6 className="text-2xl font-bold">
+                        {data !== "null %" ? data : 0}
+                    </h6>
                     <p className="text-sm pl-2">{extra}</p>
                 </div>
             </div>
@@ -18,7 +20,9 @@ const Statistik = ({ typ, data, percentage, extra }) => {
                         style={{ height: `${percentage}%` }}
                     ></div>
                 </div>
-            ) : null}
+            ) : (
+                "0"
+            )}
         </div>
     );
 };

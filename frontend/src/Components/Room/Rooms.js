@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import Room from "./Room";
 import Create from "../../assets/create-24px.svg";
 import SearchInput from "../Shared/SearchInput";
+import SpielErstellen2 from "../Spiel erstellen/SpielErstellen2";
 
 const Rooms = ({ setUrl, isDarkmode, socket, setTeam }) => {
     const [search, setSearch] = useState("");
     const [rooms, setRooms] = useState([]);
     const [showRooms, setShowRooms] = useState([]);
+    const [showSpielErstellen, setShowSpielErstellen] = useState(false);
 
     useEffect(() => {
         socket.emit("getRooms");
@@ -46,7 +48,7 @@ const Rooms = ({ setUrl, isDarkmode, socket, setTeam }) => {
                     />
                 </div>
                 <Link to="/spielen/erstellen" className="w-full md:w-max">
-                    <button className="w-full md:w-max  py-1.5 rounded-st bg-primary dark:bg-primaryDark text-white dark:text-black mb-6 flex justify-center px-8">
+                    <button className="w-full btnPrimary md:w-max  py-1.5 rounded-st bg-primary dark:bg-primaryDark text-white dark:text-black mb-6 flex justify-center px-8">
                         <img
                             src={Create}
                             alt="Erstellen"
@@ -83,6 +85,12 @@ const Rooms = ({ setUrl, isDarkmode, socket, setTeam }) => {
                     <span className="font-bold">Spiel erstellen</span> drücken
                 </p>
             ) : null}
+            {showSpielErstellen && (
+                <SpielErstellen2
+                    setShow={setShowSpielErstellen}
+                    socket={socket}
+                />
+            )}
         </div>
     );
 };

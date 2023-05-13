@@ -3,13 +3,14 @@ import Account from "../../assets/account_circle-24px.svg";
 import Password from "../../assets/lock-24px.svg";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
-import md6 from "md6-hash";
 
 const Anmelden = ({ setUrl, isDarkmode, setIsLoggedIn, setUsernameApp }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const history = useHistory();
+
+    axios.defaults.withCredentials = true;
 
     function usernameHandler(e) {
         setUsername(e.target.value);
@@ -23,32 +24,30 @@ const Anmelden = ({ setUrl, isDarkmode, setIsLoggedIn, setUsernameApp }) => {
         } else if (password === "" || password === " ") {
             setError("Das Password fehlt");
         } else {
-            let axiosConfig = {
-                headers: {
-                    "Content-Type": "application/json;charset=UTF-8",
-                    "Access-Control-Allow-Origin": "*",
-                },
-            };
             let data = {
-                params: {
-                    username: username,
-                    password: md6(password),
-                },
+                username: username,
+                password: password,
             };
             axios
-                .get(
-                    "http://82.165.104.152:42069/user/login",
-                    data,
-                    axiosConfig
-                )
-                .then((response) => {
-                    setUsernameApp(username);
+                .post(`${process.env.REACT_APP_REST_SERVER}/user/login`, data)
+                .then((res) => {
+                    console.log(res);
+
+                    localStorage.setItem(
+                        "token",
+                        "Bearer " + res.data.accessToken
+                    );
+                    localStorage.setItem(
+                        "refresh_token",
+                        res.data.refreshToken
+                    );
+
+                    setUsernameApp(res.data.username);
                     setIsLoggedIn(true);
-                    localStorage.setItem("username", username);
-                    localStorage.setItem("password", md6(password));
                     history.push("/spielen");
                 })
                 .catch((error) => {
+                    console.log(error);
                     setError("Benutzername oder Password ist falsch");
                 });
         }
@@ -57,6 +56,7 @@ const Anmelden = ({ setUrl, isDarkmode, setIsLoggedIn, setUsernameApp }) => {
     useEffect(() => {
         setUrl("Anmelden");
     }, []);
+
     return (
         <div className="flex justify-center items-center flex-col m-auto w-96 max-w-1/9">
             <h1 className="font-bold text-7.5xl mb-4 mt-16 dark:text-white">
@@ -109,7 +109,7 @@ const Anmelden = ({ setUrl, isDarkmode, setIsLoggedIn, setUsernameApp }) => {
             {/*Button + Zurück Link*/}
             <button
                 onClick={login}
-                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
+                className="bg-primary btnPrimary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
             >
                 Anmelden
             </button>

@@ -17,6 +17,7 @@ export default function GifPicker({ isDarkmode, sendHandler }) {
             axios({
                 method: "GET",
                 url: `https://g.tenor.com/v1/search?q=${gifInput}&key=SL1KD4EPL166`,
+                withCredentials: false,
                 cancelToken: new axios.CancelToken((c) => (cancel = c)),
             }).then((res) => {
                 setGifs(
@@ -46,6 +47,7 @@ export default function GifPicker({ isDarkmode, sendHandler }) {
         axios({
             method: "GET",
             url: "https://g.tenor.com/v1/trending?key=SL1KD4EPL166",
+            withCredentials: false,
         }).then((res) => {
             setGifs(
                 res.data.results.map((element) => {

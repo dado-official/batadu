@@ -17,7 +17,9 @@ export default function SpielPassword({
 
     function clickHandler() {
         axios
-            .get(`http://82.165.104.152:3003/room/password/${room}/${password}`)
+            .get(
+                `${process.env.REACT_APP_GAME_SERVER_API}/room/password/${room}/${password}`
+            )
             .then((res) => {
                 if (res.data) {
                     setIsPassword(false);
@@ -61,7 +63,7 @@ export default function SpielPassword({
             {/*Button + Zurück Link*/}
             <button
                 onClick={clickHandler}
-                className="bg-primary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
+                className="bg-primary btnPrimary dark:bg-primaryDark text-white dark:text-black font-medium w-full py-2 rounded-st flex justify-center gap-2 cursor-pointer mt-4"
             >
                 Beitreten
             </button>

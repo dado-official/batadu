@@ -4,12 +4,17 @@ class Room {
     constructor(config) {
         this.configRoom = config;
         this.name = config.name;
+        this.rundeDisc = config.runde;
+        this.pausiert = false;
+        this.modus = config.modus;
+        this.waitingTime = parseInt(config.warten);
         this.maxPoints = config.punkte;
         this.isPassword = config.isPassword;
         this.password = "";
         if (this.isPassword) {
             this.password = config.password;
         }
+        this.spectators = [];
         this.team1Punkte = 0;
         this.team2Punkte = 0;
         this.freePos = [0, 1, 2, 3];
@@ -26,6 +31,7 @@ class Room {
         this.schlagPos = 0;
         this.trumpfPos = 1;
         this.userAnzahl = config.userAnzahl;
+        this.seeCards = false;
         this.schlagGewaelt = false;
         this.trumpfGewaelt = false;
         this.schlag;
@@ -38,6 +44,7 @@ class Room {
         this.gebotenDavor = 0;
         this.schlagtausch = false;
         this.kartenMaster = new KartenMaster(this);
+        this.started = false;
 
         return 0;
     }
@@ -103,6 +110,10 @@ class Room {
     }
 
     tryNeueRunde() {
+        if (this.rundeDisc === "Pausieren" && this.started) {
+            this.pausiert = true;
+            return false;
+        }
         if (this.tischCards !== []) {
             this.neueRunde();
             return true;
@@ -130,7 +141,6 @@ class Room {
         }
         this.amZug = gewinnerPos;
         this.zugStart = gewinnerPos;
-        this.userStiche[gewinnerPos] += 1;
         this.tischCards = [];
         this.tischCardsObject = [];
         this.userStatus = [];
@@ -186,6 +196,8 @@ class Room {
 
     addStichToTeam(pos) {
         this.userSticheGesamt[pos] += 1;
+        this.userStiche[pos] += 1;
+
         if (pos % 2 === 0) {
             this.team1Stiche += 1;
         } else {
@@ -316,6 +328,7 @@ class Room {
             users: this.userPos,
             team1: this.team1Punkte,
             team2: this.team2Punkte,
+            config: this.configRoom,
         };
     }
 
@@ -330,6 +343,15 @@ class Room {
             return true;
         }
         return false;
+    }
+
+    areTeamsFull() {
+        console.log(this.userPos);
+        for (let i = 0; i < 4; i++) {
+            if (this.userPos[i] === null || this.userPos === undefined)
+                return false;
+        }
+        return true;
     }
 
     checkWin() {

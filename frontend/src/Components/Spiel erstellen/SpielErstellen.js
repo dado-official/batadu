@@ -11,12 +11,12 @@ import axios from "axios";
 const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
     const [spielName, setSpielName] = useState("");
     const [punkte, setPunkte] = useState("18");
-    const [runde, setRunde] = useState("Pausieren");
+    const [runde, setRunde] = useState("Abbrechen");
     const [password, setPassword] = useState("");
     const [spieler, setSpieler] = useState("4");
     const [modus, setModus] = useState("Blind");
     const [warten, setWarten] = useState("8");
-    const [guten, setGuten] = useState("Nein");
+    const [guten, setGuten] = useState("Ja");
     const [problem, setProblem] = useState("");
     const [isPassword, setIsPassword] = useState(false);
     const history = useHistory();
@@ -146,11 +146,6 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                         </p>
                         <div className="flex justify-between gap-4">
                             <SelectElement
-                                value="2"
-                                setSelectValue={setSpieler}
-                                selectValue={spieler}
-                            />
-                            <SelectElement
                                 value="4"
                                 setSelectValue={setSpieler}
                                 selectValue={spieler}
@@ -191,24 +186,6 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                 </div>
                 <div className="w-full flex flex-col gap-6 dark:text-white text-text">
                     <div className="w-full">
-                        <p className="font-bold text-left mb-2">
-                            Bei Spieler Disconnect, Runde:
-                        </p>
-                        <div className="flex justify-between gap-4">
-                            <SelectElement
-                                value="Pausieren"
-                                setSelectValue={setRunde}
-                                selectValue={runde}
-                            />
-                            <SelectElement
-                                value="Abbrechnen"
-                                setSelectValue={setRunde}
-                                selectValue={runde}
-                            />
-                        </div>
-                    </div>
-
-                    <div className="w-full">
                         <p className="font-bold text-left mb-2">Modus</p>
                         <div className="flex justify-between gap-4">
                             <SelectElement
@@ -226,16 +203,11 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
 
                     <div className="w-full">
                         <p className="font-bold text-left mb-2">
-                            Welli hat einen Guten 🚧 (Aktuell Ja)
+                            Welli hat einen Guten 🚧 (Aktuell nur Ja)
                         </p>
                         <div className="flex justify-between gap-4">
                             <SelectElement
                                 value="Ja"
-                                setSelectValue={setGuten}
-                                selectValue={guten}
-                            />
-                            <SelectElement
-                                value="Nein"
                                 setSelectValue={setGuten}
                                 selectValue={guten}
                             />
@@ -265,6 +237,24 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                                 value="12"
                                 setSelectValue={setWarten}
                                 selectValue={warten}
+                            />
+                        </div>
+                    </div>
+                    <div className="w-full">
+                        <p className="font-bold text-left mb-2">
+                            Bei Spieler Disconnect, Runde: 🚧 (Pausieren mit
+                            Bugs)
+                        </p>
+                        <div className="flex justify-between gap-4">
+                            <SelectElement
+                                value="Pausieren"
+                                setSelectValue={setRunde}
+                                selectValue={runde}
+                            />
+                            <SelectElement
+                                value="Abbrechen"
+                                setSelectValue={setRunde}
+                                selectValue={runde}
                             />
                         </div>
                     </div>

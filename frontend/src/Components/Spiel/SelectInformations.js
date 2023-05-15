@@ -1,13 +1,18 @@
 import React from "react";
 
-const SelectInformations = ({ selectHandler, selected, name }) => {
+const SelectInformations = ({
+    selectHandler,
+    selected,
+    name,
+    roundedCorner,
+}) => {
     return (
-        <div className="flex-1 relative">
+        <div className={`flex-1 relative`}>
             <p
-                className={` text-center font-bold py-3 cursor-pointer ${
+                className={`rounded-${roundedCorner}-st text-center font-bold py-3 cursor-pointer ${
                     selected === name
                         ? "text-primary dark:text-primaryDark"
-                        : null
+                        : "hover:bg-gray-100 dark:hover:bg-hoverSpielDark transition-all"
                 }`}
                 onClick={selectHandler}
             >

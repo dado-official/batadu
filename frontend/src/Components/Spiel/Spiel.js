@@ -801,7 +801,7 @@ const Spiel = ({
                             cardPhotos={cardPhotos}
                         />
                         <button
-                            className="btn bg-secondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"
+                            className="btn bg-secondary btnSecondary dark:bg-secondaryDark w-full font-bold text-white dark:text-black mt-8 xl:hidden"
                             onClick={scrollToSpielHandler}
                         >
                             Zurück zum Spiel

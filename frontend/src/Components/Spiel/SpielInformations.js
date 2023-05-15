@@ -31,12 +31,14 @@ const SpielInformations = forwardRef(
                     <SelectInformations
                         selectHandler={selectHandler}
                         selected={selected}
+                        roundedCorner={"tl"} //top left
                         name="Punkte"
                     />
                     {seeStiche ? (
                         <SelectInformations
                             selectHandler={selectHandler}
                             selected={selected}
+                            roundedCorner={"tr"} //top right
                             name="Stich 1"
                         />
                     ) : null}

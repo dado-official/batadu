@@ -32,6 +32,7 @@ module.exports = {
                 roomBlack: "#1E1E1E",
                 borderBlack: "#535353",
                 chatBlack: "#4B4B4B",
+                hoverSpielDark: "#242424",
             },
             zIndex: {
                 10000: "10000",

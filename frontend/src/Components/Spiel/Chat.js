@@ -258,7 +258,7 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
                         onKeyDown={onKeyDownHandler}
                     />
                     <div className="flex gap-2">
-                        <div className="bg-secondary dark:bg-secondaryDark rounded-st h-9 w-9 flex justify-center items-center">
+                        <div className="bg-secondary btnSecondary dark:bg-secondaryDark rounded-st h-9 w-9 flex justify-center items-center">
                             <img
                                 src={Emoji}
                                 alt="Emoji"
@@ -269,7 +269,7 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
                                 ref={emojiIconRef}
                             />
                         </div>
-                        <div className="bg-secondary dark:bg-secondaryDark rounded-st h-9 w-9 flex justify-center items-center">
+                        <div className="bg-secondary btnSecondary dark:bg-secondaryDark rounded-st h-9 w-9 flex justify-center items-center">
                             <img
                                 src={Gif}
                                 alt="Gif"
@@ -280,7 +280,7 @@ const Chat = forwardRef(({ isDarkmode, socket, username }, ref) => {
                                 onClick={isGifOpenHandler}
                             />
                         </div>
-                        <div className="bg-primary dark:bg-primaryDark rounded-st h-9 w-9 flex justify-center items-center">
+                        <div className="bg-primary btnPrimary dark:bg-primaryDark rounded-st h-9 w-9 flex justify-center items-center">
                             <img
                                 src={Send}
                                 alt="Send"

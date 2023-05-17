@@ -15,7 +15,10 @@ export default function ({ users, status, pos }) {
 
     console.log(users);
     return (
-        <div className="absolute bottom-0 xl:top-0 left-0">
+        <div
+            className="absolute bottom-0 xl:top-0 left-0"
+            style={{ height: "min-content" }}
+        >
             {users.length < 4 || containsNull(users) ? (
                 <p>
                     Warte auf Spieler{" "}

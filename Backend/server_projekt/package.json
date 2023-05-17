@@ -8,6 +8,7 @@
         "arraylist": "^0.1.0",
         "axios": "^0.26.0",
         "body-parser": "^1.19.0",
+        "dotenv": "^16.0.3",
         "express": "^4.17.1",
         "nodemon": "^2.0.15",
         "prettier": "^2.2.1"

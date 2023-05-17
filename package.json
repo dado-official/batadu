@@ -6,7 +6,7 @@
     "cookie-parser": "^1.4.6",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.3",
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0",
     "express-session": "^1.17.2",

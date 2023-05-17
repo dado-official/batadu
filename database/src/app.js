@@ -2,7 +2,15 @@ let Pool = require("pg").Pool;
 const express = require("express");
 const app = express();
 const databaseConfig = require("./databaseConf.json");
-const pool = new Pool(databaseConfig);
+require("dotenv").config();
+const pool = new Pool({
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    port: parseInt(process.env.PORT, 10),
+});
+
 const asyncHandler = require("express-async-handler");
 const cors = require("cors");
 

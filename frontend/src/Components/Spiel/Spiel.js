@@ -17,6 +17,7 @@ import sound2Mp3 from "../../assets/game-2.mp3";
 import sound3Mp3 from "../../assets/game-3.mp3";
 import sound4Mp3 from "../../assets/game-4.mp3";
 import BottomContainer from "./BottomContainer";
+import GameInfo from "./GameInfo";
 
 const Spiel = ({
     setUrl,
@@ -521,6 +522,7 @@ const Spiel = ({
                 <div className="relative grid grid-cols-1 xl:grid-cols-3 w-1450 max-w-1/9 mx-auto gap-12 mt-16">
                     <div className="xl:col-span-2 relative">
                         {/*Countdown bar */}
+                        <GameInfo users={users} status={status} pos={pos} />
                         <div
                             className={`${
                                 showTimer ? "countdown" : "hidden"

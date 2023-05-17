@@ -29,10 +29,9 @@ export default function MyCards({
             <Droppable droppableId="cards" direction="horizontal">
                 {(provided, snapshot) => (
                     <div
-                        className="flex justify-center myCards noselect "
+                        className="w-full  md:w-auto flex justify-center myCards noselect "
                         {...provided.droppableProps}
                         ref={provided.innerRef}
-                        style={{ width: "35rem" }}
                     >
                         {seeCards
                             ? karten.map((element, index) => {

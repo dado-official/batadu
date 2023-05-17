@@ -1,4 +1,5 @@
 import React from "react";
+import MyCards from "./MyCards";
 
 export default function BottomContainer({
     bietenHandler,
@@ -27,6 +28,7 @@ export default function BottomContainer({
     modus,
     getSchlag,
     getTrumpf,
+    setKarten,
 }) {
     return (
         <div className="flex justify-between mt-28 md:mt-28 mb-16 flex-wrap">
@@ -76,23 +78,14 @@ export default function BottomContainer({
                 </button>
             </div>
             {/*my cards*/}
-            {seeCards
-                ? karten.map((element) => {
-                      return (
-                          <div className="h-6.73625 md:h-8.421875 w-4.275rem md:w-4.75rem relative">
-                              <img
-                                  className={`h-auto absolute top-0 left-0 rounded-st karte ${
-                                      hover ? "selectCard cursor-pointer" : null
-                                  } `}
-                                  src={cardPhotos[element.name]}
-                                  alt={element.name}
-                                  onClick={selectCardHandler}
-                                  key={Math.random() * 1000}
-                              />
-                          </div>
-                      );
-                  })
-                : null}
+            <MyCards
+                seeCards={seeCards}
+                karten={karten}
+                hover={hover}
+                cardPhotos={cardPhotos}
+                selectCardHandler={selectCardHandler}
+                setKarten={setKarten}
+            />
             <div className="flex gap-4 font-bold flex-row static sm:absolute sm:bottom-72 sm:right-0 md:static text-sm text-center justify-between md:justify-start w-full sm:w-min mt-4 md:mt-0">
                 {showSchlagTrumpf && schlag !== "?" && modus !== "Offen" ? (
                     <div className="w-3.625rem">

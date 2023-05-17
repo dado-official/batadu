@@ -678,6 +678,7 @@ const Spiel = ({
                             modus={modus}
                             getSchlag={getSchlag}
                             getTrumpf={getTrumpf}
+                            setKarten={setKarten}
                         />
                     </div>
                     {/*Rechte Seite */}

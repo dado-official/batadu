@@ -153,7 +153,7 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                         </div>
                     </div>
 
-                    <div className="w-full">
+                    {/*<div className="w-full">
                         <p className="font-bold text-left mb-2">Password</p>
                         <div className="relative flex items-center w-full gap-8">
                             <Switch isPasswordHandler={isPasswordHandler} />
@@ -182,9 +182,7 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                                 ) : null}
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div className="w-full flex flex-col gap-6 dark:text-white text-text">
+                                </div>*/}
                     <div className="w-full">
                         <p className="font-bold text-left mb-2">Modus</p>
                         <div className="flex justify-between gap-4">
@@ -200,7 +198,8 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                             />
                         </div>
                     </div>
-
+                </div>
+                <div className="w-full flex flex-col gap-6 dark:text-white text-text">
                     <div className="w-full">
                         <p className="font-bold text-left mb-2">
                             Welli hat einen Guten 🚧 (Aktuell nur Ja)

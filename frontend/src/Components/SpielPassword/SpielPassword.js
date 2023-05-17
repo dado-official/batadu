@@ -25,7 +25,7 @@ export default function SpielPassword({
                     setIsPassword(false);
                     joinGame();
                 } else {
-                    setError("Dass Passwort ist falsch");
+                    setError("Das Passwort ist falsch");
                 }
             });
     }

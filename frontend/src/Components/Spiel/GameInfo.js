@@ -16,7 +16,7 @@ export default function ({ users, status, pos }) {
     console.log(users);
     return (
         <div
-            className="absolute bottom-0 xl:top-0 left-0"
+            className="absolute bottom-0 xl:top-0 left-0 dark:text-white"
             style={{ height: "min-content" }}
         >
             {users.length < 4 || containsNull(users) ? (

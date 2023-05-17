@@ -20,7 +20,11 @@ export default function UserStatus({ name, status, isMe }) {
     }
 
     return (
-        <div className={`flex gap-2 items-center ${isMe && "text-primary"}`}>
+        <div
+            className={`flex gap-2 items-center ${
+                isMe && "text-primary dark:text-primaryDark"
+            }`}
+        >
             <p className="">
                 <span className="font-bold">{isMe ? "Du" : name}</span>{" "}
                 {getStatusString(status)}

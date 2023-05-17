@@ -13,7 +13,7 @@ export default function ({ users, status, pos }) {
         return i;
     }
 
-    console.log(users);
+    //console.log(users);
     return (
         <div
             className="absolute bottom-0 xl:top-0 left-0 dark:text-white"

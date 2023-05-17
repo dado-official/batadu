@@ -615,7 +615,7 @@ function updateuser(won, addedstiche, username, res) {
                 newstiche = results.rows[0].anzstiche + addedstiche;
             }
             if (won) {
-                let newpoints = results.rows[0].punkte + 20;
+                let newpoints = results.rows[0].punkte + 20 + addedstiche;
                 let newwongames = results.rows[0].gewonnenespiele + 1;
                 pool.query(
                     "UPDATE public.users SET anzstiche = $1, punkte = $2, gewonnenespiele = $3 WHERE username = $4",
@@ -627,7 +627,7 @@ function updateuser(won, addedstiche, username, res) {
                     }
                 );
             } else {
-                let newpoints = results.rows[0].punkte + 5;
+                let newpoints = results.rows[0].punkte + 10 + addedstiche;
                 let newlostgames = results.rows[0].verlorenespiele + 1;
                 pool.query(
                     "UPDATE public.users SET anzstiche = $1, punkte = $2, verlorenespiele = $3 WHERE username = $4",

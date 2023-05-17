@@ -120,7 +120,7 @@ const Spiel = ({
         axios
             .get(`${process.env.REACT_APP_GAME_SERVER_API}/room/${room}`)
             .then((res) => {
-                console.log(res.data.config?.modus);
+                //console.log(res.data.config?.modus);
                 setModus(res.data.config?.modus);
                 joinGame();
             });

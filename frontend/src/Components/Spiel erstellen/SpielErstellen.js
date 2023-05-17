@@ -49,7 +49,7 @@ const SpielErstellen = ({ setUrl, isDarkmode, socket }) => {
                         `${process.env.REACT_APP_GAME_SERVER_API}/room/available/${spielName}`
                     )
                     .then((res) => {
-                        console.log(res.data);
+                        //console.log(res.data);
                         if (res.data) {
                             setProblem(
                                 "Dieser Spielname existiert schon, wählen Sie einen anderer Name"

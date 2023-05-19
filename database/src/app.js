@@ -692,6 +692,6 @@ app.get("/cards/all", (req, res) => {
     });
 });
 
-app.listen(42069, () => {
-    console.log("Listening on Port 42069");
+app.listen(3303, () => {
+    console.log("Listening on Port 3303");
 });

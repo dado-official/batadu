@@ -38,6 +38,7 @@ app.use(
     session({
         store: new pgSession({
             pool: pool,
+            createTableIfMissing: true,
         }),
         secret: process.env.SESSION_SECRET,
         saveUninitialized: true,
@@ -50,6 +51,10 @@ app.use(
 );
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+    res.send("Server is running");
+});
 
 //Checks the users credentials to log in
 app.post("/user/login", (req, res) => {

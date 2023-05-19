@@ -17,6 +17,7 @@ app.use(
         credentials: true,
     })
 );
+
 app.get("/room/select/:name", (req, res) => {
     let name = req.params.name;
     if (rooms[name].selectTeam()) {
@@ -25,6 +26,10 @@ app.get("/room/select/:name", (req, res) => {
 });
 
 app.get("");
+
+app.get("/", (req, res) => {
+    res.send("Game server is running");
+});
 
 app.get("/room/isPassword/:name", (req, res) => {
     let name = req.params.name;

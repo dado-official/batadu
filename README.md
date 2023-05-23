@@ -1,7 +1,7 @@
-# Batadú
+# [Batadú](https://batadu.com)
 
 Dieses Projekt begann als Gruppenprojekt in der Schule. Entwickelt wurde es von Guidotti Daniele, Nagler Daniel und Terza Beniamin. Nach dem Schulprojekt wurde es weiterentwickelt und verbessert.
-Website: [Batadú](batadu.com)
+[Batadú ausprobieren](https://batadu.com)
 
 
 ## Neue Features
